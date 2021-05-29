@@ -12,7 +12,7 @@ class Server:
     max_players: int
     bots: int
     latency: float
-    player_list: list[Player]
+    player_list: list
 
     def __init__(self):
         pass
