@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+import argparse
+import socket
+import sys
+
+from opengsq.cli import CLI
+
+
+def main():
+    cli = CLI()
+
+    # Register parser
+    parser = argparse.ArgumentParser()
+    cli.register(parser)
+
+    args = parser.parse_args()
+
+    try:
+        result = cli.run(args)
+        sys.stdout.write(result)
+    except socket.timeout as e:
+        sys.stderr.write('{}[ERROR]{} {}\n'.format('\033[91m', '\033[0m', e))
+        return -1
+
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())
