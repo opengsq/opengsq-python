@@ -6,7 +6,7 @@ version_contents = {}
 with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'opengsq', 'version.py'), encoding='utf-8') as f:
     exec(f.read(), version_contents)
 
-with open('README.md', 'r') as file:
+with open('README.md', 'r', encoding='utf-8') as file:
     long_description = file.read()
 
 setup(
