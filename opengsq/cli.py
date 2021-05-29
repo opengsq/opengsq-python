@@ -28,7 +28,7 @@ class CLI:
                     # Save to self.__paths dictionary
                     # Example: subparser_name = 'protocol-a2s', fullpath = 'opengsq.protocols.a2s.A2S'
                     self.__paths[subparser_name] = fullpath
-                    
+
                     # Add parser and arguments
                     sub = subparsers.add_parser(subparser_name, help=f"{protocol_classname} protocol")
                     self.__add_arguments(sub, parameters)
@@ -80,5 +80,5 @@ class CLI:
             default = None if required else parameters[key].default
             type = parameters[key].annotation
             help = None if required else '(default: %(default)s)'
-            
+
             sub.add_argument(name_or_flags, default=default, required=required, type=type, help=help)

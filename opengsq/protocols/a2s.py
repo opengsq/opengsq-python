@@ -1,7 +1,6 @@
 import bz2
 import socket
 import zlib
-from enum import Enum
 from time import time
 
 from opengsq.protocols.binary_reader import BinaryReader
@@ -13,6 +12,7 @@ class InvalidPacketException(Exception):
     pass
 
 class A2S(IProtocol):
+
     # Requests (https://developer.valvesoftware.com/wiki/Server_queries#Requests)
     class __Request():
         A2S_INFO = b'TSource Engine Query\x00'
@@ -30,7 +30,7 @@ class A2S(IProtocol):
         S2C_CHALLENGE = 0x41
 
     __PACKET_HEADER = b'\xFF\xFF\xFF\xFF'
-    
+
     GOLDSOURCE = "GOLDSOURCE"
     SOURCE = "SOURCE"
 
@@ -107,17 +107,17 @@ class A2S(IProtocol):
 
             if info['EDF'] & 0x10:
                 info['SteamID'] = br.read_long_long()
-            
+
             if info['EDF'] & 0x40:
                 info['SpecPort'] = br.read_short()
                 info['SpecName'] = br.read_string()
-            
+
             if info['EDF'] & 0x20:
                 info['Keywords'] = br.read_string()
 
             if info['EDF'] & 0x01:
                 info['GameID'] = br.read_long_long()
-            
+
         # Obsolete GoldSource Response
         elif header == self.__Response.S2A_INFO_DETAILED:
             info['Address'] = br.read_string()
@@ -143,7 +143,7 @@ class A2S(IProtocol):
                 info['Size'] = br.read_long()
                 info['Type'] = br.read_byte()
                 info['DLL'] = br.read_byte()
-            
+
             info['VAC'] = br.read_byte()
             info['Bots'] = br.read_byte()
 
@@ -236,7 +236,7 @@ class A2S(IProtocol):
 
         if header == -1:
             return br.read()
-        
+
         payloads = {}
         request_id = br.read_long()
 
@@ -300,5 +300,5 @@ class A2S(IProtocol):
             self.__write(self.__PACKET_HEADER + data + br.read())
             br = BinaryReader(data=self.__read())
             header = br.read_byte()
-        
+
         return header, br
