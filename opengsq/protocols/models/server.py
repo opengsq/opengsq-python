@@ -9,6 +9,7 @@ from opengsq.protocols.models.player import Player
 class Server:
     name: str
     map: str
+    password: bool
     players: int
     max_players: int
     bots: int
@@ -21,6 +22,7 @@ class Server:
     def set_from_a2s(self, info: dict, players: list):
         self.name = info['Name']
         self.map = info['Map']
+        self.password = info['Visibility'] == 1
         self.players = info['Players']
         self.max_players = info['MaxPlayers']
         self.bots = info['Bots']
