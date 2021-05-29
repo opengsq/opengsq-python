@@ -32,7 +32,7 @@ class CLI:
                     self.__paths[subparser_name] = fullpath
 
                     # Add parser and arguments
-                    sub = subparsers.add_parser(subparser_name, help='{} protocol'.format(protocol_classname))
+                    sub = subparsers.add_parser(subparser_name, help=locate(fullpath).full_name)
                     self.__add_arguments(sub, parameters)
 
         # Load all servers from __init__.py

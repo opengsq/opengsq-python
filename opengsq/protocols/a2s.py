@@ -12,6 +12,7 @@ class InvalidPacketException(Exception):
     pass
 
 class A2S(IProtocol):
+    full_name = 'A2S Protocol'
 
     # Requests (https://developer.valvesoftware.com/wiki/Server_queries#Requests)
     class __Request():
