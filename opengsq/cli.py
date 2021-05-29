@@ -2,6 +2,8 @@ import argparse
 import inspect
 import os
 import re
+import socket
+import sys
 from functools import partial
 from pydoc import locate
 from typing import Mapping, Sequence
@@ -82,3 +84,26 @@ class CLI:
             help = None if required else '(default: %(default)s)'
 
             sub.add_argument(name_or_flags, default=default, required=required, type=type, help=help)
+
+def main():
+    cli = CLI()
+
+    parser = argparse.ArgumentParser() 
+    cli.register(parser)
+
+    if len(sys.argv) <= 1:
+        parser.print_help(sys.stderr)
+        sys.exit(-1)
+
+    try:
+        args = parser.parse_args()
+        result = cli.run(args)
+        sys.stdout.write(result)
+    except socket.timeout as e:
+        sys.stderr.write('opengsq: error: {}\n'.format(e))
+        sys.exit(-2)
+
+    sys.exit(0)
+
+if __name__ == '__main__':
+    main()

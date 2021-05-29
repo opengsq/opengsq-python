@@ -15,7 +15,7 @@ setup(
     description='🐍 OpenGSQ - Python library for querying game servers',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    scripts=['bin/opengsq'],
+    entry_points={'console_scripts': ['opengsq=opengsq.cli:main']},
     packages=find_packages(exclude=['tests', 'tests.*']),
     url='https://github.com/opengsq/opengsq-python',
     author='OpenGSQ',
