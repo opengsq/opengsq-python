@@ -34,6 +34,7 @@ print(server.to_json())
 {
     "name": "Duke of York - USA - Duel/Roleplay - Rp Feitoria♛",
     "map": "RP Feitoria",
+    "password": false,
     "players": 33,
     "max_players": 55,
     "bots": 0,
@@ -42,7 +43,7 @@ print(server.to_json())
 }
 ```
 
-Query server using `A2S`
+Query server using A2S
 
 ```py
 from opengsq.protocols import A2S
@@ -57,6 +58,7 @@ print(server.to_json())
 {
     "name": "[HK] Doctor server | Dodgeball Practice | 歡樂躲避球",
     "map": "tfdb_spacebox_a2",
+    "password": false,
     "players": 2,
     "max_players": 14,
     "bots": 1,
