@@ -12,7 +12,10 @@ appid = 440
 
 servers = []
 
-with urllib.request.urlopen(f'http://api.steampowered.com/IGameServersService/GetServerList/v1/?key={steam_api_key}&filter=appid\\{appid}\\empty\\1&limit=100') as f:
+with urllib.request.urlopen(
+    'http://api.steampowered.com/IGameServersService/GetServerList/v1/?key={}&filter=appid\\{}\\empty\\1&limit=100'
+    .format(steam_api_key, appid)
+) as f:
     server_list = json.loads(f.read().decode('latin-1').encode('utf-8'))['response']['servers']
     server_list = sorted(server_list, key=lambda s: s['players'], reverse=True)[:3]
 

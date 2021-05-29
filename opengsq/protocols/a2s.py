@@ -74,7 +74,10 @@ class A2S(IProtocol):
         header, br = self.__challenge_request(data=self.__Request.A2S_INFO)
 
         if header != self.__Response.S2A_INFO_SRC and header != self.__Response.S2A_INFO_DETAILED:
-            raise InvalidPacketException(f'Packet header mismatch. Received: {chr(header)}. Expected: {chr(self.__Response.S2A_INFO_SRC)} or {chr(self.__Response.S2A_INFO_DETAILED)}.')
+            raise InvalidPacketException(
+                'Packet header mismatch. Received: {}. Expected: {} or {}.'
+                .format(chr(header), chr(self.__Response.S2A_INFO_SRC), chr(self.__Response.S2A_INFO_DETAILED))
+            ) 
 
         info = {}
 
@@ -158,7 +161,10 @@ class A2S(IProtocol):
         header, br = self.__challenge_request(data=self.__Request.A2S_PLAYER, challenge=self.__PACKET_HEADER)
 
         if header != self.__Response.S2A_PLAYER:
-            raise InvalidPacketException(f'Packet header mismatch. Received: {chr(header)}. Expected: {chr(self.__Response.S2A_PLAYER)}.')
+            raise InvalidPacketException(
+                'Packet header mismatch. Received: {}. Expected: {}.'
+                .format(chr(header), chr(self.__Response.S2A_PLAYER))
+            )
 
         player_count = br.read_byte()
         players = []
@@ -183,7 +189,10 @@ class A2S(IProtocol):
         header, br = self.__challenge_request(data=self.__Request.A2S_RULES, challenge=self.__PACKET_HEADER)
 
         if header != self.__Response.S2A_RULES:
-            raise InvalidPacketException(f'Packet header mismatch. Received: {chr(header)}. Expected: {chr(self.__Response.S2A_RULES)}.')
+            raise InvalidPacketException(
+                'Packet header mismatch. Received: {}. Expected: {}.'
+                .format(chr(header), chr(self.__Response.S2A_RULES))
+            )
 
         rule_count = br.read_short()
         rules = []
@@ -220,7 +229,10 @@ class A2S(IProtocol):
         header = br.read_byte()
 
         if header != self.__Response.S2C_CHALLENGE:
-            raise InvalidPacketException(f'Packet header mismatch. Received: {chr(header)}. Expected: {chr(self.__Response.S2C_CHALLENGE)}.')
+            raise InvalidPacketException(
+                'Packet header mismatch. Received: {}. Expected: {}.'
+                .format(chr(header), chr(self.__Response.S2C_CHALLENGE))
+            )
 
         self.__disconnect()
 

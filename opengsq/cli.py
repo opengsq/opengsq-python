@@ -23,7 +23,7 @@ class CLI:
             for (protocol_path, protocol_classnames) in re.findall(pattern, f.read()):
                 for protocol_classname in protocol_classnames.split(','):
                     name, fullpath, parameters = self.__extract(protocol_path, protocol_classname)
-                    subparser_name = f'protocol-{name}'
+                    subparser_name = 'protocol-{}'.format(name)
 
                     # Save to self.__paths dictionary
                     # Example: subparser_name = 'protocol-a2s', fullpath = 'opengsq.protocols.a2s.A2S'
@@ -65,7 +65,7 @@ class CLI:
     # Extract name, fullpath, parameters from path, classname
     def __extract(self, path: str, classname: str):
         name = path.split('.')[-1]
-        fullpath = f'{path}.{classname.strip()}'
+        fullpath = '{}.{}'.format(path, classname.strip())
         parameters = inspect.signature(locate(fullpath).__init__).parameters
 
         return name, fullpath, parameters
@@ -75,7 +75,7 @@ class CLI:
             if parameters[key].name == 'self':
                 continue
 
-            name_or_flags = f'--{parameters[key].name}'
+            name_or_flags = '--{}'.format(parameters[key].name)
             required = parameters[key].default == inspect._empty
             default = None if required else parameters[key].default
             type = parameters[key].annotation
