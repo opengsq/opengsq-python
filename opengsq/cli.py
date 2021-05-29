@@ -30,7 +30,7 @@ class CLI:
                     self.__paths[subparser_name] = fullpath
 
                     # Add parser and arguments
-                    sub = subparsers.add_parser(subparser_name, help=f"{protocol_classname} protocol")
+                    sub = subparsers.add_parser(subparser_name, help='{} protocol'.format(protocol_classname))
                     self.__add_arguments(sub, parameters)
 
         # Load all servers from __init__.py

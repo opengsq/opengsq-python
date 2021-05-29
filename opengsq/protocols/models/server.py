@@ -1,5 +1,6 @@
 import json
 from dataclasses import dataclass
+from typing import List
 
 from opengsq.protocols.models.player import Player
 
@@ -12,7 +13,7 @@ class Server:
     max_players: int
     bots: int
     latency: float
-    player_list: list
+    player_list: List[Player]
 
     def __init__(self):
         pass
