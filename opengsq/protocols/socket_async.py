@@ -34,7 +34,6 @@ class SocketAsync():
     async def recv(self):
         return await self.__protocol.recv()
 
-
     class __Protocol:
         def __init__(self, timeout: float):
             self.__packets = asyncio.Queue()
