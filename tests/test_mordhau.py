@@ -1,28 +1,22 @@
-import json
-import os
-import urllib.request
-
-from dotenv import load_dotenv
+import pytest
 from opengsq import Mordhau
 
-load_dotenv()
+from tests.test_helper import get_master_servers_from_steam
 
-steam_api_key = os.environ['STEAM_API_KEY']
-appid = 629760
+tests = []
 
-servers = []
+# Get some servers from steam for testing
+server_list = get_master_servers_from_steam(appid=629760)
 
-with urllib.request.urlopen(
-    'http://api.steampowered.com/IGameServersService/GetServerList/v1/?key={}&filter=appid\\{}&limit=100'
-    .format(steam_api_key, appid)
-) as f:
-    server_list = json.loads(f.read().decode('latin-1').encode('utf-8'))['response']['servers']
-    server_list = sorted(server_list, key=lambda s: s['players'], reverse=True)[:3]
+# We use 3 servers for testing
+server_list = server_list[:3]
 
-    for server in server_list:
-        subs = server['addr'].split(':')
-        servers.append(Mordhau(address=subs[0], query_port=int(subs[1]), timeout=5.0))
+for server in server_list:
+    subs = server['addr'].split(':')
+    tests.append(Mordhau(address=subs[0], query_port=int(subs[1]), timeout=5.0))
 
-def test_query():
-    for server in servers:
-        print(server.query().to_json(indent=4))
+@pytest.mark.asyncio
+async def test_query():
+    for test in tests:
+        server = await test.query()
+        print(server.to_json(indent=4))

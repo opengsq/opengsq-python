@@ -1,8 +1,8 @@
 import argparse
+import asyncio
 import inspect
 import os
 import re
-import socket
 import sys
 from functools import partial
 from pydoc import locate
@@ -50,7 +50,7 @@ class CLI:
                     self.__add_arguments(sub, parameters)
 
     # Get the query response in json format
-    def run(self, args: Sequence[str]) -> str:
+    async def run(self, args: Sequence[str]) -> str:
         # Load the obj from path
         obj = locate(self.__paths[args.subparser_name])
         del args.subparser_name
@@ -62,7 +62,7 @@ class CLI:
         # Create obj()
         server: IProtocol = obj()
 
-        return server.query().to_json()
+        return (await server.query()).to_json()
 
     # Extract name, fullpath, parameters from path, classname
     def __extract(self, path: str, classname: str):
@@ -86,6 +86,11 @@ class CLI:
             sub.add_argument(name_or_flags, default=default, required=required, type=type, help=help)
 
 def main():
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main_async())
+    loop.close()
+
+async def main_async():
     cli = CLI()
 
     parser = argparse.ArgumentParser() 
@@ -97,10 +102,10 @@ def main():
 
     try:
         args = parser.parse_args()
-        result = cli.run(args)
+        result = await cli.run(args)
         sys.stdout.write(result)
-    except socket.timeout as e:
-        sys.stderr.write('opengsq: error: {}\n'.format(e))
+    except asyncio.exceptions.TimeoutError:
+        sys.stderr.write('opengsq: error: timed out\n')
         sys.exit(-2)
 
     sys.exit(0)

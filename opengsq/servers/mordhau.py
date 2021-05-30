@@ -10,10 +10,10 @@ class Mordhau(A2S):
     def __init__(self, address: str, query_port: int = 27015, timeout: float = 5.0):
         super().__init__(address=address, query_port=query_port, timeout=timeout, engine=A2S.SOURCE)
 
-    def query(self) -> Server:
+    async def query(self) -> Server:
         start_time = time()
-        info = self.get_info()
-        players = self.get_players()
+        info = await self.get_info()
+        players = await self.get_players()
         latency = time() - start_time
 
         s = Server()

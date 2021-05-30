@@ -10,5 +10,5 @@ class IProtocol(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def query(self) -> Server:
+    async def query(self) -> Server:
         pass

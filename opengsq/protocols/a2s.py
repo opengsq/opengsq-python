@@ -1,11 +1,11 @@
 import bz2
-import socket
 import zlib
 from time import time
 
 from opengsq.protocols.binary_reader import BinaryReader
 from opengsq.protocols.models import Server
 from opengsq.protocols.protocol_interface import IProtocol
+from opengsq.protocols.socket_async import SocketAsync
 
 
 class InvalidPacketException(Exception):
@@ -45,21 +45,20 @@ class A2S(IProtocol):
     def __del__(self):
         self.__disconnect()
 
-    def __connect(self):
+    async def __connect(self):
         self.__disconnect()
-
-        self.__sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.__sock = SocketAsync()
         self.__sock.settimeout(self.__timeout)
-        self.__sock.connect((socket.gethostbyname(self.__address), self.__query_port))
+        await self.__sock.connect((SocketAsync.gethostbyname(self.__address), self.__query_port))
 
     def __disconnect(self):
         if self.__sock:
             self.__sock.close()
 
-    def query(self) -> Server:
+    async def query(self) -> Server:
         start_time = time()
-        info = self.get_info()
-        players = self.get_players()
+        info = await self.get_info()
+        players = await self.get_players()
         latency = time() - start_time
 
         s = Server()
@@ -69,10 +68,10 @@ class A2S(IProtocol):
         return s
 
     # A2S_INFO (https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO)
-    def get_info(self) -> dict:
-        self.__connect()
-
-        header, br = self.__challenge_request(data=self.__Request.A2S_INFO)
+    async def get_info(self) -> dict:
+        await self.__connect()
+        header, br = await self.__challenge_request(data=self.__Request.A2S_INFO)
+        self.__disconnect()
 
         if header != self.__Response.S2A_INFO_SRC and header != self.__Response.S2A_INFO_DETAILED:
             raise InvalidPacketException(
@@ -151,15 +150,13 @@ class A2S(IProtocol):
             info['VAC'] = br.read_byte()
             info['Bots'] = br.read_byte()
 
-        self.__disconnect()
-
         return info
 
     # A2S_PLAYER (https://developer.valvesoftware.com/wiki/Server_queries#A2S_PLAYER)
-    def get_players(self) -> list:
-        self.__connect()
-
-        header, br = self.__challenge_request(data=self.__Request.A2S_PLAYER, challenge=self.__PACKET_HEADER)
+    async def get_players(self) -> list:
+        await self.__connect()
+        header, br = await self.__challenge_request(data=self.__Request.A2S_PLAYER, challenge=self.__PACKET_HEADER)
+        self.__disconnect()
 
         if header != self.__Response.S2A_PLAYER:
             raise InvalidPacketException(
@@ -179,15 +176,13 @@ class A2S(IProtocol):
             player['Duration'] = br.read_float()
             players.append(player)
 
-        self.__disconnect()
-
         return players
 
     # A2S_RULES (https://developer.valvesoftware.com/wiki/Server_queries#A2S_RULES)
-    def get_rules(self) -> list:
-        self.__connect()
-
-        header, br = self.__challenge_request(data=self.__Request.A2S_RULES, challenge=self.__PACKET_HEADER)
+    async def get_rules(self) -> list:
+        await self.__connect()
+        header, br = await self.__challenge_request(data=self.__Request.A2S_RULES, challenge=self.__PACKET_HEADER)
+        self.__disconnect()
 
         if header != self.__Response.S2A_RULES:
             raise InvalidPacketException(
@@ -205,28 +200,28 @@ class A2S(IProtocol):
             rule['Value'] = br.read_string()
             rules.append(rule)
 
-        self.__disconnect()
-
         return rules
 
     # A2A_PING (https://developer.valvesoftware.com/wiki/Server_queries#A2A_PING)
-    def get_ping(self) -> bool:
-        self.__connect()
+    async def get_ping(self) -> bool:
+        await self.__connect()
 
         self.__write(self.__PACKET_HEADER + self.__Request.A2A_PING)
-        br = BinaryReader(data=self.__read())
-        header = br.read_byte()
-
+        br = BinaryReader(data=await self.__read())
         self.__disconnect()
+
+        header = br.read_byte()
 
         return header == self.__Response.A2A_ACK
 
     # A2S_SERVERQUERY_GETCHALLENGE (https://developer.valvesoftware.com/wiki/Server_queries#A2S_SERVERQUERY_GETCHALLENGE)
-    def get_challenge(self) -> bytes:
-        self.__connect()
+    async def get_challenge(self) -> bytes:
+        await self.__connect()
 
         self.__write(self.__PACKET_HEADER + self.__Request.A2S_SERVERQUERY_GETCHALLENGE)
-        br = BinaryReader(data=self.__read())
+        br = BinaryReader(data=await self.__read())
+        self.__disconnect()
+
         header = br.read_byte()
 
         if header != self.__Response.S2C_CHALLENGE:
@@ -235,16 +230,14 @@ class A2S(IProtocol):
                 .format(chr(header), chr(self.__Response.S2C_CHALLENGE))
             )
 
-        self.__disconnect()
-
         return br.read()
 
     def __write(self, data):
         self.__sock.send(data)
 
     # TODO: Make it cleaner
-    def __read(self, size=65535) -> bytes:
-        br = BinaryReader(data=self.__sock.recv(size))
+    async def __read(self) -> bytes:
+        br = BinaryReader(data=await self.__sock.recv())
         header = br.read_long()
 
         if header == -1:
@@ -261,7 +254,7 @@ class A2S(IProtocol):
             payloads[number] = br.read()
 
             while len(payloads) < total:
-                br = BinaryReader(data=self.__sock.recv(size))
+                br = BinaryReader(data=await self.__sock.recv())
 
                 if br.read_long() == -2 and br.read_long() == request_id:
                     packet_metadata = br.read_byte()
@@ -285,7 +278,7 @@ class A2S(IProtocol):
             payloads[number] = br.read()
 
             while len(payloads) < total:
-                br = BinaryReader(data=self.__sock.recv(size))
+                br = BinaryReader(data=await self.__sock.recv())
 
                 if br.read_long() == -2 and br.read_long() == request_id:
                     br.read_byte()
@@ -303,15 +296,15 @@ class A2S(IProtocol):
 
         return response.startswith(self.__PACKET_HEADER) and response[4:] or response
 
-    def __challenge_request(self, data: bytes, challenge: bytes = b''):
+    async def __challenge_request(self, data: bytes, challenge: bytes = b''):
         self.__write(self.__PACKET_HEADER + data + challenge)
-        br = BinaryReader(data=self.__read())
+        br = BinaryReader(data=await self.__read())
         header = br.read_byte()
 
         # Some servers will bypass replying with a challenge
         if header == self.__Response.S2C_CHALLENGE:
             self.__write(self.__PACKET_HEADER + data + br.read())
-            br = BinaryReader(data=self.__read())
+            br = BinaryReader(data=await self.__read())
             header = br.read_byte()
 
         return header, br

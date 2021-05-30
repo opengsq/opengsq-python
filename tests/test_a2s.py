@@ -1,40 +1,40 @@
-import json
-import os
-import urllib.request
-
-from dotenv import load_dotenv
+import pytest
 from opengsq.protocols import A2S
 
-load_dotenv()
+from tests.test_helper import get_master_servers_from_steam
 
-steam_api_key = os.environ['STEAM_API_KEY']
-appid = 440
+tests = []
 
-servers = []
+# Get some servers from steam for testing
+server_list = get_master_servers_from_steam(appid=440)
 
-with urllib.request.urlopen(
-    'http://api.steampowered.com/IGameServersService/GetServerList/v1/?key={}&filter=appid\\{}\\empty\\1&limit=100'
-    .format(steam_api_key, appid)
-) as f:
-    server_list = json.loads(f.read().decode('latin-1').encode('utf-8'))['response']['servers']
-    server_list = sorted(server_list, key=lambda s: s['players'], reverse=True)[:3]
+# We use 3 servers for testing
+server_list = server_list[:3]
 
-    for server in server_list:
-        subs = server['addr'].split(':')
-        servers.append(A2S(address=subs[0], query_port=int(subs[1]), timeout=5.0, engine=A2S.SOURCE))
+for server in server_list:
+    subs = server['addr'].split(':')
+    tests.append(A2S(address=subs[0], query_port=int(subs[1]), timeout=5.0, engine=A2S.SOURCE))
 
-def test_query():
-    for server in servers:
-        print(server.query().to_json(indent=4))
+@pytest.mark.asyncio
+async def test_query():
+    for test in tests:
+        server = await test.query()
+        print(server.to_json(indent=4))
 
-def test_get_info():
-    for server in servers:
-        print(server.get_info())
+@pytest.mark.asyncio
+async def test_get_info():
+    for test in tests:
+        response = await test.get_info()
+        print(response)
 
-def test_get_players():
-    for server in servers:
-        print(server.get_players())
+@pytest.mark.asyncio
+async def test_get_players():
+    for test in tests:
+        response = await test.get_players()
+        print(response)
 
-def test_get_rules():
-    for server in servers:
-        print(server.get_rules())
+@pytest.mark.asyncio
+async def test_get_rules():
+    for test in tests:
+        response = await test.get_rules()
+        print(response)

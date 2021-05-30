@@ -24,10 +24,14 @@ Query Mordhau server
 ```py
 from opengsq import Mordhau
 
+...
+
 mordhau = Mordhau(address='123.123.123.123', query_port=27015)
-server = mordhau.query()
+server = await mordhau.query()
 
 print(server.to_json())
+
+...
 ```
   
 ```json
@@ -48,10 +52,14 @@ Query server using A2S
 ```py
 from opengsq.protocols import A2S
 
+...
+
 a2s = A2S(address='123.123.123.123', query_port=27015)
-server = a2s.query()
+server = await a2s.query()
 
 print(server.to_json())
+
+...
 ```
 
 ```json
