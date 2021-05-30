@@ -11,6 +11,7 @@ from opengsq.protocols.socket_async import SocketAsync
 class InvalidPacketException(Exception):
     pass
 
+
 class A2S(IProtocol):
     full_name = 'A2S Protocol'
 
@@ -77,7 +78,7 @@ class A2S(IProtocol):
             raise InvalidPacketException(
                 'Packet header mismatch. Received: {}. Expected: {} or {}.'
                 .format(chr(header), chr(self.__Response.S2A_INFO_SRC), chr(self.__Response.S2A_INFO_DETAILED))
-            ) 
+            )
 
         info = {}
 

@@ -1,6 +1,7 @@
 import asyncio
 import socket
 
+
 class SocketAsync():
     @staticmethod
     def gethostbyname(hostname: str):
@@ -33,8 +34,9 @@ class SocketAsync():
     async def recv(self):
         return await self.__protocol.recv()
 
+
     class __Protocol:
-        def __init__(self, timeout: float): 
+        def __init__(self, timeout: float):
             self.__packets = asyncio.Queue()
             self.__timeout = timeout
 
@@ -49,6 +51,7 @@ class SocketAsync():
 
         def connection_lost(self, exc):
             pass
+
 
 if __name__ == '__main__':
     async def test_socket_async():

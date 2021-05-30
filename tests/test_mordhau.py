@@ -1,7 +1,7 @@
 import pytest
 from opengsq import Mordhau
 
-from tests.test_helper import get_master_servers_from_steam
+from .test_helper import get_master_servers_from_steam
 
 tests = []
 
@@ -14,6 +14,7 @@ server_list = server_list[:3]
 for server in server_list:
     subs = server['addr'].split(':')
     tests.append(Mordhau(address=subs[0], query_port=int(subs[1]), timeout=5.0))
+
 
 @pytest.mark.asyncio
 async def test_query():

@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 def get_master_servers_from_steam(appid, limit=100):
     with urllib.request.urlopen(
         'http://api.steampowered.com/IGameServersService/GetServerList/v1/?key={}&filter=appid\\{}&limit={}'
@@ -19,6 +20,7 @@ def get_master_servers_from_steam(appid, limit=100):
 
         # Sort the servers by players desc
         return sorted(server_list, key=lambda s: s['players'], reverse=True)
+
 
 if __name__ == '__main__':
     print(get_master_servers_from_steam(appid=440))

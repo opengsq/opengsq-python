@@ -85,15 +85,17 @@ class CLI:
 
             sub.add_argument(name_or_flags, default=default, required=required, type=type, help=help)
 
+
 def main():
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main_async())
     loop.close()
 
+
 async def main_async():
     cli = CLI()
 
-    parser = argparse.ArgumentParser() 
+    parser = argparse.ArgumentParser()
     cli.register(parser)
 
     if len(sys.argv) <= 1:
