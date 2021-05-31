@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import inspect
+import json
 import os
 import re
 import sys
@@ -8,7 +9,7 @@ from functools import partial
 from pydoc import locate
 from typing import Mapping, Sequence
 
-from opengsq.protocols.protocol_interface import IProtocol
+from opengsq.interfaces import IProtocol, IServer
 
 
 class CLI:
@@ -34,6 +35,7 @@ class CLI:
                     # Add parser and arguments
                     sub = subparsers.add_parser(subparser_name, help=locate(fullpath).full_name)
                     self.__add_arguments(sub, parameters)
+                    sub.add_argument('--function', default='get_info', type=str, help='(default: %(default)s)')
 
         # Load all servers from __init__.py
         with open(os.path.join(opengsq_path, 'servers', '__init__.py')) as f:
@@ -53,16 +55,31 @@ class CLI:
     async def run(self, args: Sequence[str]) -> str:
         # Load the obj from path
         obj = locate(self.__paths[args.subparser_name])
+        subparser_name: str = args.subparser_name
         del args.subparser_name
 
-        # Bind values to obj parameters
-        for value in vars(args).values():
-            obj = partial(obj, value)
+        if subparser_name.startswith('protocol-'):
+            function = args.function
+            del args.function
 
-        # Create obj()
-        server: IProtocol = obj()
+            # Bind values to obj parameters
+            for value in vars(args).values():
+                obj = partial(obj, value)
 
-        return (await server.query()).to_json()
+            # Create obj()
+            protocol: IProtocol = obj()
+            func = getattr(protocol, function)
+
+            return json.dumps(await func(), ensure_ascii=False)
+        else:
+            # Bind values to obj parameters
+            for value in vars(args).values():
+                obj = partial(obj, value)
+
+            # Create obj()
+            server: IServer = obj()
+
+            return (await server.query()).to_json()
 
     # Extract name, fullpath, parameters from path, classname
     def __extract(self, path: str, classname: str):

@@ -4,7 +4,7 @@ import socket
 
 class SocketAsync():
     @staticmethod
-    def gethostbyname(hostname: str):
+    def gethostbyname(hostname: str) -> str:
         return socket.gethostbyname(hostname)
 
     def __init__(self):
@@ -31,7 +31,7 @@ class SocketAsync():
     def send(self, data: bytes):
         self.__transport.sendto(data)
 
-    async def recv(self):
+    async def recv(self) -> bytes:
         return await self.__protocol.recv()
 
     class __Protocol:

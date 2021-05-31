@@ -5,12 +5,21 @@ class BinaryReader:
     def __init__(self, data: bytes):
         self.__data = data
 
+    def length(self) -> int:
+        return len(self.__data)
+
     def read(self) -> bytes:
         return self.__data
 
     def read_byte(self) -> int:
         data = self.__data[0]
         self.__data = self.__data[1:]
+
+        return data
+
+    def read_bytes(self, count: int) -> int:
+        data = self.__data[:count]
+        self.__data = self.__data[count:]
 
         return data
 

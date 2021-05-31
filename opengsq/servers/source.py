@@ -1,14 +1,15 @@
 from time import time
 
+from opengsq.interfaces import IServer
 from opengsq.protocols import A2S
 from opengsq.protocols.models import Player, Server
 
 
-class Mordhau():
-    full_name = 'Mordhau'
+class Source(IServer):
+    full_name = ''
 
-    def __init__(self, address: str, query_port: int = 27015, timeout: float = 5.0):
-        self.protocol = A2S(address, query_port, timeout, A2S.SOURCE)
+    def __init__(self, address: str, query_port: int = 27015, timeout: float = 5.0, engine=A2S.SOURCE):
+        self.protocol = A2S(address, query_port, timeout, engine)
 
     async def query(self) -> Server:
         start_time = time()
@@ -21,13 +22,6 @@ class Mordhau():
         s.map = info['Map']
         s.password = info['Visibility'] == 1
         s.players = info['Players']
-
-        # Fix player count
-        for sub in str(info['Keywords']).split(','):
-            if sub.startswith('B:'):
-                s.players = int(sub[2:])
-                break
-
         s.max_players = info['MaxPlayers']
         s.bots = info['Bots']
         s.player_list = []

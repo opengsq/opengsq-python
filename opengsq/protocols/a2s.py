@@ -1,15 +1,9 @@
 import bz2
 import zlib
-from time import time
 
+from opengsq.interfaces import IProtocol
 from opengsq.protocols.binary_reader import BinaryReader
-from opengsq.protocols.models import Server
-from opengsq.protocols.protocol_interface import IProtocol
 from opengsq.protocols.socket_async import SocketAsync
-
-
-class InvalidPacketException(Exception):
-    pass
 
 
 class A2S(IProtocol):
@@ -55,18 +49,6 @@ class A2S(IProtocol):
     def __disconnect(self):
         if self.__sock:
             self.__sock.close()
-
-    async def query(self) -> Server:
-        start_time = time()
-        info = await self.get_info()
-        players = await self.get_players()
-        latency = time() - start_time
-
-        s = Server()
-        s.set_from_a2s(info, players)
-        s.latency = latency
-
-        return s
 
     # A2S_INFO (https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO)
     async def get_info(self) -> dict:
@@ -309,3 +291,7 @@ class A2S(IProtocol):
             header = br.read_byte()
 
         return header, br
+
+
+class InvalidPacketException(Exception):
+    pass
