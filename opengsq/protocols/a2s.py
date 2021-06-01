@@ -62,76 +62,83 @@ class A2S(IProtocol):
                 .format(chr(header), chr(self.__Response.S2A_INFO_SRC), chr(self.__Response.S2A_INFO_DETAILED))
             )
 
-        info = {}
-
         if header == self.__Response.S2A_INFO_SRC:
-            info['Protocol'] = br.read_byte()
-            info['Name'] = br.read_string()
-            info['Map'] = br.read_string()
-            info['Folder'] = br.read_string()
-            info['Game'] = br.read_string()
-            info['ID'] = br.read_short()
-            info['Players'] = br.read_byte()
-            info['MaxPlayers'] = br.read_byte()
-            info['Bots'] = br.read_byte()
-            info['ServerType'] = chr(br.read_byte())
-            info['Environment'] = chr(br.read_byte())
-            info['Visibility'] = br.read_byte()
-            info['VAC'] = br.read_byte()
-
-            # These fields only exist in a response if the server is running The Ship
-            if info['ID'] == 2400:
-                info['Mode'] = br.read_byte()
-                info['Witnesses'] = br.read_byte()
-                info['Duration'] = br.read_byte()
-
-            info['Version'] = br.read_string()
-            info['EDF'] = br.read_byte()
-
-            if info['EDF'] & 0x80:
-                info['GamePort'] = br.read_short()
-
-            if info['EDF'] & 0x10:
-                info['SteamID'] = br.read_long_long()
-
-            if info['EDF'] & 0x40:
-                info['SpecPort'] = br.read_short()
-                info['SpecName'] = br.read_string()
-
-            if info['EDF'] & 0x20:
-                info['Keywords'] = br.read_string()
-
-            if info['EDF'] & 0x01:
-                info['GameID'] = br.read_long_long()
+            return self.__parse_from_info_src(br)
 
         # Obsolete GoldSource Response
-        elif header == self.__Response.S2A_INFO_DETAILED:
-            info['Address'] = br.read_string()
-            info['Name'] = br.read_string()
-            info['Map'] = br.read_string()
-            info['Folder'] = br.read_string()
-            info['Game'] = br.read_string()
-            info['Players'] = br.read_byte()
-            info['MaxPlayers'] = br.read_byte()
-            info['Protocol'] = br.read_byte()
-            info['ServerType'] = chr(br.read_byte())
-            info['Environment'] = chr(br.read_byte())
-            info['Visibility'] = br.read_byte()
-            info['Mod'] = br.read_byte()
+        return self.__parse_from_info_detailed(br)
 
-            if info['Mod'] == 1:
-                info['Link'] = br.read_string()
-                info['DownloadLink'] = br.read_string()
+    def __parse_from_info_src(br: BinaryReader) -> dict:
+        info = {}
+        info['Protocol'] = br.read_byte()
+        info['Name'] = br.read_string()
+        info['Map'] = br.read_string()
+        info['Folder'] = br.read_string()
+        info['Game'] = br.read_string()
+        info['ID'] = br.read_short()
+        info['Players'] = br.read_byte()
+        info['MaxPlayers'] = br.read_byte()
+        info['Bots'] = br.read_byte()
+        info['ServerType'] = chr(br.read_byte())
+        info['Environment'] = chr(br.read_byte())
+        info['Visibility'] = br.read_byte()
+        info['VAC'] = br.read_byte()
 
-                br.read_byte()
+        # These fields only exist in a response if the server is running The Ship
+        if info['ID'] == 2400:
+            info['Mode'] = br.read_byte()
+            info['Witnesses'] = br.read_byte()
+            info['Duration'] = br.read_byte()
 
-                info['Version'] = br.read_long()
-                info['Size'] = br.read_long()
-                info['Type'] = br.read_byte()
-                info['DLL'] = br.read_byte()
+        info['Version'] = br.read_string()
+        info['EDF'] = br.read_byte()
 
-            info['VAC'] = br.read_byte()
-            info['Bots'] = br.read_byte()
+        if info['EDF'] & 0x80:
+            info['GamePort'] = br.read_short()
+
+        if info['EDF'] & 0x10:
+            info['SteamID'] = br.read_long_long()
+
+        if info['EDF'] & 0x40:
+            info['SpecPort'] = br.read_short()
+            info['SpecName'] = br.read_string()
+
+        if info['EDF'] & 0x20:
+            info['Keywords'] = br.read_string()
+
+        if info['EDF'] & 0x01:
+            info['GameID'] = br.read_long_long()
+
+        return info
+
+    def __parse_from_info_detailed(br: BinaryReader) -> dict:
+        info = {}
+        info['Address'] = br.read_string()
+        info['Name'] = br.read_string()
+        info['Map'] = br.read_string()
+        info['Folder'] = br.read_string()
+        info['Game'] = br.read_string()
+        info['Players'] = br.read_byte()
+        info['MaxPlayers'] = br.read_byte()
+        info['Protocol'] = br.read_byte()
+        info['ServerType'] = chr(br.read_byte())
+        info['Environment'] = chr(br.read_byte())
+        info['Visibility'] = br.read_byte()
+        info['Mod'] = br.read_byte()
+
+        if info['Mod'] == 1:
+            info['Link'] = br.read_string()
+            info['DownloadLink'] = br.read_string()
+
+            br.read_byte()
+
+            info['Version'] = br.read_long()
+            info['Size'] = br.read_long()
+            info['Type'] = br.read_byte()
+            info['DLL'] = br.read_byte()
+
+        info['VAC'] = br.read_byte()
+        info['Bots'] = br.read_byte()
 
         return info
 
@@ -302,7 +309,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        gs2 = A2S(address='122.128.109.245', query_port=27015, timeout=5.0)
+        gs2 = A2S(address='', query_port=27015, timeout=5.0)
         info = await gs2.get_info()
         players = await gs2.get_players()
         rules = await gs2.get_rules()

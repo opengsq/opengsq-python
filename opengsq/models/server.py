@@ -9,7 +9,7 @@ from opengsq.models.player import Player
 class Server:
     ip: str
     query_port: int
-    game_port: int   
+    game_port: int
     name: str
     map: str
     password: bool

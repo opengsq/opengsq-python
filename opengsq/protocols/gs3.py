@@ -55,7 +55,8 @@ class GS3(IProtocol):
         request_data = request_h + b'\x00' + timestamp + challenge
         self.__sock.send(request_data + b'\xFF\xFF\xFF\x01')
 
-        # Packet 4: Server information response - (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_4:_Server_information_response)
+        # Packet 4: Server information response
+        # (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_4:_Server_information_response)
         response = await self.__read()
 
         br = BinaryReader(data=response)
