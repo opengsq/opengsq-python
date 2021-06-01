@@ -35,6 +35,7 @@ class GS1(IProtocol):
 
         info = {}
 
+        # Bind key value
         while br.length() > 0:
             key = br.read_string(read_until=b'\\')
             value = br.read_string(read_until=b'\\')
@@ -58,43 +59,61 @@ class GS1(IProtocol):
 
         return self.__parse_object(br)
 
+    # Receive packets and sort it
     async def __get_packets_response(self):
         payloads = {}
         packet_count = -1
 
+        # Loop until received all packets
         while packet_count == -1 or len(payloads) < packet_count:
             packet = await self.__sock.recv()
 
+            # If it is the last packet, it will contain b'\\final\\' at the end of the response
             if packet.rsplit(b'\\', 2)[1] == b'final':
-                packet, _, query_id = packet[:-7].rsplit(b'\\', 2)
+                # Split to payload, "queryid", query_id
+                payload, _, query_id = packet[:-7].rsplit(b'\\', 2)
+
+                # Get the packet number from query_id
                 number = re.search(rb'\d+.(\d+)', query_id).group(1)
+
+                # Save the packet count
                 packet_count = int(number)
             else:
-                packet, _, query_id = packet.rsplit(b'\\', 2)
+                # Split to payload, "queryid", query_id
+                payload, _, query_id = packet.rsplit(b'\\', 2)
+
+                # Get the packet number from query_id
                 number = re.search(rb'\d+.(\d+)', query_id).group(1)
 
-            payloads[number] = int(number) == 1 and packet[1:] or packet
+            # Save the payload, remove the first byte if it is the first packet
+            payloads[number] = int(number) == 1 and payload[1:] or payload
 
+        # Sort the payload and return as bytes
         response = b''.join(payloads[number] for number in sorted(payloads))
 
         return response
 
     def __parse_object(self, br: BinaryReader):
         items = []
-        old_index = -1
 
         while br.length() > 0:
+            # Get the key, for example player_1, frags_1, ping_1, etc...
             key = br.read_string(read_until=b'\\')
+
+            # Extract to name and index, for example name=player, index=1
             matches = re.search(r'(.+?)_(\d+)', key)
             name = matches.group(1)
             index = int(matches.group(2))
 
-            if old_index != index:
-                old_index = index
+            # Append a dict to items if next index appears
+            if len(items) <= index:
                 items.append({})
 
-            value = br.read_string(read_until=b'\\')
-            items[index][name] = value.strip()
+            # Get the value, and strip it since some values contain whitespaces
+            value = br.read_string(read_until=b'\\').strip()
+
+            # Save
+            items[index][name] = value
 
         return items
 
