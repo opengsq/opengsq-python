@@ -7,7 +7,6 @@ from opengsq.protocols.socket_async import SocketAsync
 
 class GS1(IProtocol):
     full_name = 'Gamespy Query Protocol version 1'
-    challenge = False
 
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
         self.__sock = None
@@ -30,108 +29,74 @@ class GS1(IProtocol):
 
     async def get_info(self) -> dict:
         await self.__connect()
-
         self.__sock.send(b'\\info\\')
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
 
         info = {}
-        loop_packets = True
 
-        # Receive packets until b'final\\'
-        while loop_packets:
-            response = await self.__sock.recv()
-            br = BinaryReader(data=response[1:])
-
-            while br.length() > 0:
-                key = br.read_string(read_until=b'\\')
-
-                if key == 'queryid':
-                    br.read_string(read_until=b'\\')
-
-                    if br.read() == b'final\\':
-                        loop_packets = False
-
-                    break
-
-                value = br.read_string(read_until=b'\\')
-                info[key] = value.strip()
+        while br.length() > 0:
+            key = br.read_string(read_until=b'\\')
+            value = br.read_string(read_until=b'\\')
+            info[key] = value.strip()
 
         return info
 
     async def get_players(self) -> dict:
         await self.__connect()
-
         self.__sock.send(b'\\players\\')
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
 
-        players = []
-        old_index = -1
-        loop_packets = True
-
-        # Receive packets until b'final\\'
-        while loop_packets:
-            response = await self.__sock.recv()
-            br = BinaryReader(data=response[1:])
-
-            while br.length() > 0:
-                key = br.read_string(read_until=b'\\')
-
-                if key == 'queryid':
-                    br.read_string(read_until=b'\\')
-
-                    if br.read() == b'final\\':
-                        loop_packets = False
-
-                    break
-
-                matches = re.search(r'(.+?)_(\d+)', key)
-                name = matches.group(1)
-                index = int(matches.group(2))
-
-                if old_index != index:
-                    old_index = index
-                    players.append({})
-
-                value = br.read_string(read_until=b'\\')
-                players[index][name] = value.strip()
-
-        return players
+        return self.__parse_object(br)
 
     async def get_teams(self) -> dict:
         await self.__connect()
-
         self.__sock.send(b'\\teams\\')
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
 
-        teams = []
+        return self.__parse_object(br)
+
+    async def __get_packets_response(self):
+        payloads = {}
+        packet_count = -1
+
+        while packet_count == -1 or len(payloads) < packet_count:
+            packet = await self.__sock.recv()
+
+            if packet.rsplit(b'\\', 2)[1] == b'final':
+                packet, _, query_id = packet[:-7].rsplit(b'\\', 2)
+                number = re.search(rb'\d+.(\d+)', query_id).group(1)
+                packet_count = int(number)
+            else:
+                packet, _, query_id = packet.rsplit(b'\\', 2)
+                number = re.search(rb'\d+.(\d+)', query_id).group(1)
+
+            payloads[number] = int(number) == 1 and packet[1:] or packet
+
+        response = b''.join(payloads[number] for number in sorted(payloads))
+
+        return response
+
+    def __parse_object(self, br: BinaryReader):
+        items = []
         old_index = -1
-        loop_packets = True
 
-        # Receive packets until b'final\\'
-        while loop_packets:
-            response = await self.__sock.recv()
-            br = BinaryReader(data=response[1:])
+        while br.length() > 0:
+            key = br.read_string(read_until=b'\\')
+            matches = re.search(r'(.+?)_(\d+)', key)
+            name = matches.group(1)
+            index = int(matches.group(2))
 
-            while br.length() > 0:
-                key = br.read_string(read_until=b'\\')
+            if old_index != index:
+                old_index = index
+                items.append({})
 
-                if key == 'queryid':
-                    br.read_string(read_until=b'\\')
+            value = br.read_string(read_until=b'\\')
+            items[index][name] = value.strip()
 
-                    if br.read() == b'final\\':
-                        loop_packets = False
-
-                    break
-
-                matches = re.search(r'(.+?)_(\d+)', key)
-                name = matches.group(1)
-                index = int(matches.group(2))
-
-                if old_index != index:
-                    old_index = index
-                    teams.append({})
-
-                value = br.read_string(read_until=b'\\')
-                teams[index][name] = value.strip()
-
-        return teams
+        return items
 
 
 if __name__ == '__main__':
