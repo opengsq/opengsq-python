@@ -47,8 +47,8 @@ class BinaryReader:
 
         return data
 
-    def read_string(self, encoding='utf-8', errors='ignore') -> str:
-        s = self.__data.split(b'\x00')[0]
+    def read_string(self, read_until=b'\x00', encoding='utf-8', errors='ignore') -> str:
+        s = self.__data.split(read_until)[0]
         self.__data = self.__data[len(s) + 1:]
 
         return str(s, encoding=encoding, errors=errors)
