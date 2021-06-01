@@ -150,7 +150,7 @@ class A2S(IProtocol):
         player_count = br.read_byte()
         players = []
 
-        while player_count > 0 and len(br.read()) > 0:
+        while player_count > 0 and br.length() > 0:
             player_count -= 1
             player = {}
             player['Index'] = br.read_byte()
@@ -176,7 +176,7 @@ class A2S(IProtocol):
         rule_count = br.read_short()
         rules = []
 
-        while rule_count > 0 and len(br.read()) > 0:
+        while rule_count > 0 and br.length() > 0:
             rule_count -= 1
             rule = {}
             rule['Name'] = br.read_string()
@@ -295,3 +295,21 @@ class A2S(IProtocol):
 
 class InvalidPacketException(Exception):
     pass
+
+
+if __name__ == '__main__':
+    import asyncio
+    import json
+
+    async def main_async():
+        gs2 = A2S(address='122.128.109.245', query_port=27015, timeout=5.0)
+        info = await gs2.get_info()
+        players = await gs2.get_players()
+        rules = await gs2.get_rules()
+        print(json.dumps(info, indent=None) + '\n')
+        print(json.dumps(players, indent=None) + '\n')
+        print(json.dumps(rules, indent=None) + '\n')
+
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main_async())
+    loop.close()

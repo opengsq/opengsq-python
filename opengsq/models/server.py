@@ -2,11 +2,14 @@ import json
 from dataclasses import dataclass
 from typing import List
 
-from opengsq.protocols.models.player import Player
+from opengsq.models.player import Player
 
 
 @dataclass()
 class Server:
+    ip: str
+    query_port: int
+    game_port: int   
     name: str
     map: str
     password: bool

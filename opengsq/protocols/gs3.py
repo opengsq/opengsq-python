@@ -1,4 +1,3 @@
-import asyncio
 import re
 
 from opengsq.interfaces import IProtocol
@@ -83,7 +82,7 @@ class GS3(IProtocol):
             if current_id != id and id != b'\x00':
                 current_id, current_name = id, name
                 result[current_name] = [{} for _ in range(len(values))]
-            
+
             for i in range(len(values)):
                 result[current_name][i][name] = values[i].decode('utf-8')
 
@@ -121,7 +120,7 @@ class GS3(IProtocol):
 
             # The object id
             # 0 = server kv information
-            # 1 = player_   \x00\x01player_\x00\x00 since \x01 
+            # 1 = player_   \x00\x01player_\x00\x00 since \x01
             # 2 = team_t    \x00\x02team_t\x00\x00  since \x02
             # etc...
             obj_id = br.read_byte()
@@ -152,11 +151,12 @@ class InvalidPacketException(Exception):
 
 
 if __name__ == '__main__':
+    import asyncio
     import json
 
     async def main_async():
-        ut3 = GS3(address='', query_port=29900, timeout=5.0)
-        server = await ut3.get_info()
+        gs3 = GS3(address='', query_port=29900, timeout=5.0)
+        server = await gs3.get_info()
         print(json.dumps(server, indent=None))
 
     loop = asyncio.get_event_loop()
