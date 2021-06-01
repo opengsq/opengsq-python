@@ -8,6 +8,16 @@ from opengsq.protocols.socket_async import SocketAsync
 class GS1(IProtocol):
     full_name = 'Gamespy Query Protocol version 1'
 
+    # Legacy:UT_Server_Query - (https://wiki.beyondunreal.com/Legacy:UT_Server_Query)
+    # Query_commands - (https://wiki.beyondunreal.com/XServerQuery#Query_commands)
+    class __Request():
+        GS1_BASIC = b'\\basic\\'
+        GS1_INFO = b'\\info\\xserverquery'
+        GS1_RULES = b'\\rules\\xserverquery'
+        GS1_PLAYERS = b'\\players\\xserverquery'
+        GS1_STATUS = b'\\status\\xserverquery'
+        GS1_TEAMS = b'\\teams\\'
+
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
         self.__sock = None
         self.__address = address
@@ -27,37 +37,105 @@ class GS1(IProtocol):
         if self.__sock:
             self.__sock.close()
 
+    async def get_basic(self) -> dict:
+        await self.__connect()
+        self.__sock.send(self.__Request.GS1_BASIC)
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
+
+        return self.__parse_as_key_values(br)
+
+    # Server may still response with Legacy version
     async def get_info(self) -> dict:
         await self.__connect()
-        self.__sock.send(b'\\info\\')
+        self.__sock.send(self.__Request.GS1_INFO)
         br = BinaryReader(data=await self.__get_packets_response())
         self.__disconnect()
 
-        info = {}
+        return self.__parse_as_key_values(br)
 
-        # Bind key value
-        while br.length() > 0:
-            key = br.read_string(read_until=b'\\')
-            value = br.read_string(read_until=b'\\')
-            info[key] = value.strip()
-
-        return info
-
-    async def get_players(self) -> dict:
+    async def get_rules(self) -> list:
         await self.__connect()
-        self.__sock.send(b'\\players\\')
+        self.__sock.send(self.__Request.GS1_RULES)
         br = BinaryReader(data=await self.__get_packets_response())
         self.__disconnect()
 
-        return self.__parse_object(br)
+        print(br.read())
 
-    async def get_teams(self) -> dict:
+        return self.__parse_as_key_values(br)
+
+    async def get_players(self) -> list:
         await self.__connect()
-        self.__sock.send(b'\\teams\\')
+        self.__sock.send(self.__Request.GS1_PLAYERS)
         br = BinaryReader(data=await self.__get_packets_response())
         self.__disconnect()
 
-        return self.__parse_object(br)
+        return self.__parse_as_object(br)
+
+    async def get_status(self) -> dict:
+        await self.__connect()
+        self.__sock.send(self.__Request.GS1_STATUS)
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
+
+        info = self.__parse_as_key_values(br, is_status=True)
+        players = self.__parse_as_object(br)
+
+        status = {}
+        status['info'] = info
+        status['players'] = players
+
+        return status
+
+    async def get_teams(self) -> list:
+        await self.__connect()
+        self.__sock.send(self.__Request.GS1_TEAMS)
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
+
+        return self.__parse_as_object(br)
+
+    # Legacy versions
+    async def get_info_legacy(self) -> dict:
+        await self.__connect()
+        self.__sock.send(self.__Request.GS1_INFO.replace(b'xserverquery', b''))
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
+
+        return self.__parse_as_key_values(br)
+
+    async def get_rules_legacy(self) -> list:
+        await self.__connect()
+        self.__sock.send(self.__Request.GS1_RULES.replace(b'xserverquery', b''))
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
+
+        print(br.read())
+
+        return self.__parse_as_key_values(br)
+
+    async def get_players_legacy(self) -> list:
+        await self.__connect()
+        self.__sock.send(self.__Request.GS1_PLAYERS.replace(b'xserverquery', b''))
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
+
+        return self.__parse_as_object(br)
+
+    async def get_status_legacy(self) -> dict:
+        await self.__connect()
+        self.__sock.send(self.__Request.GS1_STATUS.replace(b'xserverquery', b''))
+        br = BinaryReader(data=await self.__get_packets_response())
+        self.__disconnect()
+
+        info = self.__parse_as_key_values(br, is_status=True)
+        players = self.__parse_as_object(br)
+
+        status = {}
+        status['info'] = info
+        status['players'] = players
+
+        return status
 
     # Receive packets and sort it
     async def __get_packets_response(self):
@@ -93,12 +171,29 @@ class GS1(IProtocol):
 
         return response
 
-    def __parse_object(self, br: BinaryReader):
+    def __parse_as_key_values(self, br: BinaryReader, is_status=False):
+        kv = {}
+
+        # Bind key value
+        while br.length() > 0:
+            key = br.read_string(until=b'\\')
+
+            if is_status and key.lower().startswith('player_'):
+                # Read already, so add it back
+                br.prepend_bytes(key.encode() + b'\\')
+                break
+
+            value = br.read_string(until=b'\\')
+            kv[key] = value.strip()
+
+        return kv
+
+    def __parse_as_object(self, br: BinaryReader):
         items = []
 
         while br.length() > 0:
             # Get the key, for example player_1, frags_1, ping_1, etc...
-            key = br.read_string(read_until=b'\\')
+            key = br.read_string(until=b'\\')
 
             # Extract to name and index, for example name=player, index=1
             matches = re.search(r'(.+?)_(\d+)', key)
@@ -110,7 +205,7 @@ class GS1(IProtocol):
                 items.append({})
 
             # Get the value, and strip it since some values contain whitespaces
-            value = br.read_string(read_until=b'\\').strip()
+            value = br.read_string(until=b'\\').strip()
 
             # Save
             items[index][name] = value
@@ -123,13 +218,13 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        gs1 = GS1(address='', query_port=7778, timeout=5.0)
-        info = await gs1.get_info()
-        players = await gs1.get_players()
-        teams = await gs1.get_teams()
-        print(json.dumps(info, indent=None) + '\n')
-        print(json.dumps(players, indent=None) + '\n')
-        print(json.dumps(teams, indent=None) + '\n')
+        gs1 = GS1(
+            address='',
+            query_port=7778,
+            timeout=5.0
+        )
+        status = await gs1.get_status()
+        print(json.dumps(status, indent=None) + '\n')
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(main_async())

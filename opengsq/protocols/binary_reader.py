@@ -8,6 +8,9 @@ class BinaryReader:
     def length(self) -> int:
         return len(self.__data)
 
+    def prepend_bytes(self, data):
+        self.__data = data + self.__data
+
     def read(self) -> bytes:
         return self.__data
 
@@ -47,8 +50,8 @@ class BinaryReader:
 
         return data
 
-    def read_string(self, read_until=b'\x00', encoding='utf-8', errors='ignore') -> str:
-        s = self.__data.split(read_until)[0]
+    def read_string(self, until=b'\x00', encoding='utf-8', errors='ignore') -> str:
+        s = self.__data.split(until)[0]
         self.__data = self.__data[len(s) + 1:]
 
         return str(s, encoding=encoding, errors=errors)
