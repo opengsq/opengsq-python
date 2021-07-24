@@ -19,70 +19,41 @@ python setup.py install
 
 ## Usage
 
-Query Mordhau server
+Query server using Source
 
 ```py
-from opengsq import Mordhau
+import asyncio
+from opengsq.protocols import Source
 
-...
+async def main():
+    source = Source(address='45.147.5.5', query_port=27015)
+    info = await source.get_info()
+    print(info)
 
-mordhau = Mordhau(address='123.123.123.123', query_port=27015)
-server = await mordhau.query()
-
-print(server.to_json())
-
-...
-```
-  
-```json
-{
-    "name": "Duke of York - USA - Duel/Roleplay - Rp Feitoria♛",
-    "map": "RP Feitoria",
-    "password": false,
-    "players": 33,
-    "max_players": 55,
-    "bots": 0,
-    "player_list": [],
-    "latency": 0.7420244216918945
-}
-```
-
-Query server using A2S
-
-```py
-from opengsq.protocols import A2S
-
-...
-
-a2s = A2S(address='123.123.123.123', query_port=27015)
-server = await a2s.query()
-
-print(server.to_json())
-
-...
+asyncio.run(main())
 ```
 
 ```json
 {
-    "name": "[HK] Doctor server | Dodgeball Practice | 歡樂躲避球",
-    "map": "tfdb_spacebox_a2",
-    "password": false,
-    "players": 2,
-    "max_players": 14,
-    "bots": 1,
-    "player_list": [
-        {
-            "name": "[BOT] DUCK's BOT",
-            "score": 5,
-            "time": 58525.1640625
-        },
-        {
-            "name": "✅BattlefieldDuck",
-            "score": 0,
-            "time": 253.934814453125
-        }
-    ],
-    "latency": 0.05097603797912598
+    "Protocol": 17,
+    "Name": "▟█▙ ZOMBIE ESCAPE AC ▟█ Otaku.TF █▙           ▟",
+    "Map": "ze_voodoo_islands_v8_2_tf2",
+    "Folder": "tf",
+    "Game": "▟ZOMBIE ESCAPE▙ 𒈙𒈙𒈙𒈙BASE𒈙𒈙𒈙𒈙𒈙",
+    "ID": 440,
+    "Players": 29,
+    "MaxPlayers": 32,
+    "Bots": 0,
+    "ServerType": "d",
+    "Environment": "l",
+    "Visibility": 0,
+    "VAC": 1,
+    "Version": "6623512",
+    "EDF": 177,
+    "GamePort": 27015,
+    "SteamID": 85568392923229220,
+    "Keywords": "!,a FREE TAUNTS,a FREE UNUSUALS,a OTAKUGAMING.TF,a ZOMBIE ESCAPE,a ZOMBIEMOD,alltalk,escpcreaplayersape,increased_maxplayers,otak,respawnti",
+    "GameID": 440
 }
 ```
 
@@ -93,13 +64,25 @@ which makes it easy to query game servers from your terminal. Run
 `opengsq -h` for usage.
 
 ```sh
-# query server using protocol-a2s
-opengsq protocol-a2s --address 123.123.123.123 --query_port 27015
-
-# query csgo server
-opengsq csgo --address 123.123.123.123 --query_port 27015
+# query server using source protocol
+opengsq source --address 123.123.123.123 --query_port 27015 --function get_info
 ```
 
+## Supported Protocols
+```py
+from opengsq.protocols.gamespy1 import GameSpy1
+from opengsq.protocols.gamespy2 import GameSpy2
+from opengsq.protocols.gamespy3 import GameSpy3
+from opengsq.protocols.gamespy4 import GameSpy4
+from opengsq.protocols.quake1 import Quake1
+from opengsq.protocols.quake2 import Quake2
+from opengsq.protocols.quake3 import Quake3
+from opengsq.protocols.source import Source # Both Source and Goldsource supported
+```
+You can import all protocols using the following code.
+```py
+from opengsq.protocols import *
+```
 ## Requirements
 
 -   Python 3.6+

@@ -9,7 +9,7 @@ from functools import partial
 from pydoc import locate
 from typing import Mapping, Sequence
 
-from opengsq.interfaces import IProtocol, IServer
+from opengsq.protocol_base import ProtocolBase
 
 
 class CLI:
@@ -26,60 +26,34 @@ class CLI:
             for (protocol_path, protocol_classnames) in re.findall(pattern, f.read()):
                 for protocol_classname in protocol_classnames.split(','):
                     name, fullpath, parameters = self.__extract(protocol_path, protocol_classname)
-                    subparser_name = 'protocol-{}'.format(name)
 
                     # Save to self.__paths dictionary
-                    # Example: subparser_name = 'protocol-a2s', fullpath = 'opengsq.protocols.a2s.A2S'
-                    self.__paths[subparser_name] = fullpath
-
-                    # Add parser and arguments
-                    sub = subparsers.add_parser(subparser_name, help=locate(fullpath).full_name)
-                    self.__add_arguments(sub, parameters)
-                    sub.add_argument('--function', default='get_info', type=str, help='(default: %(default)s)')
-
-        # Load all servers from __init__.py
-        with open(os.path.join(opengsq_path, 'servers', '__init__.py')) as f:
-            for (server_path, server_classnames) in re.findall(pattern, f.read()):
-                for server_classname in server_classnames.split(','):
-                    name, fullpath, parameters = self.__extract(server_path, server_classname)
-
-                    # Save to self.__paths dictionary
-                    # Example: name = 'csgo', fullpath = 'opengsq.servers.csgo.CSGO'
+                    # Example: name = 'a2s', fullpath = 'opengsq.protocols.a2s.A2S'
                     self.__paths[name] = fullpath
 
                     # Add parser and arguments
                     sub = subparsers.add_parser(name, help=locate(fullpath).full_name)
                     self.__add_arguments(sub, parameters)
+                    sub.add_argument('--function', default='get_info', type=str, help='(default: %(default)s)')
 
     # Get the query response in json format
     async def run(self, args: Sequence[str]) -> str:
         # Load the obj from path
         obj = locate(self.__paths[args.subparser_name])
-        subparser_name: str = args.subparser_name
         del args.subparser_name
 
-        if subparser_name.startswith('protocol-'):
-            function = args.function
-            del args.function
+        function = args.function
+        del args.function
 
-            # Bind values to obj parameters
-            for value in vars(args).values():
-                obj = partial(obj, value)
+        # Bind values to obj parameters
+        for value in vars(args).values():
+            obj = partial(obj, value)
 
-            # Create obj()
-            protocol: IProtocol = obj()
-            func = getattr(protocol, function)
+        # Create obj()
+        protocol: ProtocolBase = obj()
+        func = getattr(protocol, function)
 
-            return json.dumps(await func(), ensure_ascii=False)
-        else:
-            # Bind values to obj parameters
-            for value in vars(args).values():
-                obj = partial(obj, value)
-
-            # Create obj()
-            server: IServer = obj()
-
-            return (await server.query()).to_json()
+        return json.dumps(await func(), ensure_ascii=False)
 
     # Extract name, fullpath, parameters from path, classname
     def __extract(self, path: str, classname: str):

@@ -1,35 +1,19 @@
 import re
 
-from opengsq.interfaces import IProtocol
-from opengsq.protocols.binary_reader import BinaryReader
-from opengsq.protocols.socket_async import SocketAsync
+from opengsq.binary_reader import BinaryReader
+from opengsq.protocol_base import ProtocolBase
+from opengsq.socket_async import SocketAsync
 
 
-class GS3(IProtocol):
-    full_name = 'Gamespy Query Protocol version 3'
+class GameSpy3(ProtocolBase):
+    full_name = 'GameSpy Query Protocol version 3'
     challenge = False
 
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
-        self.__sock = None
-        self.__address = address
-        self.__query_port = query_port
-        self.__timeout = timeout
+        super().__init__(address, query_port, timeout)
 
-    def __del__(self):
-        self.__disconnect()
-
-    async def __connect(self):
-        self.__disconnect()
-        self.__sock = SocketAsync()
-        self.__sock.settimeout(self.__timeout)
-        await self.__sock.connect((SocketAsync.gethostbyname(self.__address), self.__query_port))
-
-    def __disconnect(self):
-        if self.__sock:
-            self.__sock.close()
-
-    async def get_info(self):
-        await self.__connect()
+    async def get_status(self):
+        await self._connect()
 
         request_h = b'\xFE\xFD'
         timestamp = b'\x04\x05\x06\x07'
@@ -37,10 +21,10 @@ class GS3(IProtocol):
 
         if self.challenge:
             # Packet 1: Initial request - (https://wiki.unrealadmin.org/UT3_query_protocol#Packet_1:_Initial_request)
-            self.__sock.send(request_h + b'\x09' + timestamp)
+            self._sock.send(request_h + b'\x09' + timestamp)
 
             # Packet 2: First response - (https://wiki.unrealadmin.org/UT3_query_protocol#Packet_2:_First_response)
-            response = await self.__sock.recv()
+            response = await self._sock.recv()
 
             if response[0] != 9:
                 raise InvalidPacketException(
@@ -53,11 +37,13 @@ class GS3(IProtocol):
             challenge = b'' if challenge == 0 else challenge.to_bytes(4, 'big', signed=True)
 
         request_data = request_h + b'\x00' + timestamp + challenge
-        self.__sock.send(request_data + b'\xFF\xFF\xFF\x01')
+        self._sock.send(request_data + b'\xFF\xFF\xFF\x01')
 
         # Packet 4: Server information response
         # (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_4:_Server_information_response)
         response = await self.__read()
+
+        self._disconnect()
 
         br = BinaryReader(data=response)
 
@@ -78,7 +64,7 @@ class GS3(IProtocol):
 
         for (id, name, data) in re.findall(pattern, b'\x00' + br.read()):
             values = data.split(b'\x00')
-            name = name.decode('utf-8')
+            name = name.decode('utf-8').split('_')[0]
 
             if current_id != id and id != b'\x00':
                 current_id, current_name = id, name
@@ -94,7 +80,7 @@ class GS3(IProtocol):
         payloads = {}
 
         while packet_count == -1 or len(payloads) > packet_count:
-            response = await self.__sock.recv()
+            response = await self._sock.recv()
 
             br = BinaryReader(data=response)
             header = br.read_byte()
@@ -156,10 +142,8 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        gs3 = GS3(address='', query_port=29900, timeout=5.0)
-        server = await gs3.get_info()
+        gs3 = GameSpy3(address='185.107.96.59', query_port=29900, timeout=5.0)
+        server = await gs3.get_status()
         print(json.dumps(server, indent=None))
 
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main_async())
-    loop.close()
+    asyncio.run(main_async())
