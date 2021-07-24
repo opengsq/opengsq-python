@@ -2,7 +2,6 @@ from enum import Flag, auto
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync
 
 
 class GameSpy2(ProtocolBase):

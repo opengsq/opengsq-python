@@ -2,7 +2,6 @@ import re
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync
 
 
 class GameSpy3(ProtocolBase):
@@ -45,7 +44,7 @@ class GameSpy3(ProtocolBase):
 
         self._disconnect()
 
-        br = BinaryReader(data=response)
+        br = BinaryReader(response)
 
         result = {}
         result['info'] = {}
@@ -82,7 +81,7 @@ class GameSpy3(ProtocolBase):
         while packet_count == -1 or len(payloads) > packet_count:
             response = await self._sock.recv()
 
-            br = BinaryReader(data=response)
+            br = BinaryReader(response)
             header = br.read_byte()
 
             if header != 0:

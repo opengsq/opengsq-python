@@ -10,54 +10,31 @@ class GameSpy1(ProtocolBase):
     # Legacy:UT_Server_Query - (https://wiki.beyondunreal.com/Legacy:UT_Server_Query)
     # Query_commands - (https://wiki.beyondunreal.com/XServerQuery#Query_commands)
     class __Request():
-        GS1_BASIC = b'\\basic\\'
-        GS1_INFO = b'\\info\\xserverquery'
-        GS1_RULES = b'\\rules\\xserverquery'
-        GS1_PLAYERS = b'\\players\\xserverquery'
-        GS1_STATUS = b'\\status\\xserverquery'
-        GS1_TEAMS = b'\\teams\\'
+        BASIC = b'\\basic\\'
+        INFO = b'\\info\\xserverquery'
+        RULES = b'\\rules\\xserverquery'
+        PLAYERS = b'\\players\\xserverquery'
+        STATUS = b'\\status\\xserverquery'
+        TEAMS = b'\\teams\\'
 
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
         super().__init__(address, query_port, timeout)
 
     async def get_basic(self) -> dict:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_BASIC)
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
-
-        return self.__parse_as_key_values(br)
+        return self.__parse_as_key_values(await self.__connect_and_send(self.__Request.BASIC))
 
     # Server may still response with Legacy version
     async def get_info(self) -> dict:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_INFO)
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
-
-        return self.__parse_as_key_values(br)
+        return self.__parse_as_key_values(await self.__connect_and_send(self.__Request.INFO))
 
     async def get_rules(self) -> list:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_RULES)
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
-
-        return self.__parse_as_key_values(br)
+        return self.__parse_as_key_values(await self.__connect_and_send(self.__Request.RULES))
 
     async def get_players(self) -> list:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_PLAYERS)
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
-
-        return self.__parse_as_object(br)
+        return self.__parse_as_object(await self.__connect_and_send(self.__Request.PLAYERS))
 
     async def get_status(self) -> dict:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_STATUS)
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
+        br = await self.__connect_and_send(self.__Request.STATUS)
 
         info = self.__parse_as_key_values(br, is_status=True)
         players = self.__parse_as_object(br)
@@ -69,43 +46,20 @@ class GameSpy1(ProtocolBase):
         return status
 
     async def get_teams(self) -> list:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_TEAMS)
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
-
-        return self.__parse_as_object(br)
+        return self.__parse_as_object(await self.__connect_and_send(self.__Request.TEAMS))
 
     # Legacy versions
     async def get_info_legacy(self) -> dict:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_INFO.replace(b'xserverquery', b''))
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
-
-        return self.__parse_as_key_values(br)
+        return self.__parse_as_key_values(await self.__connect_and_send(self.__Request.INFO.replace(b'xserverquery', b'')))
 
     async def get_rules_legacy(self) -> list:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_RULES.replace(b'xserverquery', b''))
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
-
-        return self.__parse_as_key_values(br)
+        return self.__parse_as_key_values(await self.__connect_and_send(self.__Request.RULES.replace(b'xserverquery', b'')))
 
     async def get_players_legacy(self) -> list:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_PLAYERS.replace(b'xserverquery', b''))
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
-
-        return self.__parse_as_object(br)
+        return self.__parse_as_object(await self.__connect_and_send(self.__Request.PLAYERS.replace(b'xserverquery', b'')))
 
     async def get_status_legacy(self) -> dict:
-        await self._connect()
-        self._sock.send(self.__Request.GS1_STATUS.replace(b'xserverquery', b''))
-        br = BinaryReader(await self.__get_packets_response())
-        self._disconnect()
+        br = await self.__connect_and_send(self.__Request.STATUS.replace(b'xserverquery', b''))
 
         info = self.__parse_as_key_values(br, is_status=True)
         players = self.__parse_as_object(br)
@@ -149,6 +103,16 @@ class GameSpy1(ProtocolBase):
         response = b''.join(payloads[number] for number in sorted(payloads))
 
         return response
+
+    async def __connect_and_send(self, data) -> BinaryReader:
+        await self._connect()
+
+        self._sock.send(data)
+        br = BinaryReader(await self.__get_packets_response())
+
+        self._disconnect()
+
+        return br
 
     def __parse_as_key_values(self, br: BinaryReader, is_status=False):
         kv = {}
