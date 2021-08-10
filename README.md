@@ -83,10 +83,11 @@ You can import all protocols using the following code.
 ```py
 from opengsq.protocols import *
 ```
+or
+```py
+import opengsq
+```
+
 ## Requirements
 
 -   Python 3.6+
-
-## Credit
-
-This library is based from the [OpenAI Python Library](https://github.com/openai/openai-python).

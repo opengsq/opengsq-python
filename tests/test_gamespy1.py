@@ -1,10 +1,9 @@
 import asyncio
 
+import opengsq
 import pytest
-from opengsq.protocols import GameSpy1
 
-
-test = GameSpy1(address='139.162.235.20', query_port=7778)
+test = opengsq.GameSpy1(address='139.162.235.20', query_port=7778)
 
 @pytest.mark.asyncio
 async def test_get_basic():

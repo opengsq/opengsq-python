@@ -1,12 +1,12 @@
 from typing import List
 
+import opengsq
 import pytest
-from opengsq.protocols import Source
 
 from .test_helper import get_master_servers_from_steam
 
 
-tests: List[Source] = []
+tests: List[opengsq.Source] = []
 
 # Get some servers from steam for testing
 server_list = get_master_servers_from_steam(appid=440, limit=1000)
@@ -16,7 +16,7 @@ server_list = server_list[:0]
 
 for server in server_list:
     subs = server['addr'].split(':')
-    tests.append(Source(address=subs[0], query_port=int(subs[1])))
+    tests.append(opengsq.Source(address=subs[0], query_port=int(subs[1])))
 
 
 @pytest.mark.asyncio
