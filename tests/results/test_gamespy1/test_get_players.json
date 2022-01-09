@@ -1,0 +1,102 @@
+[
+    {
+        "player": "faza",
+        "frags": "0",
+        "ping": "67",
+        "team": "255",
+        "mesh": "Spectator",
+        "skin": "None",
+        "face": "",
+        "ngsecret": "true"
+    },
+    {
+        "player": "Honda",
+        "frags": "17",
+        "ping": "37",
+        "team": "1",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.RawS",
+        "face": "SoldierSkins.Arkon",
+        "ngsecret": "true"
+    },
+    {
+        "player": "xRomium",
+        "frags": "45",
+        "ping": "70",
+        "team": "0",
+        "mesh": "Female Soldier",
+        "skin": "SGirlSkins.fbth",
+        "face": "SGirlSkins.Annaka",
+        "ngsecret": "true"
+    },
+    {
+        "player": "ForatNegreSupermassi",
+        "frags": "0",
+        "ping": "47",
+        "team": "255",
+        "mesh": "Spectator",
+        "skin": "None",
+        "face": "",
+        "ngsecret": "true"
+    },
+    {
+        "player": "SONYBOY",
+        "frags": "23",
+        "ping": "99",
+        "team": "0",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.hkil",
+        "face": "SoldierSkins.matrix",
+        "ngsecret": "true"
+    },
+    {
+        "player": "have_a_cigar",
+        "frags": "0",
+        "ping": "55",
+        "team": "255",
+        "mesh": "Spectator",
+        "skin": "None",
+        "face": "",
+        "ngsecret": "true"
+    },
+    {
+        "player": "Jamally",
+        "frags": "164",
+        "ping": "56",
+        "team": "1",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.hkil",
+        "face": "SoldierSkins.tensor",
+        "ngsecret": "true"
+    },
+    {
+        "player": "uq*Cypher",
+        "frags": "176",
+        "ping": "138",
+        "team": "0",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.RawS",
+        "face": "SoldierSkins.Arkon",
+        "ngsecret": "true"
+    },
+    {
+        "player": "2022",
+        "frags": "105",
+        "ping": "37",
+        "team": "1",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.hkil",
+        "face": "SoldierSkins.matrix",
+        "ngsecret": "true"
+    },
+    {
+        "player": "Atlantis",
+        "frags": "46",
+        "ping": "33",
+        "team": "1",
+        "mesh": "Female Commando",
+        "skin": "FCommandoSkins.cmdo",
+        "face": "FCommandoSkins.Ivana",
+        "ngsecret": "true"
+    }
+]

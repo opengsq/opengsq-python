@@ -35,6 +35,7 @@ class CLI:
                     sub = subparsers.add_parser(name, help=locate(fullpath).full_name)
                     self.__add_arguments(sub, parameters)
                     sub.add_argument('--function', default='get_info', type=str, help='(default: %(default)s)')
+                    sub.add_argument('--indent', default=None, type=int, nargs='?')
 
     # Get the query response in json format
     async def run(self, args: Sequence[str]) -> str:
@@ -44,6 +45,9 @@ class CLI:
 
         function = args.function
         del args.function
+        
+        indent = args.indent
+        del args.indent
 
         # Bind values to obj parameters
         for value in vars(args).values():
@@ -53,7 +57,7 @@ class CLI:
         protocol: ProtocolBase = obj()
         func = getattr(protocol, function)
 
-        return json.dumps(await func(), ensure_ascii=False)
+        return json.dumps(await func(), ensure_ascii=False, indent=indent)
 
     # Extract name, fullpath, parameters from path, classname
     def __extract(self, path: str, classname: str):

@@ -1,0 +1,22 @@
+[
+    {
+        "team": "Red",
+        "score": "1.000000",
+        "size": "3"
+    },
+    {
+        "team": "Blue",
+        "score": "3.000000",
+        "size": "4"
+    },
+    {
+        "team": "Green",
+        "score": "0.000000",
+        "size": "0"
+    },
+    {
+        "team": "Gold",
+        "score": "0.000000",
+        "size": "0"
+    }
+]

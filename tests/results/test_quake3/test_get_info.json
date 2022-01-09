@@ -1,0 +1,21 @@
+{
+    "version": "ET Legacy v2.77.1 linux-i386 Mar 17 2021",
+    "protocol": "84",
+    "hostname": "F|A RECRUITING XP SAVE",
+    "serverload": "8",
+    "mapname": "fa_italy_b3",
+    "clients": "38",
+    "humans": "38",
+    "sv_maxclients": "60",
+    "sv_privateclients": "0",
+    "gametype": "2",
+    "pure": "1",
+    "game": "jaymod",
+    "friendlyFire": "0",
+    "maxlives": "0",
+    "needpass": "0",
+    "gamename": "et",
+    "g_antilag": "1",
+    "weaprestrict": "100",
+    "balancedteams": "1"
+}

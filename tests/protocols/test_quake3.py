@@ -1,0 +1,19 @@
+import pytest
+from opengsq.protocols.quake3 import Quake3
+from tests.result_handler import ResultHandler
+
+
+handler = ResultHandler('test_quake3')
+# handler.enable_save = True
+
+test = Quake3(address='108.61.18.110', query_port=27960)
+
+@pytest.mark.asyncio
+async def test_get_info():
+    result = await test.get_info()
+    await handler.save_result('test_get_info', result)
+
+@pytest.mark.asyncio
+async def test_get_status():
+    result = await test.get_status()
+    await handler.save_result('test_get_status', result)

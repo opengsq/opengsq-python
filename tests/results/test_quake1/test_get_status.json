@@ -1,0 +1,63 @@
+{
+    "info": {
+        "maxfps": "77",
+        "pm_ktjump": "1",
+        "*version": "MVDSV 0.33",
+        "*z_ext": "511",
+        "*gamedir": "qw",
+        "ktxver": "1.38",
+        "sv_antilag": "2",
+        "needpass": "4",
+        "fpd": "142",
+        "deathmatch": "3",
+        "hostname": "FFA @ qw.servegame.org",
+        "status": "Standby",
+        "*progs": "so",
+        "maxclients": "20",
+        "maxspectators": "20",
+        "timelimit": "6",
+        "map": "spinev2"
+    },
+    "players": [
+        {
+            "id": 58,
+            "score": 0,
+            "time": 0,
+            "ping": 999,
+            "name": "orta",
+            "skin": "",
+            "color1": 13,
+            "color2": 13
+        },
+        {
+            "id": 11,
+            "score": 0,
+            "time": 6,
+            "ping": 999,
+            "name": "kamikazeSS",
+            "skin": "base",
+            "color1": 11,
+            "color2": 2
+        },
+        {
+            "id": 9,
+            "score": 0,
+            "time": 0,
+            "ping": 999,
+            "name": "SMOK",
+            "skin": "tvs-mil",
+            "color1": 0,
+            "color2": 11
+        },
+        {
+            "id": 14,
+            "score": 0,
+            "time": 0,
+            "ping": 999,
+            "name": "player",
+            "skin": "4",
+            "color1": 1,
+            "color2": 1
+        }
+    ]
+}

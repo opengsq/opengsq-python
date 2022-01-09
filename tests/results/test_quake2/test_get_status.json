@@ -1,0 +1,64 @@
+{
+    "info": {
+        "JumpMod": "1.34ger",
+        "capturelimit": "0",
+        "cheats": "0",
+        "competition": "0",
+        "ctf": "1",
+        "deathmatch": "1",
+        "dmflags": "524308",
+        "fraglimit": "0",
+        "game": "jump",
+        "gamedate": "Dec 24 2020",
+        "gamedir": "jump",
+        "gamename": "Q2JUMP 1.34ger",
+        "hostname": ".german q2 jump",
+        "mapname": "id_zero1",
+        "matchlock": "1",
+        "matchtime": "20",
+        "maxclients": "15",
+        "port": "27910",
+        "protocol": "34",
+        "time_remaining": "32:09",
+        "timelimit": "0",
+        "version": "q2proded r1826~7ad132a Dec 28 2018 Linux x86_64",
+        "uptime": "212 days, 18 hours, 21 mins, 5 secs"
+    },
+    "players": [
+        {
+            "frags": 0,
+            "ping": 32,
+            "name": "OpkeZ"
+        },
+        {
+            "frags": 0,
+            "ping": 39,
+            "name": "[tige]Edvin"
+        },
+        {
+            "frags": 1,
+            "ping": 38,
+            "name": "Direktor"
+        },
+        {
+            "frags": 1,
+            "ping": 133,
+            "name": "Player"
+        },
+        {
+            "frags": 0,
+            "ping": 173,
+            "name": "Dork"
+        },
+        {
+            "frags": 1,
+            "ping": 25,
+            "name": "TwentyOne"
+        },
+        {
+            "frags": 0,
+            "ping": 49,
+            "name": "mazzefan"
+        }
+    ]
+}

@@ -1,0 +1,671 @@
+{
+    "info": {
+        "hostname": "2F4Y.com - Best Maps No Rules!",
+        "gamename": "battlefield2",
+        "gamever": "1.5.3153-802.0",
+        "mapname": "Road To Jalalabad",
+        "gametype": "gpm_cq",
+        "gamevariant": "bf2",
+        "numplayers": "62",
+        "maxplayers": "64",
+        "gamemode": "openplaying",
+        "password": "0",
+        "timelimit": "0",
+        "roundtime": "2",
+        "hostport": "16567",
+        "bf2_dedicated": "1",
+        "bf2_ranked": "1",
+        "bf2_anticheat": "1",
+        "bf2_os": "linux-64",
+        "bf2_autorec": "1",
+        "bf2_d_idx": "http://br.2f4y.com/upload/s01/",
+        "bf2_d_dl": "http://br.2f4y.com/upload/s01/",
+        "bf2_voip": "1",
+        "bf2_autobalanced": "1",
+        "bf2_friendlyfire": "0",
+        "bf2_tkmode": "No Punish",
+        "bf2_startdelay": "15",
+        "bf2_spawntime": "15.000000",
+        "bf2_sponsortext": "http://2f4y.com",
+        "bf2_sponsorlogo_url": "http://2f4y.com/dezignerz/upload/Image/serverpromo_best_maps.jpg",
+        "bf2_communitylogo_url": "http://2f4y.com/dezignerz/upload/Image/serverpromo_best_maps.jpg",
+        "bf2_scorelimit": "0",
+        "bf2_ticketratio": "100",
+        "bf2_teamratio": "100.000000",
+        "bf2_team1": "MEC",
+        "bf2_team2": "US",
+        "bf2_bots": "0",
+        "bf2_pure": "1",
+        "bf2_mapsize": "64",
+        "bf2_globalunlocks": "1",
+        "bf2_fps": "36.000000",
+        "bf2_plasma": "0",
+        "bf2_reservedslots": "1",
+        "bf2_coopbotratio": "",
+        "bf2_coopbotcount": "",
+        "bf2_coopbotdiff": "",
+        "bf2_novehicles": "0"
+    },
+    "player": [
+        {
+            "player": " ColonTrotter",
+            "score": "59",
+            "ping": "24",
+            "team": "1",
+            "deaths": "1",
+            "pid": "500341063",
+            "skill": "29",
+            "AIBot": "0"
+        },
+        {
+            "player": " votzenfrosch",
+            "score": "48",
+            "ping": "16",
+            "team": "2",
+            "deaths": "1",
+            "pid": "59143241",
+            "skill": "22",
+            "AIBot": "0"
+        },
+        {
+            "player": " outsider2107",
+            "score": "45",
+            "ping": "36",
+            "team": "2",
+            "deaths": "8",
+            "pid": "66444786",
+            "skill": "16",
+            "AIBot": "0"
+        },
+        {
+            "player": "=BnM= MIHAILO337",
+            "score": "45",
+            "ping": "62",
+            "team": "1",
+            "deaths": "8",
+            "pid": "500311890",
+            "skill": "10",
+            "AIBot": "0"
+        },
+        {
+            "player": "Geo Ckiknadze",
+            "score": "39",
+            "ping": "70",
+            "team": "2",
+            "deaths": "6",
+            "pid": "500389739",
+            "skill": "14",
+            "AIBot": "0"
+        },
+        {
+            "player": "xD. MedibuSuns",
+            "score": "33",
+            "ping": "64",
+            "team": "2",
+            "deaths": "3",
+            "pid": "351680652",
+            "skill": "11",
+            "AIBot": "0"
+        },
+        {
+            "player": " pati86",
+            "score": "33",
+            "ping": "46",
+            "team": "2",
+            "deaths": "8",
+            "pid": "73291029",
+            "skill": "10",
+            "AIBot": "0"
+        },
+        {
+            "player": " otia81",
+            "score": "32",
+            "ping": "65",
+            "team": "2",
+            "deaths": "1",
+            "pid": "500127306",
+            "skill": "11",
+            "AIBot": "0"
+        },
+        {
+            "player": "xD. Glek18",
+            "score": "30",
+            "ping": "91",
+            "team": "1",
+            "deaths": "2",
+            "pid": "500219692",
+            "skill": "14",
+            "AIBot": "0"
+        },
+        {
+            "player": "(CH) walhall90",
+            "score": "26",
+            "ping": "14",
+            "team": "2",
+            "deaths": "6",
+            "pid": "500319986",
+            "skill": "7",
+            "AIBot": "0"
+        },
+        {
+            "player": " [dd]Babsxxx",
+            "score": "23",
+            "ping": "21",
+            "team": "1",
+            "deaths": "1",
+            "pid": "500117284",
+            "skill": "7",
+            "AIBot": "0"
+        },
+        {
+            "player": " SAMUKA777",
+            "score": "19",
+            "ping": "230",
+            "team": "1",
+            "deaths": "6",
+            "pid": "500362182",
+            "skill": "1",
+            "AIBot": "0"
+        },
+        {
+            "player": " =NEXT=UltroN_",
+            "score": "17",
+            "ping": "240",
+            "team": "2",
+            "deaths": "10",
+            "pid": "500397129",
+            "skill": "7",
+            "AIBot": "0"
+        },
+        {
+            "player": " 0-Alfa-0",
+            "score": "17",
+            "ping": "49",
+            "team": "2",
+            "deaths": "6",
+            "pid": "500002289",
+            "skill": "6",
+            "AIBot": "0"
+        },
+        {
+            "player": " Enis505",
+            "score": "17",
+            "ping": "43",
+            "team": "1",
+            "deaths": "11",
+            "pid": "500327194",
+            "skill": "2",
+            "AIBot": "0"
+        },
+        {
+            "player": " WICHITA***",
+            "score": "17",
+            "ping": "117",
+            "team": "2",
+            "deaths": "2",
+            "pid": "500237222",
+            "skill": "2",
+            "AIBot": "0"
+        },
+        {
+            "player": " Cyou",
+            "score": "16",
+            "ping": "30",
+            "team": "1",
+            "deaths": "6",
+            "pid": "45747160",
+            "skill": "7",
+            "AIBot": "0"
+        },
+        {
+            "player": " RobertusST",
+            "score": "16",
+            "ping": "54",
+            "team": "2",
+            "deaths": "6",
+            "pid": "500204746",
+            "skill": "6",
+            "AIBot": "0"
+        },
+        {
+            "player": " ALLWARS",
+            "score": "15",
+            "ping": "171",
+            "team": "1",
+            "deaths": "11",
+            "pid": "500394997",
+            "skill": "2",
+            "AIBot": "0"
+        },
+        {
+            "player": " olegass",
+            "score": "15",
+            "ping": "54",
+            "team": "1",
+            "deaths": "0",
+            "pid": "124960311",
+            "skill": "2",
+            "AIBot": "0"
+        },
+        {
+            "player": " St.Focky",
+            "score": "14",
+            "ping": "41",
+            "team": "2",
+            "deaths": "2",
+            "pid": "500190746",
+            "skill": "6",
+            "AIBot": "0"
+        },
+        {
+            "player": " ursus1975",
+            "score": "13",
+            "ping": "47",
+            "team": "2",
+            "deaths": "2",
+            "pid": "98582509",
+            "skill": "6",
+            "AIBot": "0"
+        },
+        {
+            "player": "=TURK= kazmout",
+            "score": "13",
+            "ping": "16",
+            "team": "1",
+            "deaths": "4",
+            "pid": "98228699",
+            "skill": "5",
+            "AIBot": "0"
+        },
+        {
+            "player": " Coryard",
+            "score": "12",
+            "ping": "31",
+            "team": "1",
+            "deaths": "9",
+            "pid": "500214764",
+            "skill": "6",
+            "AIBot": "0"
+        },
+        {
+            "player": " =KHAD=Soldier|786|<3",
+            "score": "11",
+            "ping": "26",
+            "team": "1",
+            "deaths": "3",
+            "pid": "500115832",
+            "skill": "5",
+            "AIBot": "0"
+        },
+        {
+            "player": " mo3",
+            "score": "10",
+            "ping": "26",
+            "team": "2",
+            "deaths": "9",
+            "pid": "43915520",
+            "skill": "5",
+            "AIBot": "0"
+        },
+        {
+            "player": " El-Sidius-Al",
+            "score": "10",
+            "ping": "24",
+            "team": "1",
+            "deaths": "1",
+            "pid": "500243240",
+            "skill": "4",
+            "AIBot": "0"
+        },
+        {
+            "player": "=MoW= endworld32",
+            "score": "9",
+            "ping": "28",
+            "team": "2",
+            "deaths": "11",
+            "pid": "500451187",
+            "skill": "5",
+            "AIBot": "0"
+        },
+        {
+            "player": " Marine575",
+            "score": "9",
+            "ping": "71",
+            "team": "1",
+            "deaths": "4",
+            "pid": "76074451",
+            "skill": "4",
+            "AIBot": "0"
+        },
+        {
+            "player": " ImmerR_Bond007",
+            "score": "9",
+            "ping": "39",
+            "team": "1",
+            "deaths": "8",
+            "pid": "500072663",
+            "skill": "1",
+            "AIBot": "0"
+        },
+        {
+            "player": " Joey200986",
+            "score": "7",
+            "ping": "23",
+            "team": "1",
+            "deaths": "3",
+            "pid": "500034540",
+            "skill": "3",
+            "AIBot": "0"
+        },
+        {
+            "player": " Onidax",
+            "score": "7",
+            "ping": "47",
+            "team": "2",
+            "deaths": "3",
+            "pid": "69135152",
+            "skill": "3",
+            "AIBot": "0"
+        },
+        {
+            "player": " satanas",
+            "score": "6",
+            "ping": "253",
+            "team": "2",
+            "deaths": "7",
+            "pid": "500248358",
+            "skill": "1",
+            "AIBot": "0"
+        },
+        {
+            "player": " MOCKBA7x7",
+            "score": "6",
+            "ping": "35",
+            "team": "1",
+            "deaths": "5",
+            "pid": "500380235",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " abm60",
+            "score": "5",
+            "ping": "72",
+            "team": "2",
+            "deaths": "2",
+            "pid": "421588183",
+            "skill": "1",
+            "AIBot": "0"
+        },
+        {
+            "player": " DarenasGTRX",
+            "score": "4",
+            "ping": "41",
+            "team": "2",
+            "deaths": "0",
+            "pid": "500372042",
+            "skill": "2",
+            "AIBot": "0"
+        },
+        {
+            "player": " ninjadido987",
+            "score": "4",
+            "ping": "218",
+            "team": "1",
+            "deaths": "6",
+            "pid": "500435186",
+            "skill": "2",
+            "AIBot": "0"
+        },
+        {
+            "player": " felino66",
+            "score": "4",
+            "ping": "86",
+            "team": "2",
+            "deaths": "8",
+            "pid": "46297647",
+            "skill": "2",
+            "AIBot": "0"
+        },
+        {
+            "player": " CAMYR05",
+            "score": "4",
+            "ping": "45",
+            "team": "2",
+            "deaths": "6",
+            "pid": "500119537",
+            "skill": "1",
+            "AIBot": "0"
+        },
+        {
+            "player": " derB0ehseMann",
+            "score": "3",
+            "ping": "12",
+            "team": "1",
+            "deaths": "4",
+            "pid": "63708222",
+            "skill": "2",
+            "AIBot": "0"
+        },
+        {
+            "player": " Ingrid(newbie)",
+            "score": "3",
+            "ping": "13",
+            "team": "2",
+            "deaths": "3",
+            "pid": "44613507",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": "(CH) Mr.Green",
+            "score": "3",
+            "ping": "20",
+            "team": "2",
+            "deaths": "8",
+            "pid": "43530049",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": "FKtrmp thegate2",
+            "score": "2",
+            "ping": "9",
+            "team": "1",
+            "deaths": "0",
+            "pid": "45941075",
+            "skill": "1",
+            "AIBot": "0"
+        },
+        {
+            "player": " bengt55555",
+            "score": "2",
+            "ping": "31",
+            "team": "1",
+            "deaths": "6",
+            "pid": "74591702",
+            "skill": "1",
+            "AIBot": "0"
+        },
+        {
+            "player": " AK-Canada",
+            "score": "2",
+            "ping": "108",
+            "team": "2",
+            "deaths": "2",
+            "pid": "182559370",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": "|Boat| WaterVehicle",
+            "score": "1",
+            "ping": "33",
+            "team": "2",
+            "deaths": "0",
+            "pid": "500459512",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " DiazCameron",
+            "score": "0",
+            "ping": "0",
+            "team": "1",
+            "deaths": "0",
+            "pid": "500001851",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " RobertsJulia",
+            "score": "0",
+            "ping": "0",
+            "team": "1",
+            "deaths": "0",
+            "pid": "500001849",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " BarrymoreDrew",
+            "score": "0",
+            "ping": "0",
+            "team": "2",
+            "deaths": "0",
+            "pid": "500001850",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " MooreDemi",
+            "score": "0",
+            "ping": "0",
+            "team": "2",
+            "deaths": "0",
+            "pid": "500001847",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " WhiterspoonReese",
+            "score": "0",
+            "ping": "0",
+            "team": "1",
+            "deaths": "0",
+            "pid": "500001848",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " LongoriaEva",
+            "score": "0",
+            "ping": "0",
+            "team": "2",
+            "deaths": "0",
+            "pid": "500001846",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " PSX",
+            "score": "0",
+            "ping": "33",
+            "team": "2",
+            "deaths": "0",
+            "pid": "43561395",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " swemg002",
+            "score": "0",
+            "ping": "14",
+            "team": "2",
+            "deaths": "0",
+            "pid": "500336248",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " tazo1997",
+            "score": "0",
+            "ping": "64",
+            "team": "2",
+            "deaths": "0",
+            "pid": "500457604",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " yousef9898",
+            "score": "0",
+            "ping": "126",
+            "team": "1",
+            "deaths": "0",
+            "pid": "500463298",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " bjornare",
+            "score": "0",
+            "ping": "0",
+            "team": "1",
+            "deaths": "0",
+            "pid": "62375711",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " Andreiy",
+            "score": "0",
+            "ping": "131",
+            "team": "1",
+            "deaths": "1",
+            "pid": "61369751",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " Istrebitel77",
+            "score": "0",
+            "ping": "153",
+            "team": "1",
+            "deaths": "2",
+            "pid": "419288055",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " eeda",
+            "score": "0",
+            "ping": "40",
+            "team": "1",
+            "deaths": "3",
+            "pid": "500321642",
+            "skill": "0",
+            "AIBot": "0"
+        },
+        {
+            "player": " allidoisspectate",
+            "score": "-2",
+            "ping": "21",
+            "team": "1",
+            "deaths": "1",
+            "pid": "500310001",
+            "skill": "0",
+            "AIBot": "0"
+        }
+    ],
+    "team": [
+        {
+            "team": "MEC",
+            "score": "0"
+        },
+        {
+            "team": "US",
+            "score": "0"
+        }
+    ]
+}

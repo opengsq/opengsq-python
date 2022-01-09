@@ -2,6 +2,7 @@ from enum import Flag, auto
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
+from opengsq.socket_async import SocketAsync
 
 
 class GameSpy2(ProtocolBase):
@@ -17,15 +18,17 @@ class GameSpy2(ProtocolBase):
 
     async def get_status(self, request: Request = Request.INFO | Request.PLAYERS | Request.TEAMS) -> dict:
         # Connect to remote host
-        await self._connect()
+        sock = SocketAsync()
+        sock.settimeout(self._timeout)
+        await sock.connect((self._address, self._query_port))
 
         # Send Request
-        self._sock.send(b'\xFE\xFD\x00\x04\x05\x06\x07' + self.__get_request_bytes(request))
+        sock.send(b'\xFE\xFD\x00\x04\x05\x06\x07' + self.__get_request_bytes(request))
 
         # Server response
-        response = await self._sock.recv()
+        response = await sock.recv()
 
-        self._disconnect()
+        sock.close()
 
         # Remove the first 5 bytes { 0x00, 0x04, 0x05, 0x06, 0x07 }
         br = BinaryReader(response[5:])

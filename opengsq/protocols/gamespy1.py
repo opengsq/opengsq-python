@@ -2,6 +2,7 @@ import re
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
+from opengsq.socket_async import SocketAsync
 
 
 class GameSpy1(ProtocolBase):
@@ -71,13 +72,13 @@ class GameSpy1(ProtocolBase):
         return status
 
     # Receive packets and sort it
-    async def __get_packets_response(self):
+    async def __get_packets_response(self, sock):
         payloads = {}
         packet_count = -1
 
         # Loop until received all packets
         while packet_count == -1 or len(payloads) < packet_count:
-            packet = await self._sock.recv()
+            packet = await sock.recv()
 
             # If it is the last packet, it will contain b'\\final\\' at the end of the response
             if packet.rsplit(b'\\', 2)[1] == b'final':
@@ -105,12 +106,15 @@ class GameSpy1(ProtocolBase):
         return response
 
     async def __connect_and_send(self, data) -> BinaryReader:
-        await self._connect()
+        # Connect to remote host
+        sock = SocketAsync()
+        sock.settimeout(self._timeout)
+        await sock.connect((self._address, self._query_port))
 
-        self._sock.send(data)
-        br = BinaryReader(await self.__get_packets_response())
+        sock.send(data)
+        br = BinaryReader(await self.__get_packets_response(sock))
 
-        self._disconnect()
+        sock.close()
 
         return br
 

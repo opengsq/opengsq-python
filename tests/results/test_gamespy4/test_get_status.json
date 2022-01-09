@@ -1,0 +1,16 @@
+{
+    "info": {
+        "hostname": "Tommy Minecraft Server",
+        "gametype": "SMP",
+        "game_id": "MINECRAFTPE",
+        "version": "v1.0.4.11",
+        "server_engine": "Genisys 93fe03d",
+        "plugins": "Genisys 93fe03d",
+        "map": "elbowworld",
+        "numplayers": "0",
+        "maxplayers": "10",
+        "whitelist": "off",
+        "hostip": "104.238.152.181",
+        "hostport": "19132"
+    }
+}

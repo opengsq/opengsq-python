@@ -3,10 +3,12 @@ import zlib
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
+from opengsq.socket_async import SocketAsync
 
 
 class Source(ProtocolBase):
     full_name = 'Source Engine Query Protocol'
+    _challenge = ''
 
     class __RequestHeader():
         A2S_INFO = b'\x54Source Engine Query\0'
@@ -174,35 +176,43 @@ class Source(ProtocolBase):
 
     async def __connect_and_send_challenge(self, header: __RequestHeader) -> bytes:
         # Connect to remote host
-        await self._connect()
+        sock = SocketAsync()
+        sock.settimeout(self._timeout)
+        await sock.connect((self._address, self._query_port))
         
         # Send and receive
         request_base = b'\xFF\xFF\xFF\xFF' + header
         request_data = request_base
 
-        if header != self.__RequestHeader.A2S_INFO:
+        if len(self._challenge) > 0:
+            request_data += self._challenge
+        elif header != self.__RequestHeader.A2S_INFO:
             request_data += b'\xFF\xFF\xFF\xFF'
 
-        self._sock.send(request_data)
-        response_data = await self.__receive()
+        sock.send(request_data)
+        response_data = await self.__receive(sock)
         br = BinaryReader(response_data)
         header = br.read_byte()
 
         # The server may reply with a challenge
         if header == self.__ResponseHeader.S2C_CHALLENGE:
+            self._challenge = br.read()
+            
             # Send the challenge and receive
-            self._sock.send(request_base + br.read())
-            response_data = await self.__receive()
+            sock.send(request_base + self._challenge)
+            response_data = await self.__receive(sock)
+            
+        sock.close()
 
         return response_data
 
-    async def __receive(self) -> bytes:
+    async def __receive(self, sock: SocketAsync) -> bytes:
         total_packets = -1
         payloads = dict()
         packets = list()
 
         while True:
-            response_data = await self._sock.recv()
+            response_data = await sock.recv()
             packets.append(response_data)
 
             br = BinaryReader(response_data)
@@ -219,7 +229,7 @@ class Source(ProtocolBase):
 
             # Check is GoldSource multi-packet response format
             if self.__is_gold_source_split(BinaryReader(br.read())):
-                return await self.__parse_gold_source_packet(packets)
+                return await self.__parse_gold_source_packet(sock, packets)
 
             # The total number of packets
             total_packets = br.read_byte()
@@ -264,7 +274,7 @@ class Source(ProtocolBase):
         # Check is it Gold Source packet split format
         return number == 0 and br.read().startswith(b'\xFF\xFF\xFF\xFF')
 
-    async def __parse_gold_source_packet(self, packets: list):
+    async def __parse_gold_source_packet(self, sock: SocketAsync, packets: list):
         total_packets = -1
         payloads = dict()
 
@@ -273,7 +283,7 @@ class Source(ProtocolBase):
             if len(payloads) < len(packets):
                 response_data = packets[len(payloads)]
             else:
-                response_data = await self._sock.recv()
+                response_data = await sock.recv()
 
             br = BinaryReader(response_data)
 

@@ -2,6 +2,7 @@ import re
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
+from opengsq.socket_async import SocketAsync
 
 
 class GameSpy3(ProtocolBase):
@@ -12,7 +13,10 @@ class GameSpy3(ProtocolBase):
         super().__init__(address, query_port, timeout)
 
     async def get_status(self):
-        await self._connect()
+        # Connect to remote host
+        sock = SocketAsync()
+        sock.settimeout(self._timeout)
+        await sock.connect((self._address, self._query_port))
 
         request_h = b'\xFE\xFD'
         timestamp = b'\x04\x05\x06\x07'
@@ -20,10 +24,10 @@ class GameSpy3(ProtocolBase):
 
         if self.challenge:
             # Packet 1: Initial request - (https://wiki.unrealadmin.org/UT3_query_protocol#Packet_1:_Initial_request)
-            self._sock.send(request_h + b'\x09' + timestamp)
+            sock.send(request_h + b'\x09' + timestamp)
 
             # Packet 2: First response - (https://wiki.unrealadmin.org/UT3_query_protocol#Packet_2:_First_response)
-            response = await self._sock.recv()
+            response = await sock.recv()
 
             if response[0] != 9:
                 raise InvalidPacketException(
@@ -36,13 +40,13 @@ class GameSpy3(ProtocolBase):
             challenge = b'' if challenge == 0 else challenge.to_bytes(4, 'big', signed=True)
 
         request_data = request_h + b'\x00' + timestamp + challenge
-        self._sock.send(request_data + b'\xFF\xFF\xFF\x01')
+        sock.send(request_data + b'\xFF\xFF\xFF\x01')
 
         # Packet 4: Server information response
         # (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_4:_Server_information_response)
-        response = await self.__read()
+        response = await self.__read(sock)
 
-        self._disconnect()
+        sock.close()
 
         br = BinaryReader(response)
 
@@ -74,12 +78,12 @@ class GameSpy3(ProtocolBase):
 
         return result
 
-    async def __read(self) -> bytes:
+    async def __read(self, sock) -> bytes:
         packet_count = -1
         payloads = {}
 
         while packet_count == -1 or len(payloads) > packet_count:
-            response = await self._sock.recv()
+            response = await sock.recv()
 
             br = BinaryReader(response)
             header = br.read_byte()

@@ -1,0 +1,21 @@
+{
+    "Protocol": 17,
+    "Name": "\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001skial.com | SAXTON HALE | US ███",
+    "Map": "vsh_military_area_se6",
+    "Folder": "tf",
+    "Game": "██ Skial ██",
+    "ID": 440,
+    "Players": 31,
+    "MaxPlayers": 32,
+    "Bots": 0,
+    "ServerType": "d",
+    "Environment": "l",
+    "Visibility": 0,
+    "VAC": 1,
+    "Version": "6986594",
+    "EDF": 177,
+    "GamePort": 27015,
+    "SteamID": 85568392920040217,
+    "Keywords": "skial,stats,free_items,free_unusuals,alltalk,arena,increased_maxplayers,nocrits,stomp",
+    "GameID": 440
+}

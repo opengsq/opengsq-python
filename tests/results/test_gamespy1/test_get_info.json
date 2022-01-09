@@ -1,0 +1,14 @@
+{
+    "hostname": "---  ComboGib  CTF  (Grapple Hook)  --  London  ---",
+    "hostport": "7777",
+    "maptitle": "Liandri Docks",
+    "mapname": "CTF-LiandriDocks",
+    "gametype": "CTFGame",
+    "numplayers": "10",
+    "maxplayers": "18",
+    "gamemode": "openplaying",
+    "gamever": "469",
+    "minnetver": "432",
+    "worldlog": "false",
+    "wantworldlog": "false"
+}

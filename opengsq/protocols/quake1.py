@@ -2,6 +2,7 @@ import re
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
+from opengsq.socket_async import SocketAsync
 
 
 class Quake1(ProtocolBase):
@@ -85,17 +86,20 @@ class Quake1(ProtocolBase):
         return match_collections
 
     async def _connect_and_send(self, data):
-        await self._connect()
+        # Connect to remote host
+        sock = SocketAsync()
+        sock.settimeout(self._timeout)
+        await sock.connect((self._address, self._query_port))
 
         header = b'\xFF\xFF\xFF\xFF'
 
         # Send Request
-        self._sock.send(header + data + b'\x00')
+        sock.send(header + data + b'\x00')
 
         # Server response
-        response_data = await self._sock.recv()
+        response_data = await sock.recv()
 
-        self._disconnect()
+        sock.close()
 
         # Remove the last 0x00 if exists (Only if Quake1)
         if response_data[-1] == 0:

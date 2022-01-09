@@ -1,0 +1,18 @@
+{
+    "mutators": "NDdj4, NDgrap49c, Player Commands V01a, ZeroPingPlus: ZeroPing, NoSelfDamage, MapVoteLAv2 Big21a, Auto Team Balance",
+    "listenserver": "False",
+    "password": "False",
+    "timelimit": "30",
+    "goalteamscore": "7",
+    "minplayers": "6",
+    "changelevels": "True",
+    "maxteams": "2",
+    "balanceteams": "True",
+    "playersbalanceteams": "True",
+    "friendlyfire": "0%",
+    "tournament": "False",
+    "gamestyle": "Hardcore",
+    "botskill": "Average",
+    "AdminName": "snowguy",
+    "AdminEMail": "negruler@gmail.com"
+}

@@ -1,0 +1,136 @@
+{
+    "info": {
+        "gamename": "ut",
+        "gamever": "469",
+        "minnetver": "432",
+        "location": "0",
+        "hostname": "---  ComboGib  CTF  (Grapple Hook)  --  London  ---",
+        "hostport": "7777",
+        "maptitle": "Liandri Docks",
+        "mapname": "CTF-LiandriDocks",
+        "gametype": "CTFGame",
+        "numplayers": "10",
+        "maxplayers": "18",
+        "gamemode": "openplaying",
+        "worldlog": "false",
+        "wantworldlog": "false",
+        "mutators": "NDdj4, NDgrap49c, Player Commands V01a, ZeroPingPlus: ZeroPing, NoSelfDamage, MapVoteLAv2 Big21a, Auto Team Balance",
+        "listenserver": "False",
+        "password": "False",
+        "timelimit": "30",
+        "goalteamscore": "7",
+        "minplayers": "6",
+        "changelevels": "True",
+        "maxteams": "2",
+        "balanceteams": "True",
+        "playersbalanceteams": "True",
+        "friendlyfire": "0%",
+        "tournament": "False",
+        "gamestyle": "Hardcore",
+        "botskill": "Average",
+        "AdminName": "snowguy",
+        "AdminEMail": "negruler@gmail.com"
+    },
+    "players": [
+        {
+            "player": "faza",
+            "frags": "0",
+            "ping": "65",
+            "team": "255",
+            "mesh": "Spectator",
+            "skin": "None",
+            "face": "",
+            "ngsecret": "true"
+        },
+        {
+            "player": "Honda",
+            "frags": "17",
+            "ping": "32",
+            "team": "1",
+            "mesh": "Male Soldier",
+            "skin": "SoldierSkins.RawS",
+            "face": "SoldierSkins.Arkon",
+            "ngsecret": "true"
+        },
+        {
+            "player": "xRomium",
+            "frags": "45",
+            "ping": "73",
+            "team": "0",
+            "mesh": "Female Soldier",
+            "skin": "SGirlSkins.fbth",
+            "face": "SGirlSkins.Annaka",
+            "ngsecret": "true"
+        },
+        {
+            "player": "ForatNegreSupermassi",
+            "frags": "0",
+            "ping": "48",
+            "team": "255",
+            "mesh": "Spectator",
+            "skin": "None",
+            "face": "",
+            "ngsecret": "true"
+        },
+        {
+            "player": "SONYBOY",
+            "frags": "23",
+            "ping": "101",
+            "team": "0",
+            "mesh": "Male Soldier",
+            "skin": "SoldierSkins.hkil",
+            "face": "SoldierSkins.matrix",
+            "ngsecret": "true"
+        },
+        {
+            "player": "have_a_cigar",
+            "frags": "0",
+            "ping": "53",
+            "team": "255",
+            "mesh": "Spectator",
+            "skin": "None",
+            "face": "",
+            "ngsecret": "true"
+        },
+        {
+            "player": "Jamally",
+            "frags": "164",
+            "ping": "213",
+            "team": "1",
+            "mesh": "Male Soldier",
+            "skin": "SoldierSkins.hkil",
+            "face": "SoldierSkins.tensor",
+            "ngsecret": "true"
+        },
+        {
+            "player": "uq*Cypher",
+            "frags": "176",
+            "ping": "60",
+            "team": "0",
+            "mesh": "Male Soldier",
+            "skin": "SoldierSkins.RawS",
+            "face": "SoldierSkins.Arkon",
+            "ngsecret": "true"
+        },
+        {
+            "player": "2022",
+            "frags": "105",
+            "ping": "38",
+            "team": "1",
+            "mesh": "Male Soldier",
+            "skin": "SoldierSkins.hkil",
+            "face": "SoldierSkins.matrix",
+            "ngsecret": "true"
+        },
+        {
+            "player": "Atlantis",
+            "frags": "47",
+            "ping": "34",
+            "team": "1",
+            "mesh": "Female Commando",
+            "skin": "FCommandoSkins.cmdo",
+            "face": "FCommandoSkins.Ivana",
+            "ngsecret": "true"
+        }
+    ]
+}

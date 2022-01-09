@@ -1,0 +1,108 @@
+{
+    "info": {
+        "hostname": "-[HELLO]-Bfv | Allmaps V1.21",
+        "hostport": "15567",
+        "mapname": "OPERATION HASTINGS",
+        "gametype": "conquest",
+        "numplayers": "6",
+        "maxplayers": "52",
+        "gamemode": "openplaying",
+        "password": "0",
+        "gamever": "v1.21",
+        "dedicated": "2",
+        "status": "4",
+        "game_id": "bfvietnam",
+        "map_id": "BFVietnam",
+        "sv_punkbuster": "0",
+        "timelimit": "unlimited",
+        "number_of_rounds": "1",
+        "spawn_wave_time": "5s",
+        "spawn_delay": "4s",
+        "soldier_friendly_fire": "50%",
+        "vehicle_friendly_fire": "50%",
+        "game_start_delay": "15s",
+        "ticket_ratio": "100%",
+        "allow_nose_cam": "yes",
+        "external_view": "on",
+        "us_team_ratio": "1",
+        "nva_team_ratio": "1",
+        "bandwidth_choke_limit": "0",
+        "free_camera": "off",
+        "auto_balance_teams": "off",
+        "name_tag_distance": "100",
+        "name_tag_distance_scope": "300",
+        "kickback": "20%",
+        "kickback_on_splash": "20%",
+        "soldier_friendly_fire_on_splash": "50%",
+        "vehicle_friendly_fire_on_splash": "50%",
+        "cpu": "3699",
+        "bot_skill": "",
+        "reservedslots": "3",
+        "spectatorsallowed": "1",
+        "spectatorvoting": "0",
+        "spectatorswitchtime": "120s",
+        "active_mods": "",
+        "all_active_mods": "bfvietnam",
+        "game_id_name": "BFVietnam"
+    },
+    "players": [
+        {
+            "player": "jon",
+            "score": "29",
+            "deaths": "10",
+            "ping": "41",
+            "team": "1",
+            "kills": "9"
+        },
+        {
+            "player": "surikbetch",
+            "score": "25",
+            "deaths": "11",
+            "ping": "138",
+            "team": "2",
+            "kills": "4"
+        },
+        {
+            "player": "Dalileush",
+            "score": "10",
+            "deaths": "2",
+            "ping": "141",
+            "team": "1",
+            "kills": "0"
+        },
+        {
+            "player": "Ohreally?",
+            "score": "11",
+            "deaths": "3",
+            "ping": "95",
+            "team": "2",
+            "kills": "8"
+        },
+        {
+            "player": "Nagi Tanka",
+            "score": "0",
+            "deaths": "4",
+            "ping": "112",
+            "team": "1",
+            "kills": "2"
+        },
+        {
+            "player": "[TKO]agathius",
+            "score": "0",
+            "deaths": "0",
+            "ping": "176",
+            "team": "2",
+            "kills": "0"
+        }
+    ],
+    "teams": [
+        {
+            "team": "red",
+            "tickets": "304"
+        },
+        {
+            "team": "blue",
+            "tickets": "172"
+        }
+    ]
+}
