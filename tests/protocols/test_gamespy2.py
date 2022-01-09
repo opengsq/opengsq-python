@@ -1,6 +1,6 @@
 import pytest
 from opengsq.protocols.gamespy2 import GameSpy2
-from ..result_handler import ResultHandler
+from .result_handler import ResultHandler
 
 
 handler = ResultHandler('test_gamespy2')

@@ -7,7 +7,7 @@ from pathlib import Path
 class ResultHandler:
     enable_save = False
     delay_per_test = 0
-    results_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'results')
+    results_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), '..', 'results')
 
     def __init__(self, protocol_name):
         "ResultHandler"
