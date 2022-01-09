@@ -1,6 +1,7 @@
 import pytest
 from opengsq.protocols.quake1 import Quake1
-from tests.result_handler import ResultHandler
+from ..result_handler import ResultHandler
+
 
 handler = ResultHandler('test_quake1')
 # handler.enable_save = True
