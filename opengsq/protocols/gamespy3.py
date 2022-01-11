@@ -6,13 +6,16 @@ from opengsq.socket_async import SocketAsync
 
 
 class GameSpy3(ProtocolBase):
+    """GameSpy Query Protocol version 3"""
     full_name = 'GameSpy Query Protocol version 3'
     challenge = False
 
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
+        """GameSpy Query Protocol version 3"""
         super().__init__(address, query_port, timeout)
 
     async def get_status(self):
+        """Retrieves information about the server including, Info, Players, and Teams."""
         # Connect to remote host
         sock = SocketAsync()
         sock.settimeout(self._timeout)

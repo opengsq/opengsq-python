@@ -5,15 +5,17 @@ from opengsq.protocols.quake2 import Quake2
 
 
 class Quake3(Quake2):
+    """Quake3 Query Protocol"""
     full_name = 'Quake3 Query Protocol'
 
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
+        """Quake3 Query Protocol"""
         super().__init__(address, query_port, timeout)
         self._request_header = b'getstatus'
         self._response_header = 'statusResponse\n'
 
-    # This returns server information only.
     async def get_info(self, strip_color = True) -> dict:
+        """This returns server information only."""
         response_data = await self._connect_and_send(b'getinfo')
 
         br = BinaryReader(response_data)
@@ -29,12 +31,12 @@ class Quake3(Quake2):
             return info
 
         if 'hostname' in info:
-            info['hostname'] = self.strip_colors(info['hostname'])
+            info['hostname'] = Quake3.strip_colors(info['hostname'])
 
         return info
 
-    # This returns server information and players.
     async def get_status(self, strip_color = True) -> dict:
+        """This returns server information and players."""
         br = await self._get_response_binary_reader()
 
         status = {
@@ -46,15 +48,17 @@ class Quake3(Quake2):
             return status
 
         if 'sv_hostname' in status['info']:
-            status['info']['sv_hostname'] = self.strip_colors(status['info']['sv_hostname'])
+            status['info']['sv_hostname'] = Quake3.strip_colors(status['info']['sv_hostname'])
 
         for player in status['players']:
             if 'name' in player:
-                player['name'] = self.strip_colors(player['name'])
+                player['name'] = Quake3.strip_colors(player['name'])
 
         return status
 
-    def strip_colors(self, text):
+    @staticmethod
+    def strip_colors(text):
+        """Strip color codes"""
         return re.compile('\\^(X.{6}|.)').sub('', text)
 
 

@@ -2,8 +2,13 @@ from opengsq.protocols import GameSpy3
 
 
 class GameSpy4(GameSpy3):
+    """GameSpy Query Protocol version 4"""
     full_name = 'GameSpy Query Protocol version 4'
     challenge = True
+    
+    def __init__(self, address: str, query_port: int, timeout: float = 5.0):
+        """GameSpy Query Protocol version 4"""
+        super().__init__(address, query_port, timeout)
 
 if __name__ == '__main__':
     import asyncio

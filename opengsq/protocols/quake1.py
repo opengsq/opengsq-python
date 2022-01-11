@@ -6,17 +6,19 @@ from opengsq.socket_async import SocketAsync
 
 
 class Quake1(ProtocolBase):
+    """Quake1 Query Protocol"""
     full_name = 'Quake1 Query Protocol'
 
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
+        """Quake1 Query Protocol"""
         super().__init__(address, query_port, timeout)
         self._delimiter1 = b'\\'
         self._delimiter2 = b'\n'
         self._request_header = b'status'
         self._response_header = 'n'
 
-    # This returns server information and players.
     async def get_status(self) -> dict:
+        """This returns server information and players."""
         br = await self._get_response_binary_reader()
 
         return {

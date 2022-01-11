@@ -10,7 +10,6 @@ from opengsq.socket_async import SocketAsync
 
 class Source(ProtocolBase):
     """Source Engine Query Protocol"""
-    
     full_name = 'Source Engine Query Protocol'
     _challenge = ''
 
@@ -408,9 +407,8 @@ class Source(ProtocolBase):
                     
                     response += packet.body
         
+        # Handle Multiple-packet Responses
         def __get_packets(self, packet_bytes: bytes):
-            """Handle Multiple-packet Responses"""
-            
             packets = []
             
             br = BinaryReader(packet_bytes)
