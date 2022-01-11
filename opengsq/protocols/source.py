@@ -1,5 +1,7 @@
 import bz2
+import random
 import zlib
+from enum import Enum
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
@@ -7,6 +9,8 @@ from opengsq.socket_async import SocketAsync
 
 
 class Source(ProtocolBase):
+    """Source Engine Query Protocol"""
+    
     full_name = 'Source Engine Query Protocol'
     _challenge = ''
 
@@ -26,11 +30,15 @@ class Source(ProtocolBase):
         A2A_ACK = 0x6A
         
     def __init__(self, address: str, query_port: int = 27015, timeout: float = 5.0):
+        """Source Engine Query Protocol"""
         super().__init__(address, query_port, timeout)
 
-    # Retrieves information about the server including, but not limited to: its name, the map currently being played, and the number of players.
-    # See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO
     async def get_info(self) -> dict:
+        """
+        Retrieves information about the server including, but not limited to: its name, the map currently being played, and the number of players.
+        
+        See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO
+        """
         response_data = await self.__connect_and_send_challenge(self.__RequestHeader.A2S_INFO)
         
         br = BinaryReader(response_data)
@@ -122,9 +130,12 @@ class Source(ProtocolBase):
 
         return info
 
-    # This query retrieves information about the players currently on the server.
-    # See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO
     async def get_players(self) -> list:
+        """
+        This query retrieves information about the players currently on the server.
+        
+        See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO
+        """
         response_data = await self.__connect_and_send_challenge(self.__RequestHeader.A2S_PLAYER)
         
         br = BinaryReader(response_data)
@@ -155,9 +166,12 @@ class Source(ProtocolBase):
 
         return players
 
-    # Returns the server rules, or configuration variables in name/value pairs.
-    # See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_RULES
     async def get_rules(self) -> dict:
+        """
+        Returns the server rules, or configuration variables in name/value pairs.
+        
+        See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_RULES
+        """
         response_data = await self.__connect_and_send_challenge(self.__RequestHeader.A2S_RULES)
         
         br = BinaryReader(response_data)
@@ -309,8 +323,144 @@ class Source(ProtocolBase):
 
         return combined_payload.startswith(b'\xFF\xFF\xFF\xFF') and combined_payload[4:] or combined_payload
 
+    class RemoteConsole(ProtocolBase):
+        """Source RCON Protocol"""
+        
+        full_name = 'Source RCON Protocol'
+        
+        def __init__(self, address: str, query_port: int = 27015, timeout: float = 5.0):
+            """Source RCON Protocol"""
+            super().__init__(address, query_port, timeout=timeout)
+            
+            self._sock = None
+        
+        def __enter__(self):
+            return self
+        
+        def __exit__(self, exc_type, exc_value, traceback):
+            self.close()
+        
+        def close(self):
+            """Close the connection"""
+            if self._sock:
+                self._sock.close()
+
+        async def authenticate(self, password: str):
+            """Authenticate the connection"""
+            
+            # Connect
+            self._sock = SocketAsync(SocketAsync.SocketKind.SOCK_STREAM)
+            self._sock.settimeout(self._timeout)
+            await self._sock.connect((self._address, self._query_port))
+            
+            # Send password
+            id = random.randrange(4096)
+            self._sock.send(self.__Packet(id, self.__PacketType.SERVERDATA_AUTH.value, password).get_bytes())
+            
+            # Receive and parse as Packet
+            response_data = await self._sock.recv()
+            packet = self.__Packet(response_data)
+            
+            # Sometimes it will return a PacketType.SERVERDATA_RESPONSE_VALUE, so receive again
+            if packet.type != self.__PacketType.SERVERDATA_AUTH_RESPONSE.value:
+                response_data = await self._sock.recv()
+                packet = self.__Packet(response_data)
+                
+            # Throw exception if not PacketType.SERVERDATA_AUTH_RESPONSE
+            if packet.type != self.__PacketType.SERVERDATA_AUTH_RESPONSE.value:
+                self._sock.close()
+                raise InvalidPacketException(
+                    'Packet header mismatch. Received: {}. Expected: {} or {}.'
+                    .format(chr(packet.type), chr(self.__PacketType.SERVERDATA_AUTH_RESPONSE.value))
+                )
+                
+            # Throw exception if authentication failed
+            if packet.id == -1 or packet.id != id:
+                self._sock.close()
+                raise AuthenticationException('Authentication failed')
+
+        async def send_command(self, command: str):
+            """Send command to the server"""
+            
+            # Send the command and a empty command packet
+            id = random.randrange(4096)
+            dummy_id = id + 1
+            self._sock.send(self.__Packet(id, self.__PacketType.SERVERDATA_EXECCOMMAND.value, command).get_bytes())
+            self._sock.send(self.__Packet(dummy_id, self.__PacketType.SERVERDATA_EXECCOMMAND.value, '').get_bytes())
+            
+            packet_bytes = bytes([])
+            response = ''
+            
+            while True:
+                # Receive
+                response_data = await self._sock.recv()
+                
+                # Concat to last unused bytes
+                packet_bytes += response_data
+                
+                # Get the packets and get the unused bytes
+                packets, packet_bytes = self.__get_packets(packet_bytes)
+                
+                # Loop all packets
+                for packet in packets:
+                    if packet.id == dummy_id:
+                        return response
+                    
+                    response += packet.body
+        
+        def __get_packets(self, packet_bytes: bytes):
+            """Handle Multiple-packet Responses"""
+            
+            packets = []
+            
+            br = BinaryReader(packet_bytes)
+            
+            # + 4 to ensure br.ReadInt32() is readable
+            while br.stream_position + 4 < len(packet_bytes):
+                size = br.read_long()
+                
+                if br.stream_position + size > len(packet_bytes):
+                    return packets, packet_bytes[br.stream_position - 4:]
+                
+                id = br.read_long()
+                type = br.read_long()
+                body = br.read_string()
+                br.read_byte()
+                
+                packets.append(self.__Packet(id, type, body))
+            
+            return packets, bytes([])
+        
+        class __PacketType(Enum):
+            SERVERDATA_AUTH = 3
+            SERVERDATA_AUTH_RESPONSE = 2
+            SERVERDATA_EXECCOMMAND = 2
+            SERVERDATA_RESPONSE_VALUE = 0
+            
+        class __Packet:
+            def __init__(self, *args):
+                if len(args) == 3:
+                    self.id = args[0]
+                    self.type = args[1]
+                    self.body = args[2]
+                else:
+                    # Single-packet Responses
+                    br = BinaryReader(args[0])
+                    br.read_long()
+                    self.id = br.read_long()
+                    self.type = br.read_long()
+                    self.body = br.read_string()
+            
+            def get_bytes(self):
+                packet_bytes = self.id.to_bytes(4, byteorder = 'little') + self.type.to_bytes(4, byteorder = 'little') + str.encode(self.body + '\0')
+                return len(packet_bytes).to_bytes(4, byteorder = 'little') + packet_bytes
+                
 
 class InvalidPacketException(Exception):
+    pass
+
+
+class AuthenticationException(Exception):
     pass
 
 

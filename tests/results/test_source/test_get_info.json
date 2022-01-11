@@ -1,11 +1,11 @@
 {
     "Protocol": 17,
     "Name": "\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001\u0001skial.com | SAXTON HALE | US ███",
-    "Map": "vsh_military_area_se6",
+    "Map": "vsh_cinema_b6",
     "Folder": "tf",
     "Game": "██ Skial ██",
     "ID": 440,
-    "Players": 31,
+    "Players": 32,
     "MaxPlayers": 32,
     "Bots": 0,
     "ServerType": "d",

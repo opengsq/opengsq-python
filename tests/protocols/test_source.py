@@ -23,3 +23,12 @@ async def test_get_players():
 async def test_get_rules():
     result = await source.get_rules()
     await handler.save_result('test_get_rules', result)
+    
+@pytest.mark.asyncio
+async def test_remote_console():
+    return
+    
+    with Source.RemoteConsole('', 27015) as rcon:
+        await rcon.authenticate('')
+        result = await rcon.send_command('cvarlist')
+        await handler.save_result('test_remote_console', result, is_json=False)
