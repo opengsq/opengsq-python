@@ -19,8 +19,7 @@ python setup.py install
 
 ## Usage
 
-Query server using Source
-
+Query server using Source, example output: [tests/results/test_source/test_get_info.json](/tests/results/test_source/test_get_info.json)
 ```py
 import asyncio
 from opengsq.protocols import Source
@@ -33,28 +32,21 @@ async def main():
 asyncio.run(main())
 ```
 
-```json
-{
-    "Protocol": 17,
-    "Name": "▟█▙ ZOMBIE ESCAPE AC ▟█ Otaku.TF █▙           ▟",
-    "Map": "ze_voodoo_islands_v8_2_tf2",
-    "Folder": "tf",
-    "Game": "▟ZOMBIE ESCAPE▙ 𒈙𒈙𒈙𒈙BASE𒈙𒈙𒈙𒈙𒈙",
-    "ID": 440,
-    "Players": 29,
-    "MaxPlayers": 32,
-    "Bots": 0,
-    "ServerType": "d",
-    "Environment": "l",
-    "Visibility": 0,
-    "VAC": 1,
-    "Version": "6623512",
-    "EDF": 177,
-    "GamePort": 27015,
-    "SteamID": 85568392923229220,
-    "Keywords": "!,a FREE TAUNTS,a FREE UNUSUALS,a OTAKUGAMING.TF,a ZOMBIE ESCAPE,a ZOMBIEMOD,alltalk,escpcreaplayersape,increased_maxplayers,otak,respawnti",
-    "GameID": 440
-}
+Rcon server using Source Remote Console, example output: [tests/results/test_source/test_remote_console.txt](/tests/results/test_source/test_remote_console.txt)
+```py
+import asyncio
+from opengsq.protocols import Source
+
+async def main():
+    with Source.RemoteConsole('123.123.123.123', 27015) as rcon:
+        try:
+            await rcon.authenticate('serverRconPassword')
+            result = await rcon.send_command('cvarlist')
+            print(result)
+        except:
+            print('Fail to authenticate')
+        
+asyncio.run(main())
 ```
 
 ### Command-line interface
@@ -91,3 +83,8 @@ import opengsq
 ## Requirements
 
 -   Python 3.6+
+
+
+See [tests/protocols](/tests/protocols) for the tests.
+
+See [tests/results](/tests/results) for tests outputs.
