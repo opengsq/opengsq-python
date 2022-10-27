@@ -115,14 +115,12 @@ class GameSpy1(ProtocolBase):
 
     async def __connect_and_send(self, data) -> BinaryReader:
         # Connect to remote host
-        sock = SocketAsync()
-        sock.settimeout(self._timeout)
-        await sock.connect((self._address, self._query_port))
+        with SocketAsync() as sock:
+            sock.settimeout(self._timeout)
+            await sock.connect((self._address, self._query_port))
 
-        sock.send(data)
-        br = BinaryReader(await self.__get_packets_response(sock))
-
-        sock.close()
+            sock.send(data)
+            br = BinaryReader(await self.__get_packets_response(sock))
 
         return br
 

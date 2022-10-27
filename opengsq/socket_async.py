@@ -7,7 +7,7 @@ class SocketAsync():
     class SocketKind(Enum):
         SOCK_STREAM = auto() 
         SOCK_DGRAM = auto()
-    
+
     @staticmethod
     def gethostbyname(hostname: str) -> str:
         return socket.gethostbyname(hostname)
@@ -17,6 +17,12 @@ class SocketAsync():
         self.__transport = None
         self.__protocol = None
         self.__kind = kind
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, type, value, traceback):
+        self.close()
 
     def settimeout(self, value: float):
         self.__timeout = value
@@ -87,12 +93,11 @@ class SocketAsync():
 
 if __name__ == '__main__':
     async def test_socket_async():
-        socket_async = SocketAsync()
-        socket_async.settimeout(5)
-        await socket_async.connect(('', 27015))
-        socket_async.send(b'\xFF\xFF\xFF\xFFTSource Engine Query\x00\xFF\xFF\xFF\xFF')
-        print(await socket_async.recv())
-        socket_async.close()
+        with SocketAsync() as socket_async:
+            socket_async.settimeout(5)
+            await socket_async.connect(('122.128.109.245', 27015))
+            socket_async.send(b'\xFF\xFF\xFF\xFFTSource Engine Query\x00\xFF\xFF\xFF\xFF')
+            print(await socket_async.recv())
 
     loop = asyncio.get_event_loop()
     loop.run_until_complete(test_socket_async())

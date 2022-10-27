@@ -17,39 +17,37 @@ class GameSpy3(ProtocolBase):
     async def get_status(self):
         """Retrieves information about the server including, Info, Players, and Teams."""
         # Connect to remote host
-        sock = SocketAsync()
-        sock.settimeout(self._timeout)
-        await sock.connect((self._address, self._query_port))
+        with SocketAsync() as sock:
+            sock.settimeout(self._timeout)
+            await sock.connect((self._address, self._query_port))
 
-        request_h = b'\xFE\xFD'
-        timestamp = b'\x04\x05\x06\x07'
-        challenge = b''
+            request_h = b'\xFE\xFD'
+            timestamp = b'\x04\x05\x06\x07'
+            challenge = b''
 
-        if self.challenge:
-            # Packet 1: Initial request - (https://wiki.unrealadmin.org/UT3_query_protocol#Packet_1:_Initial_request)
-            sock.send(request_h + b'\x09' + timestamp)
+            if self.challenge:
+                # Packet 1: Initial request - (https://wiki.unrealadmin.org/UT3_query_protocol#Packet_1:_Initial_request)
+                sock.send(request_h + b'\x09' + timestamp)
 
-            # Packet 2: First response - (https://wiki.unrealadmin.org/UT3_query_protocol#Packet_2:_First_response)
-            response = await sock.recv()
+                # Packet 2: First response - (https://wiki.unrealadmin.org/UT3_query_protocol#Packet_2:_First_response)
+                response = await sock.recv()
 
-            if response[0] != 9:
-                raise InvalidPacketException(
-                    'Packet header mismatch. Received: {}. Expected: {}.'
-                    .format(chr(response[0]), chr(9))
-                )
+                if response[0] != 9:
+                    raise InvalidPacketException(
+                        'Packet header mismatch. Received: {}. Expected: {}.'
+                        .format(chr(response[0]), chr(9))
+                    )
 
-            # Packet 3: Second request - (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_3:_Second_request)
-            challenge = int(response[5:].decode('ascii').strip('\x00'))
-            challenge = b'' if challenge == 0 else challenge.to_bytes(4, 'big', signed=True)
+                # Packet 3: Second request - (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_3:_Second_request)
+                challenge = int(response[5:].decode('ascii').strip('\x00'))
+                challenge = b'' if challenge == 0 else challenge.to_bytes(4, 'big', signed=True)
 
-        request_data = request_h + b'\x00' + timestamp + challenge
-        sock.send(request_data + b'\xFF\xFF\xFF\x01')
+            request_data = request_h + b'\x00' + timestamp + challenge
+            sock.send(request_data + b'\xFF\xFF\xFF\x01')
 
-        # Packet 4: Server information response
-        # (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_4:_Server_information_response)
-        response = await self.__read(sock)
-
-        sock.close()
+            # Packet 4: Server information response
+            # (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_4:_Server_information_response)
+            response = await self.__read(sock)
 
         br = BinaryReader(response)
 

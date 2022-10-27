@@ -189,33 +189,31 @@ class Source(ProtocolBase):
 
     async def __connect_and_send_challenge(self, header: __RequestHeader) -> bytes:
         # Connect to remote host
-        sock = SocketAsync()
-        sock.settimeout(self._timeout)
-        await sock.connect((self._address, self._query_port))
-        
-        # Send and receive
-        request_base = b'\xFF\xFF\xFF\xFF' + header
-        request_data = request_base
-
-        if len(self._challenge) > 0:
-            request_data += self._challenge
-        elif header != self.__RequestHeader.A2S_INFO:
-            request_data += b'\xFF\xFF\xFF\xFF'
-
-        sock.send(request_data)
-        response_data = await self.__receive(sock)
-        br = BinaryReader(response_data)
-        header = br.read_byte()
-
-        # The server may reply with a challenge
-        if header == self.__ResponseHeader.S2C_CHALLENGE:
-            self._challenge = br.read()
+        with SocketAsync() as sock:
+            sock.settimeout(self._timeout)
+            await sock.connect((self._address, self._query_port))
             
-            # Send the challenge and receive
-            sock.send(request_base + self._challenge)
+            # Send and receive
+            request_base = b'\xFF\xFF\xFF\xFF' + header
+            request_data = request_base
+
+            if len(self._challenge) > 0:
+                request_data += self._challenge
+            elif header != self.__RequestHeader.A2S_INFO:
+                request_data += b'\xFF\xFF\xFF\xFF'
+
+            sock.send(request_data)
             response_data = await self.__receive(sock)
-            
-        sock.close()
+            br = BinaryReader(response_data)
+            header = br.read_byte()
+
+            # The server may reply with a challenge
+            if header == self.__ResponseHeader.S2C_CHALLENGE:
+                self._challenge = br.read()
+                
+                # Send the challenge and receive
+                sock.send(request_base + self._challenge)
+                response_data = await self.__receive(sock)
 
         return response_data
 

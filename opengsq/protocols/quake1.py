@@ -89,19 +89,17 @@ class Quake1(ProtocolBase):
 
     async def _connect_and_send(self, data):
         # Connect to remote host
-        sock = SocketAsync()
-        sock.settimeout(self._timeout)
-        await sock.connect((self._address, self._query_port))
+        with SocketAsync() as sock:
+            sock.settimeout(self._timeout)
+            await sock.connect((self._address, self._query_port))
 
-        header = b'\xFF\xFF\xFF\xFF'
+            header = b'\xFF\xFF\xFF\xFF'
 
-        # Send Request
-        sock.send(header + data + b'\x00')
+            # Send Request
+            sock.send(header + data + b'\x00')
 
-        # Server response
-        response_data = await sock.recv()
-
-        sock.close()
+            # Server response
+            response_data = await sock.recv()
 
         # Remove the last 0x00 if exists (Only if Quake1)
         if response_data[-1] == 0:
