@@ -60,22 +60,30 @@ class SocketAsync():
 
         def connection_made(self, transport):
             pass
-        
+
         def connection_lost(self, exc):
             pass
-        
-        # SOCK_STREAM
+
+        # Streaming Protocols
         def data_received(self, data):
+            """Called when some data is received. data is a non-empty bytes object containing the incoming data."""
             self.__packets.put_nowait(data)
-        
-        # SOCK_STREAM
+
+        # Streaming Protocols
         def eof_received(self):
+            """Called when the other end signals it won't send any more data (for example by calling transport.write_eof(), if the other end also uses asyncio)."""
             pass
 
-        # SOCK_DGRAM
+        # Datagram Protocols
         def datagram_received(self, data, addr):
+            """Called when some datagram is received."""
             self.__packets.put_nowait(data)
-        
+
+        # Datagram Protocols
+        def error_received(self, exc):
+            """Called when a previous send or receive operation raises an OSError. exc is the OSError instance."""
+            pass
+
 
 if __name__ == '__main__':
     async def test_socket_async():
