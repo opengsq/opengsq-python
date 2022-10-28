@@ -11,7 +11,6 @@ from opengsq.socket_async import SocketAsync
 class Source(ProtocolBase):
     """Source Engine Query Protocol"""
     full_name = 'Source Engine Query Protocol'
-    _challenge = ''
 
     class __RequestHeader():
         A2S_INFO = b'\x54Source Engine Query\0'
@@ -39,7 +38,7 @@ class Source(ProtocolBase):
         See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO
         """
         response_data = await self.__connect_and_send_challenge(self.__RequestHeader.A2S_INFO)
-        
+
         br = BinaryReader(response_data)
         header = br.read_byte()
 
@@ -192,14 +191,12 @@ class Source(ProtocolBase):
         with SocketAsync() as sock:
             sock.settimeout(self._timeout)
             await sock.connect((self._address, self._query_port))
-            
+
             # Send and receive
             request_base = b'\xFF\xFF\xFF\xFF' + header
             request_data = request_base
 
-            if len(self._challenge) > 0:
-                request_data += self._challenge
-            elif header != self.__RequestHeader.A2S_INFO:
+            if header != self.__RequestHeader.A2S_INFO:
                 request_data += b'\xFF\xFF\xFF\xFF'
 
             sock.send(request_data)
@@ -209,10 +206,10 @@ class Source(ProtocolBase):
 
             # The server may reply with a challenge
             if header == self.__ResponseHeader.S2C_CHALLENGE:
-                self._challenge = br.read()
-                
+                challenge = br.read()
+
                 # Send the challenge and receive
-                sock.send(request_base + self._challenge)
+                sock.send(request_base + challenge)
                 response_data = await self.__receive(sock)
 
         return response_data
@@ -465,7 +462,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        source = Source(address='45.147.5.5', query_port=27015, timeout=5.0)
+        source = Source(address='209.205.114.187', query_port=27015, timeout=5.0)
         info = await source.get_info()
         players = await source.get_players()
         rules = await source.get_rules()
