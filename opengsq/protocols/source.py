@@ -12,10 +12,11 @@ class Source(ProtocolBase):
     """Source Engine Query Protocol"""
     full_name = 'Source Engine Query Protocol'
 
+    _A2S_INFO = b'\x54Source Engine Query\0'
+    _A2S_PLAYER = b'\x55'
+    _A2S_RULES = b'\x56'
+
     class __RequestHeader():
-        A2S_INFO = b'\x54Source Engine Query\0'
-        A2S_PLAYER = b'\x55'
-        A2S_RULES = b'\x56'
         A2A_PING = b'\x69'
         A2S_SERVERQUERY_GETCHALLENGE = b'\x57'
 
@@ -37,7 +38,7 @@ class Source(ProtocolBase):
         
         See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO
         """
-        response_data = await self.__connect_and_send_challenge(self.__RequestHeader.A2S_INFO)
+        response_data = await self.__connect_and_send_challenge(self._A2S_INFO)
 
         br = BinaryReader(response_data)
         header = br.read_byte()
@@ -132,9 +133,9 @@ class Source(ProtocolBase):
         """
         This query retrieves information about the players currently on the server.
         
-        See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO
+        See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_PLAYER
         """
-        response_data = await self.__connect_and_send_challenge(self.__RequestHeader.A2S_PLAYER)
+        response_data = await self.__connect_and_send_challenge(self._A2S_PLAYER)
         
         br = BinaryReader(response_data)
         header = br.read_byte()
@@ -170,7 +171,7 @@ class Source(ProtocolBase):
         
         See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_RULES
         """
-        response_data = await self.__connect_and_send_challenge(self.__RequestHeader.A2S_RULES)
+        response_data = await self.__connect_and_send_challenge(self._A2S_RULES)
         
         br = BinaryReader(response_data)
         header = br.read_byte()
@@ -196,7 +197,7 @@ class Source(ProtocolBase):
             request_base = b'\xFF\xFF\xFF\xFF' + header
             request_data = request_base
 
-            if header != self.__RequestHeader.A2S_INFO:
+            if header != self._A2S_INFO:
                 request_data += b'\xFF\xFF\xFF\xFF'
 
             sock.send(request_data)
