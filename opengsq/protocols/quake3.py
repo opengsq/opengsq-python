@@ -16,7 +16,7 @@ class Quake3(Quake2):
 
     async def get_info(self, strip_color = True) -> dict:
         """This returns server information only."""
-        response_data = await self._connect_and_send(b'getinfo')
+        response_data = await self._connect_and_send(b'getinfo opengsq')
 
         br = BinaryReader(response_data)
         header = br.read_string(self._delimiter1)
