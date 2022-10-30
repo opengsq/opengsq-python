@@ -4,6 +4,7 @@ import zlib
 from enum import Enum
 
 from opengsq.binary_reader import BinaryReader
+from opengsq.exceptions import AuthenticationException, InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
 from opengsq.socket_async import SocketAsync
 
@@ -27,10 +28,6 @@ class Source(ProtocolBase):
         S2A_PLAYER = 0x44
         S2A_RULES = 0x45
         A2A_ACK = 0x6A
-        
-    def __init__(self, address: str, query_port: int = 27015, timeout: float = 5.0):
-        """Source Engine Query Protocol"""
-        super().__init__(address, query_port, timeout)
 
     async def get_info(self) -> dict:
         """
@@ -448,14 +445,6 @@ class Source(ProtocolBase):
             def get_bytes(self):
                 packet_bytes = self.id.to_bytes(4, byteorder = 'little') + self.type.to_bytes(4, byteorder = 'little') + str.encode(self.body + '\0')
                 return len(packet_bytes).to_bytes(4, byteorder = 'little') + packet_bytes
-                
-
-class InvalidPacketException(Exception):
-    pass
-
-
-class AuthenticationException(Exception):
-    pass
 
 
 if __name__ == '__main__':

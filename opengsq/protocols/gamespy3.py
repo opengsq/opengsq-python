@@ -1,6 +1,7 @@
 import re
 
 from opengsq.binary_reader import BinaryReader
+from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
 from opengsq.socket_async import SocketAsync
 
@@ -9,10 +10,6 @@ class GameSpy3(ProtocolBase):
     """GameSpy Query Protocol version 3"""
     full_name = 'GameSpy Query Protocol version 3'
     challenge = False
-
-    def __init__(self, address: str, query_port: int, timeout: float = 5.0):
-        """GameSpy Query Protocol version 3"""
-        super().__init__(address, query_port, timeout)
 
     async def get_status(self):
         """Retrieves information about the server including, Info, Players, and Teams."""
@@ -135,10 +132,6 @@ class GameSpy3(ProtocolBase):
         response = b''.join(payloads[number] for number in sorted(payloads))
 
         return response
-
-
-class InvalidPacketException(Exception):
-    pass
 
 
 if __name__ == '__main__':

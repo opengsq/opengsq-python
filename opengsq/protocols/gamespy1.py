@@ -19,10 +19,6 @@ class GameSpy1(ProtocolBase):
         STATUS = b'\\status\\xserverquery'
         TEAMS = b'\\teams\\'
 
-    def __init__(self, address: str, query_port: int, timeout: float = 5.0):
-        """GameSpy Query Protocol version 1"""
-        super().__init__(address, query_port, timeout)
-
     async def get_basic(self) -> dict:
         """This returns basic server information, mainly for recognition."""
         return self.__parse_as_key_values(await self.__connect_and_send(self.__Request.BASIC))
