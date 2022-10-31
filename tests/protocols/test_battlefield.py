@@ -1,10 +1,10 @@
 import pytest
 from opengsq.protocols.battlefield import Battlefield
+
 from .result_handler import ResultHandler
 
-
 handler = ResultHandler('test_battlefield')
-handler.enable_save = True
+# handler.enable_save = True
 
 # bf4
 test = Battlefield(address='74.91.124.140', query_port=47200)

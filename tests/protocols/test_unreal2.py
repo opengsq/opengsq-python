@@ -1,7 +1,7 @@
 import pytest
 from opengsq.protocols.unreal2 import Unreal2
-from .result_handler import ResultHandler
 
+from .result_handler import ResultHandler
 
 handler = ResultHandler('test_unreal2')
 # handler.enable_save = True

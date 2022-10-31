@@ -1,7 +1,7 @@
 import pytest
 from opengsq.protocols.gamespy4 import GameSpy4
-from .result_handler import ResultHandler
 
+from .result_handler import ResultHandler
 
 handler = ResultHandler('test_gamespy4')
 # handler.enable_save = True

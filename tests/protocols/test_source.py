@@ -1,7 +1,7 @@
 import pytest
 from opengsq.protocols.source import Source
-from .result_handler import ResultHandler
 
+from .result_handler import ResultHandler
 
 handler = ResultHandler('test_source')
 # handler.enable_save = True

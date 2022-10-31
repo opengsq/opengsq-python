@@ -1,7 +1,7 @@
 import pytest
 from opengsq.protocols.ase import ASE
-from .result_handler import ResultHandler
 
+from .result_handler import ResultHandler
 
 handler = ResultHandler('test_ase')
 # handler.enable_save = True
