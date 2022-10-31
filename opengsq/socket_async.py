@@ -3,10 +3,19 @@ import socket
 from enum import Enum, auto
 
 
+class SocketKind(Enum):
+    SOCK_STREAM = auto() 
+    SOCK_DGRAM = auto()
+
+
 class SocketAsync():
-    class SocketKind(Enum):
-        SOCK_STREAM = auto() 
-        SOCK_DGRAM = auto()
+    @staticmethod
+    async def send_and_receive(host: str, port: int, timeout: float, data: bytes, kind=SocketKind.SOCK_DGRAM):
+        with SocketAsync(kind) as sock:
+            sock.settimeout(timeout)
+            await sock.connect((host, port))
+            sock.send(data)
+            return await sock.recv()
 
     @staticmethod
     def gethostbyname(hostname: str) -> str:
@@ -31,7 +40,7 @@ class SocketAsync():
         loop = asyncio.get_running_loop()
         self.__protocol = self.__Protocol(self.__timeout)
 
-        if self.__kind == self.SocketKind.SOCK_STREAM:
+        if self.__kind == SocketKind.SOCK_STREAM:
             self.__transport, _ = await loop.create_connection(
                 lambda: self.__protocol,
                 host=remote_addr[0],
@@ -48,7 +57,7 @@ class SocketAsync():
             self.__transport.close()
 
     def send(self, data: bytes):
-        if self.__kind == self.SocketKind.SOCK_STREAM:
+        if self.__kind == SocketKind.SOCK_STREAM:
             self.__transport.write(data)
         else:
             self.__transport.sendto(data)

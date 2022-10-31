@@ -6,7 +6,7 @@ from enum import Enum
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import AuthenticationException, InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync
+from opengsq.socket_async import SocketAsync, SocketKind
 
 
 class Source(ProtocolBase):
@@ -341,7 +341,7 @@ class Source(ProtocolBase):
             """Authenticate the connection"""
             
             # Connect
-            self._sock = SocketAsync(SocketAsync.SocketKind.SOCK_STREAM)
+            self._sock = SocketAsync(SocketKind.SOCK_STREAM)
             self._sock.settimeout(self._timeout)
             await self._sock.connect((self._address, self._query_port))
             
