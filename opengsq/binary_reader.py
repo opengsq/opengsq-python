@@ -24,7 +24,7 @@ class BinaryReader:
 
         return data
 
-    def read_bytes(self, count: int) -> int:
+    def read_bytes(self, count: int) -> bytes:
         data = self.__data[self.stream_position:self.stream_position + count]
         self.stream_position += count
 

@@ -1,3 +1,4 @@
+from opengsq.protocols.ase import ASE
 from opengsq.protocols.gamespy1 import GameSpy1
 from opengsq.protocols.gamespy2 import GameSpy2
 from opengsq.protocols.gamespy3 import GameSpy3

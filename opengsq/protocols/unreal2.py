@@ -79,7 +79,6 @@ class Unreal2(ProtocolBase):
         header = br.read_byte()
         
         if header != self._RULES:
-            
             raise InvalidPacketException(
                 'Packet header mismatch. Received: {}. Expected: {}.'
                 .format(chr(header), chr(self._RULES))
