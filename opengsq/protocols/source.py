@@ -10,8 +10,8 @@ from opengsq.socket_async import SocketAsync, SocketKind
 
 
 class Source(ProtocolBase):
-    """Source Engine Query Protocol"""
-    full_name = 'Source Engine Query Protocol'
+    """Source Engine Protocol"""
+    full_name = 'Source Engine Protocol'
 
     _A2S_INFO = b'\x54Source Engine Query\0'
     _A2S_PLAYER = b'\x55'

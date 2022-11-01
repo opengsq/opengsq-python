@@ -7,8 +7,8 @@ from opengsq.socket_async import SocketAsync
 
 
 class GameSpy3(ProtocolBase):
-    """GameSpy Query Protocol version 3"""
-    full_name = 'GameSpy Query Protocol version 3'
+    """GameSpy Protocol version 3"""
+    full_name = 'GameSpy Protocol version 3'
     challenge = False
 
     async def get_status(self):

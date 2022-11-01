@@ -5,8 +5,8 @@ from opengsq.protocols.quake2 import Quake2
 
 
 class Quake3(Quake2):
-    """Quake3 Query Protocol"""
-    full_name = 'Quake3 Query Protocol'
+    """Quake3 Protocol"""
+    full_name = 'Quake3 Protocol'
 
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
         """Quake3 Query Protocol"""
@@ -14,7 +14,7 @@ class Quake3(Quake2):
         self._request_header = b'getstatus'
         self._response_header = 'statusResponse\n'
 
-    async def get_info(self, strip_color = True) -> dict:
+    async def get_info(self, strip_color=True) -> dict:
         """This returns server information only."""
         response_data = await self._connect_and_send(b'getinfo opengsq')
 
@@ -57,7 +57,7 @@ class Quake3(Quake2):
         return status
 
     @staticmethod
-    def strip_colors(text):
+    def strip_colors(text: str):
         """Strip color codes"""
         return re.compile('\\^(X.{6}|.)').sub('', text)
 

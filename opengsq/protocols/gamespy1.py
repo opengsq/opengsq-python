@@ -6,8 +6,8 @@ from opengsq.socket_async import SocketAsync
 
 
 class GameSpy1(ProtocolBase):
-    """GameSpy Query Protocol version 1"""
-    full_name = 'GameSpy Query Protocol version 1'
+    """GameSpy Protocol version 1"""
+    full_name = 'GameSpy Protocol version 1'
 
     # Legacy:UT_Server_Query - (https://wiki.beyondunreal.com/Legacy:UT_Server_Query)
     # Query_commands - (https://wiki.beyondunreal.com/XServerQuery#Query_commands)

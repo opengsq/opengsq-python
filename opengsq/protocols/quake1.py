@@ -6,8 +6,8 @@ from opengsq.socket_async import SocketAsync
 
 
 class Quake1(ProtocolBase):
-    """Quake1 Query Protocol"""
-    full_name = 'Quake1 Query Protocol'
+    """Quake1 Protocol"""
+    full_name = 'Quake1 Protocol'
 
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
         """Quake1 Query Protocol"""

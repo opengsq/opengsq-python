@@ -6,8 +6,8 @@ from opengsq.socket_async import SocketAsync
 
 
 class GameSpy2(ProtocolBase):
-    """GameSpy Query Protocol version 2"""
-    full_name = 'GameSpy Query Protocol version 2'
+    """GameSpy Protocol version 2"""
+    full_name = 'GameSpy Protocol version 2'
 
     class Request(Flag):
         INFO = auto()

@@ -5,8 +5,8 @@ from opengsq.protocols.quake1 import Quake1
 
 
 class Quake2(Quake1):
-    """Quake2 Query Protocol"""
-    full_name = 'Quake2 Query Protocol'
+    """Quake2 Protocol"""
+    full_name = 'Quake2 Protocol'
 
     def __init__(self, address: str, query_port: int, timeout: float = 5.0):
         """Quake2 Query Protocol"""
