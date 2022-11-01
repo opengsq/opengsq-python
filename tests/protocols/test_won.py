@@ -1,9 +1,11 @@
+import os
+
 import pytest
 from opengsq.protocols.won import WON
 
 from .result_handler import ResultHandler
 
-handler = ResultHandler('test_won')
+handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Counter-Strike 1.5

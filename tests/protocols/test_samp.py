@@ -1,9 +1,11 @@
+import os
+
 import pytest
 from opengsq.protocols.samp import Samp
 
 from .result_handler import ResultHandler
 
-handler = ResultHandler('test_samp')
+handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # San Andreas Multiplayer

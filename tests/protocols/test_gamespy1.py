@@ -1,9 +1,11 @@
+import os
+
 import pytest
 from opengsq.protocols.gamespy1 import GameSpy1
 
 from .result_handler import ResultHandler
 
-handler = ResultHandler('test_gamespy1')
+handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 handler.delay_per_test = 1
 

@@ -1,9 +1,11 @@
+import os
+
 import pytest
 from opengsq.protocols.ase import ASE
 
 from .result_handler import ResultHandler
 
-handler = ResultHandler('test_ase')
+handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Grand Theft Auto: San Andreas - Multi Theft Auto

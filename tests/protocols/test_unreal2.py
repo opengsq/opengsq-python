@@ -1,9 +1,11 @@
+import os
+
 import pytest
 from opengsq.protocols.unreal2 import Unreal2
 
 from .result_handler import ResultHandler
 
-handler = ResultHandler('test_unreal2')
+handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Killing Floor

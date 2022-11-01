@@ -1,9 +1,11 @@
+import os
+
 import pytest
 from opengsq.protocols.quake3 import Quake3
 
 from .result_handler import ResultHandler
 
-handler = ResultHandler('test_quake3')
+handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 test = Quake3(address='108.61.18.110', query_port=27960)

@@ -1,9 +1,11 @@
+import os
+
 import pytest
 from opengsq.protocols.battlefield import Battlefield
 
 from .result_handler import ResultHandler
 
-handler = ResultHandler('test_battlefield')
+handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # bf4

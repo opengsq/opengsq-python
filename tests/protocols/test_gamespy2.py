@@ -1,9 +1,11 @@
+import os
+
 import pytest
 from opengsq.protocols.gamespy2 import GameSpy2
 
 from .result_handler import ResultHandler
 
-handler = ResultHandler('test_gamespy2')
+handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 test = GameSpy2(address='158.69.118.94', query_port=23000)

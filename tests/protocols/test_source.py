@@ -1,9 +1,11 @@
+import os
+
 import pytest
 from opengsq.protocols.source import Source
 
 from .result_handler import ResultHandler
 
-handler = ResultHandler('test_source')
+handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # tf2
