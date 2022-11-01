@@ -10,6 +10,7 @@ from opengsq.protocols.quake2 import Quake2
 from opengsq.protocols.quake3 import Quake3
 from opengsq.protocols.samp import Samp
 from opengsq.protocols.source import Source
+from opengsq.protocols.teamspeak3 import Teamspeak3
 from opengsq.protocols.unreal2 import Unreal2
 from opengsq.protocols.vcmp import Vcmp
 from opengsq.protocols.won import WON
