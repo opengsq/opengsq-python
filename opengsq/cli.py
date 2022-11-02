@@ -28,13 +28,15 @@ class CLI:
                     name, fullpath, parameters = self.__extract(protocol_path, protocol_classname)
 
                     # Save to self.__paths dictionary
-                    # Example: name = 'a2s', fullpath = 'opengsq.protocols.a2s.A2S'
+                    # Example: name = 'source', fullpath = 'opengsq.protocols.source.Source'
                     self.__paths[name] = fullpath
 
                     # Add parser and arguments
-                    sub = subparsers.add_parser(name, help=locate(fullpath).full_name)
+                    obj = locate(fullpath)
+                    sub = subparsers.add_parser(name, help=obj.full_name)
                     self.__add_arguments(sub, parameters)
-                    sub.add_argument('--function', default='get_info', type=str, help='(default: %(default)s)')
+                    method_names = [func for func in dir(obj) if callable(getattr(obj, func)) and func.startswith('get_')]
+                    sub.add_argument('--function', default=method_names[0], type=str, help='(default: %(default)s)')
                     sub.add_argument('--indent', default=None, type=int, nargs='?')
 
     # Get the query response in json format
@@ -106,6 +108,7 @@ async def main_async():
         sys.exit(-2)
 
     sys.exit(0)
+
 
 if __name__ == '__main__':
     main()
