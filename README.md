@@ -1,7 +1,9 @@
 # OpenGSQ Python Library
 [![Python Package](https://github.com/opengsq/opengsq-python/actions/workflows/python-package.yml/badge.svg)](https://github.com/opengsq/opengsq-python/actions/workflows/python-package.yml)
-[![Downloads](https://pepy.tech/badge/opengsq)](https://pepy.tech/project/opengsq)
 [![GitHub license](https://img.shields.io/github/license/opengsq/opengsq-python)](https://github.com/opengsq/opengsq-python/blob/main/LICENSE)
+[![](https://img.shields.io/pypi/v/opengsq.svg)](https://pypi.org/project/opengsq/)
+[![](https://img.shields.io/pypi/pyversions/opengsq.svg)](https://pypi.org/project/opengsq/)
+[![Downloads](https://pepy.tech/badge/opengsq)](https://pepy.tech/project/opengsq)
 
 The OpenGSQ Python library provides a convenient way to query servers
 from applications written in the Python language.
