@@ -198,17 +198,21 @@ class Source(ProtocolBase):
                 request_data += b'\xFF\xFF\xFF\xFF'
 
             sock.send(request_data)
-            response_data = await self.__receive(sock)
-            br = BinaryReader(response_data)
-            header = br.read_byte()
-
-            # The server may reply with a challenge
-            if header == self.__ResponseHeader.S2C_CHALLENGE:
-                challenge = br.read()
-
-                # Send the challenge and receive
-                sock.send(request_base + challenge)
+            
+            # Retries 3 times, some servers require multiple challenges
+            for _ in range(3):
                 response_data = await self.__receive(sock)
+                br = BinaryReader(response_data)
+                header = br.read_byte()
+                
+                # The server response with a challenge
+                if header == self.__ResponseHeader.S2C_CHALLENGE:
+                    challenge = br.read()
+
+                    # Send the challenge and receive
+                    sock.send(request_base + challenge)
+                else:
+                    break
 
         return response_data
 
@@ -454,10 +458,10 @@ if __name__ == '__main__':
     async def main_async():
         source = Source(address='209.205.114.187', query_port=27015, timeout=5.0)
         info = await source.get_info()
-        players = await source.get_players()
-        rules = await source.get_rules()
         print(json.dumps(info, indent=None, ensure_ascii=False) + '\n')
+        players = await source.get_players()
         print(json.dumps(players, indent=None, ensure_ascii=False) + '\n')
+        rules = await source.get_rules()
         print(json.dumps(rules, indent=None, ensure_ascii=False) + '\n')
 
     asyncio.run(main_async())

@@ -15,7 +15,6 @@ class Vcmp(ProtocolBase):
 
     async def get_status(self):
         br = await self.__send_and_receive(b'i')
-        print(br.read())
         result = {}
         result['version'] = str(br.read_bytes(12).strip(b'\x00'), encoding='utf-8', errors='ignore')
         result['password'] = br.read_byte()
