@@ -50,7 +50,7 @@ class Minecraft(ProtocolBase):
                 data['description']['text'] = Minecraft.strip_colors(data['description']['text'])
 
         return data
-    
+
     async def get_status_pre17(self, strip_color=True) -> dict:
         """Get ping info from a server that uses a version older than Minecraft 1.7"""
         with SocketAsync(SocketKind.SOCK_STREAM) as sock:
@@ -61,23 +61,23 @@ class Minecraft(ProtocolBase):
 
         br = BinaryReader(response)
         header = br.read_byte()
-        
+
         if header != 0xFF:
             raise InvalidPacketException(
                 'Packet header mismatch. Received: {}. Expected: {}.'
                 .format(chr(header), chr(0xFF))
             )
-        
+
         br.read_bytes(2)  # length of the following string
         items = br.read().split(b'\x00\x00')
-        
+
         result = {}
         result['protocol'] = str(items[1], 'utf-16be')
         result['version'] = str(items[2], 'utf-16be')
         result['motd'] = str(items[3], 'utf-16be')
         result['numplayers'] = int(str(items[4], 'utf-16be'))
         result['maxplayers'] = int(str(items[5], 'utf-16be'))
-        
+
         if strip_color:
             result['motd'] = Minecraft.strip_colors(result['motd'])
 
@@ -108,7 +108,7 @@ class Minecraft(ProtocolBase):
         total = 0
         shift = 0
         val = 0x80
-        
+
         while val & 0x80:
             val = struct.unpack('B', br.read_bytes(1))[0]
             total |= ((val & 0x7F) << shift)

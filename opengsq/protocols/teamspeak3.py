@@ -27,7 +27,7 @@ class Teamspeak3(ProtocolBase):
             sock.settimeout(self._timeout)
             await sock.connect((self._address, self._query_port))
 
-            # b'TS3\n\rWelcome to the TeamSpeak 3 ServerQuery interface, 
+            # b'TS3\n\rWelcome to the TeamSpeak 3 ServerQuery interface,
             # type "help" for a list of commands and "help <command>" for information on a specific command.\n\r'
             await sock.recv()
 
@@ -54,6 +54,7 @@ class Teamspeak3(ProtocolBase):
             kvs[key] = val.replace('\\p', '|').replace('\\s', ' ').replace('\\/', '/')
 
         return kvs
+
 
 if __name__ == '__main__':
     import asyncio

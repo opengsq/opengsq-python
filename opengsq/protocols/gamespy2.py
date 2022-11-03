@@ -89,7 +89,7 @@ class GameSpy2(ProtocolBase):
 
         # Set all keys and values
         for _ in range(player_count):
-            players.append({ key: br.read_string().strip() for key in keys })
+            players.append({key: br.read_string().strip() for key in keys})
 
         return players
 
@@ -115,7 +115,7 @@ class GameSpy2(ProtocolBase):
 
         # Set all keys and values
         for _ in range(team_count):
-            teams.append({ key: br.read_string().strip() for key in keys })
+            teams.append({key: br.read_string().strip() for key in keys})
 
         return teams
 

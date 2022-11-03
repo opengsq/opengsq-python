@@ -47,7 +47,7 @@ class CLI:
 
         function = args.function
         del args.function
-        
+
         indent = args.indent
         del args.indent
 

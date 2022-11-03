@@ -23,9 +23,9 @@ class Samp(ProtocolBase):
         result['servername'] = self.__read_string(br, 4)
         result['gametype'] = self.__read_string(br, 4)
         result['language'] = self.__read_string(br, 4)
-        
+
         return result
-    
+
     async def get_players(self):
         """Server may not response when numplayers > 100"""
         br = await self.__send_and_receive(b'd')
@@ -41,20 +41,21 @@ class Samp(ProtocolBase):
             players.append(player)
 
         return players
-    
+
     async def get_rules(self):
         br = await self.__send_and_receive(b'r')
         numrules = br.read_short()
 
         return dict((self.__read_string(br), self.__read_string(br)) for _ in range(numrules))
-        
+
     async def __send_and_receive(self, data: bytes):
         # Format the address
         host = SocketAsync.gethostbyname(self._address)
         packet_header = struct.pack('BBBBH', *map(int, host.split('.') + [self._query_port])) + data
+        request = self._request_header + packet_header
 
         # Validate the response
-        response = await SocketAsync.send_and_receive(self._address, self._query_port, self._timeout, self._request_header + packet_header)
+        response = await SocketAsync.send_and_receive(self._address, self._query_port, self._timeout, request)
         header = response[:len(self._response_header)]
 
         if header != self._response_header:

@@ -55,7 +55,7 @@ class Unreal2(ProtocolBase):
                 details['Ping'] = br.read_long()
                 details['Flags'] = br.read_long()
                 details['Skill'] = self.__read_string(br)
-            except:
+            except Exception:
                 br.stream_position = stream_position
                 details['Ping'] = br.read_long()
                 details['Flags'] = br.read_long()
@@ -70,14 +70,14 @@ class Unreal2(ProtocolBase):
 
             # Send Request
             sock.send(b'\x79\x00\x00\x00' + bytes([self._RULES]))
-            
+
             # Server response
             response = await sock.recv()
 
         # Remove the first 4 bytes \x80\x00\x00\x00
         br = BinaryReader(response[4:])
         header = br.read_byte()
-        
+
         if header != self._RULES:
             raise InvalidPacketException(
                 'Packet header mismatch. Received: {}. Expected: {}.'
@@ -90,7 +90,7 @@ class Unreal2(ProtocolBase):
         while not br.is_end():
             key = self.__read_string(br)
             val = self.__read_string(br)
-            
+
             if key.lower() == 'mutator':
                 rules['Mutators'].append(val)
             else:
@@ -105,10 +105,10 @@ class Unreal2(ProtocolBase):
 
             # Send Request
             sock.send(b'\x79\x00\x00\x00' + bytes([self._PLAYERS]))
-            
+
             # Server response
             response = await sock.recv()
-            
+
         # Remove the first 4 bytes \x80\x00\x00\x00
         br = BinaryReader(response[4:])
         header = br.read_byte()
@@ -120,7 +120,7 @@ class Unreal2(ProtocolBase):
             )
 
         players = []
-        
+
         while not br.is_end():
             player = {}
             player['Id'] = br.read_long()
@@ -135,7 +135,8 @@ class Unreal2(ProtocolBase):
     @staticmethod
     def strip_colors(text: bytes):
         """Strip color codes"""
-        return re.compile(b'\x7f|[\x00-\x1a]|[\x1c-\x1f]').sub(b'', text).replace(b'\x1b@@', b'').replace(b'\x1b@', b'').replace(b'\x1b', b'')
+        string = re.compile(b'\x7f|[\x00-\x1a]|[\x1c-\x1f]').sub(b'', text)
+        return string.replace(b'\x1b@@', b'').replace(b'\x1b@', b'').replace(b'\x1b', b'')
 
     def __read_string(self, br: BinaryReader):
         length = br.read_byte()

@@ -49,7 +49,7 @@ class ASE(ProtocolBase):
 
     def __parse_rules(self, br: BinaryReader):
         rules = {}
-        
+
         while not br.is_end():
             key = self.__read_string(br)
 
@@ -57,7 +57,7 @@ class ASE(ProtocolBase):
                 break
 
             rules[key] = self.__read_string(br)
-        
+
         return rules
 
     def __parse_players(self, br: BinaryReader):

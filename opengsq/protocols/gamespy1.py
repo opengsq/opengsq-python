@@ -27,7 +27,7 @@ class GameSpy1(ProtocolBase):
     async def get_info(self, xserverquery: bool = True) -> dict:
         """
         Information about the current game running on the server.
-        
+
         If the server uses XServerQuery, he sends you the new information, otherwise he'll give you back the old information.
         """
         data = xserverquery and self.__Request.INFO or self.__Request.INFO.replace(b'xserverquery', b'')
@@ -36,7 +36,7 @@ class GameSpy1(ProtocolBase):
     async def get_rules(self, xserverquery: bool = True) -> list:
         """
         Setting for the current game, return sets of rules depends on the running game type.
-        
+
         If the server uses XServerQuery, he sends you the new information, otherwise he'll give you back the old information.
         """
         data = xserverquery and self.__Request.RULES or self.__Request.RULES.replace(b'xserverquery', b'')
@@ -45,7 +45,7 @@ class GameSpy1(ProtocolBase):
     async def get_players(self, xserverquery: bool = True) -> list:
         """
         Returns information about each player on the server.
-        
+
         If the server uses XServerQuery, he sends you the new information, otherwise he'll give you back the old information.
         """
         data = xserverquery and self.__Request.PLAYERS or self.__Request.PLAYERS.replace(b'xserverquery', b'')
@@ -54,9 +54,9 @@ class GameSpy1(ProtocolBase):
     async def get_status(self, xserverquery: bool = True) -> dict:
         """
         XServerQuery: \\info\\xserverquery\\rules\\xserverquery\\players\\xserverquery
-        
+
         Old response: \\basic\\info\\rules\\players\\
-            
+
         If the server uses XServerQuery, he sends you the new information, otherwise he'll give you back the old information.
         """
         data = xserverquery and self.__Request.STATUS or self.__Request.STATUS.replace(b'xserverquery', b'')

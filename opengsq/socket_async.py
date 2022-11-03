@@ -4,7 +4,7 @@ from enum import Enum, auto
 
 
 class SocketKind(Enum):
-    SOCK_STREAM = auto() 
+    SOCK_STREAM = auto()
     SOCK_DGRAM = auto()
 
 
@@ -86,7 +86,10 @@ class SocketAsync():
 
         # Streaming Protocols
         def eof_received(self):
-            """Called when the other end signals it won't send any more data (for example by calling transport.write_eof(), if the other end also uses asyncio)."""
+            """
+            Called when the other end signals it won't send any more data
+            (for example by calling transport.write_eof(), if the other end also uses asyncio).
+            """
             pass
 
         # Datagram Protocols

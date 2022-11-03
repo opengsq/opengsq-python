@@ -17,7 +17,8 @@ class Doom3(ProtocolBase):
     }
 
     async def get_info(self, strip_color=True):
-        response = await SocketAsync.send_and_receive(self._address, self._query_port, self._timeout, b'\xFF\xFFgetInfo\x00ogsq\x00')
+        request = b'\xFF\xFFgetInfo\x00ogsq\x00'
+        response = await SocketAsync.send_and_receive(self._address, self._query_port, self._timeout, request)
 
         # Remove the first two 0xFF
         br = BinaryReader(response[2:])
@@ -68,7 +69,7 @@ class Doom3(ProtocolBase):
 
     def __parse_player(self, br: BinaryReader, fields: list, strip_color: bool):
         players = []
-  
+
         def value_by_field(field: str, br: BinaryReader):
             if field == 'id' or field == 'clantag_pos' or field == 'typeflag':
                 return br.read_byte()
@@ -90,7 +91,7 @@ class Doom3(ProtocolBase):
             players.append(player)
 
         return players
-        
+
     @staticmethod
     def strip_colors(text: str):
         """Strip color codes"""
@@ -106,12 +107,12 @@ if __name__ == '__main__':
         doom3 = Doom3(address='66.85.14.240', query_port=27666, timeout=5.0)
         info = await doom3.get_info()
         print(json.dumps(info, indent=None) + '\n')
-        
+
         # etqw
         doom3 = Doom3(address='178.162.135.83', query_port=27735, timeout=5.0)
         info = await doom3.get_info()
         print(json.dumps(info, indent=None) + '\n')
-        
+
         # quake4
         doom3 = Doom3(address='88.99.0.7', query_port=28007, timeout=5.0)
         info = await doom3.get_info()
