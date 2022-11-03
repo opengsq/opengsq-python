@@ -31,7 +31,8 @@ class Source(ProtocolBase):
 
     async def get_info(self) -> dict:
         """
-        Retrieves information about the server including, but not limited to: its name, the map currently being played, and the number of players.
+        Retrieves information about the server including,
+        but not limited to: its name, the map currently being played, and the number of players.
 
         See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO
         """
@@ -366,7 +367,7 @@ class Source(ProtocolBase):
             if packet.type != self.__PacketType.SERVERDATA_AUTH_RESPONSE.value:
                 self._sock.close()
                 raise InvalidPacketException(
-                    'Packet header mismatch. Received: {}. Expected: {} or {}.'
+                    'Packet header mismatch. Received: {}. Expected: {}.'
                     .format(chr(packet.type), chr(self.__PacketType.SERVERDATA_AUTH_RESPONSE.value))
                 )
 
@@ -447,8 +448,10 @@ class Source(ProtocolBase):
                     self.body = br.read_string()
 
             def get_bytes(self):
-                packet_bytes = self.id.to_bytes(4, byteorder = 'little') + self.type.to_bytes(4, byteorder = 'little') + str.encode(self.body + '\0')
-                return len(packet_bytes).to_bytes(4, byteorder = 'little') + packet_bytes
+                packet_bytes = self.id.to_bytes(4, byteorder='little')
+                packet_bytes += self.type.to_bytes(4, byteorder='little')
+                packet_bytes += str.encode(self.body + '\0')
+                return len(packet_bytes).to_bytes(4, byteorder='little') + packet_bytes
 
 
 if __name__ == '__main__':

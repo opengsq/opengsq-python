@@ -35,7 +35,7 @@ class Quake3(Quake2):
 
         return info
 
-    async def get_status(self, strip_color = True) -> dict:
+    async def get_status(self, strip_color=True) -> dict:
         """This returns server information and players."""
         br = await self._get_response_binary_reader()
 

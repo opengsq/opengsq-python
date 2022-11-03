@@ -60,6 +60,7 @@ class Raknet(ProtocolBase):
 
         return result
 
+
 if __name__ == '__main__':
     import asyncio
     import json
