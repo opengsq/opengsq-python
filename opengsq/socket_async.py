@@ -37,6 +37,9 @@ class SocketAsync():
         self.__timeout = value
 
     async def connect(self, remote_addr):
+        await asyncio.wait_for(self.__connect(remote_addr), timeout=self.__timeout)
+
+    async def __connect(self, remote_addr):
         loop = asyncio.get_running_loop()
         self.__protocol = self.__Protocol(self.__timeout)
 
