@@ -1,35 +1,35 @@
 {
     "version": {
-        "protocol": 4,
+        "protocol": 47,
         "name": "Waterfall 1.8.x - 1.19.x"
     },
     "players": {
-        "online": 77,
+        "online": 51,
         "max": 125,
         "sample": [
             {
                 "name": "MY-RPG.PL [1.8.x - 1.19.x]",
-                "id": "019a2234-07cc-4e53-8e1f-9754e91e16f5"
+                "id": "eb0e7f61-ee0d-4108-b44a-af18d955181d"
             },
             {
                 "name": " » Zapraszamy na serwer!",
-                "id": "44c50657-73f3-44bb-9ca3-f1b2954f2063"
+                "id": "ed511d8a-7964-4185-a49d-bd1ee5a2f1f1"
             },
             {
                 "name": " » Gwarantujemy dobrze spedzony czas!",
-                "id": "583ecf90-d19b-4c60-a3d0-e5b912acde01"
+                "id": "45da188a-cc1a-422d-b040-b3c84132d875"
             },
             {
                 "name": " » Zapewniamy swietna atmosfere!",
-                "id": "036744f5-3670-4758-9ebc-5d11aca84541"
+                "id": "0d58e9b5-722d-4b00-a90b-e4fb33527526"
             },
             {
                 "name": " » Milej gry zyczy cala administracja serwera.",
-                "id": "1b935b78-c286-491f-9a4f-0fa64aed6b2b"
+                "id": "acd35e18-0ef6-4f22-9808-76406a8efb58"
             },
             {
                 "name": " » Forum: my-rpg.pl",
-                "id": "a0266d98-2891-4201-b16f-3ba448701a87"
+                "id": "80925f43-0ff1-420d-b4c7-b43e2922e9fa"
             }
         ]
     },

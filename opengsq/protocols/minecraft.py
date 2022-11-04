@@ -12,10 +12,21 @@ class Minecraft(ProtocolBase):
     """Minecraft Protocol (https://wiki.vg/Server_List_Ping)"""
     full_name = 'Minecraft Protocol'
 
-    async def get_status(self, strip_color=True) -> dict:
+    async def get_status(self, version=47, strip_color=True) -> dict:
+        """Get Status
+
+        Args:
+            version (int, optional): https://wiki.vg/Protocol_version_numbers. Defaults to 47.
+            strip_color (bool, optional): Strip color. Defaults to True.
+
+        Returns:
+            dict: status dict
+        """
+
         # Prepare the request
         address = self._address.encode('utf8')
-        request = b'\x00\x04' + self._pack_varint(len(address)) + address + struct.pack('H', self._query_port) + b'\x01'
+        protocol = self._pack_varint(version)
+        request = b'\x00' + protocol + self._pack_varint(len(address)) + address + struct.pack('H', self._query_port) + b'\x01'
         request = self._pack_varint(len(request)) + request + b'\x01\x00'
 
         with SocketAsync(SocketKind.SOCK_STREAM) as sock:
@@ -46,8 +57,14 @@ class Minecraft(ProtocolBase):
 
             if isinstance(data['description'], str):
                 data['description'] = Minecraft.strip_colors(data['description'])
-            elif 'text' in data['description']:
+
+            if 'text' in data['description'] and isinstance(data['description']['text'], str):
                 data['description']['text'] = Minecraft.strip_colors(data['description']['text'])
+
+            if 'extra' in data['description'] and isinstance(data['description']['extra'], list):
+                for i, extra in enumerate(data['description']['extra']):
+                    if isinstance(extra['text'], str):
+                        data['description']['extra'][i]['text'] = Minecraft.strip_colors(extra['text'])
 
         return data
 
@@ -125,9 +142,9 @@ if __name__ == '__main__':
 
     async def main_async():
         minecraft = Minecraft(address='51.83.219.117', query_port=25565, timeout=5.0)
-        status = await minecraft.get_status()
-        print(json.dumps(status, indent=None) + '\n')
+        status = await minecraft.get_status(47, strip_color=True)
+        print(json.dumps(status, indent=None, ensure_ascii=False) + '\n')
         status = await minecraft.get_status_pre17()
-        print(json.dumps(status, indent=None) + '\n')
+        print(json.dumps(status, indent=None, ensure_ascii=False) + '\n')
 
     asyncio.run(main_async())
