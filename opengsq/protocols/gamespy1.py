@@ -62,12 +62,10 @@ class GameSpy1(ProtocolBase):
         data = xserverquery and self.__Request.STATUS or self.__Request.STATUS.replace(b'xserverquery', b'')
         br = await self.__connect_and_send(data)
 
-        info = self.__parse_as_key_values(br, is_status=True)
-        players = self.__parse_as_object(br)
-
         status = {}
-        status['info'] = info
-        status['players'] = players
+        status['info'] = self.__parse_as_key_values(br, is_status=True)
+        status['players'] = self.__parse_as_object(br, is_player=True)
+        status['teams'] = [] if br.is_end() else self.__parse_as_object(br)
 
         return status
 
@@ -76,7 +74,7 @@ class GameSpy1(ProtocolBase):
         return self.__parse_as_object(await self.__connect_and_send(self.__Request.TEAMS))
 
     # Receive packets and sort it
-    async def __get_packets_response(self, sock):
+    async def __get_packets_response(self, sock: SocketAsync):
         payloads = {}
         packet_count = -1
 
@@ -84,25 +82,20 @@ class GameSpy1(ProtocolBase):
         while packet_count == -1 or len(payloads) < packet_count:
             packet = await sock.recv()
 
+            # Get the packet number from query_id
+            r = re.compile(rb'\\queryid\\\d+\.(\d+)')
+            number, payload = int(r.search(packet).group(1)), r.sub(b'', packet)
+
             # If it is the last packet, it will contain b'\\final\\' at the end of the response
-            if packet.rsplit(b'\\', 2)[1] == b'final':
-                # Split to payload, "queryid", query_id
-                payload, _, query_id = packet[:-7].rsplit(b'\\', 2)
-
-                # Get the packet number from query_id
-                number = re.search(rb'\d+.(\d+)', query_id).group(1)
-
+            if payload.endswith(b'\\final\\'):
                 # Save the packet count
-                packet_count = int(number)
-            else:
-                # Split to payload, "queryid", query_id
-                payload, _, query_id = packet.rsplit(b'\\', 2)
+                packet_count = number
 
-                # Get the packet number from query_id
-                number = re.search(rb'\d+.(\d+)', query_id).group(1)
+                # Remove the last b'\\final\\'
+                payload = payload[:-7]
 
             # Save the payload, remove the first byte if it is the first packet
-            payloads[number] = int(number) == 1 and payload[1:] or payload
+            payloads[number] = payload[1:] if number == 1 else payload
 
         # Sort the payload and return as bytes
         response = b''.join(payloads[number] for number in sorted(payloads))
@@ -125,9 +118,9 @@ class GameSpy1(ProtocolBase):
 
         # Bind key value
         while br.length() > 0:
-            key = br.read_string(b'\\')
+            key = br.read_string(b'\\').lower()
 
-            if is_status and key.lower().startswith('player_'):
+            if is_status and (key.startswith('player_') or key.startswith('playername_')):
                 # Read already, so add it back
                 br.prepend_bytes(key.encode() + b'\\')
                 break
@@ -137,16 +130,23 @@ class GameSpy1(ProtocolBase):
 
         return kv
 
-    def __parse_as_object(self, br: BinaryReader):
+    def __parse_as_object(self, br: BinaryReader, is_player=False):
         items = []
 
         while br.length() > 0:
             # Get the key, for example player_1, frags_1, ping_1, etc...
-            key = br.read_string(b'\\')
+            key = br.read_string(b'\\').lower()
+
+            if is_player and key.startswith('teamname_'):
+                # Read already, so add it back
+                br.prepend_bytes(key.encode() + b'\\')
+                break
 
             # Extract to name and index, for example name=player, index=1
             matches = re.search(r'(.+?)_(\d+)', key)
             name = matches.group(1)
+            name = 'player' if name == 'playername' else name
+            name = 'team' if name == 'teamname' else name
             index = int(matches.group(2))
 
             # Append a dict to items if next index appears
@@ -167,11 +167,9 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        gs1 = GameSpy1(
-            address='139.162.235.20',
-            query_port=7778,
-            timeout=5.0
-        )
+        gs1 = GameSpy1(address='51.81.48.224', query_port=23000, timeout=5.0)  # bfield1942
+        #gs1 = GameSpy1(address='139.162.235.20', query_port=7778, timeout=5.0)  # ut
+        #gs1 = GameSpy1(address='192.223.24.6', query_port=7778, timeout=5.0)  # ut
         status = await gs1.get_status()
         print(json.dumps(status, indent=None) + '\n')
 
