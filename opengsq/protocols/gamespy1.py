@@ -120,7 +120,7 @@ class GameSpy1(ProtocolBase):
         while br.length() > 0:
             key = br.read_string(b'\\').lower()
 
-            if is_status and (key.startswith('player_') or key.startswith('playername_')):
+            if is_status and (items := key.split('_')) and len(items) > 1 and items[1].isdigit():
                 # Read already, so add it back
                 br.prepend_bytes(key.encode() + b'\\')
                 break
@@ -131,7 +131,7 @@ class GameSpy1(ProtocolBase):
         return kv
 
     def __parse_as_object(self, br: BinaryReader, is_player=False):
-        items = []
+        items, keyhashes, filters = [], [], []
 
         while br.length() > 0:
             # Get the key, for example player_1, frags_1, ping_1, etc...
@@ -149,17 +149,25 @@ class GameSpy1(ProtocolBase):
             name = 'team' if name == 'teamname' else name
             index = int(matches.group(2))
 
+            # Get the value, and strip it since some values contain whitespaces
+            value = br.read_string(b'\\').strip()
+
+            # Some servers (bf1942) report the same player multiple times, so filter it by keyhash
+            if name == 'keyhash':
+                if value in keyhashes:
+                    filters.append(index)
+                else:
+                    keyhashes.append(value)
+
             # Append a dict to items if next index appears
             if len(items) <= index:
                 items.append({})
 
-            # Get the value, and strip it since some values contain whitespaces
-            value = br.read_string(b'\\').strip()
-
             # Save
             items[index][name] = value
 
-        return items
+        # Filter items by filters
+        return [item for i, item in enumerate(items) if i not in filters]
 
 
 if __name__ == '__main__':
