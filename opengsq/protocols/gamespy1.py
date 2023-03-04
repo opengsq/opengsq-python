@@ -120,10 +120,14 @@ class GameSpy1(ProtocolBase):
         while br.length() > 0:
             key = br.read_string(b'\\').lower()
 
-            if is_status and (items := key.split('_')) and len(items) > 1 and items[1].isdigit():
-                # Read already, so add it back
-                br.prepend_bytes(key.encode() + b'\\')
-                break
+            # Check is the end of key_values
+            if is_status:
+                items = key.split('_')
+
+                if len(items) > 1 and items[1].isdigit():
+                    # Read already, so add it back
+                    br.prepend_bytes(key.encode() + b'\\')
+                    break
 
             value = br.read_string(b'\\')
             kv[key] = value.strip()
