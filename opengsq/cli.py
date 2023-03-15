@@ -47,7 +47,7 @@ class CLI:
     async def run(self, args: Sequence[str]) -> str:
         # Return version if -V or --version
         if args.version:
-            return __version__
+            return 'v' + __version__
         else:
             del args.version
 
