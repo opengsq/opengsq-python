@@ -23,6 +23,7 @@ from opengsq.protocols.quake2 import Quake2
 from opengsq.protocols.quake3 import Quake3
 from opengsq.protocols.raknet import Raknet
 from opengsq.protocols.samp import Samp
+from opengsq.protocols.satisfactory import Satisfactory
 from opengsq.protocols.source import Source
 from opengsq.protocols.teamspeak3 import Teamspeak3
 from opengsq.protocols.unreal2 import Unreal2
@@ -66,6 +67,8 @@ asyncio.run(main())
 Rcon server using Source Remote Console, example output: [tests/results/test_source/test_remote_console.txt](/tests/results/test_source/test_remote_console.txt)
 ```py
 import asyncio
+
+from opengsq.exceptions import AuthenticationException
 from opengsq.protocols import Source
 
 async def main():
@@ -74,9 +77,9 @@ async def main():
             await rcon.authenticate('serverRconPassword')
             result = await rcon.send_command('cvarlist')
             print(result)
-        except:
+        except AuthenticationException:
             print('Fail to authenticate')
-        
+
 asyncio.run(main())
 ```
 

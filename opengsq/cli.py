@@ -10,6 +10,7 @@ from pydoc import locate
 from typing import Mapping, Sequence
 
 from opengsq.protocol_base import ProtocolBase
+from opengsq.version import __version__
 
 
 class CLI:
@@ -17,6 +18,9 @@ class CLI:
         self.__paths = {}
 
     def register(self, parser: argparse.ArgumentParser):
+        # Add version argument
+        parser.add_argument('-V', '--version', action='store_true', help='print the opengsq version number and exit')
+
         opengsq_path = os.path.abspath(os.path.dirname(__file__))
         subparsers = parser.add_subparsers(dest='subparser_name')
         pattern = re.compile(r'from\s+(\S+)\s+import\s+(.+,?\S)')
@@ -32,7 +36,7 @@ class CLI:
                     self.__paths[name] = fullpath
 
                     # Add parser and arguments
-                    obj = locate(fullpath)
+                    obj: ProtocolBase = locate(fullpath)
                     sub = subparsers.add_parser(name, help=obj.full_name)
                     self.__add_arguments(sub, parameters)
                     method_names = [func for func in dir(obj) if callable(getattr(obj, func)) and func.startswith('get_')]
@@ -41,6 +45,12 @@ class CLI:
 
     # Get the query response in json format
     async def run(self, args: Sequence[str]) -> str:
+        # Return version if -V or --version
+        if args.version:
+            return __version__
+        else:
+            del args.version
+
         # Load the obj from path
         obj = locate(self.__paths[args.subparser_name])
         del args.subparser_name
