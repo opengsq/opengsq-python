@@ -135,7 +135,7 @@ class GameSpy1(ProtocolBase):
         return kv
 
     def __parse_as_object(self, br: BinaryReader, is_player=False):
-        items, keyhashes, filters = [], [], []
+        items, keyhashes, filters = {}, [], []
 
         while br.length() > 0:
             # Get the key, for example player_1, frags_1, ping_1, etc...
@@ -163,15 +163,15 @@ class GameSpy1(ProtocolBase):
                 else:
                     keyhashes.append(value)
 
-            # Append a dict to items if next index appears
-            if len(items) <= index:
-                items.append({})
+            # Create a dict on items if next index appears
+            if index not in items:
+                items[index] = {}
 
             # Save
             items[index][name] = value
 
         # Filter items by filters
-        return [item for i, item in enumerate(items) if i not in filters]
+        return [v for k, v in items.items() if k not in filters]
 
 
 if __name__ == '__main__':
@@ -182,6 +182,7 @@ if __name__ == '__main__':
         gs1 = GameSpy1(address='51.81.48.224', query_port=23000, timeout=5.0)  # bfield1942
         #gs1 = GameSpy1(address='139.162.235.20', query_port=7778, timeout=5.0)  # ut
         #gs1 = GameSpy1(address='192.223.24.6', query_port=7778, timeout=5.0)  # ut
+        gs1 = GameSpy1(address='141.94.205.35', query_port=12300, timeout=5.0)  # mohaa
         status = await gs1.get_status()
         print(json.dumps(status, indent=None) + '\n')
 
