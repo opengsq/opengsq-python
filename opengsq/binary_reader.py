@@ -30,8 +30,9 @@ class BinaryReader:
 
         return data
 
-    def read_short(self) -> int:
-        data = struct.unpack('<h', self.__data[self.stream_position:self.stream_position + 2])[0]
+    def read_short(self, unsigned=True) -> int:
+        format = 'H' if unsigned else 'h'
+        data = struct.unpack(f'<{format}', self.__data[self.stream_position:self.stream_position + 2])[0]
         self.stream_position += 2
 
         return data
