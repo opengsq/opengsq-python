@@ -24,7 +24,7 @@
     "si_privatePlayers": "0",
     "si_allowVoting": "1",
     "si_useReady": "0",
-    "si_tourneyLimit": "3",
+    "si_tourneyLimit": "1",
     "si_captureLimit": "5",
     "si_minPlayers": "2",
     "si_maxPlayers": "12",
@@ -46,11 +46,11 @@
     ".URL": "https://discord.gg/kt7VMgxQV3",
     ".Players_Strogg": "",
     ".Players_Marine": "",
-    ".Players_Active": "0 1 2",
+    ".Players_Active": "14 15",
     ".Score_Strogg": "",
     ".Score_Marine": "",
-    ".Score": "5 7 13",
-    ".Score_Time": "2:26",
+    ".Score": "10 12",
+    ".Score_Time": "0:18",
     ".matchid": "0",
     ".serverid": "0",
     "si_inhibit": "0",
@@ -63,24 +63,17 @@
     "gamename": "Q4MAX 0.82",
     "players": [
         {
-            "id": 0,
+            "id": 14,
             "ping": 0,
             "rate": 50000,
-            "name": "Cortez",
+            "name": "Harper",
             "clantag": "[BOT]"
         },
         {
-            "id": 1,
+            "id": 15,
             "ping": 0,
             "rate": 50000,
-            "name": "Uber Pro",
-            "clantag": "[BOT]"
-        },
-        {
-            "id": 2,
-            "ping": 0,
-            "rate": 50000,
-            "name": "Rox",
+            "name": "Lox",
             "clantag": "[BOT]"
         }
     ]

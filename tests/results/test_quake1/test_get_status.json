@@ -10,54 +10,65 @@
         "needpass": "4",
         "fpd": "142",
         "deathmatch": "3",
-        "hostname": "FFA @ qw.servegame.org",
-        "status": "Standby",
         "*progs": "so",
         "maxclients": "20",
-        "maxspectators": "20",
         "timelimit": "6",
-        "map": "spinev2"
+        "map": "tridm1",
+        "serverdemo": "ffa_1[tridm1]230517-2225.mvd",
+        "hostname": "FFA @ qw.servegame.org",
+        "maxspectators": "12",
+        "status": "3 min left"
     },
     "players": [
         {
-            "id": 58,
-            "score": 0,
-            "time": 0,
-            "ping": 999,
-            "name": "orta",
-            "skin": "",
-            "color1": 13,
-            "color2": 13
-        },
-        {
-            "id": 11,
-            "score": 0,
-            "time": 6,
-            "ping": 999,
-            "name": "kamikazeSS",
+            "id": 9,
+            "score": 5,
+            "time": 3,
+            "ping": 39,
+            "name": "kalasatama",
             "skin": "base",
             "color1": 11,
             "color2": 2
         },
         {
-            "id": 9,
-            "score": 0,
-            "time": 0,
-            "ping": 999,
-            "name": "SMOK",
-            "skin": "tvs-mil",
-            "color1": 0,
-            "color2": 11
+            "id": 10,
+            "score": 20,
+            "time": 3,
+            "ping": 41,
+            "name": "dm1",
+            "skin": "",
+            "color1": 4,
+            "color2": 0
         },
         {
-            "id": 14,
+            "id": 21,
+            "score": 30,
+            "time": 3,
+            "ping": 70,
+            "name": "hmm",
+            "skin": "",
+            "color1": 13,
+            "color2": 13
+        },
+        {
+            "id": 24,
             "score": 0,
             "time": 0,
-            "ping": 999,
-            "name": "player",
-            "skin": "4",
-            "color1": 1,
-            "color2": 1
+            "ping": 25,
+            "name": "Captain",
+            "skin": "base",
+            "color1": 4,
+            "color2": 4
+        },
+        {
+            "id": 17,
+            "score": 15,
+            "time": 3,
+            "ping": 26,
+            "name": "kwon",
+            "skin": "",
+            "color1": 13,
+            "color2": 13
         }
     ]
 }

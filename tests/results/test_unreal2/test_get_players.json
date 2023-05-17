@@ -1,93 +1,23 @@
 [
     {
-        "Id": 15,
-        "Name": "[THA]Loren_Denver",
-        "Ping": 204,
-        "Score": 2096,
+        "Id": 48,
+        "Name": "Spicy",
+        "Ping": 32,
+        "Score": 2101,
         "StatsId": 536870912
     },
     {
-        "Id": 14,
-        "Name": "Sapap",
-        "Ping": 56,
-        "Score": 2099,
+        "Id": 2,
+        "Name": "TURBO",
+        "Ping": 120,
+        "Score": 1282,
         "StatsId": 536870912
     },
     {
-        "Id": 13,
-        "Name": "Rambo",
-        "Ping": 116,
-        "Score": 2390,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 12,
-        "Name": "Div3rsantas",
-        "Ping": 44,
-        "Score": 2069,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 11,
-        "Name": "Ribokas",
-        "Ping": 56,
-        "Score": 2415,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 10,
-        "Name": "[HUN]szeszmoly",
-        "Ping": 48,
-        "Score": 2107,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 9,
-        "Name": "Guapon",
-        "Ping": 48,
-        "Score": 2020,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 8,
-        "Name": "Zezla",
-        "Ping": 80,
-        "Score": 2223,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 7,
-        "Name": "GuM'a",
-        "Ping": 48,
-        "Score": 2182,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 6,
-        "Name": "millerrita",
-        "Ping": 64,
-        "Score": 2034,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 5,
-        "Name": "Tolf",
-        "Ping": 40,
-        "Score": 2018,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 4,
-        "Name": "Hyena",
-        "Ping": 60,
-        "Score": 2029,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 3,
-        "Name": "RLD!",
-        "Ping": 64,
-        "Score": 2128,
+        "Id": 1,
+        "Name": "MOBSTER",
+        "Ping": 52,
+        "Score": 2967,
         "StatsId": 536870912
     }
 ]

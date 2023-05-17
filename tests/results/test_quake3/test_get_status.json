@@ -1,16 +1,16 @@
 {
     "info": {
         "omnibot_playing": "0",
-        "P": "122211113321--12311--2-11-32-33322-1------1-2-1-223---22--22",
+        "P": "1233313222-313323113322311133-122321122-211--3122211222",
         "voteFlags": "507903",
         "g_balancedteams": "1",
-        "g_bluelimbotime": "12000",
-        "g_redlimbotime": "14000",
+        "g_bluelimbotime": "8000",
+        "g_redlimbotime": "12000",
         "gamename": "jaymod",
         "mod_version": "2.2.0",
         "mod_url": "http://jaymod.clanfu.org",
         "mod_binary": "linux-release",
-        "sv_uptime": "00d08h03m",
+        "sv_uptime": "00d15h36m",
         "sv_cpu": "Intel(R) Xeon(R) CPU E3-1270 v5",
         "cm_optimizePatchPlanes": "0",
         "g_axismaxlives": "0",
@@ -19,10 +19,10 @@
         "g_minGameClients": "8",
         "g_needpass": "0",
         "sv_privateClients": "0",
-        "mapname": "fa_italy_b3",
+        "mapname": "castleattack_b5",
         "protocol": "84",
         "g_gametype": "2",
-        "timelimit": "30",
+        "timelimit": "25",
         "sv_hostname": "F|A RECRUITING XP SAVE",
         "sv_minRate": "0",
         "sv_maxRate": "45000",
@@ -40,194 +40,254 @@
     },
     "players": [
         {
-            "frags": 8069,
-            "ping": 148,
-            "name": "Pacobeco"
-        },
-        {
-            "frags": 0,
+            "frags": 31182,
             "ping": 48,
-            "name": "=F|A=Audie Murphy"
+            "name": "ADVLD"
         },
         {
-            "frags": 2535902,
+            "frags": 18246910,
+            "ping": 48,
+            "name": "danger "
+        },
+        {
+            "frags": 0,
+            "ping": 0,
+            "name": "e"
+        },
+        {
+            "frags": 3245208,
             "ping": 148,
-            "name": "Edu20"
-        },
-        {
-            "frags": 1589,
-            "ping": 113,
-            "name": "Your"
-        },
-        {
-            "frags": 0,
-            "ping": 148,
-            "name": "!AUTO STFU SPEED"
-        },
-        {
-            "frags": 256200,
-            "ping": 301,
-            "name": "=F|A=Lisa."
-        },
-        {
-            "frags": 0,
-            "ping": 156,
-            "name": "slk"
-        },
-        {
-            "frags": 0,
-            "ping": 106,
-            "name": "GRvW"
-        },
-        {
-            "frags": 0,
-            "ping": 181,
-            "name": "Bjurk"
-        },
-        {
-            "frags": 0,
-            "ping": 111,
-            "name": "Terminator"
-        },
-        {
-            "frags": 0,
-            "ping": 148,
-            "name": "Zimpzon"
-        },
-        {
-            "frags": 1273035,
-            "ping": 300,
-            "name": "indelicate someone"
-        },
-        {
-            "frags": 571254,
-            "ping": 194,
-            "name": "R o R o **"
-        },
-        {
-            "frags": 75885,
-            "ping": 148,
-            "name": "-TWC|Strax."
-        },
-        {
-            "frags": 0,
-            "ping": 63,
-            "name": ".$k@viNtage?"
-        },
-        {
-            "frags": 578208,
-            "ping": 150,
-            "name": "nobaf"
+            "name": "KniFenstein"
         },
         {
             "frags": 0,
             "ping": 133,
-            "name": "(The) Situation"
+            "name": "ANMLZD kabi"
         },
         {
-            "frags": 57107,
+            "frags": 46,
+            "ping": 98,
+            "name": "Itztlacoliuhquii"
+        },
+        {
+            "frags": 0,
+            "ping": 59,
+            "name": "Disguised Enemy!"
+        },
+        {
+            "frags": 782587,
+            "ping": 37,
+            "name": "CoVid-19"
+        },
+        {
+            "frags": 593889,
             "ping": 146,
-            "name": "*Alex*"
+            "name": "Chinese Flu"
+        },
+        {
+            "frags": 6128,
+            "ping": 108,
+            "name": "DUPA_SRA"
         },
         {
             "frags": 0,
-            "ping": 298,
-            "name": "Apollonius"
-        },
-        {
-            "frags": 1113640,
-            "ping": 110,
-            "name": "J&B"
-        },
-        {
-            "frags": 0,
-            "ping": 74,
-            "name": "=F|A=.nAbish?"
-        },
-        {
-            "frags": 2002452,
-            "ping": 135,
-            "name": "[!!!]SpeeD"
-        },
-        {
-            "frags": 0,
-            "ping": 103,
-            "name": "JvH103"
-        },
-        {
-            "frags": 0,
-            "ping": 148,
-            "name": "Schlumpf"
-        },
-        {
-            "frags": 0,
-            "ping": 136,
-            "name": "cool"
-        },
-        {
-            "frags": 0,
-            "ping": 145,
-            "name": "SaraJ"
-        },
-        {
-            "frags": 0,
-            "ping": 148,
-            "name": "Plumber"
-        },
-        {
-            "frags": 1244604,
-            "ping": 40,
-            "name": "Ron"
-        },
-        {
-            "frags": 193827,
             "ping": 48,
-            "name": "Aunt Randy"
+            "name": "MoFo"
+        },
+        {
+            "frags": 16142,
+            "ping": 136,
+            "name": "Just Call Me Rocket"
+        },
+        {
+            "frags": 6128,
+            "ping": 98,
+            "name": "-MCM-"
         },
         {
             "frags": 0,
-            "ping": 141,
-            "name": "Eli Cohen"
-        },
-        {
-            "frags": 151938,
-            "ping": 216,
-            "name": "norest"
-        },
-        {
-            "frags": 136996,
             "ping": 100,
-            "name": "Bronzi di Riace"
+            "name": "Ferdubs"
         },
         {
-            "frags": 1864,
-            "ping": 115,
-            "name": "nninyustu"
+            "frags": 637,
+            "ping": 100,
+            "name": "#FRA.qu1tuss:)"
         },
         {
             "frags": 0,
+            "ping": 48,
+            "name": "OhMy"
+        },
+        {
+            "frags": 140070,
+            "ping": 120,
+            "name": "FiNaLShOoT"
+        },
+        {
+            "frags": 366038,
+            "ping": 148,
+            "name": ".$k@obj"
+        },
+        {
+            "frags": 0,
+            "ping": 153,
+            "name": "Caipirinha[<O>]"
+        },
+        {
+            "frags": 0,
+            "ping": 150,
+            "name": "FabioLaguna"
+        },
+        {
+            "frags": 3245208,
+            "ping": 150,
+            "name": "*Bunny(:"
+        },
+        {
+            "frags": 16823,
+            "ping": 148,
+            "name": "uknow"
+        },
+        {
+            "frags": 366038,
+            "ping": 101,
+            "name": ".$k@Sticky"
+        },
+        {
+            "frags": 203651,
+            "ping": 110,
+            "name": "Kim-Jong BUMM"
+        },
+        {
+            "frags": 542808,
+            "ping": 113,
+            "name": "ZiWaN"
+        },
+        {
+            "frags": 97845,
+            "ping": 150,
+            "name": "][][]["
+        },
+        {
+            "frags": 0,
+            "ping": 100,
+            "name": "Josef"
+        },
+        {
+            "frags": 0,
+            "ping": 100,
+            "name": "ET"
+        },
+        {
+            "frags": 59,
+            "ping": 48,
+            "name": "Bartholomew"
+        },
+        {
+            "frags": 1557145,
+            "ping": 98,
+            "name": "goldleader(LOB)"
+        },
+        {
+            "frags": 339976,
+            "ping": 98,
+            "name": "MEATFACE"
+        },
+        {
+            "frags": 0,
+            "ping": 110,
+            "name": "orfen."
+        },
+        {
+            "frags": 987355,
+            "ping": 148,
+            "name": "lisboa 1"
+        },
+        {
+            "frags": 459260,
+            "ping": 150,
+            "name": "YASSPERS"
+        },
+        {
+            "frags": 29406,
+            "ping": 98,
+            "name": "N0Pe"
+        },
+        {
+            "frags": 12721,
+            "ping": 150,
+            "name": "Gioz"
+        },
+        {
+            "frags": 87792,
+            "ping": 98,
+            "name": "ANMLZD d0pe"
+        },
+        {
+            "frags": 585226,
             "ping": 105,
-            "name": "view"
+            "name": "r0adrunner"
+        },
+        {
+            "frags": 86913,
+            "ping": 100,
+            "name": "SirDabsAlot"
+        },
+        {
+            "frags": 4768,
+            "ping": 148,
+            "name": "muji"
         },
         {
             "frags": 0,
             "ping": 98,
-            "name": "**BFC Pete**"
+            "name": "Delfonic604"
         },
         {
-            "frags": 0,
-            "ping": 198,
-            "name": "ChorizoRufus"
+            "frags": 592505,
+            "ping": 82,
+            "name": "-=AR=-McLov!n. "
         },
         {
-            "frags": 3564,
+            "frags": 3794196,
+            "ping": 117,
+            "name": "Edu20"
+        },
+        {
+            "frags": 329870,
+            "ping": 98,
+            "name": "*Elk"
+        },
+        {
+            "frags": 98,
             "ping": 148,
-            "name": "Not'"
+            "name": "Peaches"
         },
         {
-            "frags": 38517,
-            "ping": 150,
-            "name": "Battlefido"
+            "frags": 749281,
+            "ping": 98,
+            "name": "=F|A=RedBaird"
+        },
+        {
+            "frags": 3982588,
+            "ping": 148,
+            "name": "Moscipan Mscichuj"
+        },
+        {
+            "frags": 760324,
+            "ping": 48,
+            "name": "Col. Poopypants"
+        },
+        {
+            "frags": 40919,
+            "ping": 53,
+            "name": "Dingus!"
+        },
+        {
+            "frags": 213,
+            "ping": 98,
+            "name": "Go$treet"
         }
     ]
 }

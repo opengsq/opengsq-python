@@ -1,48 +1,18 @@
 [
     {
-        "player": "faza",
-        "frags": "0",
-        "ping": "67",
-        "team": "255",
-        "mesh": "Spectator",
-        "skin": "None",
-        "face": "",
-        "ngsecret": "true"
-    },
-    {
-        "player": "Honda",
-        "frags": "17",
-        "ping": "37",
+        "player": "One",
+        "frags": "5",
+        "ping": "40",
         "team": "1",
         "mesh": "Male Soldier",
-        "skin": "SoldierSkins.RawS",
-        "face": "SoldierSkins.Arkon",
+        "skin": "SoldierSkins.Blkt",
+        "face": "SoldierSkins.Malcom",
         "ngsecret": "true"
     },
     {
-        "player": "xRomium",
-        "frags": "45",
-        "ping": "70",
-        "team": "0",
-        "mesh": "Female Soldier",
-        "skin": "SGirlSkins.fbth",
-        "face": "SGirlSkins.Annaka",
-        "ngsecret": "true"
-    },
-    {
-        "player": "ForatNegreSupermassi",
-        "frags": "0",
-        "ping": "47",
-        "team": "255",
-        "mesh": "Spectator",
-        "skin": "None",
-        "face": "",
-        "ngsecret": "true"
-    },
-    {
-        "player": "SONYBOY",
-        "frags": "23",
-        "ping": "99",
+        "player": "Cobain",
+        "frags": "5",
+        "ping": "117",
         "team": "0",
         "mesh": "Male Soldier",
         "skin": "SoldierSkins.hkil",
@@ -50,53 +20,143 @@
         "ngsecret": "true"
     },
     {
-        "player": "have_a_cigar",
-        "frags": "0",
-        "ping": "55",
-        "team": "255",
-        "mesh": "Spectator",
-        "skin": "None",
-        "face": "",
-        "ngsecret": "true"
-    },
-    {
-        "player": "Jamally",
-        "frags": "164",
-        "ping": "56",
-        "team": "1",
-        "mesh": "Male Soldier",
-        "skin": "SoldierSkins.hkil",
-        "face": "SoldierSkins.tensor",
-        "ngsecret": "true"
-    },
-    {
-        "player": "uq*Cypher",
-        "frags": "176",
-        "ping": "138",
+        "player": "DeBryne",
+        "frags": "4",
+        "ping": "36",
         "team": "0",
-        "mesh": "Male Soldier",
-        "skin": "SoldierSkins.RawS",
-        "face": "SoldierSkins.Arkon",
-        "ngsecret": "true"
-    },
-    {
-        "player": "2022",
-        "frags": "105",
-        "ping": "37",
-        "team": "1",
-        "mesh": "Male Soldier",
-        "skin": "SoldierSkins.hkil",
-        "face": "SoldierSkins.matrix",
-        "ngsecret": "true"
-    },
-    {
-        "player": "Atlantis",
-        "frags": "46",
-        "ping": "33",
-        "team": "1",
         "mesh": "Female Commando",
-        "skin": "FCommandoSkins.cmdo",
-        "face": "FCommandoSkins.Ivana",
+        "skin": "FCommandoSkins.daco",
+        "face": "FCommandoSkins.Tanya",
+        "ngsecret": "true"
+    },
+    {
+        "player": "pissedoffpistol",
+        "frags": "24",
+        "ping": "105",
+        "team": "0",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.hkil",
+        "face": "SoldierSkins.matrix",
+        "ngsecret": "true"
+    },
+    {
+        "player": "Wasp",
+        "frags": "26",
+        "ping": "74",
+        "team": "1",
+        "mesh": "",
+        "skin": "SoldierSkins.hkil",
+        "face": "SoldierSkins.matrix",
+        "ngsecret": "true"
+    },
+    {
+        "player": "bustacell",
+        "frags": "30",
+        "ping": "42",
+        "team": "0",
+        "mesh": "Female Commando",
+        "skin": "FCommandoSkins.goth",
+        "face": "FCommandoSkins.Malise",
+        "ngsecret": "true"
+    },
+    {
+        "player": "eZ",
+        "frags": "26",
+        "ping": "130",
+        "team": "0",
+        "mesh": "Male Commando",
+        "skin": "CommandoSkins.goth",
+        "face": "CommandoSkins.Grail",
+        "ngsecret": "true"
+    },
+    {
+        "player": "sus",
+        "frags": "0",
+        "ping": "163",
+        "team": "255",
+        "mesh": "Spectator",
+        "skin": "None",
+        "face": "",
+        "ngsecret": "true"
+    },
+    {
+        "player": "cryptonom",
+        "frags": "5",
+        "ping": "151",
+        "team": "1",
+        "mesh": "Female Soldier",
+        "skin": "SGirlSkins.Army",
+        "face": "SGirlSkins.Shyann",
+        "ngsecret": "true"
+    },
+    {
+        "player": "Terr",
+        "frags": "4",
+        "ping": "58",
+        "team": "1",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.Gard",
+        "face": "SoldierSkins.Radkin",
+        "ngsecret": "true"
+    },
+    {
+        "player": "uranus",
+        "frags": "10",
+        "ping": "107",
+        "team": "0",
+        "mesh": "",
+        "skin": "FCommandoSkins.goth",
+        "face": "FCommandoSkins.Visse",
+        "ngsecret": "true"
+    },
+    {
+        "player": "bife",
+        "frags": "27",
+        "ping": "54",
+        "team": "1",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.Blkt",
+        "face": "SoldierSkins.Malcom",
+        "ngsecret": "true"
+    },
+    {
+        "player": "oOo",
+        "frags": "9",
+        "ping": "38",
+        "team": "1",
+        "mesh": "Male Commando",
+        "skin": "CommandoSkins.cmdo",
+        "face": "CommandoSkins.Blake",
+        "ngsecret": "true"
+    },
+    {
+        "player": "SquaLL",
+        "frags": "3",
+        "ping": "81",
+        "team": "1",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.Gard",
+        "face": "SoldierSkins.Drake",
+        "ngsecret": "true"
+    },
+    {
+        "player": "effibrie",
+        "frags": "25",
+        "ping": "120",
+        "team": "1",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.sldr",
+        "face": "SoldierSkins.Harlin",
+        "ngsecret": "true"
+    },
+    {
+        "player": "Sir.DoubleDutch",
+        "frags": "0",
+        "ping": "39",
+        "team": "0",
+        "mesh": "Male Soldier",
+        "skin": "SoldierSkins.hkil",
+        "face": "SoldierSkins.matrix",
         "ngsecret": "true"
     }
 ]

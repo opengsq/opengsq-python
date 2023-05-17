@@ -1,13 +1,13 @@
 {
     "gamename": "mta",
     "gameport": "22003",
-    "hostname": "#1 TITAN RPG | [RUS|UA|KZ]      [DRIFT|бпан|radm,bpan,cc]",
+    "hostname": "❤ TITAN RPG ❤ | [RUS|UA|KZ]        [DRIFT|бпан|radm,bpan,cc]",
     "gametype": "MTA:SA",
     "map": "None",
     "version": "1.5",
     "password": "0",
-    "numplayers": "22",
-    "maxplayers": "111",
+    "numplayers": "11",
+    "maxplayers": "108",
     "rules": {},
     "players": [
         {
@@ -15,99 +15,19 @@
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "79",
+            "ping": "81",
             "time": ""
         },
         {
-            "name": "AcidicBurglar95",
+            "name": "Dedulya",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "60",
+            "ping": "78",
             "time": ""
         },
         {
-            "name": "segaXS",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "92",
-            "time": ""
-        },
-        {
-            "name": "_Dima_",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "41",
-            "time": ""
-        },
-        {
-            "name": "~/SMYRFIK\\~",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "85",
-            "time": ""
-        },
-        {
-            "name": "Adam_CryptoMatrix",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "111",
-            "time": ""
-        },
-        {
-            "name": "Chaser",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "44",
-            "time": ""
-        },
-        {
-            "name": "TawdryFrigate22",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "117",
-            "time": ""
-        },
-        {
-            "name": "_cbr_Virus_",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "73",
-            "time": ""
-        },
-        {
-            "name": "Pokemonchik",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "82",
-            "time": ""
-        },
-        {
-            "name": "<SUPREME>",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "85",
-            "time": ""
-        },
-        {
-            "name": "_MARSHMELLO_",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "129",
-            "time": ""
-        },
-        {
-            "name": "Collector^",
+            "name": "Lavren",
             "team": "",
             "skin": "",
             "score": "",
@@ -115,75 +35,67 @@
             "time": ""
         },
         {
-            "name": "Wh1teness",
+            "name": "DanyBashca",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "104",
+            "ping": "122",
             "time": ""
         },
         {
-            "name": "frikadelka",
+            "name": "Jafar",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "94",
+            "ping": "72",
             "time": ""
         },
         {
-            "name": "~Relaksek<3",
+            "name": "<MTASHNIK>",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "79",
+            "ping": "84",
             "time": ""
         },
         {
-            "name": "ARTIST.",
+            "name": "Edmin86",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "76",
+            "ping": "141",
             "time": ""
         },
         {
-            "name": "[BEBRA]GENSYXA<3",
+            "name": "LiZZka",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "76",
+            "ping": "90",
             "time": ""
         },
         {
-            "name": "-///[Fillip_Moris]\\\\\\-",
+            "name": "DragonRiki",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "82",
+            "ping": "91",
             "time": ""
         },
         {
-            "name": "kaspi.kz",
+            "name": "Atema",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "107",
+            "ping": "72",
             "time": ""
         },
         {
-            "name": "Nossense",
+            "name": "TTEHb",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "148",
-            "time": ""
-        },
-        {
-            "name": "}|{ena_kaspi.kz",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "139",
+            "ping": "72",
             "time": ""
         }
     ]

@@ -1,8 +1,8 @@
 {
     "password": 0,
-    "numplayers": 91,
+    "numplayers": 17,
     "maxplayers": 250,
-    "servername": "[ENG] Valrise Roleplay [Halloween]",
-    "gametype": "Valrise RP 1.1.95 (RPG/RP)",
+    "servername": "[ENG] Valrise RPG",
+    "gametype": "Valrise RP 1.2.3 (RPG/RP)",
     "language": "English"
 }

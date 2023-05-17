@@ -1,548 +1,104 @@
 [
     {
         "id": 0,
-        "name": "[VIP] Osolnik_Andolini",
-        "score": 30,
-        "ping": 83
+        "name": "Malcolm_Houston",
+        "score": 29,
+        "ping": 55
     },
     {
         "id": 1,
-        "name": "Simon_Stewart",
-        "score": 25,
-        "ping": 63
+        "name": "Mircea_Niko",
+        "score": 12,
+        "ping": 61
     },
     {
         "id": 2,
-        "name": "Mark_Henderson",
-        "score": 32,
-        "ping": 253
+        "name": "Murat_Kent",
+        "score": 27,
+        "ping": 144
     },
     {
         "id": 3,
-        "name": "adem_nattar",
-        "score": 0,
-        "ping": 84
+        "name": "Lars_Vegas",
+        "score": 25,
+        "ping": 261
     },
     {
         "id": 4,
-        "name": "Muhammad_Anver",
-        "score": 5,
-        "ping": 363
+        "name": "Richard_Russo",
+        "score": 20,
+        "ping": 20
     },
     {
         "id": 5,
-        "name": "Ledia_Jennifer",
-        "score": 11,
-        "ping": 153
-    },
-    {
-        "id": 6,
-        "name": "Donatello_Dicaprio",
-        "score": 15,
-        "ping": 68
-    },
-    {
-        "id": 7,
-        "name": "Radolf_Thompson",
-        "score": 19,
-        "ping": 220
-    },
-    {
-        "id": 8,
-        "name": "Enzo_Nazario",
-        "score": 25,
-        "ping": 225
-    },
-    {
-        "id": 9,
-        "name": "Alan_Thompson",
-        "score": 28,
-        "ping": 200
-    },
-    {
-        "id": 10,
-        "name": "Soap_Riley",
-        "score": 19,
-        "ping": 68
-    },
-    {
-        "id": 11,
-        "name": "Kazak_Kodorov",
-        "score": 29,
-        "ping": 73
-    },
-    {
-        "id": 12,
-        "name": "Zachary_Kalof",
-        "score": 12,
-        "ping": 231
-    },
-    {
-        "id": 13,
-        "name": "Raphael_Fernandez",
-        "score": 5,
+        "name": "Mark_Lynch",
+        "score": 22,
         "ping": 51
     },
     {
-        "id": 14,
-        "name": "Jofi_Clark",
-        "score": 5,
-        "ping": 73
-    },
-    {
-        "id": 16,
-        "name": "Walid_Montana",
+        "id": 6,
+        "name": "Sonny_Tattaglia",
         "score": 21,
-        "ping": 205
+        "ping": 50
     },
     {
-        "id": 17,
-        "name": "Zarko_Djuric",
-        "score": 6,
-        "ping": 178
-    },
-    {
-        "id": 18,
-        "name": "[VIP] Patricio_Cortes",
-        "score": 26,
-        "ping": 68
-    },
-    {
-        "id": 19,
-        "name": "Victor_Hutton",
-        "score": 10,
-        "ping": 63
-    },
-    {
-        "id": 20,
-        "name": "Ledi_Gambino",
-        "score": 6,
-        "ping": 62
-    },
-    {
-        "id": 21,
-        "name": "Roy_Chesterfield",
-        "score": 23,
-        "ping": 98
-    },
-    {
-        "id": 22,
-        "name": "Marklin_Tavon",
-        "score": 19,
-        "ping": 62
-    },
-    {
-        "id": 23,
-        "name": "Mike_Jonne",
-        "score": 7,
-        "ping": 21
-    },
-    {
-        "id": 24,
-        "name": "Shako_Feiqrishvili",
-        "score": 0,
-        "ping": 99
-    },
-    {
-        "id": 25,
-        "name": "Wili_Jhonson",
-        "score": 4,
-        "ping": 500
-    },
-    {
-        "id": 26,
-        "name": "Simon_Gofrowsky",
-        "score": 23,
-        "ping": 79
-    },
-    {
-        "id": 27,
-        "name": "Omar_Wilson",
-        "score": 28,
-        "ping": 83
-    },
-    {
-        "id": 28,
-        "name": "Nick_Thompson",
+        "id": 7,
+        "name": "Kris_Stewart",
         "score": 25,
+        "ping": 133
+    },
+    {
+        "id": 8,
+        "name": "Larry_Ozaak",
+        "score": 30,
+        "ping": 55
+    },
+    {
+        "id": 9,
+        "name": "Jason_Wilson",
+        "score": 31,
+        "ping": 153
+    },
+    {
+        "id": 10,
+        "name": "Eduard_Reiner",
+        "score": 49,
         "ping": 185
     },
     {
-        "id": 29,
-        "name": "Helena_Finch",
-        "score": 21,
-        "ping": 82
+        "id": 11,
+        "name": "Igor_Sto",
+        "score": 20,
+        "ping": 19
     },
     {
-        "id": 30,
-        "name": "leon_mikaso",
-        "score": 8,
-        "ping": 69
-    },
-    {
-        "id": 31,
-        "name": "Ryan_McArthur",
-        "score": 13,
-        "ping": 115
-    },
-    {
-        "id": 32,
-        "name": "Darrek_Parks",
-        "score": 6,
-        "ping": 26
-    },
-    {
-        "id": 33,
-        "name": "John_6",
-        "score": 0,
-        "ping": 47
-    },
-    {
-        "id": 34,
-        "name": "Edvis_Gambino",
-        "score": 22,
+        "id": 12,
+        "name": "Tom_Willson",
+        "score": 26,
         "ping": 41
     },
     {
-        "id": 35,
-        "name": "Jabbar_Hunter",
-        "score": 6,
-        "ping": 299
-    },
-    {
-        "id": 36,
-        "name": "Jayden_Wilson",
-        "score": 16,
-        "ping": 141
-    },
-    {
-        "id": 37,
-        "name": "[VIP] Randy_Andolini",
+        "id": 13,
+        "name": "Matthew_Reiner",
         "score": 31,
-        "ping": 73
-    },
-    {
-        "id": 38,
-        "name": "[VIP] Kira_Nocta",
-        "score": 28,
-        "ping": 74
-    },
-    {
-        "id": 39,
-        "name": "Jose_Zuan",
-        "score": 18,
-        "ping": 60
-    },
-    {
-        "id": 40,
-        "name": "Katayama_Kilian",
-        "score": 23,
-        "ping": 185
-    },
-    {
-        "id": 41,
-        "name": "Tony_Crisman",
-        "score": 23,
-        "ping": 75
-    },
-    {
-        "id": 43,
-        "name": "Kris_Rojer",
-        "score": 10,
-        "ping": 212
-    },
-    {
-        "id": 44,
-        "name": "Lebron_Hunter",
-        "score": 14,
-        "ping": 44
-    },
-    {
-        "id": 45,
-        "name": "Tyron_Snyder",
-        "score": 24,
-        "ping": 52
-    },
-    {
-        "id": 46,
-        "name": "[VIP] Dani_Yugovic",
-        "score": 36,
-        "ping": 63
-    },
-    {
-        "id": 47,
-        "name": "Nelson_Sypus",
-        "score": 24,
-        "ping": 57
-    },
-    {
-        "id": 48,
-        "name": "Ive_Harmon",
-        "score": 29,
-        "ping": 63
-    },
-    {
-        "id": 49,
-        "name": "Domingo_Gambino",
-        "score": 22,
-        "ping": 58
-    },
-    {
-        "id": 50,
-        "name": "Antonio_Diriana",
-        "score": 21,
-        "ping": 89
-    },
-    {
-        "id": 51,
-        "name": "Dizzy_Parks",
-        "score": 4,
-        "ping": 109
-    },
-    {
-        "id": 52,
-        "name": "Alec_Thompson",
-        "score": 25,
-        "ping": 183
-    },
-    {
-        "id": 53,
-        "name": "Garry_Maurice",
-        "score": 13,
-        "ping": 92
-    },
-    {
-        "id": 54,
-        "name": "Luke_Williams",
-        "score": 17,
-        "ping": 67
-    },
-    {
-        "id": 55,
-        "name": "[VIP] Ermanno_Andolini",
-        "score": 45,
-        "ping": 78
-    },
-    {
-        "id": 56,
-        "name": "Danielle_Martinez",
-        "score": 27,
-        "ping": 75
-    },
-    {
-        "id": 57,
-        "name": "Alonzo_Ivanowsky",
-        "score": 31,
-        "ping": 183
-    },
-    {
-        "id": 58,
-        "name": "Brian_Willson",
-        "score": 27,
-        "ping": 72
-    },
-    {
-        "id": 59,
-        "name": "Bando_Jackson",
-        "score": 6,
-        "ping": 63
-    },
-    {
-        "id": 60,
-        "name": "Fredrich_Becker",
-        "score": 29,
-        "ping": 141
-    },
-    {
-        "id": 61,
-        "name": "Brigita_Decker",
-        "score": 20,
-        "ping": 64
-    },
-    {
-        "id": 62,
-        "name": "Bobby_Sturdgod",
-        "score": 8,
-        "ping": 130
-    },
-    {
-        "id": 63,
-        "name": "Carlo_Gambino",
-        "score": 49,
-        "ping": 26
-    },
-    {
-        "id": 64,
-        "name": "John_Cancer",
-        "score": 24,
-        "ping": 36
-    },
-    {
-        "id": 65,
-        "name": "Francesko_Gambino",
-        "score": 14,
-        "ping": 58
-    },
-    {
-        "id": 66,
-        "name": "Albert_Schneider",
-        "score": 15,
-        "ping": 57
-    },
-    {
-        "id": 67,
-        "name": "Marcos_Brown",
-        "score": 21,
-        "ping": 69
-    },
-    {
-        "id": 68,
-        "name": "Lamar_Anderson",
-        "score": 28,
-        "ping": 73
-    },
-    {
-        "id": 69,
-        "name": "Adonis_Hunter",
-        "score": 14,
-        "ping": 36
-    },
-    {
-        "id": 70,
-        "name": "Edward_Gambino",
-        "score": 19,
-        "ping": 239
-    },
-    {
-        "id": 71,
-        "name": "John_Tibet",
-        "score": 7,
-        "ping": 30
-    },
-    {
-        "id": 72,
-        "name": "Pavel_Yugovic",
-        "score": 19,
-        "ping": 35
-    },
-    {
-        "id": 73,
-        "name": "Tom_Willson",
-        "score": 24,
-        "ping": 47
-    },
-    {
-        "id": 74,
-        "name": "Law_Juanzo",
-        "score": 18,
-        "ping": 582
-    },
-    {
-        "id": 75,
-        "name": "Dayvon_Smith",
-        "score": 2,
-        "ping": 36
-    },
-    {
-        "id": 76,
-        "name": "Marko_Vanhanen",
-        "score": 28,
-        "ping": 36
-    },
-    {
-        "id": 78,
-        "name": "Draco_Nocta",
-        "score": 9,
-        "ping": 94
-    },
-    {
-        "id": 79,
-        "name": "Tommy_Rogers",
-        "score": 6,
-        "ping": 88
-    },
-    {
-        "id": 80,
-        "name": "Diaz_Tattaglia",
-        "score": 14,
-        "ping": 168
-    },
-    {
-        "id": 81,
-        "name": "Kostas_Evans",
-        "score": 7,
-        "ping": 86
-    },
-    {
-        "id": 82,
-        "name": "Carry_Potter",
-        "score": 1,
-        "ping": 89
-    },
-    {
-        "id": 83,
-        "name": "John_Morison",
-        "score": 16,
-        "ping": 125
-    },
-    {
-        "id": 84,
-        "name": "Broli_krasi",
-        "score": 0,
-        "ping": 63
-    },
-    {
-        "id": 85,
-        "name": "John_Kosova",
-        "score": 8,
-        "ping": 83
-    },
-    {
-        "id": 86,
-        "name": "Leon_Bailey",
-        "score": 39,
-        "ping": 167
-    },
-    {
-        "id": 87,
-        "name": "Thomas_Montero",
-        "score": 24,
         "ping": 46
     },
     {
-        "id": 88,
-        "name": "Akemi_Aoki",
-        "score": 2,
-        "ping": 85
+        "id": 14,
+        "name": "Ishaq_Zxytro",
+        "score": 22,
+        "ping": 183
     },
     {
-        "id": 89,
-        "name": "Jordan_Reynolds",
-        "score": 9,
-        "ping": 173
+        "id": 15,
+        "name": "Hamdon_Clifford",
+        "score": 7,
+        "ping": 77
     },
     {
-        "id": 91,
-        "name": "Mike_Grace",
-        "score": 4,
-        "ping": 62
-    },
-    {
-        "id": 94,
-        "name": "Jacquavius_Smith",
-        "score": 32,
-        "ping": 52
-    },
-    {
-        "id": 95,
-        "name": "Murph_Brown",
-        "score": 17,
-        "ping": 173
-    },
-    {
-        "id": 96,
-        "name": "Jeffrey_Barns",
-        "score": 23,
-        "ping": 83
+        "id": 17,
+        "name": "Simon_Stewart",
+        "score": 29,
+        "ping": 103
     }
 ]
