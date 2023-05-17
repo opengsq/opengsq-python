@@ -6,8 +6,8 @@ class Teamspeak3(ProtocolBase):
     """Teamspeak 3 Protocol"""
     full_name = 'Teamspeak 3 Protocol'
 
-    def __init__(self, address: str, query_port: int, voice_port: int, timeout: float = 5):
-        super().__init__(address, query_port, timeout)
+    def __init__(self, host: str, port: int, voice_port: int, timeout: float = 5):
+        super().__init__(host, port, timeout)
         self._voice_port = voice_port
 
     async def get_info(self):
@@ -25,7 +25,7 @@ class Teamspeak3(ProtocolBase):
     async def __send_and_receive(self, data: bytes):
         with SocketAsync(SocketKind.SOCK_STREAM) as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
 
             # b'TS3\n\rWelcome to the TeamSpeak 3 ServerQuery interface,
             # type "help" for a list of commands and "help <command>" for information on a specific command.\n\r'
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        teamspeak3 = Teamspeak3(address='145.239.200.2', query_port=10011, voice_port=9987, timeout=5.0)
+        teamspeak3 = Teamspeak3(host='145.239.200.2', port=10011, voice_port=9987, timeout=5.0)
         info = await teamspeak3.get_info()
         print(json.dumps(info, indent=None) + '\n')
         clients = await teamspeak3.get_clients()

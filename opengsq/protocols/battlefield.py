@@ -73,7 +73,7 @@ class Battlefield(ProtocolBase):
 
     async def __get_data(self, request: bytes):
         kind = SocketKind.SOCK_STREAM
-        response = await SocketAsync.send_and_receive(self._address, self._query_port, self._timeout, request, kind)
+        response = await SocketAsync.send_and_receive(self._host, self._port, self._timeout, request, kind)
         return self.__decode(response)
 
     def __decode(self, response: bytes):

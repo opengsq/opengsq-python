@@ -19,7 +19,7 @@ class Satisfactory(ProtocolBase):
 
         # Send message id, protocol version
         request = struct.pack('2b', 0, 0) + 'opengsq'.encode()
-        response = await SocketAsync.send_and_receive(self._address, self._query_port, self._timeout, request)
+        response = await SocketAsync.send_and_receive(self._host, self._port, self._timeout, request)
         br = BinaryReader(response)
         header = br.read_byte()
 
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        satisfactory = Satisfactory(address='delta3.ptse.host', query_port=15777, timeout=5.0)
+        satisfactory = Satisfactory(host='delta3.ptse.host', port=15777, timeout=5.0)
         status = await satisfactory.get_status()
         print(json.dumps(status, indent=None) + '\n')
 

@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # San Andreas Multiplayer
-test = Samp(address='51.254.178.238', query_port=7777)
+test = Samp(host='51.254.178.238', port=7777)
 
 @pytest.mark.asyncio
 async def test_get_status():

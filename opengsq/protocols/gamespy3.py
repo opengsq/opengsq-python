@@ -16,7 +16,7 @@ class GameSpy3(ProtocolBase):
         # Connect to remote host
         with SocketAsync() as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
 
             request_h = b'\xFE\xFD'
             timestamp = b'\x04\x05\x06\x07'
@@ -139,7 +139,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        gs3 = GameSpy3(address='185.107.96.59', query_port=29900, timeout=5.0)
+        gs3 = GameSpy3(host='185.107.96.59', port=29900, timeout=5.0)
         server = await gs3.get_status()
         print(json.dumps(server, indent=None))
 

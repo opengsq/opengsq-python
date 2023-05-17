@@ -12,7 +12,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        gs4 = GameSpy4(address='188.18.10.72', query_port=19133, timeout=5.0)
+        gs4 = GameSpy4(host='188.18.10.72', port=19133, timeout=5.0)
         server = await gs4.get_status()
         print(json.dumps(server, indent=None))
 

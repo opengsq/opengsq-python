@@ -8,7 +8,7 @@ from .result_handler import ResultHandler
 handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
-test = Quake3(address='108.61.18.110', query_port=27960)
+test = Quake3(host='108.61.18.110', port=27960)
 
 @pytest.mark.asyncio
 async def test_get_info():

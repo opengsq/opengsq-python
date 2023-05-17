@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 handler.enable_save = True
 
 # Raknet
-test = Raknet(address='193.70.94.83', query_port=19132)
+test = Raknet(host='193.70.94.83', port=19132)
 
 @pytest.mark.asyncio
 async def test_get_status():

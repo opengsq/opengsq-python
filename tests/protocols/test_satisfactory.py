@@ -10,7 +10,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 handler.enable_save = True
 
 # Satisfactory
-test = Satisfactory(address='delta3.ptse.host', query_port=15777)
+test = Satisfactory(host='delta3.ptse.host', port=15777)
 
 @pytest.mark.asyncio
 async def test_get_status():

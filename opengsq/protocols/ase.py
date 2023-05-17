@@ -14,7 +14,7 @@ class ASE(ProtocolBase):
     async def get_status(self) -> dict:
         with SocketAsync() as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
 
             # Send Request
             sock.send(self._request)
@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
     async def main_async():
         # mtasa
-        ase = ASE(address='79.137.97.3', query_port=22126, timeout=10.0)
+        ase = ASE(host='79.137.97.3', port=22126, timeout=10.0)
         status = await ase.get_status()
         print(json.dumps(status, indent=None) + '\n')
 

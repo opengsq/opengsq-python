@@ -57,7 +57,7 @@ import asyncio
 from opengsq.protocols import Source
 
 async def main():
-    source = Source(address='45.147.5.5', query_port=27015)
+    source = Source(host='45.147.5.5', port=27015)
     info = await source.get_info()
     print(info)
 
@@ -91,7 +91,7 @@ which makes it easy to query game servers from your terminal. Run
 
 ```sh
 # query server using source protocol
-opengsq source --address 123.123.123.123 --query_port 27015 --function get_info
+opengsq source --host 123.123.123.123 --port 27015 --function get_info
 ```
 
 ## Tests and Results

@@ -18,7 +18,7 @@ class Doom3(ProtocolBase):
 
     async def get_info(self, strip_color=True):
         request = b'\xFF\xFFgetInfo\x00ogsq\x00'
-        response = await SocketAsync.send_and_receive(self._address, self._query_port, self._timeout, request)
+        response = await SocketAsync.send_and_receive(self._host, self._port, self._timeout, request)
 
         # Remove the first two 0xFF
         br = BinaryReader(response[2:])
@@ -104,17 +104,17 @@ if __name__ == '__main__':
 
     async def main_async():
         # doom3
-        doom3 = Doom3(address='66.85.14.240', query_port=27666, timeout=5.0)
+        doom3 = Doom3(host='66.85.14.240', port=27666, timeout=5.0)
         info = await doom3.get_info()
         print(json.dumps(info, indent=None) + '\n')
 
         # etqw
-        doom3 = Doom3(address='178.162.135.83', query_port=27735, timeout=5.0)
+        doom3 = Doom3(host='178.162.135.83', port=27735, timeout=5.0)
         info = await doom3.get_info()
         print(json.dumps(info, indent=None) + '\n')
 
         # quake4
-        doom3 = Doom3(address='88.99.0.7', query_port=28007, timeout=5.0)
+        doom3 = Doom3(host='88.99.0.7', port=28007, timeout=5.0)
         info = await doom3.get_info()
         print(json.dumps(info, indent=None) + '\n')
 

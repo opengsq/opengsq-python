@@ -15,7 +15,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        won = WON(address='212.227.190.150', query_port=27020, timeout=5.0)
+        won = WON(host='212.227.190.150', port=27020, timeout=5.0)
         info = await won.get_info()
         players = await won.get_players()
         rules = await won.get_rules()

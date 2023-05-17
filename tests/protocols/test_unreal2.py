@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Killing Floor
-test = Unreal2(address='51.195.117.236', query_port=9981)
+test = Unreal2(host='51.195.117.236', port=9981)
 
 @pytest.mark.asyncio
 async def test_get_details():

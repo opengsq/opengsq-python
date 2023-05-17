@@ -7,7 +7,7 @@ class ProtocolBase(abc.ABC):
     def full_name(self):
         pass
 
-    def __init__(self, address: str, query_port: int, timeout: float = 5.0):
-        self._address = address
-        self._query_port = query_port
+    def __init__(self, host: str, port: int, timeout: float = 5.0):
+        self._host = host
+        self._port = port
         self._timeout = timeout

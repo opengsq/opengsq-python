@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # bf4
-test = Battlefield(address='74.91.124.140', query_port=47200)
+test = Battlefield(host='74.91.124.140', port=47200)
 
 @pytest.mark.asyncio
 async def test_get_info():
@@ -20,7 +20,7 @@ async def test_get_info():
 async def test_get_version():
     result = await test.get_version()
     await handler.save_result('test_get_version', result)
-    
+
 @pytest.mark.asyncio
 async def test_get_players():
     result = await test.get_players()

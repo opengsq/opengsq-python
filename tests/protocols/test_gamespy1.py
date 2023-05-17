@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 handler.delay_per_test = 1
 
-test = GameSpy1(address='139.162.235.20', query_port=7778)
+test = GameSpy1(host='139.162.235.20', port=7778)
 
 @pytest.mark.asyncio
 async def test_get_basic():

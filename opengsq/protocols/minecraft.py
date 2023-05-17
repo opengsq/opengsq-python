@@ -24,14 +24,14 @@ class Minecraft(ProtocolBase):
         """
 
         # Prepare the request
-        address = self._address.encode('utf8')
+        address = self._host.encode('utf8')
         protocol = self._pack_varint(version)
-        request = b'\x00' + protocol + self._pack_varint(len(address)) + address + struct.pack('H', self._query_port) + b'\x01'
+        request = b'\x00' + protocol + self._pack_varint(len(address)) + address + struct.pack('H', self._port) + b'\x01'
         request = self._pack_varint(len(request)) + request + b'\x01\x00'
 
         with SocketAsync(SocketKind.SOCK_STREAM) as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
             sock.send(request)
 
             response = await sock.recv()
@@ -72,7 +72,7 @@ class Minecraft(ProtocolBase):
         """Get ping info from a server that uses a version older than Minecraft 1.7"""
         with SocketAsync(SocketKind.SOCK_STREAM) as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
             sock.send(b'\xFE\x01')
             response = await sock.recv()
 
@@ -141,7 +141,7 @@ if __name__ == '__main__':
     import asyncio
 
     async def main_async():
-        minecraft = Minecraft(address='51.83.219.117', query_port=25565, timeout=5.0)
+        minecraft = Minecraft(host='51.83.219.117', port=25565, timeout=5.0)
         status = await minecraft.get_status(47, strip_color=True)
         print(json.dumps(status, indent=None, ensure_ascii=False) + '\n')
         status = await minecraft.get_status_pre17()

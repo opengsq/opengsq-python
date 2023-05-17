@@ -9,9 +9,9 @@ class Quake1(ProtocolBase):
     """Quake1 Protocol"""
     full_name = 'Quake1 Protocol'
 
-    def __init__(self, address: str, query_port: int, timeout: float = 5.0):
+    def __init__(self, host: str, port: int, timeout: float = 5.0):
         """Quake1 Query Protocol"""
-        super().__init__(address, query_port, timeout)
+        super().__init__(host, port, timeout)
         self._delimiter1 = b'\\'
         self._delimiter2 = b'\n'
         self._request_header = b'status'
@@ -91,7 +91,7 @@ class Quake1(ProtocolBase):
         # Connect to remote host
         with SocketAsync() as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
 
             header = b'\xFF\xFF\xFF\xFF'
 
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        quake1 = Quake1(address='35.185.44.174', query_port=27500, timeout=5.0)
+        quake1 = Quake1(host='35.185.44.174', port=27500, timeout=5.0)
         status = await quake1.get_status()
         print(json.dumps(status, indent=None) + '\n')
 

@@ -8,9 +8,9 @@ class Quake3(Quake2):
     """Quake3 Protocol"""
     full_name = 'Quake3 Protocol'
 
-    def __init__(self, address: str, query_port: int, timeout: float = 5.0):
+    def __init__(self, host: str, port: int, timeout: float = 5.0):
         """Quake3 Query Protocol"""
-        super().__init__(address, query_port, timeout)
+        super().__init__(host, port, timeout)
         self._request_header = b'getstatus'
         self._response_header = 'statusResponse\n'
 
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        quake3 = Quake3(address='85.10.197.106', query_port=27960, timeout=5.0)
+        quake3 = Quake3(host='85.10.197.106', port=27960, timeout=5.0)
         info = await quake3.get_info()
         status = await quake3.get_status()
         print(json.dumps(info, indent=None) + '\n')

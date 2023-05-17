@@ -50,12 +50,12 @@ class Samp(ProtocolBase):
 
     async def __send_and_receive(self, data: bytes):
         # Format the address
-        host = SocketAsync.gethostbyname(self._address)
-        packet_header = struct.pack('BBBBH', *map(int, host.split('.') + [self._query_port])) + data
+        host = SocketAsync.gethostbyname(self._host)
+        packet_header = struct.pack('BBBBH', *map(int, host.split('.') + [self._port])) + data
         request = self._request_header + packet_header
 
         # Validate the response
-        response = await SocketAsync.send_and_receive(self._address, self._query_port, self._timeout, request)
+        response = await SocketAsync.send_and_receive(self._host, self._port, self._timeout, request)
         header = response[:len(self._response_header)]
 
         if header != self._response_header:
@@ -73,7 +73,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        samp = Samp(address='51.254.178.238', query_port=7777, timeout=5.0)
+        samp = Samp(host='51.254.178.238', port=7777, timeout=5.0)
         status = await samp.get_status()
         print(json.dumps(status, indent=None) + '\n')
         players = await samp.get_players()

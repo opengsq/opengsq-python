@@ -16,7 +16,7 @@ class Raknet(ProtocolBase):
 
     async def get_status(self) -> dict:
         request = self.__ID_UNCONNECTED_PING + self.__TIMESTAMP + self.__OFFLINE_MESSAGE_DATA_ID + self.__CLIENT_GUID
-        response = await SocketAsync.send_and_receive(self._address, self._query_port, self._timeout, request)
+        response = await SocketAsync.send_and_receive(self._host, self._port, self._timeout, request)
 
         br = BinaryReader(response)
         header = br.read_bytes(1)
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        raknet = Raknet(address='193.70.94.83', query_port=19132, timeout=5.0)
+        raknet = Raknet(host='193.70.94.83', port=19132, timeout=5.0)
         status = await raknet.get_status()
         print(json.dumps(status, indent=None) + '\n')
 

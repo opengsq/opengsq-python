@@ -189,7 +189,7 @@ class Source(ProtocolBase):
         # Connect to remote host
         with SocketAsync() as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
 
             # Send and receive
             request_base = b'\xFF\xFF\xFF\xFF' + header
@@ -348,7 +348,7 @@ class Source(ProtocolBase):
             # Connect
             self._sock = SocketAsync(SocketKind.SOCK_STREAM)
             self._sock.settimeout(self._timeout)
-            await self._sock.connect((self._address, self._query_port))
+            await self._sock.connect((self._host, self._port))
 
             # Send password
             id = random.randrange(4096)
@@ -459,7 +459,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        source = Source(address='209.205.114.187', query_port=27015, timeout=5.0)
+        source = Source(host='209.205.114.187', port=27015, timeout=5.0)
         info = await source.get_info()
         print(json.dumps(info, indent=None, ensure_ascii=False) + '\n')
         players = await source.get_players()

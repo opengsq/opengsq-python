@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # TeamSpeak 3
-test = Teamspeak3(address='145.239.200.2', query_port=10011, voice_port=9987)
+test = Teamspeak3(host='145.239.200.2', port=10011, voice_port=9987)
 
 @pytest.mark.asyncio
 async def test_get_info():

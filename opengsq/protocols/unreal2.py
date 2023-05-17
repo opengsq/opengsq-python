@@ -17,7 +17,7 @@ class Unreal2(ProtocolBase):
     async def get_details(self):
         with SocketAsync() as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
 
             # Send Request
             sock.send(b'\x79\x00\x00\x00' + bytes([self._DETAILS]))
@@ -66,7 +66,7 @@ class Unreal2(ProtocolBase):
     async def get_rules(self):
         with SocketAsync() as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
 
             # Send Request
             sock.send(b'\x79\x00\x00\x00' + bytes([self._RULES]))
@@ -101,7 +101,7 @@ class Unreal2(ProtocolBase):
     async def get_players(self):
         with SocketAsync() as sock:
             sock.settimeout(self._timeout)
-            await sock.connect((self._address, self._query_port))
+            await sock.connect((self._host, self._port))
 
             # Send Request
             sock.send(b'\x79\x00\x00\x00' + bytes([self._PLAYERS]))
@@ -158,7 +158,7 @@ if __name__ == '__main__':
 
     async def main_async():
         # ut2004
-        unreal2 = Unreal2(address='109.230.224.189', query_port=6970, timeout=10.0)
+        unreal2 = Unreal2(host='109.230.224.189', port=6970, timeout=10.0)
         details = await unreal2.get_details()
         print(json.dumps(details, indent=None) + '\n')
         rules = await unreal2.get_rules()

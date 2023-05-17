@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # https://www.quakeservers.net/quakeworld/servers/so=8/
-test = Quake1(address='qw.servegame.org', query_port=27500)
+test = Quake1(host='qw.servegame.org', port=27500)
 
 @pytest.mark.asyncio
 async def test_get_status():
