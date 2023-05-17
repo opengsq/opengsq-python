@@ -6,7 +6,7 @@ from opengsq.protocols.raknet import Raknet
 from .result_handler import ResultHandler
 
 handler = ResultHandler(os.path.basename(__file__)[:-3])
-handler.enable_save = True
+# handler.enable_save = True
 
 # Raknet
 test = Raknet(host='193.70.94.83', port=19132)

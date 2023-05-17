@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Minecraft
-test = Minecraft(host='51.83.219.117', port=25565)
+test = Minecraft(host='2b2tjb.jp', port=19132)
 
 @pytest.mark.asyncio
 async def test_get_status():

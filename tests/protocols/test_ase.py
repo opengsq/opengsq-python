@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Grand Theft Auto: San Andreas - Multi Theft Auto
-ase = ASE('79.137.97.3', 22126)
+ase = ASE(host='79.137.97.3', port=22126)
 
 @pytest.mark.asyncio
 async def test_get_status():

@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Counter-Strike 1.5
-won = WON('212.227.190.150', 27020)
+won = WON(host='212.227.190.150', port=27020)
 
 @pytest.mark.asyncio
 async def test_get_info():
