@@ -325,9 +325,9 @@ class Source(ProtocolBase):
 
         full_name = 'Source RCON Protocol'
 
-        def __init__(self, address: str, query_port: int = 27015, timeout: float = 5.0):
+        def __init__(self, host: str, port: int = 27015, timeout: float = 5.0):
             """Source RCON Protocol"""
-            super().__init__(address, query_port, timeout)
+            super().__init__(host, port, timeout)
 
             self._sock = None
 
