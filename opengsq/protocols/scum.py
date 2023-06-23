@@ -22,7 +22,7 @@ class Scum(ProtocolBase):
             master_servers = await Scum.query_master_servers()
 
         for server in master_servers:
-            if server['ip'] == ip:
+            if server['ip'] == ip and server['port'] == self._port:
                 return server
 
         raise ServerNotFoundException()
