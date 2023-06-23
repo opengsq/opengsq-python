@@ -4,3 +4,7 @@ class InvalidPacketException(Exception):
 
 class AuthenticationException(Exception):
     pass
+
+
+class ServerNotFoundException(Exception):
+    pass
