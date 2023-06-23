@@ -12,6 +12,7 @@ from opengsq.protocols.quake3 import Quake3
 from opengsq.protocols.raknet import Raknet
 from opengsq.protocols.samp import Samp
 from opengsq.protocols.satisfactory import Satisfactory
+from opengsq.protocols.scum import Scum
 from opengsq.protocols.source import Source
 from opengsq.protocols.teamspeak3 import Teamspeak3
 from opengsq.protocols.unreal2 import Unreal2
