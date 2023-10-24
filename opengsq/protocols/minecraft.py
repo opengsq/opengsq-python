@@ -46,9 +46,10 @@ class Minecraft(ProtocolBase):
         br = BinaryReader(response)
         self._unpack_varint(br)  # packet length
         self._unpack_varint(br)  # packet id
-        self._unpack_varint(br)  # json length
+        count = self._unpack_varint(br)  # json length
 
-        data = json.loads(br.read().decode('utf-8'))
+        # The packet may response with two json objects, so we need to get the json length exactly
+        data = json.loads(br.read_bytes(count).decode('utf-8'))
 
         if strip_color:
             if 'sample' in data['players']:
@@ -141,7 +142,7 @@ if __name__ == '__main__':
     import asyncio
 
     async def main_async():
-        minecraft = Minecraft(host='51.83.219.117', port=25565, timeout=5.0)
+        minecraft = Minecraft(host='valistar.site', port=25565, timeout=5.0)
         status = await minecraft.get_status(47, strip_color=True)
         print(json.dumps(status, indent=None, ensure_ascii=False) + '\n')
         status = await minecraft.get_status_pre17()
