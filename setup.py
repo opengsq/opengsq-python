@@ -9,12 +9,16 @@ with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'opengsq', 'v
 with open('README.md', 'r', encoding='utf-8') as f:
     long_description = f.read()
 
+with open('requirements.txt', 'r', encoding='utf-8') as f:
+    install_requires = f.read().splitlines()
+
 setup(
     name='opengsq',
     version=version_contents['__version__'],
     description='🐍 OpenGSQ - Python library for querying game servers',
     long_description=long_description,
     long_description_content_type='text/markdown',
+    install_requires=install_requires,
     entry_points={'console_scripts': ['opengsq=opengsq.cli:main']},
     packages=find_packages(exclude=['tests', 'tests.*']),
     python_requires='>=3.6',
