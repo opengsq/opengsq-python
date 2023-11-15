@@ -69,7 +69,7 @@ class EOS(ProtocolBase):
                 {
                     "key": "attributes.ADDRESSBOUND_s",
                     "op": "CONTAINS",
-                    "value": self._port
+                    "value": f':{self._port}'
                 },
             ]
         })
