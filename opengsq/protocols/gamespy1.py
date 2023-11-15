@@ -180,8 +180,8 @@ if __name__ == '__main__':
 
     async def main_async():
         gs1 = GameSpy1(host='51.81.48.224', port=23000, timeout=5.0)  # bfield1942
-        #gs1 = GameSpy1(address='139.162.235.20', query_port=7778, timeout=5.0)  # ut
-        #gs1 = GameSpy1(address='192.223.24.6', query_port=7778, timeout=5.0)  # ut
+        # gs1 = GameSpy1(address='139.162.235.20', query_port=7778, timeout=5.0)  # ut
+        # gs1 = GameSpy1(address='192.223.24.6', query_port=7778, timeout=5.0)  # ut
         gs1 = GameSpy1(host='141.94.205.35', port=12300, timeout=5.0)  # mohaa
         status = await gs1.get_status()
         print(json.dumps(status, indent=None) + '\n')

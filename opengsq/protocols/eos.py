@@ -89,7 +89,7 @@ if __name__ == '__main__':
         deployment_id = 'ad9a8feffb3b4b2ca315546f038c3ae2'
 
         eos = EOS(host='150.138.77.118', port=10019, timeout=5.0, client_id=client_id,
-                    client_secret=client_secret, deployment_id=deployment_id)
+                  client_secret=client_secret, deployment_id=deployment_id)
         data = await eos.get_info()
         print(json.dumps(data, indent=None) + '\n')
 
