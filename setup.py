@@ -2,15 +2,21 @@ import os
 
 from setuptools import find_packages, setup
 
+current_dir = os.path.abspath(os.path.dirname(__file__))
 version_contents = {}
-with open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'opengsq', 'version.py'), encoding='utf-8') as f:
+
+with open(os.path.join(current_dir, 'opengsq', 'version.py'), encoding='utf-8') as f:
     exec(f.read(), version_contents)
 
 with open('README.md', 'r', encoding='utf-8') as f:
     long_description = f.read()
 
-with open('requirements.txt', 'r', encoding='utf-8') as f:
-    install_requires = f.read().splitlines()
+try:
+    with open('requirements.txt', 'r', encoding='utf-8') as f:
+        install_requires = f.read().splitlines()
+except FileNotFoundError:
+    with open(os.path.join(current_dir, 'opengsq.egg-info', 'requires.txt'), 'r', encoding='utf-8') as f:
+        install_requires = f.read().splitlines()
 
 setup(
     name='opengsq',
