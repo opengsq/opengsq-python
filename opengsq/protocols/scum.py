@@ -16,7 +16,7 @@ class Scum(ProtocolBase):
         you may need to cache the master servers if you had
         lots of servers to query.
         """
-        ip = SocketAsync.gethostbyname(self._host)
+        ip = await SocketAsync.gethostbyname(self._host)
 
         if master_servers is None:
             master_servers = await Scum.query_master_servers()

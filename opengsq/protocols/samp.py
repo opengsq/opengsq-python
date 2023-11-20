@@ -50,7 +50,7 @@ class Samp(ProtocolBase):
 
     async def __send_and_receive(self, data: bytes):
         # Format the address
-        host = SocketAsync.gethostbyname(self._host)
+        host = await SocketAsync.gethostbyname(self._host)
         packet_header = struct.pack('BBBBH', *map(int, host.split('.') + [self._port])) + data
         request = self._request_header + packet_header
 

@@ -1,4 +1,5 @@
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 import socket
 from enum import Enum, auto
 
@@ -18,8 +19,8 @@ class SocketAsync():
             return await sock.recv()
 
     @staticmethod
-    def gethostbyname(hostname: str) -> str:
-        return socket.gethostbyname(hostname)
+    async def gethostbyname(hostname: str):
+        return await asyncio.get_running_loop().run_in_executor(None, socket.gethostbyname, hostname)
 
     def __init__(self, kind: SocketKind = SocketKind.SOCK_DGRAM):
         self.__timeout = None
