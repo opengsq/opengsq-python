@@ -1,0 +1,8 @@
+{
+    "clients": 10,
+    "gametype": "Freeroam",
+    "hostname": "LostCityRP",
+    "iv": "652028923",
+    "mapname": "fivem-map-skater",
+    "sv_maxclients": "128"
+}
