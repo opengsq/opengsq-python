@@ -1,7 +1,7 @@
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UDPClient
+from opengsq.protocol_socket import UdpClient
 
 
 class Raknet(ProtocolBase):
@@ -16,7 +16,7 @@ class Raknet(ProtocolBase):
 
     async def get_status(self) -> dict:
         request = self.__ID_UNCONNECTED_PING + self.__TIMESTAMP + self.__OFFLINE_MESSAGE_DATA_ID + self.__CLIENT_GUID
-        response = await UDPClient.communicate(self, request)
+        response = await UdpClient.communicate(self, request)
 
         br = BinaryReader(response)
         header = br.read_bytes(1)

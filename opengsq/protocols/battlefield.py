@@ -1,6 +1,6 @@
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import TCPClient
+from opengsq.protocol_socket import TcpClient
 
 
 class Battlefield(ProtocolBase):
@@ -72,7 +72,7 @@ class Battlefield(ProtocolBase):
         return players
 
     async def __get_data(self, request: bytes):
-        response = await TCPClient.communicate(self, request)
+        response = await TcpClient.communicate(self, request)
         return self.__decode(response)
 
     def __decode(self, response: bytes):

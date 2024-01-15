@@ -3,7 +3,7 @@ import re
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UDPClient
+from opengsq.protocol_socket import UdpClient
 
 
 class Doom3(ProtocolBase):
@@ -18,7 +18,7 @@ class Doom3(ProtocolBase):
 
     async def get_info(self, strip_color=True):
         request = b'\xFF\xFFgetInfo\x00ogsq\x00'
-        response = await UDPClient.communicate(self, request)
+        response = await UdpClient.communicate(self, request)
 
         # Remove the first two 0xFF
         br = BinaryReader(response[2:])

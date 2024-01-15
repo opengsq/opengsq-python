@@ -6,7 +6,7 @@ from enum import Enum
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import AuthenticationException, InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import TCPClient, UDPClient
+from opengsq.protocol_socket import TcpClient, UdpClient
 
 
 class Source(ProtocolBase):
@@ -187,7 +187,7 @@ class Source(ProtocolBase):
 
     async def __connect_and_send_challenge(self, header: __RequestHeader) -> bytes:
         # Connect to remote host
-        with UDPClient() as udpClient:
+        with UdpClient() as udpClient:
             udpClient.settimeout(self._timeout)
             await udpClient.connect((self._host, self._port))
 
@@ -217,7 +217,7 @@ class Source(ProtocolBase):
 
         return response_data
 
-    async def __receive(self, udpClient: UDPClient) -> bytes:
+    async def __receive(self, udpClient: UdpClient) -> bytes:
         total_packets = -1
         payloads = dict()
         packets = list()
@@ -285,7 +285,7 @@ class Source(ProtocolBase):
         # Check is it Gold Source packet split format
         return number == 0 and br.read().startswith(b'\xFF\xFF\xFF\xFF')
 
-    async def __parse_gold_source_packet(self, udpClient: UDPClient, packets: list):
+    async def __parse_gold_source_packet(self, udpClient: UdpClient, packets: list):
         total_packets = -1
         payloads = dict()
 
@@ -346,7 +346,7 @@ class Source(ProtocolBase):
             """Authenticate the connection"""
 
             # Connect
-            self._tcpClient = TCPClient()
+            self._tcpClient = TcpClient()
             self._tcpClient.settimeout(self._timeout)
             await self._tcpClient.connect((self._host, self._port))
 

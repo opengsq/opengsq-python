@@ -1,5 +1,5 @@
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import TCPClient
+from opengsq.protocol_socket import TcpClient
 
 
 class Teamspeak3(ProtocolBase):
@@ -23,7 +23,7 @@ class Teamspeak3(ProtocolBase):
         return self.__parse_rows(response)
 
     async def __send_and_receive(self, data: bytes):
-        with TCPClient() as tcpClient:
+        with TcpClient() as tcpClient:
             tcpClient.settimeout(self._timeout)
             await tcpClient.connect((self._host, self._port))
 

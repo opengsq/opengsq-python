@@ -1,7 +1,7 @@
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import Socket, TCPClient
+from opengsq.protocol_socket import Socket, TcpClient
 
 
 class Scum(ProtocolBase):
@@ -41,7 +41,7 @@ class Scum(ProtocolBase):
 
         for host, port in Scum._master_servers:
             try:
-                with TCPClient() as tcpClient:
+                with TcpClient() as tcpClient:
                     tcpClient.settimeout(5)
                     await tcpClient.connect((host, port))
                     tcpClient.send(b'\x04\x03\x00\x00')

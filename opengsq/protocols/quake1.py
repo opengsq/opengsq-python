@@ -2,7 +2,7 @@ import re
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UDPClient
+from opengsq.protocol_socket import UdpClient
 
 
 class Quake1(ProtocolBase):
@@ -89,7 +89,7 @@ class Quake1(ProtocolBase):
 
     async def _connect_and_send(self, data):
         header = b'\xFF\xFF\xFF\xFF'
-        response_data = await UDPClient.communicate(self, header + data + b'\x00')
+        response_data = await UdpClient.communicate(self, header + data + b'\x00')
 
         # Remove the last 0x00 if exists (Only if Quake1)
         if response_data[-1] == 0:

@@ -3,7 +3,7 @@ import struct
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import Socket, UDPClient
+from opengsq.protocol_socket import Socket, UdpClient
 
 
 class Vcmp(ProtocolBase):
@@ -46,7 +46,7 @@ class Vcmp(ProtocolBase):
         request = self._request_header + packet_header
 
         # Validate the response
-        response = await UDPClient.communicate(self, request)
+        response = await UdpClient.communicate(self, request)
         header = response[:len(self._response_header)]
 
         if header != self._response_header:

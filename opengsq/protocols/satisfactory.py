@@ -3,7 +3,7 @@ import struct
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UDPClient
+from opengsq.protocol_socket import UdpClient
 
 
 class Satisfactory(ProtocolBase):
@@ -19,7 +19,7 @@ class Satisfactory(ProtocolBase):
 
         # Send message id, protocol version
         request = struct.pack('2b', 0, 0) + 'opengsq'.encode()
-        response = await UDPClient.communicate(self, request)
+        response = await UdpClient.communicate(self, request)
         br = BinaryReader(response)
         header = br.read_byte()
 

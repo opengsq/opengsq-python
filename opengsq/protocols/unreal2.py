@@ -3,7 +3,7 @@ import re
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UDPClient
+from opengsq.protocol_socket import UdpClient
 
 
 class Unreal2(ProtocolBase):
@@ -15,7 +15,7 @@ class Unreal2(ProtocolBase):
     _PLAYERS = 0x02
 
     async def get_details(self):
-        response = await UDPClient.communicate(self, b'\x79\x00\x00\x00' + bytes([self._DETAILS]))
+        response = await UdpClient.communicate(self, b'\x79\x00\x00\x00' + bytes([self._DETAILS]))
 
         # Remove the first 4 bytes \x80\x00\x00\x00
         br = BinaryReader(response[4:])
@@ -56,7 +56,7 @@ class Unreal2(ProtocolBase):
         return details
 
     async def get_rules(self):
-        response = await UDPClient.communicate(self, b'\x79\x00\x00\x00' + bytes([self._RULES]))
+        response = await UdpClient.communicate(self, b'\x79\x00\x00\x00' + bytes([self._RULES]))
 
         # Remove the first 4 bytes \x80\x00\x00\x00
         br = BinaryReader(response[4:])
@@ -83,7 +83,7 @@ class Unreal2(ProtocolBase):
         return rules
 
     async def get_players(self):
-        response = await UDPClient.communicate(self, b'\x79\x00\x00\x00' + bytes([self._PLAYERS]))
+        response = await UdpClient.communicate(self, b'\x79\x00\x00\x00' + bytes([self._PLAYERS]))
 
         # Remove the first 4 bytes \x80\x00\x00\x00
         br = BinaryReader(response[4:])

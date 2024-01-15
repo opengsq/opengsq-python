@@ -2,7 +2,7 @@ from enum import Flag, auto
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UDPClient
+from opengsq.protocol_socket import UdpClient
 
 
 class GameSpy2(ProtocolBase):
@@ -17,7 +17,7 @@ class GameSpy2(ProtocolBase):
     async def get_status(self, request: Request = Request.INFO | Request.PLAYERS | Request.TEAMS) -> dict:
         """Retrieves information about the server including, Info, Players, and Teams."""
         data = b'\xFE\xFD\x00\x04\x05\x06\x07' + self.__get_request_bytes(request)
-        response = await UDPClient.communicate(self, data)
+        response = await UdpClient.communicate(self, data)
 
         # Remove the first 5 bytes { 0x00, 0x04, 0x05, 0x06, 0x07 }
         br = BinaryReader(response[5:])

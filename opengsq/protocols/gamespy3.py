@@ -3,7 +3,7 @@ import re
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UDPClient
+from opengsq.protocol_socket import UdpClient
 
 
 class GameSpy3(ProtocolBase):
@@ -14,7 +14,7 @@ class GameSpy3(ProtocolBase):
     async def get_status(self):
         """Retrieves information about the server including, Info, Players, and Teams."""
         # Connect to remote host
-        with UDPClient() as udpClient:
+        with UdpClient() as udpClient:
             udpClient.settimeout(self._timeout)
             await udpClient.connect((self._host, self._port))
 
@@ -76,7 +76,7 @@ class GameSpy3(ProtocolBase):
 
         return result
 
-    async def __read(self, udpClient: UDPClient) -> bytes:
+    async def __read(self, udpClient: UdpClient) -> bytes:
         packet_count = -1
         payloads = {}
 

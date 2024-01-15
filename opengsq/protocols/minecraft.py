@@ -5,7 +5,7 @@ import struct
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import TCPClient
+from opengsq.protocol_socket import TcpClient
 
 
 class Minecraft(ProtocolBase):
@@ -29,7 +29,7 @@ class Minecraft(ProtocolBase):
         request = b'\x00' + protocol + self._pack_varint(len(address)) + address + struct.pack('H', self._port) + b'\x01'
         request = self._pack_varint(len(request)) + request + b'\x01\x00'
 
-        with TCPClient() as tcpClient:
+        with TcpClient() as tcpClient:
             tcpClient.settimeout(self._timeout)
             await tcpClient.connect((self._host, self._port))
             tcpClient.send(request)
@@ -71,7 +71,7 @@ class Minecraft(ProtocolBase):
 
     async def get_status_pre17(self, strip_color=True) -> dict:
         """Get ping info from a server that uses a version older than Minecraft 1.7"""
-        response = await TCPClient.communicate(self, b'\xFE\x01')
+        response = await TcpClient.communicate(self, b'\xFE\x01')
 
         br = BinaryReader(response)
         header = br.read_byte()

@@ -2,7 +2,7 @@ import re
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UDPClient
+from opengsq.protocol_socket import UdpClient
 
 
 class GameSpy1(ProtocolBase):
@@ -74,7 +74,7 @@ class GameSpy1(ProtocolBase):
         return self.__parse_as_object(await self.__connect_and_send(self.__Request.TEAMS))
 
     # Receive packets and sort it
-    async def __get_packets_response(self, udpClient: UDPClient):
+    async def __get_packets_response(self, udpClient: UdpClient):
         payloads = {}
         packet_count = -1
 
@@ -104,7 +104,7 @@ class GameSpy1(ProtocolBase):
 
     async def __connect_and_send(self, data) -> BinaryReader:
         # Connect to remote host
-        with UDPClient() as udpClient:
+        with UdpClient() as udpClient:
             udpClient.settimeout(self._timeout)
             await udpClient.connect((self._host, self._port))
 

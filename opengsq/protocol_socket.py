@@ -100,10 +100,10 @@ class Socket():
             pass
 
 
-class UDPClient(Socket):
+class UdpClient(Socket):
     @staticmethod
     async def communicate(protocol: ProtocolBase, data: bytes):
-        with UDPClient() as udpClient:
+        with UdpClient() as udpClient:
             udpClient.settimeout(protocol._timeout)
             await udpClient.connect((protocol._host, protocol._port))
             udpClient.send(data)
@@ -113,10 +113,10 @@ class UDPClient(Socket):
         super().__init__(SocketKind.SOCK_DGRAM)
 
 
-class TCPClient(Socket):
+class TcpClient(Socket):
     @staticmethod
     async def communicate(protocol: ProtocolBase, data: bytes):
-        with TCPClient() as tcpClient:
+        with TcpClient() as tcpClient:
             tcpClient.settimeout(protocol._timeout)
             await tcpClient.connect((protocol._host, protocol._port))
             tcpClient.send(data)
