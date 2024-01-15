@@ -3,7 +3,7 @@ import struct
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync
+from opengsq.protocol_socket import Socket, UDPClient
 
 
 class Samp(ProtocolBase):
@@ -50,12 +50,12 @@ class Samp(ProtocolBase):
 
     async def __send_and_receive(self, data: bytes):
         # Format the address
-        host = await SocketAsync.gethostbyname(self._host)
+        host = await Socket.gethostbyname(self._host)
         packet_header = struct.pack('BBBBH', *map(int, host.split('.') + [self._port])) + data
         request = self._request_header + packet_header
 
         # Validate the response
-        response = await SocketAsync.send_and_receive(self._host, self._port, self._timeout, request)
+        response = await UDPClient.communicate(self, request)
         header = response[:len(self._response_header)]
 
         if header != self._response_header:

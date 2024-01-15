@@ -1,7 +1,7 @@
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync
+from opengsq.protocol_socket import UDPClient
 
 
 class ASE(ProtocolBase):
@@ -12,16 +12,7 @@ class ASE(ProtocolBase):
     _response = b'EYE1'
 
     async def get_status(self) -> dict:
-        with SocketAsync() as sock:
-            sock.settimeout(self._timeout)
-            await sock.connect((self._host, self._port))
-
-            # Send Request
-            sock.send(self._request)
-
-            # Server response
-            response = await sock.recv()
-
+        response = await UDPClient.communicate(self, self._request)
         header = response[:4]
 
         if header != self._response:

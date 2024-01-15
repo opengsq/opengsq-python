@@ -1,5 +1,5 @@
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync, SocketKind
+from opengsq.protocol_socket import TCPClient
 
 
 class Teamspeak3(ProtocolBase):
@@ -23,20 +23,20 @@ class Teamspeak3(ProtocolBase):
         return self.__parse_rows(response)
 
     async def __send_and_receive(self, data: bytes):
-        with SocketAsync(SocketKind.SOCK_STREAM) as sock:
-            sock.settimeout(self._timeout)
-            await sock.connect((self._host, self._port))
+        with TCPClient() as tcpClient:
+            tcpClient.settimeout(self._timeout)
+            await tcpClient.connect((self._host, self._port))
 
             # b'TS3\n\rWelcome to the TeamSpeak 3 ServerQuery interface,
             # type "help" for a list of commands and "help <command>" for information on a specific command.\n\r'
-            await sock.recv()
+            await tcpClient.recv()
 
             # b'error id=0 msg=ok\n\r'
-            sock.send(f'use port={self._voice_port}\n'.encode())
-            await sock.recv()
+            tcpClient.send(f'use port={self._voice_port}\n'.encode())
+            await tcpClient.recv()
 
-            sock.send(data + b'\x0A')
-            response = await sock.recv()
+            tcpClient.send(data + b'\x0A')
+            response = await tcpClient.recv()
 
         return response[:-21]
 

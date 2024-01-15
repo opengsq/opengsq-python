@@ -1,7 +1,8 @@
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 import socket
 from enum import Enum, auto
+
+from opengsq.protocol_base import ProtocolBase
 
 
 class SocketKind(Enum):
@@ -9,20 +10,12 @@ class SocketKind(Enum):
     SOCK_DGRAM = auto()
 
 
-class SocketAsync():
-    @staticmethod
-    async def send_and_receive(host: str, port: int, timeout: float, data: bytes, kind=SocketKind.SOCK_DGRAM):
-        with SocketAsync(kind) as sock:
-            sock.settimeout(timeout)
-            await sock.connect((host, port))
-            sock.send(data)
-            return await sock.recv()
-
+class Socket():
     @staticmethod
     async def gethostbyname(hostname: str):
         return await asyncio.get_running_loop().run_in_executor(None, socket.gethostbyname, hostname)
 
-    def __init__(self, kind: SocketKind = SocketKind.SOCK_DGRAM):
+    def __init__(self, kind: SocketKind):
         self.__timeout = None
         self.__transport = None
         self.__protocol = None
@@ -107,12 +100,39 @@ class SocketAsync():
             pass
 
 
+class UDPClient(Socket):
+    @staticmethod
+    async def communicate(protocol: ProtocolBase, data: bytes):
+        with UDPClient() as udpClient:
+            udpClient.settimeout(protocol._timeout)
+            await udpClient.connect((protocol._host, protocol._port))
+            udpClient.send(data)
+            return await udpClient.recv()
+
+    def __init__(self):
+        super().__init__(SocketKind.SOCK_DGRAM)
+
+
+class TCPClient(Socket):
+    @staticmethod
+    async def communicate(protocol: ProtocolBase, data: bytes):
+        with TCPClient() as tcpClient:
+            tcpClient.settimeout(protocol._timeout)
+            await tcpClient.connect((protocol._host, protocol._port))
+            tcpClient.send(data)
+            return await tcpClient.recv()
+
+    def __init__(self):
+        super().__init__(SocketKind.SOCK_STREAM)
+
+
 if __name__ == '__main__':
     async def test_socket_async():
-        with SocketAsync() as socket_async:
+        with Socket() as socket_async:
             socket_async.settimeout(5)
             await socket_async.connect(('122.128.109.245', 27015))
-            socket_async.send(b'\xFF\xFF\xFF\xFFTSource Engine Query\x00\xFF\xFF\xFF\xFF')
+            socket_async.send(
+                b'\xFF\xFF\xFF\xFFTSource Engine Query\x00\xFF\xFF\xFF\xFF')
             print(await socket_async.recv())
 
     loop = asyncio.get_event_loop()

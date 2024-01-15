@@ -5,7 +5,7 @@ import struct
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync, SocketKind
+from opengsq.protocol_socket import TCPClient
 
 
 class Minecraft(ProtocolBase):
@@ -29,18 +29,18 @@ class Minecraft(ProtocolBase):
         request = b'\x00' + protocol + self._pack_varint(len(address)) + address + struct.pack('H', self._port) + b'\x01'
         request = self._pack_varint(len(request)) + request + b'\x01\x00'
 
-        with SocketAsync(SocketKind.SOCK_STREAM) as sock:
-            sock.settimeout(self._timeout)
-            await sock.connect((self._host, self._port))
-            sock.send(request)
+        with TCPClient() as tcpClient:
+            tcpClient.settimeout(self._timeout)
+            await tcpClient.connect((self._host, self._port))
+            tcpClient.send(request)
 
-            response = await sock.recv()
+            response = await tcpClient.recv()
             br = BinaryReader(response)
             length = self._unpack_varint(br)
 
             # Keep recv() until reach packet length
             while len(response) < length:
-                response += await sock.recv()
+                response += await tcpClient.recv()
 
         # Read fill response
         br = BinaryReader(response)
@@ -71,11 +71,7 @@ class Minecraft(ProtocolBase):
 
     async def get_status_pre17(self, strip_color=True) -> dict:
         """Get ping info from a server that uses a version older than Minecraft 1.7"""
-        with SocketAsync(SocketKind.SOCK_STREAM) as sock:
-            sock.settimeout(self._timeout)
-            await sock.connect((self._host, self._port))
-            sock.send(b'\xFE\x01')
-            response = await sock.recv()
+        response = await TCPClient.communicate(self, b'\xFE\x01')
 
         br = BinaryReader(response)
         header = br.read_byte()

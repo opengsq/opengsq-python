@@ -4,7 +4,7 @@ import json
 
 from opengsq.exceptions import ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync
+from opengsq.protocol_socket import Socket
 
 
 class EOS(ProtocolBase):
@@ -60,7 +60,7 @@ class EOS(ProtocolBase):
         return data
 
     async def get_info(self) -> dict:
-        address = await SocketAsync.gethostbyname(self._host)
+        address = await Socket.gethostbyname(self._host)
         address_bound_port = f':{self._port}'
 
         data = await self._get_matchmaking({

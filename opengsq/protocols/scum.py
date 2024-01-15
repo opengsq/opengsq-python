@@ -1,7 +1,7 @@
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync, SocketKind
+from opengsq.protocol_socket import Socket, TCPClient
 
 
 class Scum(ProtocolBase):
@@ -22,7 +22,7 @@ class Scum(ProtocolBase):
         you may need to cache the master servers if you had
         lots of servers to query.
         """
-        ip = await SocketAsync.gethostbyname(self._host)
+        ip = await Socket.gethostbyname(self._host)
 
         if master_servers is None:
             master_servers = await Scum.query_master_servers()
@@ -41,17 +41,17 @@ class Scum(ProtocolBase):
 
         for host, port in Scum._master_servers:
             try:
-                with SocketAsync(SocketKind.SOCK_STREAM) as sock:
-                    sock.settimeout(5)
-                    await sock.connect((host, port))
-                    sock.send(b'\x04\x03\x00\x00')
+                with TCPClient() as tcpClient:
+                    tcpClient.settimeout(5)
+                    await tcpClient.connect((host, port))
+                    tcpClient.send(b'\x04\x03\x00\x00')
 
                     total = -1
                     response = b''
                     servers = []
 
                     while total == -1 or len(servers) < total:
-                        response += await sock.recv()
+                        response += await tcpClient.recv()
                         br = BinaryReader(response)
 
                         # first packet return the total number of servers

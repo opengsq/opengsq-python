@@ -6,7 +6,7 @@ from enum import Enum
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import AuthenticationException, InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync, SocketKind
+from opengsq.protocol_socket import TCPClient, UDPClient
 
 
 class Source(ProtocolBase):
@@ -187,9 +187,9 @@ class Source(ProtocolBase):
 
     async def __connect_and_send_challenge(self, header: __RequestHeader) -> bytes:
         # Connect to remote host
-        with SocketAsync() as sock:
-            sock.settimeout(self._timeout)
-            await sock.connect((self._host, self._port))
+        with UDPClient() as udpClient:
+            udpClient.settimeout(self._timeout)
+            await udpClient.connect((self._host, self._port))
 
             # Send and receive
             request_base = b'\xFF\xFF\xFF\xFF' + header
@@ -198,11 +198,11 @@ class Source(ProtocolBase):
             if header != self._A2S_INFO:
                 request_data += b'\xFF\xFF\xFF\xFF'
 
-            sock.send(request_data)
+            udpClient.send(request_data)
 
             # Retries 3 times, some servers require multiple challenges
             for _ in range(3):
-                response_data = await self.__receive(sock)
+                response_data = await self.__receive(udpClient)
                 br = BinaryReader(response_data)
                 header = br.read_byte()
 
@@ -211,19 +211,19 @@ class Source(ProtocolBase):
                     challenge = br.read()
 
                     # Send the challenge and receive
-                    sock.send(request_base + challenge)
+                    udpClient.send(request_base + challenge)
                 else:
                     break
 
         return response_data
 
-    async def __receive(self, sock: SocketAsync) -> bytes:
+    async def __receive(self, udpClient: UDPClient) -> bytes:
         total_packets = -1
         payloads = dict()
         packets = list()
 
         while True:
-            response_data = await sock.recv()
+            response_data = await udpClient.recv()
             packets.append(response_data)
 
             br = BinaryReader(response_data)
@@ -240,7 +240,7 @@ class Source(ProtocolBase):
 
             # Check is GoldSource multi-packet response format
             if self.__is_gold_source_split(BinaryReader(br.read())):
-                return await self.__parse_gold_source_packet(sock, packets)
+                return await self.__parse_gold_source_packet(udpClient, packets)
 
             # The total number of packets
             total_packets = br.read_byte()
@@ -285,7 +285,7 @@ class Source(ProtocolBase):
         # Check is it Gold Source packet split format
         return number == 0 and br.read().startswith(b'\xFF\xFF\xFF\xFF')
 
-    async def __parse_gold_source_packet(self, sock: SocketAsync, packets: list):
+    async def __parse_gold_source_packet(self, udpClient: UDPClient, packets: list):
         total_packets = -1
         payloads = dict()
 
@@ -294,7 +294,7 @@ class Source(ProtocolBase):
             if len(payloads) < len(packets):
                 response_data = packets[len(payloads)]
             else:
-                response_data = await sock.recv()
+                response_data = await udpClient.recv()
 
             br = BinaryReader(response_data)
 
@@ -329,7 +329,7 @@ class Source(ProtocolBase):
             """Source RCON Protocol"""
             super().__init__(host, port, timeout)
 
-            self._sock = None
+            self._tcpClient = None
 
         def __enter__(self):
             return self
@@ -339,33 +339,33 @@ class Source(ProtocolBase):
 
         def close(self):
             """Close the connection"""
-            if self._sock:
-                self._sock.close()
+            if self._tcpClient:
+                self._tcpClient.close()
 
         async def authenticate(self, password: str):
             """Authenticate the connection"""
 
             # Connect
-            self._sock = SocketAsync(SocketKind.SOCK_STREAM)
-            self._sock.settimeout(self._timeout)
-            await self._sock.connect((self._host, self._port))
+            self._tcpClient = TCPClient()
+            self._tcpClient.settimeout(self._timeout)
+            await self._tcpClient.connect((self._host, self._port))
 
             # Send password
             id = random.randrange(4096)
-            self._sock.send(self.__Packet(id, self.__PacketType.SERVERDATA_AUTH.value, password).get_bytes())
+            self._tcpClient.send(self.__Packet(id, self.__PacketType.SERVERDATA_AUTH.value, password).get_bytes())
 
             # Receive and parse as Packet
-            response_data = await self._sock.recv()
+            response_data = await self._tcpClient.recv()
             packet = self.__Packet(response_data)
 
             # Sometimes it will return a PacketType.SERVERDATA_RESPONSE_VALUE, so receive again
             if packet.type != self.__PacketType.SERVERDATA_AUTH_RESPONSE.value:
-                response_data = await self._sock.recv()
+                response_data = await self._tcpClient.recv()
                 packet = self.__Packet(response_data)
 
             # Throw exception if not PacketType.SERVERDATA_AUTH_RESPONSE
             if packet.type != self.__PacketType.SERVERDATA_AUTH_RESPONSE.value:
-                self._sock.close()
+                self._tcpClient.close()
                 raise InvalidPacketException(
                     'Packet header mismatch. Received: {}. Expected: {}.'
                     .format(chr(packet.type), chr(self.__PacketType.SERVERDATA_AUTH_RESPONSE.value))
@@ -373,7 +373,7 @@ class Source(ProtocolBase):
 
             # Throw exception if authentication failed
             if packet.id == -1 or packet.id != id:
-                self._sock.close()
+                self._tcpClient.close()
                 raise AuthenticationException('Authentication failed')
 
         async def send_command(self, command: str):
@@ -382,15 +382,15 @@ class Source(ProtocolBase):
             # Send the command and a empty command packet
             id = random.randrange(4096)
             dummy_id = id + 1
-            self._sock.send(self.__Packet(id, self.__PacketType.SERVERDATA_EXECCOMMAND.value, command).get_bytes())
-            self._sock.send(self.__Packet(dummy_id, self.__PacketType.SERVERDATA_EXECCOMMAND.value, '').get_bytes())
+            self._tcpClient.send(self.__Packet(id, self.__PacketType.SERVERDATA_EXECCOMMAND.value, command).get_bytes())
+            self._tcpClient.send(self.__Packet(dummy_id, self.__PacketType.SERVERDATA_EXECCOMMAND.value, '').get_bytes())
 
             packet_bytes = bytes([])
             response = ''
 
             while True:
                 # Receive
-                response_data = await self._sock.recv()
+                response_data = await self._tcpClient.recv()
 
                 # Concat to last unused bytes
                 packet_bytes += response_data

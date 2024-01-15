@@ -2,7 +2,7 @@ import re
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync
+from opengsq.protocol_socket import UDPClient
 
 
 class GameSpy1(ProtocolBase):
@@ -74,13 +74,13 @@ class GameSpy1(ProtocolBase):
         return self.__parse_as_object(await self.__connect_and_send(self.__Request.TEAMS))
 
     # Receive packets and sort it
-    async def __get_packets_response(self, sock: SocketAsync):
+    async def __get_packets_response(self, udpClient: UDPClient):
         payloads = {}
         packet_count = -1
 
         # Loop until received all packets
         while packet_count == -1 or len(payloads) < packet_count:
-            packet = await sock.recv()
+            packet = await udpClient.recv()
 
             # Get the packet number from query_id
             r = re.compile(rb'\\queryid\\\d+\.(\d+)')
@@ -104,12 +104,12 @@ class GameSpy1(ProtocolBase):
 
     async def __connect_and_send(self, data) -> BinaryReader:
         # Connect to remote host
-        with SocketAsync() as sock:
-            sock.settimeout(self._timeout)
-            await sock.connect((self._host, self._port))
+        with UDPClient() as udpClient:
+            udpClient.settimeout(self._timeout)
+            await udpClient.connect((self._host, self._port))
 
-            sock.send(data)
-            br = BinaryReader(await self.__get_packets_response(sock))
+            udpClient.send(data)
+            br = BinaryReader(await self.__get_packets_response(udpClient))
 
         return br
 

@@ -3,7 +3,7 @@ import re
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.socket_async import SocketAsync
+from opengsq.protocol_socket import UDPClient
 
 
 class Unreal2(ProtocolBase):
@@ -15,15 +15,7 @@ class Unreal2(ProtocolBase):
     _PLAYERS = 0x02
 
     async def get_details(self):
-        with SocketAsync() as sock:
-            sock.settimeout(self._timeout)
-            await sock.connect((self._host, self._port))
-
-            # Send Request
-            sock.send(b'\x79\x00\x00\x00' + bytes([self._DETAILS]))
-
-            # Server response
-            response = await sock.recv()
+        response = await UDPClient.communicate(self, b'\x79\x00\x00\x00' + bytes([self._DETAILS]))
 
         # Remove the first 4 bytes \x80\x00\x00\x00
         br = BinaryReader(response[4:])
@@ -64,15 +56,7 @@ class Unreal2(ProtocolBase):
         return details
 
     async def get_rules(self):
-        with SocketAsync() as sock:
-            sock.settimeout(self._timeout)
-            await sock.connect((self._host, self._port))
-
-            # Send Request
-            sock.send(b'\x79\x00\x00\x00' + bytes([self._RULES]))
-
-            # Server response
-            response = await sock.recv()
+        response = await UDPClient.communicate(self, b'\x79\x00\x00\x00' + bytes([self._RULES]))
 
         # Remove the first 4 bytes \x80\x00\x00\x00
         br = BinaryReader(response[4:])
@@ -99,15 +83,7 @@ class Unreal2(ProtocolBase):
         return rules
 
     async def get_players(self):
-        with SocketAsync() as sock:
-            sock.settimeout(self._timeout)
-            await sock.connect((self._host, self._port))
-
-            # Send Request
-            sock.send(b'\x79\x00\x00\x00' + bytes([self._PLAYERS]))
-
-            # Server response
-            response = await sock.recv()
+        response = await UDPClient.communicate(self, b'\x79\x00\x00\x00' + bytes([self._PLAYERS]))
 
         # Remove the first 4 bytes \x80\x00\x00\x00
         br = BinaryReader(response[4:])
