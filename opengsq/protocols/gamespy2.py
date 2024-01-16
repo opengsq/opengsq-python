@@ -117,7 +117,8 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        gs2 = GameSpy2(host='158.69.118.94', port=23000, timeout=5.0)
+        # bfv
+        gs2 = GameSpy2(host='108.61.236.22', port=23000, timeout=5.0)
         status = await gs2.get_status()
         print(json.dumps(status, indent=None) + '\n')
 

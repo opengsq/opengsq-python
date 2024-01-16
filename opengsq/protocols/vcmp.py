@@ -14,7 +14,9 @@ class Vcmp(ProtocolBase):
     _response_header = b'MP04'
 
     async def get_status(self):
-        br = await self.__send_and_receive(b'i')
+        response = await self.__send_and_receive(b'i')
+
+        br = BinaryReader(response)
         result = {}
         result['version'] = str(br.read_bytes(12).strip(b'\x00'), encoding='utf-8', errors='ignore')
         result['password'] = br.read_byte()
@@ -28,7 +30,9 @@ class Vcmp(ProtocolBase):
 
     async def get_players(self):
         """Server may not response when numplayers > 100"""
-        br = await self.__send_and_receive(b'c')
+        response = await self.__send_and_receive(b'c')
+
+        br = BinaryReader(response)
         players = []
         numplayers = br.read_short()
 
@@ -52,7 +56,7 @@ class Vcmp(ProtocolBase):
         if header != self._response_header:
             raise InvalidPacketException(f'Packet header mismatch. Received: {header}. Expected: {self._response_header}.')
 
-        return BinaryReader(response[len(self._response_header) + len(packet_header):])
+        return response[len(self._response_header) + len(packet_header):]
 
     def __read_string(self, br: BinaryReader, read_offset=1):
         length = br.read_byte() if read_offset == 1 else br.read_long()
@@ -64,7 +68,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        vcmp = Vcmp(host='91.121.134.5', port=8192, timeout=5.0)
+        vcmp = Vcmp(host='51.178.65.136', port=8114, timeout=5.0)
         status = await vcmp.get_status()
         print(json.dumps(status, indent=None) + '\n')
         players = await vcmp.get_players()
