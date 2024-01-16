@@ -59,7 +59,7 @@ class Scum(ProtocolBase):
                             total = br.read_short()
 
                         # server bytes length always 127
-                        while br.length() >= 127:
+                        while br.remaining_bytes() >= 127:
                             server = {}
                             server['ip'] = '.'.join(map(str, reversed([br.read_byte(), br.read_byte(), br.read_byte(), br.read_byte()])))
                             server['port'] = br.read_short()

@@ -117,7 +117,7 @@ class GameSpy1(ProtocolBase):
         kv = {}
 
         # Bind key value
-        while br.length() > 0:
+        while br.remaining_bytes() > 0:
             key = br.read_string(b'\\').lower()
 
             # Check is the end of key_values
@@ -137,7 +137,7 @@ class GameSpy1(ProtocolBase):
     def __parse_as_object(self, br: BinaryReader, is_player=False):
         items, keyhashes, filters = {}, [], []
 
-        while br.length() > 0:
+        while br.remaining_bytes() > 0:
             # Get the key, for example player_1, frags_1, ping_1, etc...
             key = br.read_string(b'\\').lower()
 

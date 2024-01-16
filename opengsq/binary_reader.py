@@ -6,11 +6,11 @@ class BinaryReader:
         self.__data = data
         self.stream_position = 0
 
-    def length(self) -> int:
+    def remaining_bytes(self) -> int:
         return len(self.__data) - self.stream_position
 
     def is_end(self) -> int:
-        return self.stream_position >= len(self.__data) - 1
+        return self.stream_position >= len(self.__data)
 
     def prepend_bytes(self, data):
         self.__data = data + self.__data
@@ -58,7 +58,7 @@ class BinaryReader:
     def read_string(self, delimiters=[b'\x00'], encoding='utf-8', errors='ignore') -> str:
         bytes_string = b''
 
-        while self.length() > 0:
+        while self.remaining_bytes() > 0:
             stream_byte = bytes([self.read_byte()])
 
             if stream_byte in delimiters:

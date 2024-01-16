@@ -49,7 +49,7 @@ class GameSpy2(ProtocolBase):
         info = {}
 
         # Read all key values
-        while br.length() > 0:
+        while br.remaining_bytes() > 0:
             key = br.read_string()
 
             if key == '':
@@ -71,7 +71,7 @@ class GameSpy2(ProtocolBase):
         # Get all keys
         keys = []
 
-        while br.length() > 0:
+        while br.remaining_bytes() > 0:
             key = br.read_string()
 
             if key == '':
@@ -97,7 +97,7 @@ class GameSpy2(ProtocolBase):
         # Get all keys
         keys = []
 
-        while br.length() > 0:
+        while br.remaining_bytes() > 0:
             key = br.read_string()
 
             if key == '':

@@ -41,11 +41,11 @@ class Doom3(ProtocolBase):
         info['version'] = f'{major}.{minor}'
 
         # Read packet size
-        if br.read_long() != br.length():
+        if br.read_long() != br.remaining_bytes():
             br.stream_position -= 4
 
         # Key / value pairs, delimited by an empty pair
-        while br.length() > 0:
+        while br.remaining_bytes() > 0:
             key = br.read_string().strip()
             val = br.read_string().strip()
 

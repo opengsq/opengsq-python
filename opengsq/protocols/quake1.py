@@ -41,7 +41,7 @@ class Quake1(ProtocolBase):
         info = {}
 
         # Read all key values until meet \n
-        while br.length() > 0:
+        while br.remaining_bytes() > 0:
             key = br.read_string(self._delimiter1)
 
             if key == '':

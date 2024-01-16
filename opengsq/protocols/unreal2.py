@@ -38,7 +38,7 @@ class Unreal2(ProtocolBase):
         details['NumPlayers'] = br.read_long()
         details['MaxPlayers'] = br.read_long()
 
-        if br.length() > 12:
+        if br.remaining_bytes() > 12:
             try:
                 # Killing Floor
                 stream_position = br.stream_position

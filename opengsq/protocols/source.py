@@ -156,7 +156,7 @@ class Source(ProtocolBase):
             player['Duration'] = br.read_float()
             players.append(player)
 
-        if br.length() > 0:
+        if br.remaining_bytes() > 0:
             for i in range(player_count):
                 players[i]['Deaths'] = br.read_long()
                 players[i]['Money'] = br.read_long()
