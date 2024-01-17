@@ -66,7 +66,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        raknet = Raknet(host='193.70.94.83', port=19132, timeout=5.0)
+        raknet = Raknet(host='mc.advancius.net', port=19132, timeout=5.0)
         status = await raknet.get_status()
         print(json.dumps(status, indent=None) + '\n')
 

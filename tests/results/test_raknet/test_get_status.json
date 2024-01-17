@@ -1,11 +1,14 @@
 {
     "edition": "MCPE",
-    "motd_line_1": "§f§f§l:: §e§lMods§a§lCraft §f§l:: §a1.1-1.19                                       .",
-    "protocol_version": 354,
-    "version": "48",
-    "num_players": 71,
-    "max_players": 1501,
-    "server_uid": "-6650582236557588276",
-    "motd_line_2": "",
-    "gamemode": ""
+    "motd_line_1": "Advancius Network",
+    "protocol_version": 630,
+    "version": "1.20.50",
+    "num_players": 149,
+    "max_players": 400,
+    "server_uid": "10878663457117740029",
+    "motd_line_2": "discord.advancius.net",
+    "gamemode": "Survival",
+    "gamemode_numeric": 1,
+    "port_ipv4": 19132,
+    "port_ipv6": 0
 }

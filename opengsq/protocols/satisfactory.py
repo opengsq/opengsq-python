@@ -42,7 +42,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        satisfactory = Satisfactory(host='delta3.ptse.host', port=15777, timeout=5.0)
+        satisfactory = Satisfactory(host='79.136.0.124', port=15777, timeout=5.0)
         status = await satisfactory.get_status()
         print(json.dumps(status, indent=None) + '\n')
 
