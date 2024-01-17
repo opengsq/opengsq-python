@@ -36,8 +36,12 @@ class Teamspeak3(ProtocolBase):
             await tcpClient.recv()
 
             tcpClient.send(data + b'\x0A')
-            response = await tcpClient.recv()
+            response = b''
 
+            while not response.endswith(b'error id=0 msg=ok\n\r'):
+                response += await tcpClient.recv()
+
+        # Remove last bytes b'\n\rerror id=0 msg=ok\n\r'
         return response[:-21]
 
     def __parse_rows(self, response: bytes):
@@ -47,10 +51,9 @@ class Teamspeak3(ProtocolBase):
         kvs = {}
 
         for kv in response.split(b' '):
-            index = kv.find(b'=')
-            index = len(kv) if index == -1 else index
-            key = str(kv[:index], encoding='utf-8', errors='ignore')
-            val = str(kv[index+1:], encoding='utf-8', errors='ignore')
+            items = kv.split(b'=', 1)
+            key = str(items[0], encoding='utf-8', errors='ignore')
+            val = str(items[1], encoding='utf-8', errors='ignore') if len(items) == 2 else ""
             kvs[key] = val.replace('\\p', '|').replace('\\s', ' ').replace('\\/', '/')
 
         return kvs
