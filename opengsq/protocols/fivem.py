@@ -18,7 +18,7 @@ class FiveM(ProtocolBase):
     async def get_info(self) -> dict:
         return await self._get('info')
 
-    async def get_players(self) -> dict:
+    async def get_players(self) -> list:
         return await self._get('players')
 
     async def get_dynamic(self) -> dict:
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        fivem = FiveM(host='45.81.17.148', port=30120, timeout=5.0)
+        fivem = FiveM(host='144.217.10.12', port=30120, timeout=5.0)
         info = await fivem.get_info()
         print(json.dumps(info, indent=None) + '\n')
         players = await fivem.get_players()
