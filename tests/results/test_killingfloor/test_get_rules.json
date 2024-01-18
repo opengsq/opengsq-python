@@ -1,0 +1,27 @@
+{
+    "Mutators": [
+        "ZNBase",
+        "ZNBase",
+        "ZNBase",
+        "ZNBase",
+        "ZNBase",
+        "ZNBase",
+        "ZNBase",
+        "ZNBase",
+        "ZNBase",
+        "ZNBase"
+    ],
+    "ServerMode": "dedicated",
+    "AdminName": "AdminEmail",
+    "ServerVersion": "1065",
+    "IsVacSecured": "true",
+    "MaxSpectators": "6",
+    "MapVoting": "true",
+    "KickVoting": "true",
+    "SP: Version": "750",
+    "SP: Min perk level": "6",
+    "SP: Max perk level": "99",
+    "SP: Num trader weapons": "140",
+    "SP: Perk 1": "Support Specialist",
+    "SP: Perk 2": "Berserker"
+}

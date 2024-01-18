@@ -32,26 +32,14 @@ class Unreal2(ProtocolBase):
         details['ServerIP'] = br.read_string()  # empty
         details['GamePort'] = br.read_long()
         details['QueryPort'] = br.read_long()  # 0
-        details['ServerName'] = self.__read_string(br)
-        details['MapName'] = self.__read_string(br)
-        details['GameType'] = self.__read_string(br)
+        details['ServerName'] = self._read_string(br)
+        details['MapName'] = self._read_string(br)
+        details['GameType'] = self._read_string(br)
         details['NumPlayers'] = br.read_long()
         details['MaxPlayers'] = br.read_long()
-
-        if br.remaining_bytes() > 12:
-            try:
-                # Killing Floor
-                stream_position = br.stream_position
-                details['WaveCurrent'] = br.read_long()
-                details['WaveTotal'] = br.read_long()
-                details['Ping'] = br.read_long()
-                details['Flags'] = br.read_long()
-                details['Skill'] = self.__read_string(br)
-            except Exception:
-                br.stream_position = stream_position
-                details['Ping'] = br.read_long()
-                details['Flags'] = br.read_long()
-                details['Skill'] = self.__read_string(br)
+        details['Ping'] = br.read_long()
+        details['Flags'] = br.read_long()
+        details['Skill'] = self._read_string(br)
 
         return details
 
@@ -72,8 +60,8 @@ class Unreal2(ProtocolBase):
         rules['Mutators'] = []
 
         while not br.is_end():
-            key = self.__read_string(br)
-            val = self.__read_string(br)
+            key = self._read_string(br)
+            val = self._read_string(br)
 
             if key.lower() == 'mutator':
                 rules['Mutators'].append(val)
@@ -100,7 +88,7 @@ class Unreal2(ProtocolBase):
         while not br.is_end():
             player = {}
             player['Id'] = br.read_long()
-            player['Name'] = self.__read_string(br)
+            player['Name'] = self._read_string(br)
             player['Ping'] = br.read_long()
             player['Score'] = br.read_long()
             player['StatsId'] = br.read_long()
@@ -111,10 +99,9 @@ class Unreal2(ProtocolBase):
     @staticmethod
     def strip_colors(text: bytes):
         """Strip color codes"""
-        string = re.compile(b'\x7f|[\x00-\x1a]|[\x1c-\x1f]').sub(b'', text)
-        return string.replace(b'\x1b@@', b'').replace(b'\x1b@', b'').replace(b'\x1b', b'')
+        return re.compile(b'\x1b...|[\x00-\x1a]').sub(b'', text)
 
-    def __read_string(self, br: BinaryReader):
+    def _read_string(self, br: BinaryReader):
         length = br.read_byte()
         string = br.read_string()
 

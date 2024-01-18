@@ -1,0 +1,100 @@
+[
+    {
+        "Id": 769,
+        "Name": "[CHL] asein",
+        "Ping": 56,
+        "Score": 1500,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 554,
+        "Name": "[MEX] Tologuin",
+        "Ping": 148,
+        "Score": 1515,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 374,
+        "Name": "[CHL] fafe_asta",
+        "Ping": 60,
+        "Score": 984,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 311,
+        "Name": "[ARG] Rekiam",
+        "Ping": 76,
+        "Score": 1129,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 277,
+        "Name": "[ARG] KFL/UFOKILLER",
+        "Ping": 28,
+        "Score": 1716,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 271,
+        "Name": "[KOR] Bohemian",
+        "Ping": 252,
+        "Score": 493,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 199,
+        "Name": "[BRA] Finish",
+        "Ping": 40,
+        "Score": 0,
+        "StatsId": 0
+    },
+    {
+        "Id": 83,
+        "Name": "[CHL] LordChalox",
+        "Ping": 60,
+        "Score": 2282,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 29,
+        "Name": "[CHL] Kriss_Nemesis",
+        "Ping": 52,
+        "Score": 226,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 21,
+        "Name": "[ESP] HomerO",
+        "Ping": 176,
+        "Score": 175,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 19,
+        "Name": "[CHL] Marcelo_Kris",
+        "Ping": 56,
+        "Score": 229,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 18,
+        "Name": "[CHL] ZuraRxx",
+        "Ping": 92,
+        "Score": 2046,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 17,
+        "Name": "[ARG] francomaldonado",
+        "Ping": 48,
+        "Score": 59,
+        "StatsId": 536870912
+    },
+    {
+        "Id": 15,
+        "Name": "[SLV] memtrix",
+        "Ping": 128,
+        "Score": 569,
+        "StatsId": 536870912
+    }
+]
