@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
     async def main_async():
         # killingfloor
-        killingFloor = KillingFloor(host='104.234.65.235', port=7708, timeout=10.0)
+        killingFloor = KillingFloor(host='185.80.128.168', port=7708, timeout=10.0)
         details = await killingFloor.get_details()
         print(json.dumps(details, indent=None) + '\n')
         rules = await killingFloor.get_rules()

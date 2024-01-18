@@ -103,16 +103,8 @@ class Unreal2(ProtocolBase):
 
     def _read_string(self, br: BinaryReader):
         length = br.read_byte()
-        string = br.read_string()
-
-        if length == len(string) + 1:
-            b = bytes(string, encoding='utf-8')
-        else:
-            b = bytes(string, encoding='utf-16')
-
-        b = Unreal2.strip_colors(b)
-
-        return b.decode('utf-8', 'ignore')
+        b = br.read_bytes(length)
+        return Unreal2.strip_colors(b).decode('utf-8', 'ignore')
 
 
 if __name__ == '__main__':

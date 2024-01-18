@@ -9,7 +9,7 @@ class BinaryReader:
     def remaining_bytes(self) -> int:
         return len(self.__data) - self.stream_position
 
-    def is_end(self) -> int:
+    def is_end(self) -> bool:
         return self.stream_position >= len(self.__data)
 
     def prepend_bytes(self, data):
