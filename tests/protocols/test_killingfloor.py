@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Killing Floor
-test = KillingFloor(host='104.234.65.235', port=7708)
+test = KillingFloor(host='185.80.128.168', port=7708)
 
 @pytest.mark.asyncio
 async def test_get_details():
