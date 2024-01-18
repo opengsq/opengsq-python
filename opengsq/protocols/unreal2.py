@@ -97,14 +97,20 @@ class Unreal2(ProtocolBase):
         return players
 
     @staticmethod
-    def strip_colors(text: bytes):
+    def strip_colors(text: str):
         """Strip color codes"""
-        return re.compile(b'\x1b...|[\x00-\x1a]').sub(b'', text)
+        return re.compile('\x1b...|[\x00-\x1a]').sub('', text)
 
     def _read_string(self, br: BinaryReader):
         length = br.read_byte()
-        b = br.read_bytes(length)
-        return Unreal2.strip_colors(b).decode('utf-8', 'ignore')
+
+        if length >= 128:
+            length = (length & 0x7f) * 2
+            encoding = 'utf-16'
+        else:
+            encoding = 'utf-8'
+
+        return Unreal2.strip_colors(br.read_bytes(length).decode(encoding, 'ignore'))
 
 
 if __name__ == '__main__':
@@ -113,7 +119,7 @@ if __name__ == '__main__':
 
     async def main_async():
         # ut2004
-        unreal2 = Unreal2(host='109.230.224.189', port=6970, timeout=10.0)
+        unreal2 = Unreal2(host='109.230.224.189', port=6970)
         details = await unreal2.get_details()
         print(json.dumps(details, indent=None) + '\n')
         rules = await unreal2.get_rules()
