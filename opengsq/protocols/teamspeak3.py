@@ -2,9 +2,9 @@ from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import TcpClient
 
 
-class Teamspeak3(ProtocolBase):
-    """Teamspeak 3 Protocol"""
-    full_name = 'Teamspeak 3 Protocol'
+class TeamSpeak3(ProtocolBase):
+    """TeamSpeak 3 Protocol"""
+    full_name = 'TeamSpeak 3 Protocol'
 
     def __init__(self, host: str, port: int, voice_port: int, timeout: float = 5):
         super().__init__(host, port, timeout)
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        teamspeak3 = Teamspeak3(host='145.239.200.2', port=10011, voice_port=9987, timeout=5.0)
+        teamspeak3 = TeamSpeak3(host='145.239.200.2', port=10011, voice_port=9987, timeout=5.0)
         info = await teamspeak3.get_info()
         print(json.dumps(info, indent=None) + '\n')
         clients = await teamspeak3.get_clients()

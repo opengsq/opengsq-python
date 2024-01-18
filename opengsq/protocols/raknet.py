@@ -4,9 +4,9 @@ from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
 
 
-class Raknet(ProtocolBase):
-    """Raknet Protocol (https://wiki.vg/Raknet_Protocol)"""
-    full_name = 'Raknet Protocol'
+class RakNet(ProtocolBase):
+    """RakNet Protocol (https://wiki.vg/Raknet_Protocol)"""
+    full_name = 'RakNet Protocol'
 
     __ID_UNCONNECTED_PING = b'\x01'
     __ID_UNCONNECTED_PONG = b'\x1C'
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     import json
 
     async def main_async():
-        raknet = Raknet(host='mc.advancius.net', port=19132, timeout=5.0)
+        raknet = RakNet(host='mc.advancius.net', port=19132, timeout=5.0)
         status = await raknet.get_status()
         print(json.dumps(status, indent=None) + '\n')
 
