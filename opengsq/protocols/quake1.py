@@ -82,7 +82,7 @@ class Quake1(ProtocolBase):
         regex = re.compile(r'"(\\"|[^"])*?"|[^\s]+')
 
         # Read all players
-        while not br.is_end():
+        while br.remaining_bytes() > 1:
             match_collections.append(regex.finditer(br.read_string(self._delimiter2)))
 
         return match_collections
