@@ -1,8 +1,8 @@
 {
-    "clients": 10,
+    "clients": 0,
     "gametype": "Freeroam",
     "hostname": "LostCityRP",
-    "iv": "652028923",
-    "mapname": "fivem-map-skater",
+    "iv": "643021008",
+    "mapname": "fivem-map-hipster",
     "sv_maxclients": "128"
 }

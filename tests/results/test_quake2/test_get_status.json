@@ -13,16 +13,16 @@
         "gamedir": "jump",
         "gamename": "Q2JUMP 1.35ger",
         "hostname": ".german q2 jump",
-        "mapname": "smallboat",
+        "mapname": "jumpish36",
         "matchlock": "1",
         "matchtime": "20",
         "maxclients": "15",
         "port": "27910",
         "protocol": "34",
-        "time_remaining": "05:34",
+        "time_remaining": "00:58",
         "timelimit": "0",
         "version": "q2proded r1826~7ad132a Dec 28 2018 Linux x86_64",
-        "uptime": "80 days, 12 hours, 14 mins, 33 secs"
+        "uptime": "13 days, 18 hours, 49 mins, 55 secs"
     },
     "players": []
 }

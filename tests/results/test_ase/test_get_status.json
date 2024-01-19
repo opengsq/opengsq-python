@@ -1,101 +1,37 @@
 {
     "gamename": "mta",
     "gameport": "22003",
-    "hostname": "❤ TITAN RPG ❤ | [RUS|UA|KZ]        [DRIFT|бпан|radm,bpan,cc]",
-    "gametype": "MTA:SA",
+    "hostname": "MTA Türkiye ✖ GÜL GAMİNG FREEROAM ✖ [Roleplay/Askeri/Drift/Drop/Turkey/Tr/Gül Gaming]",
+    "gametype": "ＢＥＤＡＶＡ － ＶＩＰ",
     "map": "None",
-    "version": "1.5",
+    "version": "1.6",
     "password": "0",
-    "numplayers": "11",
-    "maxplayers": "108",
+    "numplayers": "3",
+    "maxplayers": "120",
     "rules": {},
     "players": [
         {
-            "name": "XaocOTMAROZOK",
+            "name": "majorka",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "81",
+            "ping": "68",
             "time": ""
         },
         {
-            "name": "Dedulya",
+            "name": "BlueCans43",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "78",
+            "ping": "254",
             "time": ""
         },
         {
-            "name": "Lavren",
+            "name": "AlluringCascades49",
             "team": "",
             "skin": "",
             "score": "",
-            "ping": "88",
-            "time": ""
-        },
-        {
-            "name": "DanyBashca",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "122",
-            "time": ""
-        },
-        {
-            "name": "Jafar",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "72",
-            "time": ""
-        },
-        {
-            "name": "<MTASHNIK>",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "84",
-            "time": ""
-        },
-        {
-            "name": "Edmin86",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "141",
-            "time": ""
-        },
-        {
-            "name": "LiZZka",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "90",
-            "time": ""
-        },
-        {
-            "name": "DragonRiki",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "91",
-            "time": ""
-        },
-        {
-            "name": "Atema",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "72",
-            "time": ""
-        },
-        {
-            "name": "TTEHb",
-            "team": "",
-            "skin": "",
-            "score": "",
-            "ping": "72",
+            "ping": "96",
             "time": ""
         }
     ]

@@ -3,14 +3,12 @@
     "ServerIP": "",
     "GamePort": 9980,
     "QueryPort": 0,
-    "ServerName": "Uliunai.lt```|[v1065]```|HOE/Suicidal/Hard|150 LvL```|+6 Perks",
-    "MapName": "KF-Prison",
-    "GameType": "MCGameType",
-    "NumPlayers": 3,
-    "MaxPlayers": 15,
-    "WaveCurrent": 2,
-    "WaveTotal": 10,
-    "Ping": 0,
-    "Flags": 512,
-    "Skill": "0"
+    "ServerName": "liunai.lt|v1065]|OE/Suicidal/Hard150 LvL| Perks",
+    "MapName": "",
+    "GameType": "KF-MiniMilitia-EDIT",
+    "NumPlayers": 1195592971,
+    "MaxPlayers": 1415933281,
+    "Ping": 6647929,
+    "Flags": 6,
+    "Skill": ""
 }

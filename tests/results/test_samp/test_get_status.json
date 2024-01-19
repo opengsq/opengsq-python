@@ -1,8 +1,8 @@
 {
     "password": 0,
-    "numplayers": 17,
+    "numplayers": 13,
     "maxplayers": 250,
     "servername": "[ENG] Valrise RPG",
-    "gametype": "Valrise RP 1.2.3 (RPG/RP)",
+    "gametype": "Valrise RP 2.0.13 (RPG/RP)",
     "language": "English"
 }

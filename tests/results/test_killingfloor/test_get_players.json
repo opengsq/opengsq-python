@@ -1,50 +1,8 @@
 [
     {
-        "Id": 7,
-        "Name": "Falcon1i",
-        "Ping": 64,
-        "Score": 500,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 6,
-        "Name": "kaziukaass",
-        "Ping": 32,
-        "Score": 500,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 5,
-        "Name": "JOE_BIDEN",
-        "Ping": 40,
-        "Score": 500,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 4,
-        "Name": "Wev",
-        "Ping": 88,
-        "Score": 500,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 3,
-        "Name": "Angry_Dany",
-        "Ping": 24,
-        "Score": 500,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 2,
-        "Name": "Kornis",
-        "Ping": 36,
-        "Score": 500,
-        "StatsId": 536870912
-    },
-    {
-        "Id": 1,
-        "Name": "THE_ANCIENT/_\\Predat",
-        "Ping": 48,
+        "Id": 12,
+        "Name": "johnxina",
+        "Ping": 1020,
         "Score": 500,
         "StatsId": 536870912
     }

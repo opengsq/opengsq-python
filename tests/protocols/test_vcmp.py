@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Vice City Multiplayer
-test = Vcmp(host='91.121.134.5', port=8192)
+test = Vcmp(host='51.178.65.136', port=8114)
 
 @pytest.mark.asyncio
 async def test_get_status():

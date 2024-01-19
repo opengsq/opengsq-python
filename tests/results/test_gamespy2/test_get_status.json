@@ -1,11 +1,11 @@
 {
     "info": {
-        "hostname": "PXLGMR - BFV",
+        "hostname": "*Easy Prey/Death*",
         "hostport": "15567",
-        "mapname": "HO CHI MINH TRAIL",
+        "mapname": "Khe Sahn [Extra Vehicles] -SSM-",
         "gametype": "coop",
-        "numplayers": "0",
-        "maxplayers": "32",
+        "numplayers": "3",
+        "maxplayers": "50",
         "gamemode": "openplaying",
         "password": "0",
         "gamever": "v1.21",
@@ -14,14 +14,14 @@
         "game_id": "bfvietnam",
         "map_id": "BFVietnam",
         "sv_punkbuster": "0",
-        "timelimit": "unlimited",
-        "number_of_rounds": "3",
-        "spawn_wave_time": "1s",
-        "spawn_delay": "3s",
-        "soldier_friendly_fire": "100%",
-        "vehicle_friendly_fire": "100%",
-        "game_start_delay": "0s",
-        "ticket_ratio": "1000%",
+        "timelimit": "60",
+        "number_of_rounds": "1",
+        "spawn_wave_time": "4s",
+        "spawn_delay": "10s",
+        "soldier_friendly_fire": "30%",
+        "vehicle_friendly_fire": "50%",
+        "game_start_delay": "75s",
+        "ticket_ratio": "271%",
         "allow_nose_cam": "yes",
         "external_view": "on",
         "us_team_ratio": "1",
@@ -31,29 +31,54 @@
         "auto_balance_teams": "off",
         "name_tag_distance": "100",
         "name_tag_distance_scope": "300",
-        "kickback": "0%",
-        "kickback_on_splash": "0%",
+        "kickback": "30%",
+        "kickback_on_splash": "30%",
         "soldier_friendly_fire_on_splash": "100%",
         "vehicle_friendly_fire_on_splash": "100%",
-        "cpu": "1996",
-        "bot_skill": "20%",
+        "cpu": "3599",
+        "bot_skill": "100%",
         "reservedslots": "0",
         "spectatorsallowed": "1",
         "spectatorvoting": "0",
-        "spectatorswitchtime": "120s",
+        "spectatorswitchtime": "30s",
         "active_mods": "",
         "all_active_mods": "bfvietnam",
         "game_id_name": "BFVietnam"
     },
-    "players": [],
+    "players": [
+        {
+            "player": "Matt Foley",
+            "score": "64",
+            "deaths": "12",
+            "ping": "253",
+            "team": "1",
+            "kills": "44"
+        },
+        {
+            "player": "VKHD Player",
+            "score": "77",
+            "deaths": "4",
+            "ping": "122",
+            "team": "2",
+            "kills": "52"
+        },
+        {
+            "player": "Gra$$HoPPer",
+            "score": "0",
+            "deaths": "0",
+            "ping": "115",
+            "team": "2",
+            "kills": "0"
+        }
+    ],
     "teams": [
         {
             "team": "red",
-            "tickets": "1803"
+            "tickets": "2"
         },
         {
             "team": "blue",
-            "tickets": "1721"
+            "tickets": "149"
         }
     ]
 }

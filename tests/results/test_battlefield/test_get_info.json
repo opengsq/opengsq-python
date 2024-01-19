@@ -1,28 +1,28 @@
 {
-    "hostname": "# -bZ4- # 90HZ LOCKER NO RULES BANZORE.COM",
-    "numplayers": 14,
+    "hostname": "# -bZ4- # 60HZ LOCKER NO RULES BANZORE.COM",
+    "numplayers": 58,
     "maxplayers": 64,
     "gametype": "ConquestLarge0",
     "map": "MP_Prison",
     "roundsplayed": 0,
     "roundstotal": 1,
     "teams": [
-        1174.543,
-        980.219666
+        815.1466,
+        543.969238
     ],
     "targetscore": 0,
     "status": "",
     "ranked": true,
     "punkbuster": true,
     "password": false,
-    "uptime": 647,
-    "roundtime": 502,
+    "uptime": 6746,
+    "roundtime": 1003,
     "ip_port": "74.91.124.140:25200",
     "punkbuster_version": "v1.905 | A1390 C2.351",
     "join_queue": true,
     "region": "NAm",
-    "pingsite": "lax",
+    "pingsite": "iad",
     "country": "US",
-    "blaze_player_count": 60,
+    "blaze_player_count": 61,
     "blaze_game_state": "IN_GAME"
 }

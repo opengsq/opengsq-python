@@ -1,104 +1,80 @@
 [
     {
         "id": 0,
-        "name": "Malcolm_Houston",
-        "score": 29,
-        "ping": 55
+        "name": "[GSF] Oscar_Brooks",
+        "score": 27,
+        "ping": 106
     },
     {
         "id": 1,
-        "name": "Mircea_Niko",
-        "score": 12,
-        "ping": 61
+        "name": "CHEFE_C.V.R.L",
+        "score": 0,
+        "ping": 243
     },
     {
         "id": 2,
-        "name": "Murat_Kent",
-        "score": 27,
-        "ping": 144
+        "name": "stiven_cc2",
+        "score": 0,
+        "ping": 162
     },
     {
         "id": 3,
-        "name": "Lars_Vegas",
-        "score": 25,
-        "ping": 261
+        "name": "[GSF] Franklin_Brooks",
+        "score": 31,
+        "ping": 95
     },
     {
         "id": 4,
-        "name": "Richard_Russo",
-        "score": 20,
-        "ping": 20
+        "name": "Ethan_Anderson",
+        "score": 11,
+        "ping": 233
     },
     {
         "id": 5,
-        "name": "Mark_Lynch",
-        "score": 22,
-        "ping": 51
+        "name": "JUANDI_RIOS",
+        "score": 0,
+        "ping": 197
     },
     {
         "id": 6,
-        "name": "Sonny_Tattaglia",
-        "score": 21,
-        "ping": 50
+        "name": "[GSF] Jones_Brooks",
+        "score": 31,
+        "ping": 162
     },
     {
         "id": 7,
-        "name": "Kris_Stewart",
-        "score": 25,
-        "ping": 133
+        "name": "yahya",
+        "score": 0,
+        "ping": 85
     },
     {
         "id": 8,
-        "name": "Larry_Ozaak",
-        "score": 30,
-        "ping": 55
+        "name": "Nathan_Ake",
+        "score": 0,
+        "ping": 272
     },
     {
         "id": 9,
-        "name": "Jason_Wilson",
-        "score": 31,
-        "ping": 153
-    },
-    {
-        "id": 10,
-        "name": "Eduard_Reiner",
-        "score": 49,
-        "ping": 185
+        "name": "[SWAT] Louis_Fratto",
+        "score": 18,
+        "ping": 191
     },
     {
         "id": 11,
-        "name": "Igor_Sto",
-        "score": 20,
-        "ping": 19
-    },
-    {
-        "id": 12,
-        "name": "Tom_Willson",
-        "score": 26,
-        "ping": 41
+        "name": "Tony_Clinton",
+        "score": 24,
+        "ping": 71
     },
     {
         "id": 13,
-        "name": "Matthew_Reiner",
-        "score": 31,
-        "ping": 46
-    },
-    {
-        "id": 14,
-        "name": "Ishaq_Zxytro",
-        "score": 22,
-        "ping": 183
-    },
-    {
-        "id": 15,
-        "name": "Hamdon_Clifford",
-        "score": 7,
-        "ping": 77
+        "name": "Gabriel_Medrano",
+        "score": 27,
+        "ping": 101
     },
     {
         "id": 17,
-        "name": "Simon_Stewart",
-        "score": 29,
-        "ping": 103
+        "name": "[NBA] Percy_WiIliams",
+        "score": 24,
+        "ping": 131
     }
 ]

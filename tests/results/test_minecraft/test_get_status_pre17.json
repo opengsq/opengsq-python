@@ -1,7 +1,7 @@
 {
-    "protocol": "-2",
-    "version": "Waterfall 1.8.x - 1.19.x",
-    "motd": "                MY-RPG.PL [1.8.x - 1.19.x]",
-    "numplayers": 51,
-    "maxplayers": 125
+    "protocol": "127",
+    "version": "1.20.1",
+    "motd": "BetterMC4",
+    "numplayers": 0,
+    "maxplayers": 10
 }

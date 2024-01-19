@@ -379,7 +379,6 @@
         "cfx-gabz-mrpd",
         "fiv3devs_asgard",
         "fiv3devs_headquarters",
-        "fivem-map-skater",
         "SmartMotorways.pack",
         "MAN%20TGL%20H%C3%B6henrettung",
         "FloppaArsen",
@@ -576,19 +575,21 @@
         "Nissan%20R33%20TSM",
         "RTW%20FF",
         "xm_man_tgm_itw13",
+        "wm-serversirens",
+        "Deutsche%20Kennzeichen",
         "EZELS",
         "lionNotruf",
         "lux_vehcontrol",
         "obAirbags",
         "rcore_radiocar",
         "TrafficTrailer",
-        "wm-serversirens",
         "smallboat1",
         "basic-gamemode",
         "chat",
         "mapmanager",
         "sessionmanager",
         "prison_meeting",
+        "fivem-map-hipster",
         "webpack",
         "yarn"
     ],
@@ -612,5 +613,5 @@
         "tags": "Roleplay, German, deployer, qbcore, qb-core, discord.gg/fdAhqnU4Dh",
         "txAdmin-version": "6.0.2"
     },
-    "version": 652028923
+    "version": 643021008
 }

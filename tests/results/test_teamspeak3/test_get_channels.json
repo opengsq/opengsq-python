@@ -1,17 +1,8 @@
 [
     {
-        "cid": "229",
-        "pid": "0",
-        "channel_order": "0",
-        "channel_name": "[cspacer10]🎍WELCOME TO SAMETEEM🎍",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1377",
         "pid": "0",
-        "channel_order": "229",
+        "channel_order": "0",
         "channel_name": "[cspacer10]FREE PUBLIC TEAMSPEAK SERVER",
         "channel_topic": "",
         "total_clients": "0",
@@ -72,18 +63,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1620",
-        "pid": "0",
-        "channel_order": "960",
-        "channel_name": "[cspacer15]#sameteem:chat.teamspeak.com",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "225",
         "pid": "0",
-        "channel_order": "1620",
+        "channel_order": "960",
         "channel_name": "[spacer20]___",
         "channel_topic": "",
         "total_clients": "0",
@@ -95,7 +77,7 @@
         "channel_order": "0",
         "channel_name": "Welcome | Rules in Channel Description",
         "channel_topic": "",
-        "total_clients": "9",
+        "total_clients": "10",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -113,7 +95,7 @@
         "channel_order": "1",
         "channel_name": "Lobby 2",
         "channel_topic": "",
-        "total_clients": "2",
+        "total_clients": "0",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -122,7 +104,7 @@
         "channel_order": "43",
         "channel_name": "Lobby 3",
         "channel_topic": "",
-        "total_clients": "0",
+        "total_clients": "1",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -131,7 +113,7 @@
         "channel_order": "50",
         "channel_name": "Lobby 4",
         "channel_topic": "",
-        "total_clients": "2",
+        "total_clients": "0",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -158,7 +140,7 @@
         "channel_order": "128",
         "channel_name": "Lobby 7",
         "channel_topic": "",
-        "total_clients": "0",
+        "total_clients": "3",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -167,7 +149,7 @@
         "channel_order": "338",
         "channel_name": "Lobby 8",
         "channel_topic": "Sheep Shaggers United",
-        "total_clients": "1",
+        "total_clients": "0",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -315,9 +297,18 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "18",
+        "cid": "1908",
         "pid": "225",
         "channel_order": "1746",
+        "channel_name": "Iran",
+        "channel_topic": "",
+        "total_clients": "0",
+        "channel_needed_subscribe_power": "0"
+    },
+    {
+        "cid": "18",
+        "pid": "225",
+        "channel_order": "1908",
         "channel_name": "Admin Lobby",
         "channel_topic": "Brits AFK/ Spawn  Room and tendies room",
         "total_clients": "-1",
@@ -423,27 +414,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1175",
-        "pid": "208",
-        "channel_order": "1174",
-        "channel_name": "CSGO GunGame",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1176",
-        "pid": "208",
-        "channel_order": "1175",
-        "channel_name": "CSGO Comp",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1177",
         "pid": "208",
-        "channel_order": "1176",
+        "channel_order": "1174",
         "channel_name": "CS 1.6",
         "channel_topic": "",
         "total_clients": "0",
@@ -495,15 +468,6 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1173",
-        "pid": "963",
-        "channel_order": "0",
-        "channel_name": "Gmod Murder",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "964",
         "pid": "207",
         "channel_order": "963",
@@ -545,7 +509,7 @@
         "channel_order": "967",
         "channel_name": "Rust",
         "channel_topic": "",
-        "total_clients": "2",
+        "total_clients": "0",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -873,18 +837,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "591",
-        "pid": "0",
-        "channel_order": "590",
-        "channel_name": "[cspacer15] ^ READ DESCRIPTION ^",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "17",
         "pid": "0",
-        "channel_order": "591",
+        "channel_order": "590",
         "channel_name": "[spacer60]___",
         "channel_topic": "",
         "total_clients": "0",
@@ -909,36 +864,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1553",
-        "pid": "17",
-        "channel_order": "637",
-        "channel_name": "Arcturus",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1594",
-        "pid": "1553",
-        "channel_order": "0",
-        "channel_name": "hunten",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1729",
-        "pid": "1553",
-        "channel_order": "1594",
-        "channel_name": "RageCage",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "745",
         "pid": "17",
-        "channel_order": "1553",
+        "channel_order": "637",
         "channel_name": "Hollywood",
         "channel_topic": "pornhub gang",
         "total_clients": "0",
@@ -977,7 +905,7 @@
         "channel_order": "873",
         "channel_name": "Zoo Słoniolandia",
         "channel_topic": "Słoń",
-        "total_clients": "0",
+        "total_clients": "2",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -1080,18 +1008,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1543",
-        "pid": "17",
-        "channel_order": "1540",
-        "channel_name": "d0dgerzzz",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1546",
         "pid": "17",
-        "channel_order": "1543",
+        "channel_order": "1540",
         "channel_name": "Maxiboy",
         "channel_topic": "",
         "total_clients": "8",
@@ -1224,18 +1143,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1689",
-        "pid": "17",
-        "channel_order": "1679",
-        "channel_name": "TheContinental",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1693",
         "pid": "17",
-        "channel_order": "1689",
+        "channel_order": "1679",
         "channel_name": "420",
         "channel_topic": "CSGO INNIT",
         "total_clients": "0",
@@ -1251,18 +1161,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1695",
-        "pid": "17",
-        "channel_order": "1694",
-        "channel_name": "VoteLoki",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1701",
         "pid": "17",
-        "channel_order": "1695",
+        "channel_order": "1694",
         "channel_name": "Mornachy",
         "channel_topic": "",
         "total_clients": "0",
@@ -1386,37 +1287,10 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1747",
-        "pid": "17",
-        "channel_order": "1744",
-        "channel_name": "asiankiss",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1752",
-        "pid": "17",
-        "channel_order": "1747",
-        "channel_name": "Guild Wars 2  VIP  ROOM",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1754",
         "pid": "17",
-        "channel_order": "1752",
+        "channel_order": "1744",
         "channel_name": "Panolypse",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1755",
-        "pid": "17",
-        "channel_order": "1754",
-        "channel_name": "Butterkatzen an die Macht",
         "channel_topic": "",
         "total_clients": "0",
         "channel_needed_subscribe_power": "0"
@@ -1424,7 +1298,7 @@
     {
         "cid": "1761",
         "pid": "17",
-        "channel_order": "1755",
+        "channel_order": "1754",
         "channel_name": "GW2 Dreamcatchers Hut",
         "channel_topic": "",
         "total_clients": "0",
@@ -1476,28 +1350,10 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1802",
-        "pid": "17",
-        "channel_order": "1801",
-        "channel_name": "INDO SINI LAH COK",
-        "channel_topic": "Mabar lah apa aja",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1803",
         "pid": "17",
-        "channel_order": "1802",
+        "channel_order": "1801",
         "channel_name": "////////////  Fucken Pubg  /////////////",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1814",
-        "pid": "17",
-        "channel_order": "1803",
-        "channel_name": "/\\\\/\\\\/\\\\/\\\\/\\\\/\\\\/Just Gaming/\\\\/\\\\/\\\\/\\\\/\\\\/\\\\/\\\\/\\\\",
         "channel_topic": "",
         "total_clients": "0",
         "channel_needed_subscribe_power": "0"
@@ -1505,7 +1361,7 @@
     {
         "cid": "1815",
         "pid": "17",
-        "channel_order": "1814",
+        "channel_order": "1803",
         "channel_name": "___Lobotom______FORTNAJŤÁK_JE_BUZNA_____",
         "channel_topic": "",
         "total_clients": "0",
@@ -1548,18 +1404,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1822",
-        "pid": "17",
-        "channel_order": "1821",
-        "channel_name": "sisego",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1824",
         "pid": "17",
-        "channel_order": "1822",
+        "channel_order": "1821",
         "channel_name": "Hauptkanal",
         "channel_topic": "",
         "total_clients": "0",
@@ -1575,18 +1422,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1826",
-        "pid": "17",
-        "channel_order": "1825",
-        "channel_name": "Exe1",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1827",
         "pid": "17",
-        "channel_order": "1826",
+        "channel_order": "1825",
         "channel_name": "chama123",
         "channel_topic": "",
         "total_clients": "0",
@@ -1598,40 +1436,13 @@
         "channel_order": "1827",
         "channel_name": "Nima and Rofaqa",
         "channel_topic": "League Of Legends",
-        "total_clients": "2",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1829",
-        "pid": "17",
-        "channel_order": "1828",
-        "channel_name": "Salman Group",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1830",
-        "pid": "17",
-        "channel_order": "1829",
-        "channel_name": "jebac zydow",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1832",
-        "pid": "17",
-        "channel_order": "1830",
-        "channel_name": "KILLDUTT",
-        "channel_topic": "",
-        "total_clients": "0",
+        "total_clients": "3",
         "channel_needed_subscribe_power": "0"
     },
     {
         "cid": "1835",
         "pid": "17",
-        "channel_order": "1832",
+        "channel_order": "1828",
         "channel_name": "꧁༒тнє ĜΘĐ ᭄Fαтнєя༒꧂",
         "channel_topic": "",
         "total_clients": "0",
@@ -1665,81 +1476,18 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1839",
-        "pid": "17",
-        "channel_order": "1835",
-        "channel_name": "Nasz Spokojny Dom Adopcji Pomidorów",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1840",
-        "pid": "17",
-        "channel_order": "1839",
-        "channel_name": "RocketLeauge",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1841",
-        "pid": "17",
-        "channel_order": "1840",
-        "channel_name": "Emerytolandia",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1847",
         "pid": "17",
-        "channel_order": "1841",
+        "channel_order": "1835",
         "channel_name": "🔴🔵( -_•)╦̵̵̿╤─🔵🔴",
         "channel_topic": "",
         "total_clients": "0",
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1848",
-        "pid": "17",
-        "channel_order": "1847",
-        "channel_name": "luki pepo y ivan terraria anasheiii",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1849",
-        "pid": "17",
-        "channel_order": "1848",
-        "channel_name": "SimnandKrxs",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1850",
-        "pid": "17",
-        "channel_order": "1849",
-        "channel_name": "Democles",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1851",
-        "pid": "17",
-        "channel_order": "1850",
-        "channel_name": "DjangoMusic",
-        "channel_topic": "Django Music",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1852",
         "pid": "17",
-        "channel_order": "1851",
+        "channel_order": "1847",
         "channel_name": "corti",
         "channel_topic": "",
         "total_clients": "0",
@@ -1764,18 +1512,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1855",
-        "pid": "17",
-        "channel_order": "1854",
-        "channel_name": "Cositis",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1856",
         "pid": "17",
-        "channel_order": "1855",
+        "channel_order": "1854",
         "channel_name": "AGALARLA",
         "channel_topic": "",
         "total_clients": "0",
@@ -1791,145 +1530,10 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1858",
-        "pid": "17",
-        "channel_order": "1857",
-        "channel_name": "[18+] Zuvys Gaming Channel [ENG/NA]",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1859",
-        "pid": "17",
-        "channel_order": "1858",
-        "channel_name": "Mandalorians",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1861",
-        "pid": "1859",
-        "channel_order": "0",
-        "channel_name": "Darnok PT",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1862",
-        "pid": "1859",
-        "channel_order": "1861",
-        "channel_name": "Mage PT",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1863",
-        "pid": "1859",
-        "channel_order": "1862",
-        "channel_name": "Beyond control CP",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1864",
-        "pid": "1859",
-        "channel_order": "1863",
-        "channel_name": "Fourth PT",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1865",
-        "pid": "1859",
-        "channel_order": "1864",
-        "channel_name": "Legion",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1866",
-        "pid": "1859",
-        "channel_order": "1865",
-        "channel_name": "Legion 2",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1867",
-        "pid": "1859",
-        "channel_order": "1866",
-        "channel_name": "Agitam",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1868",
-        "pid": "1859",
-        "channel_order": "1867",
-        "channel_name": "Agitam 2",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1869",
-        "pid": "1859",
-        "channel_order": "1868",
-        "channel_name": "RFH",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1870",
-        "pid": "1859",
-        "channel_order": "1869",
-        "channel_name": "RFH 2",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1860",
-        "pid": "17",
-        "channel_order": "1859",
-        "channel_name": "HLL",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1871",
         "pid": "17",
-        "channel_order": "1860",
+        "channel_order": "1857",
         "channel_name": "Hail-MissedMe",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1872",
-        "pid": "17",
-        "channel_order": "1871",
-        "channel_name": "call",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1873",
-        "pid": "17",
-        "channel_order": "1872",
-        "channel_name": "Unturned",
         "channel_topic": "",
         "total_clients": "0",
         "channel_needed_subscribe_power": "0"
@@ -1937,7 +1541,7 @@
     {
         "cid": "1874",
         "pid": "17",
-        "channel_order": "1873",
+        "channel_order": "1871",
         "channel_name": "poor idiots",
         "channel_topic": "",
         "total_clients": "0",
@@ -1980,27 +1584,9 @@
         "channel_needed_subscribe_power": "0"
     },
     {
-        "cid": "1881",
-        "pid": "17",
-        "channel_order": "1880",
-        "channel_name": "Nakkivene",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
-        "cid": "1882",
-        "pid": "17",
-        "channel_order": "1881",
-        "channel_name": "WARGAMINGNET",
-        "channel_topic": "",
-        "total_clients": "0",
-        "channel_needed_subscribe_power": "0"
-    },
-    {
         "cid": "1883",
         "pid": "17",
-        "channel_order": "1882",
+        "channel_order": "1880",
         "channel_name": "whomce",
         "channel_topic": "",
         "total_clients": "0",
@@ -2030,7 +1616,7 @@
         "channel_order": "1885",
         "channel_name": "Finiti e spolverati",
         "channel_topic": "",
-        "total_clients": "0",
+        "total_clients": "2",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -2057,7 +1643,7 @@
         "channel_order": "1888",
         "channel_name": "E.M.P.",
         "channel_topic": "",
-        "total_clients": "2",
+        "total_clients": "1",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -2120,7 +1706,7 @@
         "channel_order": "1897",
         "channel_name": "xx_acebaby_xx",
         "channel_topic": "",
-        "total_clients": "0",
+        "total_clients": "4",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -2129,7 +1715,7 @@
         "channel_order": "1898",
         "channel_name": "CSGO Lounge 1",
         "channel_topic": "",
-        "total_clients": "0",
+        "total_clients": "2",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -2147,7 +1733,7 @@
         "channel_order": "1900",
         "channel_name": "Die Ziegos",
         "channel_topic": "",
-        "total_clients": "3",
+        "total_clients": "0",
         "channel_needed_subscribe_power": "0"
     },
     {
@@ -2201,7 +1787,7 @@
         "channel_order": "235",
         "channel_name": "AFK/Muted",
         "channel_topic": "",
-        "total_clients": "6",
+        "total_clients": "7",
         "channel_needed_subscribe_power": "0"
     }
 ]

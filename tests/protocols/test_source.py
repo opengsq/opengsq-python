@@ -7,9 +7,10 @@ from .result_handler import ResultHandler
 
 handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
+handler.delay_per_test = 1
 
 # tf2
-source = Source(host='91.216.250.14', port=27015)
+source = Source(host='45.62.160.71', port=27015)
 
 @pytest.mark.asyncio
 async def test_get_info():

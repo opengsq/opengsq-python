@@ -1,16 +1,15 @@
 {
     "info": {
-        "hostname": "Tommy Minecraft Server",
+        "hostname": "lbAvenge6Tech",
         "gametype": "SMP",
+        "map": "WaterdogPE",
+        "numplayers": "7",
+        "maxplayers": "300",
+        "hostport": "19132",
+        "hostip": "0.0.0.0",
         "game_id": "MINECRAFTPE",
-        "version": "v1.0.4.11",
-        "server_engine": "Genisys 93fe03d",
-        "plugins": "Genisys 93fe03d",
-        "map": "elbowworld",
-        "numplayers": "0",
-        "maxplayers": "10",
-        "whitelist": "off",
-        "hostip": "104.238.152.181",
-        "hostport": "19132"
+        "version": "",
+        "plugins": "",
+        "whitelist": "off"
     }
 }

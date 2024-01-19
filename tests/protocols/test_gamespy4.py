@@ -8,7 +8,7 @@ from .result_handler import ResultHandler
 handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
-test = GameSpy4(host='104.238.152.181', port=19132)
+test = GameSpy4(host='play.avengetech.me', port=19132)
 
 @pytest.mark.asyncio
 async def test_get_status():

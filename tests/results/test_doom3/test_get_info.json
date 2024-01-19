@@ -14,7 +14,7 @@
     "si_voiceChat": "1",
     "si_serverURL": "",
     "si_controlTime": "120",
-    "si_autobalance": "0",
+    "si_autobalance": "1",
     "si_shuffle": "0",
     "si_spectators": "1",
     "si_usepass": "0",
@@ -46,11 +46,11 @@
     ".URL": "https://discord.gg/kt7VMgxQV3",
     ".Players_Strogg": "",
     ".Players_Marine": "",
-    ".Players_Active": "14 15",
+    ".Players_Active": "18 19",
     ".Score_Strogg": "",
     ".Score_Marine": "",
-    ".Score": "10 12",
-    ".Score_Time": "0:18",
+    ".Score": "1 1",
+    ".Score_Time": "OT 1:09",
     ".matchid": "0",
     ".serverid": "0",
     "si_inhibit": "0",
@@ -63,17 +63,17 @@
     "gamename": "Q4MAX 0.82",
     "players": [
         {
-            "id": 14,
+            "id": 18,
             "ping": 0,
             "rate": 50000,
-            "name": "Harper",
+            "name": "Kane Strogg",
             "clantag": "[BOT]"
         },
         {
-            "id": 15,
+            "id": 19,
             "ping": 0,
             "rate": 50000,
-            "name": "Lox",
+            "name": "Bidwell",
             "clantag": "[BOT]"
         }
     ]
