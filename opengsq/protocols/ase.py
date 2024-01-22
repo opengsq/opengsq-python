@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase

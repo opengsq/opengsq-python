@@ -8,7 +8,7 @@ class Player:
     """
     Represents a player in the game.
 
-    Attributes:
+    Args:
         name (str): The name of the player.
         team (str): The team of the player.
         skin (str): The skin of the player.
@@ -17,8 +17,9 @@ class Player:
         time (int): The time of the player.
     """
 
-    name: str
+    name: str  # The name of the player.
     team: str
+    """The team of the player."""
     skin: str
     score: int
     ping: int
