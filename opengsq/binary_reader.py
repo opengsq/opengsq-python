@@ -67,3 +67,9 @@ class BinaryReader:
             bytes_string += stream_byte
 
         return str(bytes_string, encoding=encoding, errors=errors)
+
+    def read_pascal_string(self, encoding='utf-8', errors='ignore'):
+        length = self.read_byte()
+        pascal_string = str(self.read_bytes(length - 1), encoding=encoding, errors=errors)
+        return pascal_string
+
