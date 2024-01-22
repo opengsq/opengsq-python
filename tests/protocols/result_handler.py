@@ -1,4 +1,5 @@
 import asyncio
+from dataclasses import asdict, is_dataclass
 import json
 import os
 from pathlib import Path
@@ -19,6 +20,9 @@ class ResultHandler:
 
         if self.enable_save:
             if is_json:
+                if is_dataclass(result):
+                    result = asdict(result)
+
                 result = json.dumps(result, indent=4, ensure_ascii=False)
 
             with open(os.path.join(self.__protocol_path, f'{function_name}.{(is_json and "json" or "txt")}'), 'w', encoding='utf-8') as f:
