@@ -9,32 +9,40 @@ from opengsq.responses.ase.player import Player
 class Status:
     """
     Represents the status of a game server.
-
-    Attributes:
-        gamename (str): The name of the game.
-        gameport (int): The port number of the game server.
-        hostname (str): The hostname of the game server.
-        gametype (str): The type of the game.
-        map (str): The current map of the game.
-        version (str): The version of the game.
-        password (bool): Whether a password is required to join the game.
-        numplayers (int): The number of players currently in the game.
-        maxplayers (int): The maximum number of players allowed in the game.
-        rules (dict[str, str]): The rules of the game. Defaults to an empty dictionary.
-        players (list[Player]): The players currently in the game. Defaults to an empty list.
     """
 
     gamename: str
+    """The name of the game."""
+
     gameport: int
+    """The port number of the game server."""
+
     hostname: str
+    """The hostname of the game server."""
+
     gametype: str
+    """The type of the game."""
+
     map: str
+    """The current map of the game."""
+
     version: str
+    """The version of the game."""
+
     password: bool
+    """Whether a password is required to join the game."""
+
     numplayers: int
+    """The number of players currently in the game."""
+
     maxplayers: int
+    """The maximum number of players allowed in the game."""
+
     rules: dict[str, str] = field(default_factory=dict)
+    """The rules of the game. Defaults to an empty dictionary."""
+
     players: list[Player] = field(default_factory=list)
+    """The players currently in the game. Defaults to an empty list."""
 
     @property
     def __dict__(self):
