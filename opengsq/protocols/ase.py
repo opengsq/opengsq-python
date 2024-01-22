@@ -8,7 +8,9 @@ from opengsq.responses.ase import Player, Status
 
 
 class ASE(ProtocolBase):
-    """All-Seeing Eye Protocol"""
+    """
+    This class represents the All-Seeing Eye Protocol. It provides methods to interact with the All-Seeing Eye API.
+    """
 
     full_name = "All-Seeing Eye Protocol"
 
@@ -17,10 +19,11 @@ class ASE(ProtocolBase):
 
     async def get_status(self) -> Status:
         """
-        Asynchronously get the status of the game server.
+        Asynchronously retrieves the status of the game server.
 
-        Returns:
-            Status: The status of the game server.
+        This method sends a request to the server and parses the response to create a Status object.
+
+        :return: The status of the game server.
         """
         response = await UdpClient.communicate(self, self._request)
 
@@ -29,15 +32,15 @@ class ASE(ProtocolBase):
         InvalidPacketException.throw_if_not_equal(header, self._response)
 
         return Status(
-            gamename=br.read_pascal_string(),
-            gameport=int(br.read_pascal_string()),
+            game_name=br.read_pascal_string(),
+            game_port=int(br.read_pascal_string()),
             hostname=br.read_pascal_string(),
-            gametype=br.read_pascal_string(),
+            game_type=br.read_pascal_string(),
             map=br.read_pascal_string(),
             version=br.read_pascal_string(),
             password=br.read_pascal_string() != "0",
-            numplayers=int(br.read_pascal_string()),
-            maxplayers=int(br.read_pascal_string()),
+            num_players=int(br.read_pascal_string()),
+            max_players=int(br.read_pascal_string()),
             rules=self.__parse_rules(br),
             players=self.__parse_players(br),
         )

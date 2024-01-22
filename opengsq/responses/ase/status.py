@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import dataclass, field
 
 from opengsq.responses.ase.player import Player
 
@@ -11,16 +11,16 @@ class Status:
     Represents the status of a game server.
     """
 
-    gamename: str
+    game_name: str
     """The name of the game."""
 
-    gameport: int
+    game_port: int
     """The port number of the game server."""
 
     hostname: str
     """The hostname of the game server."""
 
-    gametype: str
+    game_type: str
     """The type of the game."""
 
     map: str
@@ -32,10 +32,10 @@ class Status:
     password: bool
     """Whether a password is required to join the game."""
 
-    numplayers: int
+    num_players: int
     """The number of players currently in the game."""
 
-    maxplayers: int
+    max_players: int
     """The maximum number of players allowed in the game."""
 
     rules: dict[str, str] = field(default_factory=dict)
@@ -43,7 +43,3 @@ class Status:
 
     players: list[Player] = field(default_factory=list)
     """The players currently in the game. Defaults to an empty list."""
-
-    @property
-    def __dict__(self):
-        return asdict(self)

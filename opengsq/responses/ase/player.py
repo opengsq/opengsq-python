@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 
 
 @dataclass
@@ -26,7 +26,3 @@ class Player:
 
     time: int
     """The time of the player."""
-
-    @property
-    def __dict__(self):
-        return asdict(self)
