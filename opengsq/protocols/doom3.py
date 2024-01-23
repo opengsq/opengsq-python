@@ -7,30 +7,41 @@ from opengsq.protocol_socket import UdpClient
 
 
 class Doom3(ProtocolBase):
-    """Doom3 Protocol"""
-    full_name = 'Doom3 Protocol'
+    """
+    This class represents the Doom3 Protocol. It provides methods to interact with the Doom3 API.
+    """
+
+    full_name = "Doom3 Protocol"
 
     _player_fields = {
-        'doom': ['id', 'ping', 'rate', 'name'],
-        'quake4': ['id', 'ping', 'rate', 'name', 'clantag'],
-        'etqw': ['id', 'ping', 'name', 'clantag_pos', 'clantag', 'typeflag']
+        "doom": ["id", "ping", "rate", "name"],
+        "quake4": ["id", "ping", "rate", "name", "clantag"],
+        "etqw": ["id", "ping", "name", "clantag_pos", "clantag", "typeflag"],
     }
 
-    async def get_info(self, strip_color=True):
-        request = b'\xFF\xFFgetInfo\x00ogsq\x00'
+    async def get_info(self, strip_color=True) -> dict:
+        """
+        Asynchronously retrieves the information of the game server.
+
+        :param strip_color: A boolean indicating whether to strip color codes from the information.
+        :return: A dictionary containing the information of the game server.
+        """
+        request = b"\xFF\xFFgetInfo\x00ogsq\x00"
         response = await UdpClient.communicate(self, request)
 
         # Remove the first two 0xFF
         br = BinaryReader(response[2:])
         header = br.read_string()
 
-        if header != 'infoResponse':
-            raise InvalidPacketException(f'Packet header mismatch. Received: {header}. Expected: infoResponse.')
+        if header != "infoResponse":
+            raise InvalidPacketException(
+                f"Packet header mismatch. Received: {header}. Expected: infoResponse."
+            )
 
         # Read challenge
         br.read_bytes(4)
 
-        if br.read_bytes(4) != b'\xff\xff\xff\xff':
+        if br.read_bytes(4) != b"\xff\xff\xff\xff":
             br.stream_position -= 4
 
         info = {}
@@ -38,7 +49,7 @@ class Doom3(ProtocolBase):
         # Read protocol version
         minor = br.read_short()
         major = br.read_short()
-        info['version'] = f'{major}.{minor}'
+        info["version"] = f"{major}.{minor}"
 
         # Read packet size
         if br.read_long() != br.remaining_bytes():
@@ -49,7 +60,7 @@ class Doom3(ProtocolBase):
             key = br.read_string().strip()
             val = br.read_string().strip()
 
-            if key == '' and val == '':
+            if key == "" and val == "":
                 break
 
             info[key] = Doom3.strip_colors(val) if strip_color else val
@@ -59,23 +70,33 @@ class Doom3(ProtocolBase):
         # Try parse the fields
         for mod in self._player_fields.keys():
             try:
-                info['players'] = self.__parse_player(br, self._player_fields[mod], strip_color)
+                info["players"] = self.__parse_player(
+                    br, self._player_fields[mod], strip_color
+                )
                 break
             except Exception:
-                info['players'] = []
+                info["players"] = []
                 br.stream_position = stream_position
 
         return info
 
     def __parse_player(self, br: BinaryReader, fields: list, strip_color: bool):
+        """
+        Parses the player information from the BinaryReader object.
+
+        :param br: The BinaryReader object containing the player information.
+        :param fields: A list of fields to parse from the BinaryReader object.
+        :param strip_color: A boolean indicating whether to strip color codes from the player information.
+        :return: A list of dictionaries containing the player information.
+        """
         players = []
 
         def value_by_field(field: str, br: BinaryReader):
-            if field == 'id' or field == 'clantag_pos' or field == 'typeflag':
+            if field == "id" or field == "clantag_pos" or field == "typeflag":
                 return br.read_byte()
-            elif field == 'ping':
+            elif field == "ping":
                 return br.read_short()
-            elif field == 'rate':
+            elif field == "rate":
                 return br.read_long()
 
             string = br.read_string()
@@ -85,7 +106,7 @@ class Doom3(ProtocolBase):
         while True:
             player = {field: value_by_field(field, br) for field in fields}
 
-            if player['id'] == 32:
+            if player["id"] == 32:
                 break
 
             players.append(player)
@@ -93,29 +114,34 @@ class Doom3(ProtocolBase):
         return players
 
     @staticmethod
-    def strip_colors(text: str):
-        """Strip color codes"""
-        return re.compile('\\^(X.{6}|.)').sub('', text)
+    def strip_colors(text: str) -> str:
+        """
+        Strips color codes from the given text.
+
+        :param text: The text to strip color codes from.
+        :return: The text with color codes stripped.
+        """
+        return re.compile("\\^(X.{6}|.)").sub("", text)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     import asyncio
     import json
 
     async def main_async():
         # doom3
-        doom3 = Doom3(host='66.85.14.240', port=27666, timeout=5.0)
+        doom3 = Doom3(host="66.85.14.240", port=27666, timeout=5.0)
         info = await doom3.get_info()
-        print(json.dumps(info, indent=None) + '\n')
+        print(json.dumps(info, indent=None) + "\n")
 
         # etqw
-        doom3 = Doom3(host='178.162.135.83', port=27735, timeout=5.0)
+        doom3 = Doom3(host="178.162.135.83", port=27735, timeout=5.0)
         info = await doom3.get_info()
-        print(json.dumps(info, indent=None) + '\n')
+        print(json.dumps(info, indent=None) + "\n")
 
         # quake4
-        doom3 = Doom3(host='88.99.0.7', port=28007, timeout=5.0)
+        doom3 = Doom3(host="88.99.0.7", port=28007, timeout=5.0)
         info = await doom3.get_info()
-        print(json.dumps(info, indent=None) + '\n')
+        print(json.dumps(info, indent=None) + "\n")
 
     asyncio.run(main_async())

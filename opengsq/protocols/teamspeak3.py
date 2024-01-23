@@ -3,26 +3,57 @@ from opengsq.protocol_socket import TcpClient
 
 
 class TeamSpeak3(ProtocolBase):
-    """TeamSpeak 3 Protocol"""
+    """
+    This class represents the TeamSpeak 3 Protocol. It provides methods to interact with the TeamSpeak 3 API.
+    """
     full_name = 'TeamSpeak 3 Protocol'
 
     def __init__(self, host: str, port: int, voice_port: int, timeout: float = 5):
+        """
+        Initializes the TeamSpeak3 object with the given parameters.
+
+        :param host: The host of the server.
+        :param port: The port of the server.
+        :param voice_port: The voice port of the server.
+        :param timeout: The timeout for the server connection.
+        """
         super().__init__(host, port, timeout)
         self._voice_port = voice_port
 
-    async def get_info(self):
+    async def get_info(self) -> dict:
+        """
+        Asynchronously retrieves the information of the game server.
+
+        :return: A dictionary containing the information of the game server.
+        """
         response = await self.__send_and_receive(b'serverinfo')
         return self.__parse_kvs(response)
 
-    async def get_clients(self):
+    async def get_clients(self) -> list[dict]:
+        """
+        Asynchronously retrieves the list of clients on the game server.
+
+        :return: A list of clients on the game server.
+        """
         response = await self.__send_and_receive(b'clientlist')
         return self.__parse_rows(response)
 
-    async def get_channels(self):
+    async def get_channels(self) -> list[dict]:
+        """
+        Asynchronously retrieves the list of channels on the game server.
+
+        :return: A list of channels on the game server.
+        """
         response = await self.__send_and_receive(b'channellist -topic')
         return self.__parse_rows(response)
 
     async def __send_and_receive(self, data: bytes):
+        """
+        Asynchronously sends the given data to the game server and receives the response.
+
+        :param data: The data to send to the game server.
+        :return: The response from the game server.
+        """
         with TcpClient() as tcpClient:
             tcpClient.settimeout(self._timeout)
             await tcpClient.connect((self._host, self._port))
@@ -45,9 +76,21 @@ class TeamSpeak3(ProtocolBase):
         return response[:-21]
 
     def __parse_rows(self, response: bytes):
+        """
+        Parses the rows from the given response.
+
+        :param response: The response to parse rows from.
+        :return: A list of dictionaries containing the parsed rows.
+        """
         return [self.__parse_kvs(row) for row in response.split(b'|')]
 
     def __parse_kvs(self, response: bytes):
+        """
+        Parses the key-value pairs from the given response.
+
+        :param response: The response to parse key-value pairs from.
+        :return: A dictionary containing the parsed key-value pairs.
+        """
         kvs = {}
 
         for kv in response.split(b' '):

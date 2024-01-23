@@ -21,9 +21,9 @@ class EOS(ProtocolBase):
         self,
         host: str,
         port: int,
+        deployment_id: str,
+        access_token: str,
         timeout: float = 5,
-        deployment_id: str = None,
-        access_token: str = None,
     ):
         """
         Initializes the EOS object with the given parameters.
@@ -234,9 +234,9 @@ if __name__ == "__main__":
         eos = EOS(
             host="5.62.115.46",
             port=7783,
-            timeout=5.0,
             deployment_id=deployment_id,
             access_token=access_token,
+            timeout=5.0,
         )
 
         info = await eos.get_info()

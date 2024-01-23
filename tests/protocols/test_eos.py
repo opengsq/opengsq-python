@@ -31,9 +31,9 @@ async def test_get_info():
     eos = EOS(
         host="5.62.115.46",
         port=7783,
-        timeout=5.0,
         deployment_id=deployment_id,
         access_token=access_token,
+        timeout=5.0,
     )
 
     result = await eos.get_info()
