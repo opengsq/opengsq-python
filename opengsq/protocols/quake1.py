@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import re
 
 from opengsq.responses.quake1 import Player, Status
