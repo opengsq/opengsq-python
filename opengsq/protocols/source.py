@@ -1,6 +1,19 @@
+from __future__ import annotations
+
 import bz2
 import zlib
 
+from opengsq.responses.source import (
+    Environment,
+    ExtraDataFlag,
+    GoldSourceInfo,
+    PartialInfo,
+    Player,
+    ServerType,
+    SourceInfo,
+    VAC,
+    Visibility,
+)
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
@@ -8,7 +21,9 @@ from opengsq.protocol_socket import UdpClient
 
 
 class Source(ProtocolBase):
-    """Source Engine Protocol"""
+    """
+    This class represents the Source Engine Protocol. It provides methods to interact with the Source Engine API.
+    """
 
     full_name = "Source Engine Protocol"
 
@@ -28,12 +43,11 @@ class Source(ProtocolBase):
         S2A_RULES = 0x45
         A2A_ACK = 0x6A
 
-    async def get_info(self) -> dict:
+    async def get_info(self) -> PartialInfo:
         """
-        Retrieves information about the server including,
-        but not limited to: its name, the map currently being played, and the number of players.
+        Asynchronously retrieves information about the server including, but not limited to: its name, the map currently being played, and the number of players.
 
-        See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_INFO
+        :return: A PartialInfo object containing the information about the server.
         """
         response_data = await self.__connect_and_send_challenge(self._A2S_INFO)
 
@@ -58,85 +72,98 @@ class Source(ProtocolBase):
         # Obsolete GoldSource Response
         return self.__parse_from_info_detailed(br)
 
-    def __parse_from_info_src(self, br: BinaryReader) -> dict:
+    def __parse_from_info_src(self, br: BinaryReader) -> SourceInfo:
+        """
+        Parses the information from the given BinaryReader object.
+
+        :param br: The BinaryReader object to parse the information from.
+        :return: A SourceInfo object containing the parsed information.
+        """
         info = {}
-        info["Protocol"] = br.read_byte()
-        info["Name"] = br.read_string()
-        info["Map"] = br.read_string()
-        info["Folder"] = br.read_string()
-        info["Game"] = br.read_string()
-        info["ID"] = br.read_short()
-        info["Players"] = br.read_byte()
-        info["MaxPlayers"] = br.read_byte()
-        info["Bots"] = br.read_byte()
-        info["ServerType"] = chr(br.read_byte())
-        info["Environment"] = chr(br.read_byte())
-        info["Visibility"] = br.read_byte()
-        info["VAC"] = br.read_byte()
+        info["protocol"] = br.read_byte()
+        info["name"] = br.read_string()
+        info["map"] = br.read_string()
+        info["folder"] = br.read_string()
+        info["game"] = br.read_string()
+        info["id"] = br.read_short()
+        info["players"] = br.read_byte()
+        info["max_players"] = br.read_byte()
+        info["bots"] = br.read_byte()
+        info["server_type"] = ServerType(br.read_byte())
+        info["environment"] = Environment(br.read_byte())
+        info["visibility"] = Visibility(br.read_byte())
+        info["vac"] = VAC(br.read_byte())
 
         # These fields only exist in a response if the server is running The Ship
-        if info["ID"] == 2400:
-            info["Mode"] = br.read_byte()
-            info["Witnesses"] = br.read_byte()
-            info["Duration"] = br.read_byte()
+        if info["id"] == 2400:
+            info["mode"] = br.read_byte()
+            info["witnesses"] = br.read_byte()
+            info["duration"] = br.read_byte()
 
-        info["Version"] = br.read_string()
-        info["EDF"] = br.read_byte()
+        info["version"] = br.read_string()
+        edf = ExtraDataFlag(br.read_byte())
+        info["edf"] = edf
 
-        if info["EDF"] & 0x80:
-            info["GamePort"] = br.read_short()
+        if edf.has_flag(ExtraDataFlag.Port):
+            info["port"] = br.read_short()
 
-        if info["EDF"] & 0x10:
-            info["SteamID"] = br.read_long_long()
+        if edf.has_flag(ExtraDataFlag.SteamID):
+            info["steam_id"] = br.read_long_long()
 
-        if info["EDF"] & 0x40:
-            info["SpecPort"] = br.read_short()
-            info["SpecName"] = br.read_string()
+        if edf.has_flag(ExtraDataFlag.Spectator):
+            info["spectator_port"] = br.read_short()
+            info["spectator_name"] = br.read_string()
 
-        if info["EDF"] & 0x20:
-            info["Keywords"] = br.read_string()
+        if edf.has_flag(ExtraDataFlag.Keywords):
+            info["keywords"] = br.read_string()
 
-        if info["EDF"] & 0x01:
-            info["GameID"] = br.read_long_long()
+        if edf.has_flag(ExtraDataFlag.GameID):
+            info["game_id"] = br.read_long_long()
 
-        return info
+        return SourceInfo(**info)
 
-    def __parse_from_info_detailed(self, br: BinaryReader) -> dict:
+    def __parse_from_info_detailed(self, br: BinaryReader) -> GoldSourceInfo:
+        """
+        Parses the information from the given BinaryReader object.
+
+        :param br: The BinaryReader object to parse the information from.
+        :return: A GoldSourceInfo object containing the parsed information.
+        """
         info = {}
-        info["Address"] = br.read_string()
-        info["Name"] = br.read_string()
-        info["Map"] = br.read_string()
-        info["Folder"] = br.read_string()
-        info["Game"] = br.read_string()
-        info["Players"] = br.read_byte()
-        info["MaxPlayers"] = br.read_byte()
-        info["Protocol"] = br.read_byte()
-        info["ServerType"] = chr(br.read_byte())
-        info["Environment"] = chr(br.read_byte())
-        info["Visibility"] = br.read_byte()
-        info["Mod"] = br.read_byte()
+        info["address"] = br.read_string()
+        info["name"] = br.read_string()
+        info["map"] = br.read_string()
+        info["folder"] = br.read_string()
+        info["game"] = br.read_string()
+        info["players"] = br.read_byte()
+        info["max_players"] = br.read_byte()
+        info["protocol"] = br.read_byte()
+        info["server_type"] = ServerType(br.read_byte())
+        info["environment"] = Environment(br.read_byte())
+        info["visibility"] = Visibility(br.read_byte())
+        info["mod"] = br.read_byte()
 
-        if info["Mod"] == 1:
-            info["Link"] = br.read_string()
-            info["DownloadLink"] = br.read_string()
+        if info["mod"] == 1:
+            info["link"] = br.read_string()
+            info["download_link"] = br.read_string()
 
             br.read_byte()
 
-            info["Version"] = br.read_long()
-            info["Size"] = br.read_long()
-            info["Type"] = br.read_byte()
-            info["DLL"] = br.read_byte()
+            info["version"] = br.read_long()
+            info["size"] = br.read_long()
+            info["type"] = br.read_byte()
+            info["dll"] = br.read_byte()
 
-        info["VAC"] = br.read_byte()
-        info["Bots"] = br.read_byte()
+        info["vac"] = VAC(br.read_byte())
+        info["bots"] = br.read_byte()
 
-        return info
+        return GoldSourceInfo(**info)
 
-    async def get_players(self) -> list:
+    async def get_players(self) -> list[Player]:
         """
-        This query retrieves information about the players currently on the server.
+        Asynchronously retrieves information about the players currently on the server.
 
-        See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_PLAYER
+        :return: A list of Player objects containing the information about the players.
         """
         response_data = await self.__connect_and_send_challenge(self._A2S_PLAYER)
 
@@ -157,23 +184,23 @@ class Source(ProtocolBase):
             br.read_byte()
 
             player = {}
-            player["Name"] = br.read_string()
-            player["Score"] = br.read_long()
-            player["Duration"] = br.read_float()
+            player["name"] = br.read_string()
+            player["score"] = br.read_long()
+            player["duration"] = br.read_float()
             players.append(player)
 
         if br.remaining_bytes() > 0:
             for i in range(player_count):
-                players[i]["Deaths"] = br.read_long()
-                players[i]["Money"] = br.read_long()
+                players[i]["deaths"] = br.read_long()
+                players[i]["money"] = br.read_long()
 
-        return players
+        return [Player(**player) for player in players]
 
-    async def get_rules(self) -> dict:
+    async def get_rules(self) -> dict[str, str]:
         """
-        Returns the server rules, or configuration variables in name/value pairs.
+        Asynchronously retrieves the rules of the game server, or configuration variables in name/value pairs.
 
-        See: https://developer.valvesoftware.com/wiki/Server_queries#A2S_RULES
+        :return: A dictionary containing the rules of the game server.
         """
         response_data = await self.__connect_and_send_challenge(self._A2S_RULES)
 
@@ -193,6 +220,12 @@ class Source(ProtocolBase):
         return rules
 
     async def __connect_and_send_challenge(self, header: __RequestHeader) -> bytes:
+        """
+        Asynchronously connects to the game server and sends the given header.
+
+        :param header: The header to send to the game server.
+        :return: The response from the game server.
+        """
         # Connect to remote host
         with UdpClient() as udpClient:
             udpClient.settimeout(self._timeout)
@@ -343,12 +376,14 @@ if __name__ == "__main__":
     import json
 
     async def main_async():
-        source = Source(host="209.205.114.187", port=27015, timeout=5.0)
+        source = Source(host="45.62.160.71", port=27015, timeout=5.0)
         info = await source.get_info()
-        print(json.dumps(info, indent=None, ensure_ascii=False) + "\n")
+        print(json.dumps(info, ensure_ascii=False, default=lambda o: o.__dict__) + "\n")
         players = await source.get_players()
-        print(json.dumps(players, indent=None, ensure_ascii=False) + "\n")
+        print(
+            json.dumps(players, ensure_ascii=False, default=lambda o: o.__dict__) + "\n"
+        )
         rules = await source.get_rules()
-        print(json.dumps(rules, indent=None, ensure_ascii=False) + "\n")
+        print(json.dumps(rules, ensure_ascii=False) + "\n")
 
     asyncio.run(main_async())
