@@ -9,7 +9,7 @@ handler = ResultHandler(os.path.basename(__file__)[:-3])
 # handler.enable_save = True
 
 # Quake 4
-doom3 = Doom3(host='88.99.0.7', port=28007)
+doom3 = Doom3(host='178.162.135.83', port=27735)
 
 @pytest.mark.asyncio
 async def test_get_info():

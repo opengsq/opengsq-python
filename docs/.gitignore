@@ -1,3 +1,2 @@
-modules.rst
-opengsq.protocols.rst
-opengsq.rst
+*.rst
+!index.rst

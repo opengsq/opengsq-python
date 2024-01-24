@@ -1,5 +1,6 @@
 import re
 
+from opengsq.responses.quake2 import Status
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocols.quake2 import Quake2
 from opengsq.exceptions import InvalidPacketException
@@ -52,31 +53,20 @@ class Quake3(Quake2):
 
         return info
 
-    async def get_status(self, strip_color=True) -> dict:
-        """
-        Asynchronously retrieves the status of the game server. The status includes information about the server and players.
-
-        :param strip_color: A boolean indicating whether to strip color codes from the status.
-        :return: A dictionary containing the status of the game server.
-        """
+    async def get_status(self, strip_color=True) -> Status:
         br = await self._get_response_binary_reader()
 
-        status = {
-            "info": self._parse_info(br),
-            "players": self._parse_players(br),
-        }
+        status = Status(info=self._parse_info(br), players=self._parse_players(br))
 
         if not strip_color:
             return status
 
-        if "sv_hostname" in status["info"]:
-            status["info"]["sv_hostname"] = Quake3.strip_colors(
-                status["info"]["sv_hostname"]
-            )
+        if "sv_hostname" in status.info:
+            status.info["sv_hostname"] = Quake3.strip_colors(status.info["sv_hostname"])
 
-        for player in status["players"]:
-            if "name" in player:
-                player["name"] = Quake3.strip_colors(player["name"])
+        for player in status.players:
+            if player.name:
+                player.name = Quake3.strip_colors(player.name)
 
         return status
 
@@ -96,10 +86,10 @@ if __name__ == "__main__":
     import json
 
     async def main_async():
-        quake3 = Quake3(host="85.10.197.106", port=27960, timeout=5.0)
+        quake3 = Quake3(host="108.61.18.110", port=27960, timeout=5.0)
         info = await quake3.get_info()
         status = await quake3.get_status()
-        print(json.dumps(info, indent=None) + "\n")
-        print(json.dumps(status, indent=None) + "\n")
+        print(json.dumps(info, indent=None, default=lambda o: o.__dict__) + "\n")
+        print(json.dumps(status, indent=None, default=lambda o: o.__dict__) + "\n")
 
     asyncio.run(main_async())

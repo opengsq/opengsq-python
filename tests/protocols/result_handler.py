@@ -20,13 +20,13 @@ class ResultHandler:
 
         if self.enable_save:
             if is_json:
-                if is_dataclass(result):
-                    result = asdict(result)
-                elif isinstance(result, list):
-                    # set asdict to all items
-                    result = [asdict(item) for item in result if is_dataclass(item)]
+                # if is_dataclass(result):
+                #     result = asdict(result)
+                # elif isinstance(result, list):
+                #     # set asdict to all items
+                #     result = [asdict(item) for item in result if is_dataclass(item)]
 
-                result = json.dumps(result, indent=4, ensure_ascii=False)
+                result = json.dumps(result, indent=4, ensure_ascii=False, default=lambda o: o.__dict__)
 
             with open(os.path.join(self.__protocol_path, f'{function_name}.{(is_json and "json" or "txt")}'), 'w', encoding='utf-8') as f:
                 print(result, file=f)
