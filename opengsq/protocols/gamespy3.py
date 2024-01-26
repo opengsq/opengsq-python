@@ -152,11 +152,10 @@ class GameSpy3(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
 
     async def main_async():
-        gs3 = GameSpy3(host="185.107.96.59", port=29900, timeout=5.0)
+        gs3 = GameSpy3(host="95.172.92.116", port=29900, timeout=5.0)
         server = await gs3.get_status()
-        print(json.dumps(server, indent=None))
+        print(server)
 
     asyncio.run(main_async())

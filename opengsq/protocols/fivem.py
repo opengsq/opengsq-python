@@ -51,15 +51,14 @@ class FiveM(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
 
     async def main_async():
         fivem = FiveM(host="144.217.10.12", port=30120, timeout=5.0)
         info = await fivem.get_info()
-        print(json.dumps(info, indent=None) + "\n")
+        print(info)
         players = await fivem.get_players()
-        print(json.dumps(players, indent=None) + "\n")
+        print(players)
         dynamic = await fivem.get_dynamic()
-        print(json.dumps(dynamic, indent=None) + "\n")
+        print(dynamic)
 
     asyncio.run(main_async())

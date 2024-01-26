@@ -118,13 +118,13 @@ class Scum(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
+        master_servers = await Scum.query_master_servers()
+        print(master_servers)
+
         scum = Scum(host="15.235.181.19", port=7042, timeout=5.0)
-        master_servers = await scum.query_master_servers()
         server = await scum.get_status(master_servers)
-        print(json.dumps(asdict(server), indent=None) + "\n")
+        print(server)
 
     asyncio.run(main_async())

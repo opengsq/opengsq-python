@@ -12,11 +12,10 @@ class GameSpy4(GameSpy3):
 
 if __name__ == "__main__":
     import asyncio
-    import json
 
     async def main_async():
         gs4 = GameSpy4(host="play.avengetech.me", port=19132, timeout=5.0)
         server = await gs4.get_status()
-        print(json.dumps(server, indent=None))
+        print(server)
 
     asyncio.run(main_async())

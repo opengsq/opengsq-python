@@ -126,22 +126,21 @@ class Doom3(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
 
     async def main_async():
         # doom3
         doom3 = Doom3(host="66.85.14.240", port=27666, timeout=5.0)
         info = await doom3.get_info()
-        print(json.dumps(info, indent=None) + "\n")
+        print(info)
 
         # etqw
         doom3 = Doom3(host="178.162.135.83", port=27735, timeout=5.0)
         info = await doom3.get_info()
-        print(json.dumps(info, indent=None) + "\n")
+        print(info)
 
         # quake4
         doom3 = Doom3(host="88.99.0.7", port=28007, timeout=5.0)
         info = await doom3.get_info()
-        print(json.dumps(info, indent=None) + "\n")
+        print(info)
 
     asyncio.run(main_async())

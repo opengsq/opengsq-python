@@ -107,16 +107,18 @@ class Samp(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
         samp = Samp(host="51.254.178.238", port=7777, timeout=5.0)
         status = await samp.get_status()
-        print(json.dumps(asdict(status), indent=None) + "\n")
+        print(status)
+
+        await asyncio.sleep(5)
         players = await samp.get_players()
-        print(json.dumps([asdict(player) for player in players], indent=None) + "\n")
+        print(players)
+
+        await asyncio.sleep(5)
         rules = await samp.get_rules()
-        print(json.dumps(rules, indent=None) + "\n")
+        print(rules)
 
     asyncio.run(main_async())

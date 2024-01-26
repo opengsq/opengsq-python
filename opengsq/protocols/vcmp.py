@@ -95,14 +95,12 @@ class Vcmp(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
         vcmp = Vcmp(host="51.178.65.136", port=8114, timeout=5.0)
         status = await vcmp.get_status()
-        print(json.dumps(asdict(status), indent=None) + "\n")
+        print(status)
         players = await vcmp.get_players()
-        print(json.dumps([asdict(player) for player in players], indent=None) + "\n")
+        print(players)
 
     asyncio.run(main_async())

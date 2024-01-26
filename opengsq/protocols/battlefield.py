@@ -126,8 +126,6 @@ class Battlefield(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
         entries = [
@@ -140,10 +138,10 @@ if __name__ == "__main__":
         for address, query_port in entries:
             battlefield = Battlefield(address, query_port, timeout=10.0)
             info = await battlefield.get_info()
-            print(json.dumps(asdict(info), indent=None) + "\n")
+            print(info)
             version = await battlefield.get_version()
-            print(json.dumps(asdict(version), indent=None) + "\n")
+            print(version)
             players = await battlefield.get_players()
-            print(json.dumps(players, indent=None) + "\n")
+            print(players)
 
     asyncio.run(main_async())

@@ -99,12 +99,11 @@ class ASE(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
 
     async def main_async():
         # mtasa
         ase = ASE(host="79.137.97.3", port=22126, timeout=10.0)
         status = await ase.get_status()
-        print(json.dumps(status, indent=None) + "\n")
+        print(status)
 
     asyncio.run(main_async())

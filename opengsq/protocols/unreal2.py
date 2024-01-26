@@ -165,17 +165,15 @@ class Unreal2(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
         # ut2004
         unreal2 = Unreal2(host="109.230.224.189", port=6970)
         details = await unreal2.get_details()
-        print(json.dumps(asdict(details), indent=None) + "\n")
+        print(details)
         rules = await unreal2.get_rules()
-        print(json.dumps(rules, indent=None) + "\n")
+        print(rules)
         players = await unreal2.get_players()
-        print(json.dumps([asdict(player) for player in players], indent=None) + "\n")
+        print(players)
 
     asyncio.run(main_async())

@@ -163,13 +163,11 @@ class GameSpy2(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
         # bfv
         gs2 = GameSpy2(host="108.61.236.22", port=23000, timeout=5.0)
         status = await gs2.get_status()
-        print(json.dumps(asdict(status), indent=None) + "\n")
+        print(status)
 
     asyncio.run(main_async())

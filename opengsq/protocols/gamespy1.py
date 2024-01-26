@@ -212,8 +212,6 @@ class GameSpy1(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
         gs1 = GameSpy1(host="51.81.48.224", port=23000, timeout=5.0)  # bfield1942
@@ -221,6 +219,6 @@ if __name__ == "__main__":
         # gs1 = GameSpy1(address='192.223.24.6', query_port=7778, timeout=5.0)  # ut
         gs1 = GameSpy1(host="141.94.205.35", port=12300, timeout=5.0)  # mohaa
         status = await gs1.get_status()
-        print(json.dumps(asdict(status), indent=None) + "\n")
+        print(status)
 
     asyncio.run(main_async())

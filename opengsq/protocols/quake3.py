@@ -83,13 +83,12 @@ class Quake3(Quake2):
 
 if __name__ == "__main__":
     import asyncio
-    import json
 
     async def main_async():
         quake3 = Quake3(host="108.61.18.110", port=27960, timeout=5.0)
         info = await quake3.get_info()
+        print(info)
         status = await quake3.get_status()
-        print(json.dumps(info, indent=None, default=lambda o: o.__dict__) + "\n")
-        print(json.dumps(status, indent=None, default=lambda o: o.__dict__) + "\n")
+        print(status)
 
     asyncio.run(main_async())

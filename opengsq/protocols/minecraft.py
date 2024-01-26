@@ -165,13 +165,12 @@ class Minecraft(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    from dataclasses import asdict
 
     async def main_async():
         minecraft = Minecraft(host="mc.goldcraft.ir", port=25565, timeout=5.0)
         status = await minecraft.get_status(47, strip_color=True)
-        print(json.dumps(status, indent=None, ensure_ascii=False) + "\n")
+        print(status)
         status_pre17 = await minecraft.get_status_pre17()
-        print(json.dumps(asdict(status_pre17), indent=None, ensure_ascii=False) + "\n")
+        print(status_pre17)
 
     asyncio.run(main_async())

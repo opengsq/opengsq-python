@@ -118,10 +118,10 @@ if __name__ == "__main__":
             host="145.239.200.2", port=10011, voice_port=9987, timeout=5.0
         )
         info = await teamspeak3.get_info()
-        print(json.dumps(info, indent=None) + "\n")
+        print(info)
         clients = await teamspeak3.get_clients()
-        print(json.dumps(clients, indent=None) + "\n")
+        print(clients)
         channels = await teamspeak3.get_channels()
-        print(json.dumps(channels, indent=None) + "\n")
+        print(channels)
 
     asyncio.run(main_async())

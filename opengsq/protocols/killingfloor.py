@@ -53,17 +53,15 @@ class KillingFloor(Unreal2):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
         # killingfloor
         killingFloor = KillingFloor(host="185.80.128.168", port=7708, timeout=10.0)
         details = await killingFloor.get_details()
-        print(json.dumps(asdict(details), indent=None) + "\n")
+        print(details)
         rules = await killingFloor.get_rules()
-        print(json.dumps(rules, indent=None) + "\n")
+        print(rules)
         players = await killingFloor.get_players()
-        print(json.dumps([asdict(player) for player in players], indent=None) + "\n")
+        print(players)
 
     asyncio.run(main_async())

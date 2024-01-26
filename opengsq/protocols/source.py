@@ -373,17 +373,18 @@ class Source(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
 
     async def main_async():
         source = Source(host="45.62.160.71", port=27015, timeout=5.0)
         info = await source.get_info()
-        print(json.dumps(info, ensure_ascii=False, default=lambda o: o.__dict__) + "\n")
+        print(info)
+
+        await asyncio.sleep(1)
         players = await source.get_players()
-        print(
-            json.dumps(players, ensure_ascii=False, default=lambda o: o.__dict__) + "\n"
-        )
+        print(players)
+
+        await asyncio.sleep(1)
         rules = await source.get_rules()
-        print(json.dumps(rules, ensure_ascii=False) + "\n")
+        print(rules)
 
     asyncio.run(main_async())

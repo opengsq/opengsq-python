@@ -79,12 +79,10 @@ class RakNet(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
         raknet = RakNet(host="mc.advancius.net", port=19132, timeout=5.0)
         status = await raknet.get_status()
-        print(json.dumps(asdict(status), indent=None) + "\n")
+        print(status)
 
     asyncio.run(main_async())

@@ -49,12 +49,10 @@ class Satisfactory(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
-    from dataclasses import asdict
 
     async def main_async():
         satisfactory = Satisfactory(host="79.136.0.124", port=15777, timeout=5.0)
         status = await satisfactory.get_status()
-        print(json.dumps(asdict(status), indent=None) + "\n")
+        print(status)
 
     asyncio.run(main_async())

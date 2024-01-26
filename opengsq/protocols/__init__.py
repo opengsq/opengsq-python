@@ -1,34 +1,3 @@
-"""
-This module provides interfaces to various game server query protocols.
-
-The following protocols are supported:
-- ASE (All-Seeing Eye)
-- Battlefield
-- Doom3
-- EOS (Epic Online Services)
-- FiveM
-- GameSpy1
-- GameSpy2
-- GameSpy3
-- GameSpy4
-- KillingFloor
-- Minecraft
-- Quake1
-- Quake2
-- Quake3
-- RakNet
-- Samp (San Andreas Multiplayer)
-- Satisfactory
-- Scum
-- Source (Source Engine)
-- TeamSpeak3
-- Unreal2
-- Vcmp (Vice City Multiplayer)
-- WON (World Opponent Network)
-
-Each protocol is implemented as a separate module and can be imported individually.
-"""
-
 from opengsq.protocols.ase import ASE
 from opengsq.protocols.battlefield import Battlefield
 from opengsq.protocols.doom3 import Doom3
