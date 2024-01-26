@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
@@ -53,7 +53,7 @@ jobs:
           python -m pip install -r docs/requirements.txt
 
       - name: Sphinx API Documentation Generation
-        run: sphinx-apidoc -o docs opengsq
+        run: sphinx-apidoc -o docs opengsq/api
 
       - name: Sphinx HTML Documentation Build
         run: sphinx-build -b html docs docs/_build
@@ -63,7 +63,7 @@ jobs:
         with:
           # Upload entire repository
           path: "docs/_build"
-          
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

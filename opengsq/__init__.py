@@ -3,7 +3,7 @@
 
 """
 OpenGSQ Python Library
-~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 Python library for querying game servers
 

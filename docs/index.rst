@@ -7,10 +7,23 @@ Welcome to OpenGSQ Python's documentation!
 ==========================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :maxdepth: 4
+   :caption: Get Started
 
-   modules
+   Home <self>
+   install
+   usage
+
+.. toctree::
+   :maxdepth: 4
+   :caption: API
+
+   api/modules
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Tests
+
 
 Indices and tables
 ==================
