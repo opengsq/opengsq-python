@@ -1,4 +1,5 @@
 # OpenGSQ Python Library
+
 [![Python Package](https://github.com/opengsq/opengsq-python/actions/workflows/python-package.yml/badge.svg)](https://github.com/opengsq/opengsq-python/actions/workflows/python-package.yml)
 [![GitHub license](https://img.shields.io/github/license/opengsq/opengsq-python)](https://github.com/opengsq/opengsq-python/blob/main/LICENSE)
 [![](https://img.shields.io/pypi/v/opengsq.svg)](https://pypi.org/project/opengsq/)
@@ -9,6 +10,7 @@ The OpenGSQ Python library provides a convenient way to query servers
 from applications written in the Python language.
 
 ## Supported Protocols
+
 ```py
 from opengsq.protocols.ase import ASE
 from opengsq.protocols.battlefield import Battlefield
@@ -37,7 +39,7 @@ from opengsq.protocols.won import WON
 
 ## Requirements
 
--   Python 3.6+
+- Python 3.6+
 
 ## Installation
 
@@ -55,7 +57,8 @@ python setup.py install
 
 ## Usage
 
-Query server using Source, example output: [tests/results/test_source/test_get_info.json](/tests/results/test_source/test_get_info.json)
+Here’s an example of how to query a server using the Source protocol:
+
 ```py
 import asyncio
 from opengsq.protocols import Source
@@ -68,21 +71,22 @@ async def main():
 asyncio.run(main())
 ```
 
-Rcon server using Source Remote Console, example output: [tests/results/test_source/test_remote_console.txt](/tests/results/test_source/test_remote_console.txt)
+You can also use the Source Remote Console:
+
 ```py
 import asyncio
-
 from opengsq.exceptions import AuthenticationException
-from opengsq.protocols import Source
+from opengsq.rcon_protocols.source_rcon import SourceRcon
 
 async def main():
-    with Source.RemoteConsole('123.123.123.123', 27015) as rcon:
+    with SourceRcon("123.123.123.123", 27015) as source_rcon:
         try:
-            await rcon.authenticate('serverRconPassword')
-            result = await rcon.send_command('cvarlist')
-            print(result)
+            await source_rcon.authenticate("serverRconPassword")
         except AuthenticationException:
-            print('Fail to authenticate')
+            print('Failed to authenticate')
+
+        response = await source_rcon.send_command("cvarlist")
+        print(response)
 
 asyncio.run(main())
 ```

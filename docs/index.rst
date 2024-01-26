@@ -24,6 +24,9 @@ Welcome to OpenGSQ Python's documentation!
    :maxdepth: 4
    :caption: Tests
 
+   tests/protocols/index
+   tests/rcon_protocols/index
+
 
 Indices and tables
 ==================

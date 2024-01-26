@@ -21,15 +21,16 @@ You can also use the Source Remote Console:
 
     import asyncio
     from opengsq.exceptions import AuthenticationException
-    from opengsq.protocols import Source
+    from opengsq.rcon_protocols.source_rcon import SourceRcon
 
     async def main():
-        with Source.RemoteConsole('123.123.123.123', 27015) as rcon:
+        with SourceRcon("123.123.123.123", 27015) as source_rcon:
             try:
-                await rcon.authenticate('serverRconPassword')
-                result = await rcon.send_command('cvarlist')
-                print(result)
+                await source_rcon.authenticate("serverRconPassword")
             except AuthenticationException:
                 print('Failed to authenticate')
+
+            response = await source_rcon.send_command("cvarlist")
+            print(response)
 
     asyncio.run(main())

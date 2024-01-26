@@ -1,11 +1,9 @@
-import os
-
 import pytest
 from opengsq.protocols.vcmp import Vcmp
 
-from .result_handler import ResultHandler
+from ..result_handler import ResultHandler
 
-handler = ResultHandler(os.path.basename(__file__)[:-3])
+handler = ResultHandler(__file__)
 # handler.enable_save = True
 
 # Vice City Multiplayer
