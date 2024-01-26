@@ -69,7 +69,7 @@ class ResultHandler:
             os.path.join(self.results_path, "index.rst"), "w", encoding="utf-8"
         ) as f:
             title = self.last_dir.title().replace("_", " ") + ' Tests'
-            f.write(".. _tests:\n")
+            f.write(f".. _{self.last_dir}_tests:\n")
             f.write(f"\n{title}\n")
             f.write(f'{"=" * len(title)}\n')
             f.write("\n.. toctree::\n")

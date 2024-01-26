@@ -1,4 +1,4 @@
-.. _tests:
+.. _protocols_tests:
 
 Protocols Tests
 ===============

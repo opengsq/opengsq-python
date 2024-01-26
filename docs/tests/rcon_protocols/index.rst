@@ -1,4 +1,4 @@
-.. _tests:
+.. _rcon_protocols_tests:
 
 Rcon Protocols Tests
 ====================
