@@ -43,7 +43,7 @@ from opengsq.protocols import (
 
 ## Requirements
 
-- Python 3.6 or higher
+- Python 3.7 or higher
 
 ## Installation
 
@@ -51,12 +51,6 @@ The recommended installation method is using [pip](http://pip-installer.org/):
 
 ```sh
 pip install --upgrade opengsq
-```
-
-or, install from source manually with:
-
-```sh
-python setup.py install
 ```
 
 ## Usage
