@@ -70,7 +70,11 @@ class GameSpy3(ProtocolBase):
 
             info[key] = br.read_string()
 
-        status = Status(info, self.__get_dictionaries(br), self.__get_dictionaries(br))
+        status = Status(
+            info,
+            self.__get_dictionaries(br, "player"),
+            self.__get_dictionaries(br, "team"),
+        )
 
         return status
 
@@ -136,8 +140,10 @@ class GameSpy3(ProtocolBase):
 
         return response
 
-    def __get_dictionaries(self, br: BinaryReader) -> list[dict[str, str]]:
-        kvs = []
+    def __get_dictionaries(
+        self, br: BinaryReader, object_type: str
+    ) -> list[dict[str, str]]:
+        kvs: list[dict[str, str]] = []
 
         # Return if BaseStream is end
         if br.is_end():
@@ -160,11 +166,11 @@ class GameSpy3(ProtocolBase):
                 key = key.rstrip("t").rstrip("_")
 
                 # Change the key to name
-                if key in ["player", "team"]:
+                if key == object_type:
                     key = "name"
 
                 while not br.is_end():
-                    value = br.read_string()
+                    value = br.read_string().strip()
 
                     if value:
                         # Add a Dictionary object if not exists
