@@ -11,6 +11,6 @@ doom3 = Doom3(host="178.162.135.83", port=27735)
 
 
 @pytest.mark.asyncio
-async def test_get_info():
-    result = await doom3.get_info()
-    await handler.save_result("test_get_info", result)
+async def test_get_status():
+    result = await doom3.get_status()
+    await handler.save_result("test_get_status", result)

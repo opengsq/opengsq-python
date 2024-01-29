@@ -1,9 +1,11 @@
 import re
+from typing import Union
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
+from opengsq.responses.doom3 import Status
 
 
 class Doom3(ProtocolBase):
@@ -19,7 +21,7 @@ class Doom3(ProtocolBase):
         "etqw": ["id", "ping", "name", "clantag_pos", "clantag", "typeflag"],
     }
 
-    async def get_info(self, strip_color=True) -> dict:
+    async def get_status(self, strip_color=True) -> Status:
         """
         Asynchronously retrieves the information of the game server.
 
@@ -65,22 +67,26 @@ class Doom3(ProtocolBase):
 
             info[key] = Doom3.strip_colors(val) if strip_color else val
 
+        players = []
+
         stream_position = br.stream_position
 
         # Try parse the fields
         for mod in self._player_fields.keys():
             try:
-                info["players"] = self.__parse_player(
-                    br, self._player_fields[mod], strip_color
-                )
+                players = self.__parse_player(br, self._player_fields[mod], strip_color)
                 break
             except Exception:
-                info["players"] = []
+                players = []
                 br.stream_position = stream_position
 
-        return info
+        status = Status(info, players)
 
-    def __parse_player(self, br: BinaryReader, fields: list, strip_color: bool):
+        return status
+
+    def __parse_player(
+        self, br: BinaryReader, fields: list, strip_color: bool
+    ) -> list[dict[str, Union[int, str]]]:
         """
         Parses the player information from the BinaryReader object.
 
@@ -130,17 +136,17 @@ if __name__ == "__main__":
     async def main_async():
         # doom3
         doom3 = Doom3(host="66.85.14.240", port=27666, timeout=5.0)
-        info = await doom3.get_info()
+        info = await doom3.get_status()
         print(info)
 
         # etqw
         doom3 = Doom3(host="178.162.135.83", port=27735, timeout=5.0)
-        info = await doom3.get_info()
+        info = await doom3.get_status()
         print(info)
 
         # quake4
         doom3 = Doom3(host="88.99.0.7", port=28007, timeout=5.0)
-        info = await doom3.get_info()
+        info = await doom3.get_status()
         print(info)
 
     asyncio.run(main_async())

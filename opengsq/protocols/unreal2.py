@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from typing import Any
 
 from opengsq.responses.unreal2 import Player, Status
 from opengsq.binary_reader import BinaryReader
@@ -58,7 +59,7 @@ class Unreal2(ProtocolBase):
             skill=self._read_string(br),
         )
 
-    async def get_rules(self) -> dict:
+    async def get_rules(self) -> dict[str, Any]:
         """
         Asynchronously gets the rules of a server.
 
@@ -131,7 +132,7 @@ class Unreal2(ProtocolBase):
         return players
 
     @staticmethod
-    def strip_colors(text: str):
+    def strip_colors(text: str) -> str:
         """
         Strips color codes from a string.
 

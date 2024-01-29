@@ -1,6 +1,7 @@
 import json
 import re
 import struct
+from typing import Any
 
 from opengsq.responses.minecraft import StatusPre17
 from opengsq.binary_reader import BinaryReader
@@ -16,7 +17,7 @@ class Minecraft(ProtocolBase):
 
     full_name = "Minecraft Protocol"
 
-    async def get_status(self, version=47, strip_color=True) -> dict:
+    async def get_status(self, version=47, strip_color=True) -> dict[str, Any]:
         """
         Asynchronously retrieves the status of the game server.
 
@@ -122,7 +123,7 @@ class Minecraft(ProtocolBase):
         return StatusPre17(**result)
 
     @staticmethod
-    def strip_colors(text: str):
+    def strip_colors(text: str) -> get_status_pre17:
         """
         Strips color codes from the given text.
 

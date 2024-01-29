@@ -1,3 +1,4 @@
+from typing import Any
 import aiohttp
 import base64
 import json
@@ -152,7 +153,7 @@ class EOS(ProtocolBase):
 
         return Matchmaking(sessions=data["sessions"], count=data["count"])
 
-    async def get_info(self) -> dict:
+    async def get_info(self) -> dict[str, Any]:
         """
         Retrieves the matchmaking information for the current server.
 

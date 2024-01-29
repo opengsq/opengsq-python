@@ -1,3 +1,4 @@
+from typing import Any
 import aiohttp
 import time
 
@@ -11,7 +12,7 @@ class FiveM(ProtocolBase):
 
     full_name = "FiveM Protocol"
 
-    async def _get(self, filename: str) -> dict:
+    async def _get(self, filename: str) -> dict[str, Any]:
         """
         Asynchronously retrieves the JSON data from the given filename on the server.
 
@@ -24,7 +25,7 @@ class FiveM(ProtocolBase):
             async with session.get(url) as response:
                 return await response.json(content_type=None)
 
-    async def get_info(self) -> dict:
+    async def get_info(self) -> dict[str, Any]:
         """
         Asynchronously retrieves the information of the game server.
 
@@ -32,7 +33,7 @@ class FiveM(ProtocolBase):
         """
         return await self._get("info")
 
-    async def get_players(self) -> list:
+    async def get_players(self) -> list[dict[str, Any]]:
         """
         Asynchronously retrieves the list of players on the game server.
 
@@ -40,7 +41,7 @@ class FiveM(ProtocolBase):
         """
         return await self._get("players")
 
-    async def get_dynamic(self) -> dict:
+    async def get_dynamic(self) -> dict[str, Any]:
         """
         Asynchronously retrieves the dynamic data of the game server.
 

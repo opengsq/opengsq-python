@@ -25,7 +25,7 @@ class Quake3(Quake2):
         self._request_header = b"getstatus"
         self._response_header = "statusResponse\n"
 
-    async def get_info(self, strip_color=True) -> dict:
+    async def get_info(self, strip_color=True) -> dict[str, str]:
         """
         Asynchronously retrieves the information of the game server.
 

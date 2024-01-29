@@ -21,7 +21,7 @@ class GameSpy1(ProtocolBase):
         STATUS = b"\\status\\xserverquery"
         TEAMS = b"\\teams\\"
 
-    async def get_basic(self) -> dict:
+    async def get_basic(self) -> dict[str, str]:
         """
         Asynchronously retrieves the basic information of the game server.
 
@@ -32,7 +32,7 @@ class GameSpy1(ProtocolBase):
         )
 
     # Server may still response with Legacy version
-    async def get_info(self, xserverquery: bool = True) -> dict:
+    async def get_info(self, xserverquery: bool = True) -> dict[str, str]:
         """
         Asynchronously retrieves the information of the current game running on the server.
 
@@ -46,12 +46,12 @@ class GameSpy1(ProtocolBase):
         )
         return self.__parse_as_key_values(await self.__connect_and_send(data))
 
-    async def get_rules(self, xserverquery: bool = True) -> list:
+    async def get_rules(self, xserverquery: bool = True) -> dict[str, str]:
         """
         Asynchronously retrieves the rules of the current game running on the server.
 
         :param xserverquery: A boolean indicating whether to use XServerQuery.
-        :return: A list containing the rules of the current game.
+        :return: A dictionary containing the rules of the current game.
         """
         data = (
             xserverquery
@@ -60,7 +60,7 @@ class GameSpy1(ProtocolBase):
         )
         return self.__parse_as_key_values(await self.__connect_and_send(data))
 
-    async def get_players(self, xserverquery: bool = True) -> list:
+    async def get_players(self, xserverquery: bool = True) -> list[dict[str, str]]:
         """
         Asynchronously retrieves the information of each player on the server.
 
@@ -99,7 +99,7 @@ class GameSpy1(ProtocolBase):
 
         return Status(info, players, teams)
 
-    async def get_teams(self) -> list:
+    async def get_teams(self) -> list[dict[str, str]]:
         """
         Asynchronously retrieves the information of each team on the server.
 
@@ -149,7 +149,9 @@ class GameSpy1(ProtocolBase):
 
         return br
 
-    def __parse_as_key_values(self, br: BinaryReader, is_status=False):
+    def __parse_as_key_values(
+        self, br: BinaryReader, is_status=False
+    ) -> dict[str, str]:
         kv = {}
 
         # Bind key value
@@ -170,7 +172,9 @@ class GameSpy1(ProtocolBase):
 
         return kv
 
-    def __parse_as_object(self, br: BinaryReader, is_player=False):
+    def __parse_as_object(
+        self, br: BinaryReader, is_player=False
+    ) -> list[dict[str, str]]:
         items, keyhashes, filters = {}, [], []
 
         while br.remaining_bytes() > 0:

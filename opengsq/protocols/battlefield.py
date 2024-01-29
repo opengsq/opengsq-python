@@ -76,7 +76,7 @@ class Battlefield(ProtocolBase):
         data = await self.__get_data(self._version)
         return VersionInfo(data[0], data[1])
 
-    async def get_players(self) -> list:
+    async def get_players(self) -> list[dict[str, str]]:
         """
         Asynchronously retrieves the list of players on the game server.
 

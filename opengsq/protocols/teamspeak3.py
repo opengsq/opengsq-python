@@ -23,7 +23,7 @@ class TeamSpeak3(ProtocolBase):
         super().__init__(host, port, timeout)
         self._voice_port = voice_port
 
-    async def get_info(self) -> dict:
+    async def get_info(self) -> dict[str, str]:
         """
         Asynchronously retrieves the information of the game server.
 
@@ -32,7 +32,7 @@ class TeamSpeak3(ProtocolBase):
         response = await self.__send_and_receive(b"serverinfo")
         return self.__parse_kvs(response)
 
-    async def get_clients(self) -> list[dict]:
+    async def get_clients(self) -> list[dict[str, str]]:
         """
         Asynchronously retrieves the list of clients on the game server.
 
@@ -41,7 +41,7 @@ class TeamSpeak3(ProtocolBase):
         response = await self.__send_and_receive(b"clientlist")
         return self.__parse_rows(response)
 
-    async def get_channels(self) -> list[dict]:
+    async def get_channels(self) -> list[dict[str, str]]:
         """
         Asynchronously retrieves the list of channels on the game server.
 
@@ -87,7 +87,7 @@ class TeamSpeak3(ProtocolBase):
         """
         return [self.__parse_kvs(row) for row in response.split(b"|")]
 
-    def __parse_kvs(self, response: bytes):
+    def __parse_kvs(self, response: bytes) -> dict[str, str]:
         """
         Parses the key-value pairs from the given response.
 
@@ -111,7 +111,6 @@ class TeamSpeak3(ProtocolBase):
 
 if __name__ == "__main__":
     import asyncio
-    import json
 
     async def main_async():
         teamspeak3 = TeamSpeak3(
