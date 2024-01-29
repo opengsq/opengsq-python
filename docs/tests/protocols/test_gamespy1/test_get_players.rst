@@ -7,119 +7,69 @@ Here are the results for the test method.
 
 	[
 	    {
-	        "player": "Jasiu",
-	        "frags": "80",
-	        "ping": "136",
-	        "team": "1",
-	        "mesh": "Female Commando",
-	        "skin": "FCommandoSkins.aphe",
-	        "face": "FCommandoSkins.Portia",
-	        "ngsecret": "true"
-	    },
-	    {
-	        "player": "Octoman",
-	        "frags": "63",
-	        "ping": "29",
-	        "team": "1",
-	        "mesh": "Male Soldier",
-	        "skin": "SoldierSkins.Blkt",
-	        "face": "SoldierSkins.",
-	        "ngsecret": "true"
-	    },
-	    {
-	        "player": "CigarPutinTriggerBot",
-	        "frags": "0",
-	        "ping": "102",
-	        "team": "255",
-	        "mesh": "Spectator",
-	        "skin": "None",
-	        "face": "",
-	        "ngsecret": "true"
-	    },
-	    {
-	        "player": "ul~Cllectr",
-	        "frags": "126",
-	        "ping": "95",
-	        "team": "1",
-	        "mesh": "Female Commando",
-	        "skin": "FCommandoSkins.goth",
-	        "face": "FCommandoSkins.Freylis",
-	        "ngsecret": "true"
-	    },
-	    {
-	        "player": "poland",
-	        "frags": "55",
-	        "ping": "81",
-	        "team": "0",
-	        "mesh": "Female Soldier",
-	        "skin": "SGirlSkins.Garf",
-	        "face": "SGirlSkins.Vixen",
-	        "ngsecret": "true"
-	    },
-	    {
-	        "player": "Richie$Rich",
-	        "frags": "104",
-	        "ping": "105",
-	        "team": "0",
-	        "mesh": "Male Soldier",
-	        "skin": "SoldierSkins.sldr",
-	        "face": "SoldierSkins.Rankin",
-	        "ngsecret": "true"
-	    },
-	    {
-	        "player": "Anubis",
-	        "frags": "118",
-	        "ping": "240",
+	        "player": "Asd^",
+	        "frags": "66",
+	        "ping": "298",
 	        "team": "0",
 	        "mesh": "Male Soldier",
 	        "skin": "SoldierSkins.hkil",
-	        "face": "SoldierSkins.vector",
+	        "face": "SoldierSkins.tensor",
 	        "ngsecret": "true"
 	    },
 	    {
-	        "player": "oldman",
-	        "frags": "0",
-	        "ping": "231",
-	        "team": "255",
-	        "mesh": "Spectator",
-	        "skin": "None",
-	        "face": "",
-	        "ngsecret": "true"
-	    },
-	    {
-	        "player": "haha_guy",
-	        "frags": "100",
-	        "ping": "94",
+	        "player": "LFK",
+	        "frags": "163",
+	        "ping": "212",
 	        "team": "1",
-	        "mesh": "Male Commando",
+	        "mesh": "Female Commando",
+	        "skin": "FCommandoSkins.aphe",
+	        "face": "FCommandoSkins.Indina",
+	        "ngsecret": "true"
+	    },
+	    {
+	        "player": "UTNL",
+	        "frags": "227",
+	        "ping": "163",
+	        "team": "1",
+	        "mesh": "",
 	        "skin": "CommandoSkins.daco",
-	        "face": "CommandoSkins.Luthor",
+	        "face": "CommandoSkins.Boris",
 	        "ngsecret": "true"
 	    },
 	    {
-	        "player": "sui.eraz",
+	        "player": "mаCornFl/ke",
+	        "frags": "233",
+	        "ping": "194",
+	        "team": "0",
+	        "mesh": "",
+	        "skin": "FCommandoSkins.cmdo",
+	        "face": "FCommandoSkins.Nikita",
+	        "ngsecret": "true"
+	    },
+	    {
+	        "player": "nitro",
 	        "frags": "192",
-	        "ping": "103",
+	        "ping": "43",
 	        "team": "0",
-	        "mesh": "Male Commando",
-	        "skin": "CommandoSkins.cmdo",
-	        "face": "CommandoSkins.Blake",
+	        "mesh": "Boss",
+	        "skin": "BossSkins.boss",
+	        "face": "BossSkins.T_0",
 	        "ngsecret": "true"
 	    },
 	    {
-	        "player": "Lewy123",
-	        "frags": "140",
-	        "ping": "47",
+	        "player": "Yourself",
+	        "frags": "172",
+	        "ping": "99",
 	        "team": "0",
-	        "mesh": "Male Commando",
-	        "skin": "CommandoSkins.cmdo",
-	        "face": "CommandoSkins.Blake",
+	        "mesh": "Male Soldier",
+	        "skin": "SoldierSkins.Blkt",
+	        "face": "SoldierSkins.Othello",
 	        "ngsecret": "true"
 	    },
 	    {
 	        "player": "SkyNet.si",
-	        "frags": "110",
-	        "ping": "46",
+	        "frags": "181",
+	        "ping": "42",
 	        "team": "1",
 	        "mesh": "Male Soldier",
 	        "skin": "SoldierSkins.RawS",
@@ -127,13 +77,13 @@ Here are the results for the test method.
 	        "ngsecret": "true"
 	    },
 	    {
-	        "player": "Jamally",
-	        "frags": "190",
-	        "ping": "43",
+	        "player": "swx",
+	        "frags": "324",
+	        "ping": "60",
 	        "team": "1",
-	        "mesh": "Male Commando",
-	        "skin": "CommandoSkins.cmdo",
-	        "face": "CommandoSkins.Gorn",
+	        "mesh": "Male Soldier",
+	        "skin": "SoldierSkins.Blkt",
+	        "face": "SoldierSkins.Malcom",
 	        "ngsecret": "true"
 	    }
 	]

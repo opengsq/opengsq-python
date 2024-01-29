@@ -20,29 +20,16 @@ Here are the results for the test method.
 	        "gamedir": "jump",
 	        "gamename": "Q2JUMP 1.35ger",
 	        "hostname": ".german q2 jump",
-	        "mapname": "4race3",
+	        "mapname": "ddrace",
 	        "matchlock": "1",
 	        "matchtime": "20",
 	        "maxclients": "15",
 	        "port": "27910",
 	        "protocol": "34",
-	        "time_remaining": "32:14",
+	        "time_remaining": "interval",
 	        "timelimit": "0",
 	        "version": "q2proded r1826~7ad132a Dec 28 2018 Linux x86_64",
-	        "uptime": "21 days, 10 hours, 37 mins, 39 secs"
+	        "uptime": "24 days, 7 hours, 4 mins, 33 secs"
 	    },
-	    "players": [
-	        {
-	            "frags": 0,
-	            "ping": 41,
-	            "name": "bossmies",
-	            "address": ""
-	        },
-	        {
-	            "frags": 0,
-	            "ping": 33,
-	            "name": "sata",
-	            "address": ""
-	        }
-	    ]
+	    "players": []
 	}

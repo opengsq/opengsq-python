@@ -11,7 +11,7 @@ Here are the results for the test method.
 	    "protocol": "84",
 	    "hostname": "New Server /connect jay1.clan-fa.com:27960",
 	    "serverload": "2",
-	    "mapname": "fa_italy_b3",
+	    "mapname": "goldrush-gals",
 	    "clients": "25",
 	    "humans": "0",
 	    "sv_maxclients": "60",

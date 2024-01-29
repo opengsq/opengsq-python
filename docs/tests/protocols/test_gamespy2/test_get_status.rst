@@ -9,7 +9,7 @@ Here are the results for the test method.
 	    "info": {
 	        "hostname": "*Easy Prey/Death*",
 	        "hostport": "15567",
-	        "mapname": "DOGS OF WAR",
+	        "mapname": "SUPREMECY",
 	        "gametype": "coop",
 	        "numplayers": "0",
 	        "maxplayers": "50",
@@ -60,7 +60,7 @@ Here are the results for the test method.
 	        },
 	        {
 	            "team": "blue",
-	            "tickets": "817"
+	            "tickets": "454"
 	        }
 	    ]
 	}

@@ -7,11 +7,11 @@ Here are the results for the test method.
 
 	{
 	    "protocol": 17,
-	    "name": "shounic trenches (USA Chicago)",
-	    "map": "cp_dustbowl",
+	    "name": "shounic trenches (USA Chicago) > !disruptions <<",
+	    "map": "pl_dbz_b3",
 	    "folder": "tf",
 	    "game": "Team Fortress",
-	    "players": 100,
+	    "players": 12,
 	    "max_players": 100,
 	    "bots": 0,
 	    "server_type": 100,
@@ -25,7 +25,7 @@ Here are the results for the test method.
 	    "steam_id": 85568392929506771,
 	    "spectator_port": 27020,
 	    "spectator_name": "(stv bot)",
-	    "keywords": "alltalk,cp,increased_maxplayers,shounic",
+	    "keywords": "alltalk,increased_maxplayers,payload,shounic",
 	    "game_id": 440,
 	    "mode": null,
 	    "witnesses": null,

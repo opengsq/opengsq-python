@@ -18,5 +18,23 @@ Here are the results for the test method.
 	        "version": "",
 	        "plugins": "",
 	        "whitelist": "off"
-	    }
+	    },
+	    "players": [
+	        {
+	            "name": "XxNE0BLAZExX777"
+	        },
+	        {
+	            "name": "SimonSimi547"
+	        },
+	        {
+	            "name": "IronFlam3s"
+	        },
+	        {
+	            "name": "KindDuke1085"
+	        },
+	        {
+	            "name": "NotNubbest"
+	        }
+	    ],
+	    "teams": []
 	}

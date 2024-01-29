@@ -11,13 +11,13 @@ Here are the results for the test method.
 	        "P": "-1212121212121212121212121",
 	        "voteFlags": "507903",
 	        "g_balancedteams": "1",
-	        "g_bluelimbotime": "12000",
+	        "g_bluelimbotime": "10000",
 	        "g_redlimbotime": "14000",
 	        "gamename": "jaymod",
 	        "mod_version": "2.2.0",
 	        "mod_url": "http://jaymod.clanfu.org",
 	        "mod_binary": "linux-release",
-	        "sv_uptime": "02d08h22m",
+	        "sv_uptime": "05d04h49m",
 	        "sv_cpu": "Intel(R) Xeon(R) CPU E3-1270 v5",
 	        "g_axismaxlives": "0",
 	        "g_alliedmaxlives": "0",
@@ -28,7 +28,7 @@ Here are the results for the test method.
 	        "sv_minPing": "0",
 	        "sv_minRate": "0",
 	        "sv_privateClients": "0",
-	        "mapname": "fa_italy_b3",
+	        "mapname": "goldrush-gals",
 	        "protocol": "84",
 	        "g_gametype": "2",
 	        "timelimit": "30",
@@ -47,153 +47,153 @@ Here are the results for the test method.
 	    },
 	    "players": [
 	        {
-	            "frags": 32397,
+	            "frags": 75234,
 	            "ping": 0,
 	            "name": "Backfire",
 	            "address": ""
 	        },
 	        {
-	            "frags": 30942,
+	            "frags": 67479,
 	            "ping": 0,
 	            "name": "Vokur",
 	            "address": ""
 	        },
 	        {
-	            "frags": 34126,
+	            "frags": 77602,
 	            "ping": 0,
 	            "name": "Blackadder",
 	            "address": ""
 	        },
 	        {
-	            "frags": 30297,
+	            "frags": 67835,
 	            "ping": 0,
 	            "name": "Nundak",
 	            "address": ""
 	        },
 	        {
-	            "frags": 34362,
+	            "frags": 77299,
 	            "ping": 0,
 	            "name": "HalfH",
 	            "address": ""
 	        },
 	        {
-	            "frags": 29012,
+	            "frags": 67611,
 	            "ping": 0,
 	            "name": "Craig",
 	            "address": ""
 	        },
 	        {
-	            "frags": 35590,
+	            "frags": 78039,
 	            "ping": 0,
 	            "name": "Drago",
 	            "address": ""
 	        },
 	        {
-	            "frags": 28862,
+	            "frags": 65164,
 	            "ping": 0,
 	            "name": "Mungri",
 	            "address": ""
 	        },
 	        {
-	            "frags": 34698,
+	            "frags": 79178,
 	            "ping": 0,
 	            "name": "Walter",
 	            "address": ""
 	        },
 	        {
-	            "frags": 28857,
+	            "frags": 64350,
 	            "ping": 0,
 	            "name": "Bortack",
 	            "address": ""
 	        },
 	        {
-	            "frags": 35287,
+	            "frags": 78998,
 	            "ping": 0,
 	            "name": "Newbie",
 	            "address": ""
 	        },
 	        {
-	            "frags": 28693,
+	            "frags": 65374,
 	            "ping": 0,
 	            "name": "Ryver",
 	            "address": ""
 	        },
 	        {
-	            "frags": 37531,
+	            "frags": 82782,
 	            "ping": 0,
 	            "name": "Sean",
 	            "address": ""
 	        },
 	        {
-	            "frags": 28730,
+	            "frags": 64202,
 	            "ping": 0,
 	            "name": "Korv",
 	            "address": ""
 	        },
 	        {
-	            "frags": 33886,
+	            "frags": 75873,
 	            "ping": 0,
 	            "name": "Monty",
 	            "address": ""
 	        },
 	        {
-	            "frags": 27330,
+	            "frags": 62662,
 	            "ping": 0,
 	            "name": "Ed",
 	            "address": ""
 	        },
 	        {
-	            "frags": 36314,
+	            "frags": 76904,
 	            "ping": 0,
 	            "name": "Nohope",
 	            "address": ""
 	        },
 	        {
-	            "frags": 28254,
+	            "frags": 63488,
 	            "ping": 0,
 	            "name": "Chan",
 	            "address": ""
 	        },
 	        {
-	            "frags": 35332,
+	            "frags": 78461,
 	            "ping": 0,
 	            "name": "Morgan",
 	            "address": ""
 	        },
 	        {
-	            "frags": 29038,
+	            "frags": 65041,
 	            "ping": 0,
 	            "name": "Kaolin",
 	            "address": ""
 	        },
 	        {
-	            "frags": 35345,
+	            "frags": 79552,
 	            "ping": 0,
 	            "name": "Fred",
 	            "address": ""
 	        },
 	        {
-	            "frags": 28049,
+	            "frags": 61383,
 	            "ping": 0,
 	            "name": "Flint",
 	            "address": ""
 	        },
 	        {
-	            "frags": 27534,
+	            "frags": 23214,
 	            "ping": 0,
-	            "name": "Hitnrun",
+	            "name": "Razor",
 	            "address": ""
 	        },
 	        {
-	            "frags": 26577,
+	            "frags": 61391,
 	            "ping": 0,
 	            "name": "Nandet",
 	            "address": ""
 	        },
 	        {
-	            "frags": 483,
+	            "frags": 5756,
 	            "ping": 0,
-	            "name": "Richard",
+	            "name": "Cledus",
 	            "address": ""
 	        }
 	    ]

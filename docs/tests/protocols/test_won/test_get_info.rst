@@ -8,7 +8,7 @@ Here are the results for the test method.
 	{
 	    "protocol": 46,
 	    "name": "[Murka] NEW CS1.5 DeathMatch s4ke murka-terroristka.de",
-	    "map": "de_dust",
+	    "map": "as_tundra",
 	    "folder": "cstrike",
 	    "game": "CounterStrike",
 	    "players": 6,

@@ -12,7 +12,7 @@ Here are the results for the test method.
 	    },
 	    "players": {
 	        "max": 2023,
-	        "online": 6,
+	        "online": 7,
 	        "sample": [
 	            {
 	                "name": "Be Player Haye Server",

@@ -8,10 +8,10 @@ Here are the results for the test method.
 	{
 	    "hostname": "--- ComboGib CTF (Grapple) -- London --- EatSleepUT.com",
 	    "hostport": "7777",
-	    "maptitle": "Out For Blood [UbK]",
-	    "mapname": "CTF-420-OutForBlood",
+	    "maptitle": "CTF-2on2-OvalTech-RSA",
+	    "mapname": "CTF-2on2-OvalTech-RSA",
 	    "gametype": "CTFGame",
-	    "numplayers": "13",
+	    "numplayers": "8",
 	    "maxplayers": "18",
 	    "gamemode": "openplaying",
 	    "gamever": "469",
