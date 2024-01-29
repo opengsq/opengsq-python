@@ -25,10 +25,12 @@ class Doom3(ProtocolBase):
 
     async def get_status(self, strip_color=True) -> Status:
         """
-        Asynchronously retrieves the information of the game server.
+        Asynchronously retrieves the status of the game server.
 
-        :param strip_color: A boolean indicating whether to strip color codes from the information.
-        :return: A dictionary containing the information of the game server.
+        :param strip_color: A boolean indicating whether to strip color codes from the player names.
+        :return: A Status object containing the server information and player list.
+
+        This function sends a request to the game server and processes the response to extract server information and player details. If the 'strip_color' parameter is set to True, color codes in player names are removed. The function returns a Status object which includes a dictionary of server information and a list of players.
         """
         request = b"\xFF\xFFgetInfo\x00ogsq\x00"
         response = await UdpClient.communicate(self, request)
