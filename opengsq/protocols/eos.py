@@ -166,20 +166,16 @@ class EOS(ProtocolBase):
         """
         address = await Socket.gethostbyname(self._host)
         address_bound_port = f":{self._port}"
+        search = {"criteria": [{"key": "attributes.ADDRESS_s", "op": "EQUAL", "value": address}]}
+        if self.deployment_id == '0a18471f93d448e2a1f60e47e03d3413':
+            search["criteria"].append({"key": "attributes.GAMESERVER_PORT_l","op": "EQUAL","value": self._port})
+        else:
+            search["criteria"].append({"key": "attributes.ADDRESSBOUND_s","op": "CONTAINS","value": address_bound_port})
 
         data = await self.get_matchmaking(
             self.deployment_id,
             self.access_token,
-            {
-                "criteria": [
-                    {"key": "attributes.ADDRESS_s", "op": "EQUAL", "value": address},
-                    {
-                        "key": "attributes.ADDRESSBOUND_s",
-                        "op": "CONTAINS",
-                        "value": address_bound_port,
-                    },
-                ]
-            },
+            search
         )
 
         if data.count <= 0:
