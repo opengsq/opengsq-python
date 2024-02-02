@@ -11,11 +11,11 @@ Here are the results for the test method.
 	    "game_port": 9980,
 	    "query_port": 0,
 	    "server_name": "liunai.lt|v1065]|OE/Suicidal/Hard150 LvL| Perks",
-	    "map_name": "",
-	    "game_type": "KF-Arcade-Shopping-4-Hallways",
-	    "num_players": 1195592971,
-	    "max_players": 1415933281,
-	    "ping": 6647929,
-	    "flags": 2,
+	    "map_name": "KF-MysteriousTrees-FIX",
+	    "game_type": "MCGameType",
+	    "num_players": 3,
+	    "max_players": 15,
+	    "ping": 3,
+	    "flags": 10,
 	    "skill": ""
 	}

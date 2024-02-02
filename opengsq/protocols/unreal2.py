@@ -22,9 +22,12 @@ class Unreal2(ProtocolBase):
     _RULES = 0x01
     _PLAYERS = 0x02
 
-    async def get_details(self) -> Status:
+    async def get_details(self, strip_color=True) -> Status:
         """
         Asynchronously gets the details of a server.
+
+        Args:
+            strip_color (bool, optional): If True, strips color codes from the server name. Defaults to True.
 
         Returns:
             Status: A Status object containing the details of the server.
@@ -49,7 +52,7 @@ class Unreal2(ProtocolBase):
             server_ip=br.read_string(),
             game_port=br.read_long(),
             query_port=br.read_long(),
-            server_name=self._read_string(br),
+            server_name=self._read_string(br, strip_color),
             map_name=self._read_string(br),
             game_type=self._read_string(br),
             num_players=br.read_long(),
@@ -132,7 +135,7 @@ class Unreal2(ProtocolBase):
         return players
 
     @staticmethod
-    def strip_colors(text: str) -> str:
+    def strip_color(text: str) -> str:
         """
         Strips color codes from a string.
 
@@ -144,7 +147,7 @@ class Unreal2(ProtocolBase):
         """
         return re.compile("\x1b...|[\x00-\x1a]").sub("", text)
 
-    def _read_string(self, br: BinaryReader):
+    def _read_string(self, br: BinaryReader, strip_color=False):
         """
         Reads a string from a BinaryReader object.
 
@@ -161,7 +164,17 @@ class Unreal2(ProtocolBase):
             length = (length & 0x7F) * 2
             encoding = "utf-16"
 
-        return Unreal2.strip_colors(br.read_bytes(length).decode(encoding, "ignore"))
+        string = br.read_bytes(length).decode(encoding, "ignore")
+
+        if strip_color:
+            string = Unreal2.strip_color(string)
+        else:
+            string = string.strip("\x00")
+
+        if not br.is_end() and br.read_byte() != 0:
+            br.stream_position -= 1
+
+        return string
 
 
 if __name__ == "__main__":
@@ -169,7 +182,8 @@ if __name__ == "__main__":
 
     async def main_async():
         # ut2004
-        unreal2 = Unreal2(host="109.230.224.189", port=6970)
+        # unreal2 = Unreal2(host="109.230.224.189", port=6970)
+        unreal2 = Unreal2(host="51.195.117.236", port=9981)
         details = await unreal2.get_details()
         print(details)
         rules = await unreal2.get_rules()
