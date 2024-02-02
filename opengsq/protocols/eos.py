@@ -165,7 +165,6 @@ class EOS(ProtocolBase):
         :return: The first matching session if any are found.
         """
         address = await Socket.gethostbyname(self._host)
-        address_bound_port = f":{self._port}"
 
         data = await self.get_matchmaking(
             self.deployment_id,
@@ -173,19 +172,20 @@ class EOS(ProtocolBase):
             {
                 "criteria": [
                     {"key": "attributes.ADDRESS_s", "op": "EQUAL", "value": address},
-                    {
-                        "key": "attributes.ADDRESSBOUND_s",
-                        "op": "CONTAINS",
-                        "value": address_bound_port,
-                    },
                 ]
             },
         )
 
-        if data.count <= 0:
-            raise ServerNotFoundException()
+        for session in data.sessions:
+            attributes: dict = session.get("attributes", {})
 
-        return data.sessions[0]
+            if (
+                str(attributes.get("ADDRESSBOUND_s")).endswith(f":{self._port}")
+                or attributes.get("GAMESERVER_PORT_l") == self._port
+            ):
+                return session
+
+        raise ServerNotFoundException()
 
 
 if __name__ == "__main__":
@@ -193,12 +193,12 @@ if __name__ == "__main__":
 
     async def main_async():
         # The Isle - EVRIMA
-        # client_id = 'xyza7891gk5PRo3J7G9puCJGFJjmEguW'
-        # client_secret = 'pKWl6t5i9NJK8gTpVlAxzENZ65P8hYzodV8Dqe5Rlc8'
-        # deployment_id = '6db6bea492f94b1bbdfcdfe3e4f898dc'
-        # grant_type = 'client_credentials'
-        # external_auth_type = ''
-        # external_auth_token = ''
+        # client_id = "xyza7891gk5PRo3J7G9puCJGFJjmEguW"
+        # client_secret = "pKWl6t5i9NJK8gTpVlAxzENZ65P8hYzodV8Dqe5Rlc8"
+        # deployment_id = "6db6bea492f94b1bbdfcdfe3e4f898dc"
+        # grant_type = "client_credentials"
+        # external_auth_type = ""
+        # external_auth_token = ""
 
         # Palworld
         # client_id = "xyza78916PZ5DF0fAahu4tnrKKyFpqRE"

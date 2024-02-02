@@ -8,6 +8,29 @@ handler = ResultHandler(__file__)
 
 
 @pytest.mark.asyncio
+async def test_get_matchmaking():
+    # The Isle - EVRIMA
+    client_id = "xyza7891gk5PRo3J7G9puCJGFJjmEguW"
+    client_secret = "pKWl6t5i9NJK8gTpVlAxzENZ65P8hYzodV8Dqe5Rlc8"
+    deployment_id = "6db6bea492f94b1bbdfcdfe3e4f898dc"
+    grant_type = "client_credentials"
+    external_auth_type = ""
+    external_auth_token = ""
+
+    access_token = await EOS.get_access_token(
+        client_id=client_id,
+        client_secret=client_secret,
+        deployment_id=deployment_id,
+        grant_type=grant_type,
+        external_auth_type=external_auth_type,
+        external_auth_token=external_auth_token,
+    )
+
+    matchmaking = await EOS.get_matchmaking(deployment_id, access_token)
+    await handler.save_result("test_get_matchmaking", matchmaking)
+
+
+@pytest.mark.asyncio
 async def test_get_info():
     # Ark: Survival Ascended
     client_id = "xyza7891muomRmynIIHaJB9COBKkwj6n"
@@ -39,7 +62,7 @@ async def test_get_info():
 
 
 @pytest.mark.asyncio
-async def test_get_matchmaking():
+async def test_get_info_palworld():
     # Palworld
     client_id = "xyza78916PZ5DF0fAahu4tnrKKyFpqRE"
     client_secret = "j0NapLEPm3R3EOrlQiM8cRLKq3Rt02ZVVwT0SkZstSg"
@@ -61,5 +84,13 @@ async def test_get_matchmaking():
         external_auth_token=external_auth_token,
     )
 
-    matchmaking = await EOS.get_matchmaking(deployment_id, access_token)
-    await handler.save_result("test_get_matchmaking", matchmaking)
+    eos = EOS(
+        host="34.142.202.135",
+        port=30112,
+        deployment_id=deployment_id,
+        access_token=access_token,
+        timeout=5.0,
+    )
+
+    result = await eos.get_info()
+    await handler.save_result("test_get_info_palworld", result)
