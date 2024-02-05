@@ -7,11 +7,11 @@ Here are the results for the test method.
 
 	{
 	    "protocol": 17,
-	    "name": "shounic trenches (USA Chicago) > !disruptions <<",
+	    "name": "shounic trenches (USA Chicago)",
 	    "map": "pl_dbz_b3",
 	    "folder": "tf",
 	    "game": "Team Fortress",
-	    "players": 12,
+	    "players": 100,
 	    "max_players": 100,
 	    "bots": 0,
 	    "server_type": 100,

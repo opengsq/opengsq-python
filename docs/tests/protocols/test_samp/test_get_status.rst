@@ -7,9 +7,9 @@ Here are the results for the test method.
 
 	{
 	    "password": false,
-	    "num_players": 25,
+	    "num_players": 13,
 	    "max_players": 250,
 	    "server_name": "[ENG] Valrise RPG [Est. 2017]",
-	    "game_type": "Valrise RP 2.0.13 (RPG/RP)",
+	    "game_type": "Valrise RP 2.0.14 (RPG/RP)",
 	    "language": "English"
 	}

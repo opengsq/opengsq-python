@@ -9,7 +9,7 @@ Here are the results for the test method.
 	    "info": {
 	        "hostname": "*Easy Prey/Death*",
 	        "hostport": "15567",
-	        "mapname": "SUPREMECY",
+	        "mapname": "HUE [Choppers] -SSM-",
 	        "gametype": "coop",
 	        "numplayers": "0",
 	        "maxplayers": "50",
@@ -19,7 +19,7 @@ Here are the results for the test method.
 	        "dedicated": "2",
 	        "status": "4",
 	        "game_id": "bfvietnam",
-	        "map_id": "BfVietnam",
+	        "map_id": "BFVietnam",
 	        "sv_punkbuster": "0",
 	        "timelimit": "60",
 	        "number_of_rounds": "1",
@@ -56,11 +56,11 @@ Here are the results for the test method.
 	    "teams": [
 	        {
 	            "team": "red",
-	            "tickets": "571"
+	            "tickets": "438"
 	        },
 	        {
 	            "team": "blue",
-	            "tickets": "454"
+	            "tickets": "656"
 	        }
 	    ]
 	}

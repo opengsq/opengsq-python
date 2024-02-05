@@ -7,7 +7,7 @@ handler = ResultHandler(__file__)
 # handler.enable_save = True
 
 # Killing Floor
-test = Unreal2(host="51.195.117.236", port=9981)
+test = Unreal2(host="109.230.224.189", port=6970)
 
 
 @pytest.mark.asyncio

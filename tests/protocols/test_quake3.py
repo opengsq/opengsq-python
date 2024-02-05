@@ -6,7 +6,7 @@ from ..result_handler import ResultHandler
 handler = ResultHandler(__file__)
 # handler.enable_save = True
 
-test = Quake3(host="108.61.18.110", port=27960)
+test = Quake3(host="135.148.137.185", port=27960)
 
 
 @pytest.mark.asyncio

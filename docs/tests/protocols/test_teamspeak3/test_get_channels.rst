@@ -84,7 +84,7 @@ Here are the results for the test method.
 	        "channel_order": "0",
 	        "channel_name": "Welcome | Rules in Channel Description",
 	        "channel_topic": "",
-	        "total_clients": "9",
+	        "total_clients": "10",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -93,7 +93,7 @@ Here are the results for the test method.
 	        "channel_order": "122",
 	        "channel_name": "Lobby 1",
 	        "channel_topic": "",
-	        "total_clients": "2",
+	        "total_clients": "3",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -102,7 +102,7 @@ Here are the results for the test method.
 	        "channel_order": "1",
 	        "channel_name": "Lobby 2",
 	        "channel_topic": "",
-	        "total_clients": "1",
+	        "total_clients": "0",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -111,7 +111,7 @@ Here are the results for the test method.
 	        "channel_order": "43",
 	        "channel_name": "Lobby 3",
 	        "channel_topic": "",
-	        "total_clients": "0",
+	        "total_clients": "1",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -129,7 +129,7 @@ Here are the results for the test method.
 	        "channel_order": "605",
 	        "channel_name": "Lobby 5",
 	        "channel_topic": "We'll eat your tendies",
-	        "total_clients": "0",
+	        "total_clients": "5",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -147,7 +147,7 @@ Here are the results for the test method.
 	        "channel_order": "128",
 	        "channel_name": "Lobby 7",
 	        "channel_topic": "",
-	        "total_clients": "0",
+	        "total_clients": "3",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -300,7 +300,7 @@ Here are the results for the test method.
 	        "channel_order": "1578",
 	        "channel_name": "Norwegian",
 	        "channel_topic": "",
-	        "total_clients": "0",
+	        "total_clients": "2",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -453,7 +453,7 @@ Here are the results for the test method.
 	        "channel_order": "0",
 	        "channel_name": "TF2 #1",
 	        "channel_topic": "",
-	        "total_clients": "0",
+	        "total_clients": "1",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -867,7 +867,7 @@ Here are the results for the test method.
 	        "channel_order": "1894",
 	        "channel_name": "Pika",
 	        "channel_topic": "",
-	        "total_clients": "0",
+	        "total_clients": "4",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -920,8 +920,8 @@ Here are the results for the test method.
 	        "pid": "1016",
 	        "channel_order": "0",
 	        "channel_name": "Słoniontka 🐘",
-	        "channel_topic": "",
-	        "total_clients": "0",
+	        "channel_topic": "Słonio",
+	        "total_clients": "4",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -1146,7 +1146,7 @@ Here are the results for the test method.
 	        "channel_order": "1674",
 	        "channel_name": "JUU zavod za distroficare",
 	        "channel_topic": "",
-	        "total_clients": "2",
+	        "total_clients": "1",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -1218,7 +1218,7 @@ Here are the results for the test method.
 	        "channel_order": "1706",
 	        "channel_name": "Platoon 1",
 	        "channel_topic": "",
-	        "total_clients": "0",
+	        "total_clients": "2",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -1443,7 +1443,7 @@ Here are the results for the test method.
 	        "channel_order": "1827",
 	        "channel_name": "Nima and Rofaqa",
 	        "channel_topic": "League Of Legends",
-	        "total_clients": "2",
+	        "total_clients": "0",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -1461,7 +1461,7 @@ Here are the results for the test method.
 	        "channel_order": "0",
 	        "channel_name": "MABAR 1",
 	        "channel_topic": "POINT BLANK INDONESIA",
-	        "total_clients": "1",
+	        "total_clients": "0",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -1713,7 +1713,7 @@ Here are the results for the test method.
 	        "channel_order": "1897",
 	        "channel_name": "xx_acebaby_xx",
 	        "channel_topic": "",
-	        "total_clients": "0",
+	        "total_clients": "4",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -1740,7 +1740,7 @@ Here are the results for the test method.
 	        "channel_order": "1900",
 	        "channel_name": "Die Ziegos",
 	        "channel_topic": "",
-	        "total_clients": "1",
+	        "total_clients": "0",
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
@@ -1816,6 +1816,15 @@ Here are the results for the test method.
 	        "channel_needed_subscribe_power": "0"
 	    },
 	    {
+	        "cid": "1913",
+	        "pid": "17",
+	        "channel_order": "1912",
+	        "channel_name": "Strix-9",
+	        "channel_topic": "Strix 9 team ",
+	        "total_clients": "0",
+	        "channel_needed_subscribe_power": "0"
+	    },
+	    {
 	        "cid": "235",
 	        "pid": "0",
 	        "channel_order": "17",
@@ -1830,7 +1839,7 @@ Here are the results for the test method.
 	        "channel_order": "235",
 	        "channel_name": "AFK/Muted",
 	        "channel_topic": "",
-	        "total_clients": "6",
+	        "total_clients": "8",
 	        "channel_needed_subscribe_power": "0"
 	    }
 	]

@@ -85,8 +85,8 @@ async def test_get_info_palworld():
     )
 
     eos = EOS(
-        host="34.142.202.135",
-        port=30112,
+        host="35.226.201.18",
+        port=30111,
         deployment_id=deployment_id,
         access_token=access_token,
         timeout=5.0,

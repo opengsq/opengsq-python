@@ -8,13 +8,13 @@ Here are the results for the test method.
 	[
 	    {
 	        "team": "Red",
-	        "score": "4.000000",
+	        "score": "7.000000",
 	        "size": "4"
 	    },
 	    {
 	        "team": "Blue",
-	        "score": "5.000000",
-	        "size": "4"
+	        "score": "6.000000",
+	        "size": "3"
 	    },
 	    {
 	        "team": "Green",

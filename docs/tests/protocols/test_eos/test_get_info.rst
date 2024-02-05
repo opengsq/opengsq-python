@@ -7,7 +7,7 @@ Here are the results for the test method.
 
 	{
 	    "deployment": "ad9a8feffb3b4b2ca315546f038c3ae2",
-	    "id": "ebe6194afb2b41b18b71db7aa2de1983",
+	    "id": "4ebb1f9272ec45eaab480f98fc8aa41f",
 	    "bucket": "TestGameMode_C:<None>:TheIsland_WP",
 	    "settings": {
 	        "maxPublicPlayers": 70,
@@ -22,13 +22,13 @@ Here are the results for the test method.
 	        "rejoinAfterKick": "",
 	        "platforms": null
 	    },
-	    "totalPlayers": 33,
-	    "openPublicPlayers": 37,
+	    "totalPlayers": 50,
+	    "openPublicPlayers": 20,
 	    "publicPlayers": [],
 	    "started": false,
 	    "lastUpdated": null,
 	    "attributes": {
-	        "MINORBUILDID_s": "76",
+	        "MINORBUILDID_s": "78",
 	        "MODID_l": 0,
 	        "CUSTOMSERVERNAME_s": "NA-PVE-TheIsland5366",
 	        "ADDRESSDEV_s": "5.62.115.46,127.0.0.1",
@@ -36,11 +36,11 @@ Here are the results for the test method.
 	        "SERVERPASSWORD_b": false,
 	        "MATCHTIMEOUT_d": 120.0,
 	        "ENABLEDMODSFILEIDS_s": "4979340",
-	        "DAYTIME_s": "457",
+	        "DAYTIME_s": "489",
 	        "SOTFMATCHSTARTED_b": false,
 	        "STEELSHIELDENABLED_l": 1,
 	        "SERVERUSESBATTLEYE_b": true,
-	        "EOSSERVERPING_l": 186,
+	        "EOSSERVERPING_l": 211,
 	        "ALLOWDOWNLOADCHARS_l": 1,
 	        "OFFICIALSERVER_s": "1",
 	        "GAMEMODE_s": "TestGameMode_C",
@@ -53,11 +53,11 @@ Here are the results for the test method.
 	        "SESSIONISPVE_l": 1,
 	        "__EOS_BUSESPRESENCE_b": true,
 	        "ENABLEDMODS_s": "927090",
-	        "SESSIONNAMEUPPER_s": "NA-PVE-THEISLAND5366 - (V33.76)",
+	        "SESSIONNAMEUPPER_s": "NA-PVE-THEISLAND5366 - (V33.78)",
 	        "SERVERPLATFORMTYPE_s": "PC+XSX+WINGDK+PS5",
 	        "MAPNAME_s": "TheIsland_WP",
 	        "BUILDID_s": "33",
-	        "SESSIONNAME_s": "NA-PVE-TheIsland5366 - (v33.76)"
+	        "SESSIONNAME_s": "NA-PVE-TheIsland5366 - (v33.78)"
 	    },
 	    "owner": "Client_xyza7891muomRmynIIHaJB9COBKkwj6n",
 	    "ownerPlatformId": null

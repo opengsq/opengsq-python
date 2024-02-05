@@ -13,15 +13,15 @@ Here are the results for the test method.
 	    "map": "None",
 	    "version": "1.6",
 	    "password": false,
-	    "num_players": 64,
+	    "num_players": 3,
 	    "max_players": 120,
 	    "rules": {},
 	    "players": {
-	        "name": "CapriciousSeastar59",
+	        "name": "Gidikla_Beni",
 	        "team": "",
 	        "skin": "",
 	        "score": 0,
-	        "ping": 66,
+	        "ping": 65,
 	        "time": 0
 	    }
 	}

@@ -7,38 +7,311 @@ Here are the results for the test method.
 
 	[
 	    {
-	        "clid": "46605",
+	        "clid": "53546",
 	        "cid": "122",
 	        "client_database_id": "56950",
 	        "client_nickname": "Unknown",
 	        "client_type": "1"
 	    },
 	    {
-	        "clid": "46345",
-	        "cid": "1828",
-	        "client_database_id": "73733",
-	        "client_nickname": "Gripex",
+	        "clid": "53409",
+	        "cid": "338",
+	        "client_database_id": "41432",
+	        "client_nickname": "Lucas/ Alfanabeto",
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "46274",
-	        "cid": "1901",
-	        "client_database_id": "77152",
-	        "client_nickname": "Melevo",
+	        "clid": "53401",
+	        "cid": "1171",
+	        "client_database_id": "77679",
+	        "client_nickname": "ahdolfkickler",
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "46221",
+	        "clid": "53299",
+	        "cid": "127",
+	        "client_database_id": "76328",
+	        "client_nickname": "Samhael246",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "53236",
+	        "cid": "127",
+	        "client_database_id": "77118",
+	        "client_nickname": "7LESTAD7",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "53189",
+	        "cid": "127",
+	        "client_database_id": "77729",
+	        "client_nickname": "SilverlitRogers",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "53165",
+	        "cid": "338",
+	        "client_database_id": "55739",
+	        "client_nickname": "Thiago - REEED",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "52496",
+	        "cid": "637",
+	        "client_database_id": "62221",
+	        "client_nickname": "...",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "52402",
+	        "cid": "637",
+	        "client_database_id": "41430",
+	        "client_nickname": "Pika",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "52392",
+	        "cid": "1717",
+	        "client_database_id": "76389",
+	        "client_nickname": "4k1s4m3",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "52054",
+	        "cid": "1746",
+	        "client_database_id": "76324",
+	        "client_nickname": "TheDaughterOfLillith",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "51421",
+	        "cid": "1",
+	        "client_database_id": "25219",
+	        "client_nickname": "Hooty",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "51183",
+	        "cid": "637",
+	        "client_database_id": "58626",
+	        "client_nickname": "Anonist228",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "51051",
+	        "cid": "10",
+	        "client_database_id": "5921",
+	        "client_nickname": "GreyGhost",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "51992",
+	        "cid": "1898",
+	        "client_database_id": "77056",
+	        "client_nickname": "Dobbie7",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "50506",
+	        "cid": "1662",
+	        "client_database_id": "40862",
+	        "client_nickname": "Void",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "49814",
+	        "cid": "1662",
+	        "client_database_id": "56594",
+	        "client_nickname": "xZqkii",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "52003",
+	        "cid": "1898",
+	        "client_database_id": "76958",
+	        "client_nickname": "jo-",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "49224",
+	        "cid": "1679",
+	        "client_database_id": "76305",
+	        "client_nickname": "kmalbasic",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "51193",
+	        "cid": "122",
+	        "client_database_id": "25219",
+	        "client_nickname": "Hooty1",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "48326",
+	        "cid": "338",
+	        "client_database_id": "71422",
+	        "client_nickname": "lHelL",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "44351",
 	        "cid": "1528",
-	        "client_database_id": "67733",
-	        "client_nickname": "Dylan",
+	        "client_database_id": "56641",
+	        "client_nickname": "Bazyl.",
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "46188",
-	        "cid": "43",
+	        "clid": "42754",
+	        "cid": "122",
+	        "client_database_id": "2",
+	        "client_nickname": "Echo4191",
+	        "client_type": "1"
+	    },
+	    {
+	        "clid": "42549",
+	        "cid": "1717",
+	        "client_database_id": "76731",
+	        "client_nickname": "gandamalha",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "42297",
+	        "cid": "10",
+	        "client_database_id": "2",
+	        "client_nickname": "RankBot",
+	        "client_type": "1"
+	    },
+	    {
+	        "clid": "37670",
+	        "cid": "50",
 	        "client_database_id": "66099",
 	        "client_nickname": "Сергей",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "24784",
+	        "cid": "1372",
+	        "client_database_id": "48395",
+	        "client_nickname": "Player 3",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "24783",
+	        "cid": "1372",
+	        "client_database_id": "53906",
+	        "client_nickname": "NubCake",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "24782",
+	        "cid": "1372",
+	        "client_database_id": "48398",
+	        "client_nickname": "Friendly Jordan",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "22545",
+	        "cid": "1654",
+	        "client_database_id": "71489",
+	        "client_nickname": "sauna",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "22544",
+	        "cid": "1654",
+	        "client_database_id": "64633",
+	        "client_nickname": "poop",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "22542",
+	        "cid": "1654",
+	        "client_database_id": "63278",
+	        "client_nickname": "bochek",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "22538",
+	        "cid": "1654",
+	        "client_database_id": "64631",
+	        "client_nickname": "couscous",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "19849",
+	        "cid": "1567",
+	        "client_database_id": "58978",
+	        "client_nickname": "pepe",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "19442",
+	        "cid": "1",
+	        "client_database_id": "2",
+	        "client_nickname": "Echo419",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "17605",
+	        "cid": "1",
+	        "client_database_id": "32290",
+	        "client_nickname": "210",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "13693",
+	        "cid": "1504",
+	        "client_database_id": "55455",
+	        "client_nickname": "EricAFK",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "13692",
+	        "cid": "122",
+	        "client_database_id": "49786",
+	        "client_nickname": "VoteBot",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "9329",
+	        "cid": "1546",
+	        "client_database_id": "60348",
+	        "client_nickname": "Max1",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "9322",
+	        "cid": "1546",
+	        "client_database_id": "60804",
+	        "client_nickname": "Cr4ck4",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "9321",
+	        "cid": "1564",
+	        "client_database_id": "58674",
+	        "client_nickname": "Jan",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "9317",
+	        "cid": "1546",
+	        "client_database_id": "57877",
+	        "client_nickname": "Herr Freund",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "9316",
+	        "cid": "1546",
+	        "client_database_id": "58980",
+	        "client_nickname": "fillE",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "9314",
+	        "cid": "1567",
+	        "client_database_id": "58979",
+	        "client_nickname": "frogg",
 	        "client_type": "0"
 	    },
 	    {
@@ -84,87 +357,10 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "45543",
-	        "cid": "1828",
-	        "client_database_id": "76003",
-	        "client_nickname": "TeamSpeakUser11",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "46414",
-	        "cid": "1679",
-	        "client_database_id": "54781",
-	        "client_nickname": "todorovic",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "45223",
-	        "cid": "122",
-	        "client_database_id": "73041",
-	        "client_nickname": "TeamSpeakUser",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "45222",
-	        "cid": "1654",
-	        "client_database_id": "64631",
-	        "client_nickname": "couscous",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "45221",
-	        "cid": "1654",
-	        "client_database_id": "71489",
-	        "client_nickname": "sauna",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "45220",
-	        "cid": "1654",
-	        "client_database_id": "64633",
-	        "client_nickname": "poop",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "45219",
-	        "cid": "1654",
-	        "client_database_id": "63278",
-	        "client_nickname": "bochek",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "44298",
-	        "cid": "1679",
-	        "client_database_id": "54773",
-	        "client_nickname": "OganjKaramel",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "34715",
-	        "cid": "1",
-	        "client_database_id": "2",
-	        "client_nickname": "Echo419",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "34690",
-	        "cid": "1654",
-	        "client_database_id": "63280",
-	        "client_nickname": "perkele",
-	        "client_type": "0"
-	    },
-	    {
 	        "clid": "34688",
 	        "cid": "1654",
 	        "client_database_id": "63392",
 	        "client_nickname": "Abberz",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "42",
-	        "cid": "1372",
-	        "client_database_id": "48398",
-	        "client_nickname": "Friendly Jordan",
 	        "client_type": "0"
 	    },
 	    {
@@ -182,10 +378,24 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
+	        "clid": "53234",
+	        "cid": "127",
+	        "client_database_id": "77793",
+	        "client_nickname": "wlhamu",
+	        "client_type": "0"
+	    },
+	    {
 	        "clid": "36",
 	        "cid": "1789",
 	        "client_database_id": "74952",
 	        "client_nickname": "90's",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "46512",
+	        "cid": "122",
+	        "client_database_id": "73041",
+	        "client_nickname": "TeamSpeakUser",
 	        "client_type": "0"
 	    },
 	    {
@@ -196,10 +406,10 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "1",
-	        "cid": "122",
-	        "client_database_id": "49786",
-	        "client_nickname": "VoteBot",
+	        "clid": "19853",
+	        "cid": "1564",
+	        "client_database_id": "58975",
+	        "client_nickname": "Oskar",
 	        "client_type": "0"
 	    },
 	    {
@@ -231,17 +441,10 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "11054",
-	        "cid": "1564",
-	        "client_database_id": "58975",
-	        "client_nickname": "Oskar",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "4500",
-	        "cid": "1",
-	        "client_database_id": "32290",
-	        "client_nickname": "2101",
+	        "clid": "59319",
+	        "cid": "1746",
+	        "client_database_id": "76323",
+	        "client_nickname": "Our Lord And Savior",
 	        "client_type": "0"
 	    },
 	    {
@@ -266,6 +469,13 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
+	        "clid": "24777",
+	        "cid": "1372",
+	        "client_database_id": "57128",
+	        "client_nickname": "The Acid Man",
+	        "client_type": "0"
+	    },
+	    {
 	        "clid": "163",
 	        "cid": "1263",
 	        "client_database_id": "71487",
@@ -284,6 +494,13 @@ Here are the results for the test method.
 	        "cid": "1263",
 	        "client_database_id": "71486",
 	        "client_nickname": "jeff",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "50542",
+	        "cid": "1662",
+	        "client_database_id": "41383",
+	        "client_nickname": "🐘extraordinary elephant",
 	        "client_type": "0"
 	    },
 	    {
@@ -308,13 +525,6 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "119",
-	        "cid": "1546",
-	        "client_database_id": "60348",
-	        "client_nickname": "Max1",
-	        "client_type": "0"
-	    },
-	    {
 	        "clid": "115",
 	        "cid": "1535",
 	        "client_database_id": "60347",
@@ -336,6 +546,13 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
+	        "clid": "47355",
+	        "cid": "1654",
+	        "client_database_id": "63280",
+	        "client_nickname": "perkele",
+	        "client_type": "0"
+	    },
+	    {
 	        "clid": "112",
 	        "cid": "1535",
 	        "client_database_id": "56760",
@@ -347,6 +564,13 @@ Here are the results for the test method.
 	        "cid": "1535",
 	        "client_database_id": "56913",
 	        "client_nickname": "Toby",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "52514",
+	        "cid": "637",
+	        "client_database_id": "55950",
+	        "client_nickname": "Tyrone",
 	        "client_type": "0"
 	    },
 	    {
@@ -378,6 +602,13 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
+	        "clid": "52095",
+	        "cid": "1898",
+	        "client_database_id": "76957",
+	        "client_nickname": "sir-ace",
+	        "client_type": "0"
+	    },
+	    {
 	        "clid": "88",
 	        "cid": "1213",
 	        "client_database_id": "42749",
@@ -396,20 +627,6 @@ Here are the results for the test method.
 	        "cid": "1235",
 	        "client_database_id": "53070",
 	        "client_nickname": "Merde",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "20374",
-	        "cid": "10",
-	        "client_database_id": "2",
-	        "client_nickname": "RankBot",
-	        "client_type": "1"
-	    },
-	    {
-	        "clid": "46532",
-	        "cid": "1877",
-	        "client_database_id": "77676",
-	        "client_nickname": "DUOs",
 	        "client_type": "0"
 	    },
 	    {
@@ -441,6 +658,13 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
+	        "clid": "52880",
+	        "cid": "1662",
+	        "client_database_id": "62820",
+	        "client_nickname": "n3LLy",
+	        "client_type": "0"
+	    },
+	    {
 	        "clid": "79",
 	        "cid": "1235",
 	        "client_database_id": "66498",
@@ -462,13 +686,6 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "76",
-	        "cid": "1546",
-	        "client_database_id": "57877",
-	        "client_nickname": "Herr Freund",
-	        "client_type": "0"
-	    },
-	    {
 	        "clid": "75",
 	        "cid": "1215",
 	        "client_database_id": "58981",
@@ -483,31 +700,10 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "20364",
-	        "cid": "122",
-	        "client_database_id": "2",
-	        "client_nickname": "Echo4191",
-	        "client_type": "1"
-	    },
-	    {
-	        "clid": "73",
-	        "cid": "1564",
-	        "client_database_id": "58674",
-	        "client_nickname": "Jan",
-	        "client_type": "0"
-	    },
-	    {
 	        "clid": "62",
 	        "cid": "1535",
 	        "client_database_id": "56944",
 	        "client_nickname": "Pappa Smurf",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "69",
-	        "cid": "1567",
-	        "client_database_id": "58979",
-	        "client_nickname": "frogg",
 	        "client_type": "0"
 	    },
 	    {
@@ -557,13 +753,6 @@ Here are the results for the test method.
 	        "cid": "1539",
 	        "client_database_id": "68487",
 	        "client_nickname": "Joe Mumma",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "56",
-	        "cid": "1546",
-	        "client_database_id": "60804",
-	        "client_nickname": "Cr4ck4",
 	        "client_type": "0"
 	    },
 	    {
@@ -623,27 +812,6 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "24",
-	        "cid": "1372",
-	        "client_database_id": "53906",
-	        "client_nickname": "NubCake",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "21",
-	        "cid": "1372",
-	        "client_database_id": "57128",
-	        "client_nickname": "The Acid Man",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "20",
-	        "cid": "1372",
-	        "client_database_id": "48395",
-	        "client_nickname": "Player 3",
-	        "client_type": "0"
-	    },
-	    {
 	        "clid": "19",
 	        "cid": "1372",
 	        "client_database_id": "57046",
@@ -651,10 +819,10 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "11056",
-	        "cid": "1546",
-	        "client_database_id": "58980",
-	        "client_nickname": "fillE",
+	        "clid": "53214",
+	        "cid": "127",
+	        "client_database_id": "77093",
+	        "client_nickname": "Ades",
 	        "client_type": "0"
 	    },
 	    {
@@ -665,10 +833,10 @@ Here are the results for the test method.
 	        "client_type": "0"
 	    },
 	    {
-	        "clid": "11055",
-	        "cid": "1567",
-	        "client_database_id": "58978",
-	        "client_nickname": "pepe",
+	        "clid": "52017",
+	        "cid": "1898",
+	        "client_database_id": "76959",
+	        "client_nickname": "Bov",
 	        "client_type": "0"
 	    },
 	    {
@@ -676,6 +844,13 @@ Here are the results for the test method.
 	        "cid": "1654",
 	        "client_database_id": "71488",
 	        "client_nickname": "vittu dc",
+	        "client_type": "0"
+	    },
+	    {
+	        "clid": "52409",
+	        "cid": "10",
+	        "client_database_id": "56899",
+	        "client_nickname": "Rainman",
 	        "client_type": "0"
 	    },
 	    {
@@ -697,13 +872,6 @@ Here are the results for the test method.
 	        "cid": "10",
 	        "client_database_id": "36736",
 	        "client_nickname": "Rapid",
-	        "client_type": "0"
-	    },
-	    {
-	        "clid": "2",
-	        "cid": "1504",
-	        "client_database_id": "55455",
-	        "client_nickname": "EricAFK",
 	        "client_type": "0"
 	    }
 	]

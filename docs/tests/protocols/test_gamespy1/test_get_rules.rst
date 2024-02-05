@@ -19,7 +19,7 @@ Here are the results for the test method.
 	    "friendlyfire": "0%",
 	    "tournament": "False",
 	    "gamestyle": "Hardcore",
-	    "botskill": "Average",
+	    "botskill": "Skilled",
 	    "adminname": "snowguy",
 	    "adminemail": "negruler@gmail.com"
 	}

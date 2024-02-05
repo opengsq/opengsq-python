@@ -7,18 +7,18 @@ Here are the results for the test method.
 
 	{
 	    "info": {
-	        "omnibot_playing": "25",
-	        "P": "-1212121212121212121212121",
+	        "omnibot_playing": "0",
+	        "P": "-2-2-23212112-12332-13-10--1212-232113-222111-211-3212-1123",
 	        "voteFlags": "507903",
 	        "g_balancedteams": "1",
-	        "g_bluelimbotime": "10000",
+	        "g_bluelimbotime": "12000",
 	        "g_redlimbotime": "14000",
 	        "gamename": "jaymod",
 	        "mod_version": "2.2.0",
 	        "mod_url": "http://jaymod.clanfu.org",
 	        "mod_binary": "linux-release",
-	        "sv_uptime": "05d04h49m",
-	        "sv_cpu": "Intel(R) Xeon(R) CPU E3-1270 v5",
+	        "sv_uptime": "00d16h05m",
+	        "sv_cpu": "AMD Ryzen 5 5600X 6-Core Proces",
 	        "g_axismaxlives": "0",
 	        "g_alliedmaxlives": "0",
 	        "g_voteFlags": "0",
@@ -28,11 +28,11 @@ Here are the results for the test method.
 	        "sv_minPing": "0",
 	        "sv_minRate": "0",
 	        "sv_privateClients": "0",
-	        "mapname": "goldrush-gals",
+	        "mapname": "river_port",
 	        "protocol": "84",
 	        "g_gametype": "2",
 	        "timelimit": "30",
-	        "sv_hostname": "New Server /connect jay1.clan-fa.com:27960",
+	        "sv_hostname": "F|A RECRUITING XP SAVE",
 	        "sv_maxRate": "45000",
 	        "sv_dlRate": "100000",
 	        "sv_floodProtect": "1",
@@ -43,157 +43,283 @@ Here are the results for the test method.
 	        "omnibot_enable": "1",
 	        "sv_userInfoFloodProtect": "1",
 	        "sv_maxclients": "60",
-	        "version": "ET Legacy v2.81.0 linux-i386 Jan 27 2023"
+	        "version": "ET Legacy v2.81.1-406-g1428029 linux-i386 Nov 24 2023"
 	    },
 	    "players": [
 	        {
-	            "frags": 75234,
-	            "ping": 0,
-	            "name": "Backfire",
+	            "frags": 0,
+	            "ping": 187,
+	            "name": "Doronco",
 	            "address": ""
 	        },
 	        {
-	            "frags": 67479,
-	            "ping": 0,
-	            "name": "Vokur",
+	            "frags": 0,
+	            "ping": 201,
+	            "name": "mikan",
 	            "address": ""
 	        },
 	        {
-	            "frags": 77602,
-	            "ping": 0,
-	            "name": "Blackadder",
+	            "frags": 0,
+	            "ping": 35,
+	            "name": "landser",
 	            "address": ""
 	        },
 	        {
-	            "frags": 67835,
-	            "ping": 0,
-	            "name": "Nundak",
+	            "frags": 0,
+	            "ping": 100,
+	            "name": "=F|A=W$M",
 	            "address": ""
 	        },
 	        {
-	            "frags": 77299,
-	            "ping": 0,
-	            "name": "HalfH",
+	            "frags": 0,
+	            "ping": 98,
+	            "name": "OoopssS",
 	            "address": ""
 	        },
 	        {
-	            "frags": 67611,
-	            "ping": 0,
-	            "name": "Craig",
+	            "frags": 0,
+	            "ping": 105,
+	            "name": "|WombAt|",
 	            "address": ""
 	        },
 	        {
-	            "frags": 78039,
-	            "ping": 0,
-	            "name": "Drago",
+	            "frags": 0,
+	            "ping": 148,
+	            "name": "Fart",
 	            "address": ""
 	        },
 	        {
-	            "frags": 65164,
-	            "ping": 0,
-	            "name": "Mungri",
+	            "frags": 0,
+	            "ping": 150,
+	            "name": "StepOnDaddy",
 	            "address": ""
 	        },
 	        {
-	            "frags": 79178,
-	            "ping": 0,
-	            "name": "Walter",
+	            "frags": 0,
+	            "ping": 100,
+	            "name": "r0adrunner",
 	            "address": ""
 	        },
 	        {
-	            "frags": 64350,
-	            "ping": 0,
-	            "name": "Bortack",
+	            "frags": 0,
+	            "ping": 91,
+	            "name": "MEATFACE",
 	            "address": ""
 	        },
 	        {
-	            "frags": 78998,
-	            "ping": 0,
-	            "name": "Newbie",
+	            "frags": 0,
+	            "ping": 48,
+	            "name": "ForTheLoveOfTheGame",
 	            "address": ""
 	        },
 	        {
-	            "frags": 65374,
-	            "ping": 0,
-	            "name": "Ryver",
+	            "frags": 0,
+	            "ping": 148,
+	            "name": "=F|A=minerva'",
 	            "address": ""
 	        },
 	        {
-	            "frags": 82782,
-	            "ping": 0,
-	            "name": "Sean",
+	            "frags": 0,
+	            "ping": 100,
+	            "name": "*Elk",
 	            "address": ""
 	        },
 	        {
-	            "frags": 64202,
-	            "ping": 0,
-	            "name": "Korv",
+	            "frags": 0,
+	            "ping": 115,
+	            "name": "=F|A=Zot",
 	            "address": ""
 	        },
 	        {
-	            "frags": 75873,
-	            "ping": 0,
-	            "name": "Monty",
+	            "frags": 0,
+	            "ping": 120,
+	            "name": "-samael-",
 	            "address": ""
 	        },
 	        {
-	            "frags": 62662,
-	            "ping": 0,
-	            "name": "Ed",
+	            "frags": 0,
+	            "ping": 48,
+	            "name": "Mortar Magnet",
 	            "address": ""
 	        },
 	        {
-	            "frags": 76904,
-	            "ping": 0,
-	            "name": "Nohope",
+	            "frags": 0,
+	            "ping": 48,
+	            "name": "Patrick",
 	            "address": ""
 	        },
 	        {
-	            "frags": 63488,
-	            "ping": 0,
-	            "name": "Chan",
+	            "frags": 0,
+	            "ping": 48,
+	            "name": "JT",
 	            "address": ""
 	        },
 	        {
-	            "frags": 78461,
-	            "ping": 0,
-	            "name": "Morgan",
+	            "frags": 187432,
+	            "ping": 999,
+	            "name": "makilani~",
 	            "address": ""
 	        },
 	        {
-	            "frags": 65041,
-	            "ping": 0,
-	            "name": "Kaolin",
+	            "frags": 0,
+	            "ping": 103,
+	            "name": "[DookieShoes]*TheAbbot*",
 	            "address": ""
 	        },
 	        {
-	            "frags": 79552,
-	            "ping": 0,
-	            "name": "Fred",
+	            "frags": 0,
+	            "ping": 125,
+	            "name": "Veive",
 	            "address": ""
 	        },
 	        {
-	            "frags": 61383,
-	            "ping": 0,
-	            "name": "Flint",
+	            "frags": 0,
+	            "ping": 61,
+	            "name": "mxb",
 	            "address": ""
 	        },
 	        {
-	            "frags": 23214,
-	            "ping": 0,
-	            "name": "Razor",
+	            "frags": 0,
+	            "ping": 191,
+	            "name": "Ghost of abe shinzo",
 	            "address": ""
 	        },
 	        {
-	            "frags": 61391,
-	            "ping": 0,
-	            "name": "Nandet",
+	            "frags": 0,
+	            "ping": 54,
+	            "name": "Bobsurbro3",
 	            "address": ""
 	        },
 	        {
-	            "frags": 5756,
-	            "ping": 0,
-	            "name": "Cledus",
+	            "frags": 0,
+	            "ping": 125,
+	            "name": "=F|A=Leatherface",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 187,
+	            "name": "Parana",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 148,
+	            "name": "lisboa 1",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 50,
+	            "name": "JASON",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 101,
+	            "name": "=F|A=EVILBUTTERS",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 48,
+	            "name": "=GME=BuNGHoLE",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 150,
+	            "name": "Jazz",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 100,
+	            "name": "Your Mama",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 100,
+	            "name": "[xJFFx]_=NOIR=_",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 48,
+	            "name": "Serunk",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 48,
+	            "name": "SneedsFeed&Seed",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 50,
+	            "name": "Azure",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 98,
+	            "name": "CoyoteCojo",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 98,
+	            "name": "Penitent One",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 108,
+	            "name": "Ping=Sleestak",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 100,
+	            "name": "MrNotFunny",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 51,
+	            "name": "P1nky*",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 816,
+	            "name": "Zenithv1",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 83,
+	            "name": "-=AR=-McLov!n. SS",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 151,
+	            "name": "#ET|GODSERENA|M2S",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 51,
+	            "name": "=F|A=Audie Murphy",
+	            "address": ""
+	        },
+	        {
+	            "frags": 0,
+	            "ping": 100,
+	            "name": "fejka",
 	            "address": ""
 	        }
 	    ]

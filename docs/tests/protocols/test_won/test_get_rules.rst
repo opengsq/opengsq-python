@@ -8,8 +8,8 @@ Here are the results for the test method.
 	{
 	    "allow_spectators": "0",
 	    "amx_client_languages": "0",
-	    "amx_nextmap": "cs_747",
-	    "amx_timeleft": "03:38",
+	    "amx_nextmap": "cs_backalley",
+	    "amx_timeleft": "03:47",
 	    "amxmodx_version": "1.8.1.3746",
 	    "coop": "0",
 	    "csdmsake_version": "1.1e",

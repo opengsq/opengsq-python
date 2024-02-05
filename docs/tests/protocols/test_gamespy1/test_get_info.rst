@@ -8,8 +8,8 @@ Here are the results for the test method.
 	{
 	    "hostname": "--- ComboGib CTF (Grapple) -- London --- EatSleepUT.com",
 	    "hostport": "7777",
-	    "maptitle": "CTF-2on2-OvalTech-RSA",
-	    "mapname": "CTF-2on2-OvalTech-RSA",
+	    "maptitle": "2on2 Crates spfix",
+	    "mapname": "CTF-2on2-Crates_spfix",
 	    "gametype": "CTFGame",
 	    "numplayers": "8",
 	    "maxplayers": "18",

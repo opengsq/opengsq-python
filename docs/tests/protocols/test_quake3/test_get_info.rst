@@ -7,13 +7,13 @@ Here are the results for the test method.
 
 	{
 	    "challenge": "opengsq",
-	    "version": "ET Legacy v2.81.0 linux-i386 Jan 27 2023",
+	    "version": "ET Legacy v2.81.1-406-g1428029 linux-i386 Nov 24 2023",
 	    "protocol": "84",
-	    "hostname": "New Server /connect jay1.clan-fa.com:27960",
+	    "hostname": "F|A RECRUITING XP SAVE",
 	    "serverload": "2",
-	    "mapname": "goldrush-gals",
-	    "clients": "25",
-	    "humans": "0",
+	    "mapname": "river_port",
+	    "clients": "46",
+	    "humans": "46",
 	    "sv_maxclients": "60",
 	    "sv_privateclients": "0",
 	    "gametype": "2",

@@ -8,10 +8,10 @@ Here are the results for the test method.
 	{
 	    "ip": "15.235.181.19",
 	    "port": 7042,
-	    "name": "★6868★PVP打架爽服/小队扶持/满人送V10/10倍魔改/高性能服务器",
-	    "num_players": 0,
+	    "name": "2.4新开★ 1100★ 全图PVP★ 特色地堡黑市★ 小队福利★免费炼体",
+	    "num_players": 15,
 	    "max_players": 100,
-	    "time": 17,
+	    "time": 10,
 	    "password": false,
-	    "version": "0.9.513.81352"
+	    "version": "0.9.515.81588"
 	}

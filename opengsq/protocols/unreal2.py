@@ -62,9 +62,12 @@ class Unreal2(ProtocolBase):
             skill=self._read_string(br),
         )
 
-    async def get_rules(self) -> dict[str, Any]:
+    async def get_rules(self, strip_color=True) -> dict[str, Any]:
         """
         Asynchronously gets the rules of a server.
+
+        Args:
+            strip_color (bool, optional): If True, strips color codes. Defaults to True.
 
         Returns:
             dict: A dictionary containing the rules of the server.
@@ -88,8 +91,8 @@ class Unreal2(ProtocolBase):
         rules["Mutators"] = []
 
         while not br.is_end():
-            key = self._read_string(br)
-            val = self._read_string(br)
+            key = self._read_string(br, strip_color)
+            val = self._read_string(br, strip_color)
 
             if key.lower() == "mutator":
                 rules["Mutators"].append(val)
@@ -157,7 +160,7 @@ class Unreal2(ProtocolBase):
         Returns:
             str: The string read from the BinaryReader object.
         """
-        length = br.read_byte()
+        length = max(0, br.read_byte())
         encoding = "utf-8"
 
         if length >= 128:
@@ -171,9 +174,6 @@ class Unreal2(ProtocolBase):
         else:
             string = string.strip("\x00")
 
-        if not br.is_end() and br.read_byte() != 0:
-            br.stream_position -= 1
-
         return string
 
 
@@ -182,8 +182,9 @@ if __name__ == "__main__":
 
     async def main_async():
         # ut2004
-        # unreal2 = Unreal2(host="109.230.224.189", port=6970)
-        unreal2 = Unreal2(host="51.195.117.236", port=9981)
+        #unreal2 = Unreal2(host="109.230.224.189", port=6970)
+        unreal2 = Unreal2(host="185.80.128.168", port=7708)
+        #unreal2 = Unreal2(host="51.195.117.236", port=9981)
         details = await unreal2.get_details()
         print(details)
         rules = await unreal2.get_rules()

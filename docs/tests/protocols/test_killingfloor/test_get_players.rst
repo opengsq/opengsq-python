@@ -7,101 +7,66 @@ Here are the results for the test method.
 
 	[
 	    {
-	        "id": 5237,
-	        "name": "Nosferati®",
-	        "ping": 244,
-	        "score": 500,
-	        "stats_id": 536870912
-	    },
-	    {
-	        "id": 5116,
-	        "name": "P0CZT0WY_[POL]",
-	        "ping": 100,
-	        "score": 500,
-	        "stats_id": 536870912
-	    },
-	    {
-	        "id": 4284,
-	        "name": "Eshka666",
-	        "ping": 148,
-	        "score": 317,
-	        "stats_id": 536870912
-	    },
-	    {
-	        "id": 4183,
-	        "name": "FuManchu_[SAC]",
-	        "ping": 24,
-	        "score": 932,
-	        "stats_id": 536870912
-	    },
-	    {
-	        "id": 3997,
-	        "name": "Barebyx",
-	        "ping": 48,
-	        "score": 1712,
-	        "stats_id": 536870912
-	    },
-	    {
-	        "id": 3866,
-	        "name": "[swe]fireburn",
-	        "ping": 36,
-	        "score": 1588,
-	        "stats_id": 536870912
-	    },
-	    {
-	        "id": 3846,
-	        "name": "[LTU]Makaronas",
-	        "ping": 24,
-	        "score": 1709,
-	        "stats_id": 536870912
-	    },
-	    {
-	        "id": 3782,
-	        "name": "TNT",
-	        "ping": 144,
-	        "score": 1855,
-	        "stats_id": 536870912
-	    },
-	    {
-	        "id": 3694,
-	        "name": "ForgotteN`",
+	        "id": 187,
+	        "name": "BaSS!VE",
 	        "ping": 52,
-	        "score": 13053,
+	        "score": 500,
 	        "stats_id": 536870912
 	    },
 	    {
-	        "id": 1993,
-	        "name": "Alena",
-	        "ping": 104,
-	        "score": 10783,
+	        "id": 33,
+	        "name": "Zero",
+	        "ping": 176,
+	        "score": 776,
 	        "stats_id": 536870912
 	    },
 	    {
-	        "id": 1656,
-	        "name": "SukunР°_RyЕЌmen.",
-	        "ping": 44,
-	        "score": 11581,
+	        "id": 32,
+	        "name": "Play77",
+	        "ping": 48,
+	        "score": 984,
 	        "stats_id": 536870912
 	    },
 	    {
-	        "id": 1347,
-	        "name": ".Exe",
-	        "ping": 152,
-	        "score": 6248,
+	        "id": 31,
+	        "name": "Perrito",
+	        "ping": 144,
+	        "score": 809,
 	        "stats_id": 536870912
 	    },
 	    {
-	        "id": 1346,
-	        "name": "H1Æ¤×”Ñ²Æ¬1â„‚",
-	        "ping": 88,
-	        "score": 21399,
+	        "id": 30,
+	        "name": "Alyx_Howlette",
+	        "ping": 124,
+	        "score": 931,
 	        "stats_id": 536870912
 	    },
 	    {
-	        "id": 1345,
-	        "name": "I_see_youв ",
+	        "id": 29,
+	        "name": "Leprosus_Rex",
+	        "ping": 76,
+	        "score": 976,
+	        "stats_id": 536870912
+	    },
+	    {
+	        "id": 28,
+	        "name": "terrus31",
+	        "ping": 52,
+	        "score": 949,
+	        "stats_id": 536870912
+	    },
+	    {
+	        "id": 27,
+	        "name": "Nebesvaik",
+	        "ping": 28,
+	        "score": 733,
+	        "stats_id": 536870912
+	    },
+	    {
+	        "id": 26,
+	        "name": "Lex",
 	        "ping": 56,
-	        "score": 10689,
+	        "score": 1580,
 	        "stats_id": 536870912
 	    }
 	]

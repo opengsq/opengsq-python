@@ -8,14 +8,14 @@ Here are the results for the test method.
 	{
 	    "server_id": 0,
 	    "server_ip": "",
-	    "game_port": 9980,
+	    "game_port": 6969,
 	    "query_port": 0,
-	    "server_name": "liunai.lt|v1065]|OE/Suicidal/Hard150 LvL| Perks",
-	    "map_name": "KF-MysteriousTrees-FIX",
-	    "game_type": "MCGameType",
-	    "num_players": 3,
-	    "max_players": 15,
-	    "ping": 3,
-	    "flags": 10,
-	    "skill": ""
+	    "server_name": "e Usual Suspects TAM server DE (#rdturd)",
+	    "map_name": "\u001b@DM-DE-Grendelkeep",
+	    "game_type": "xDeathMatch",
+	    "num_players": 2,
+	    "max_players": 16,
+	    "ping": 0,
+	    "flags": 0,
+	    "skill": "0"
 	}

@@ -7,24 +7,24 @@ Here are the results for the test method.
 
 	{
 	    "Mutators": [
-	        "KillingFloorMut",
-	        "ServerPerksMut"
+	        "LinxDedServFixMut",
+	        "TRUltimateAdmin",
+	        "MutVendetta",
+	        "MutSoLToolz",
+	        "MutDMOverride",
+	        "MutNecro",
+	        "MutGameSpeed",
+	        "MutEmoticons"
 	    ],
 	    "ServerMode": "dedicated",
-	    "AdminName": "Trebit",
-	    "AdminEmail": "https://discord.link/uliunai",
-	    "ServerVersion": "1065",
-	    "IsVacSecured": "true",
-	    "MaxSpectators": "5",
-	    "MapVoting": "true",
-	    "KickVoting": "true",
-	    "SP: Version": "750",
-	    "SP: Min perk level": "1",
-	    "SP: Max perk level": "150",
-	    "SP: Num trader weapons": "148",
-	    "SP: Perk 1": "Support Specialist",
-	    "SP: Perk 2": "Berserker",
-	    "SP: Perk 3": "Commando",
-	    "SP: Perk 4": "Field Medic",
-	    "SP: Perk 5": "Firebug"
+	    "AdminName": "Horst#7160 & aiMz#2911",
+	    "AdminEmail": "https://discord.gg/CFNbww4yHC",
+	    "ServerVersion": "3369",
+	    "GameStats": "False",
+	    "GameSpeed": "1.04",
+	    "MaxSpectators": "10",
+	    "Zound": "v5.5",
+	    "SoLToolz version": "v12",
+	    "Horstomancy": "V1",
+	    "Necro Haircut Award": "10.00"
 	}
