@@ -7,7 +7,7 @@ handler = ResultHandler(__file__)
 # handler.enable_save = True
 
 # Killing Floor
-test = KillingFloor(host="185.80.128.168", port=7708)
+test = KillingFloor(host="normal.ws-gaming.eu", port=7708)
 
 
 @pytest.mark.asyncio

@@ -16,7 +16,7 @@ Here are the results for the test method.
 	    ],
 	    "ServerMode": "dedicated",
 	    "AdminName": "",
-	    "AdminEmail": "ws-gaming.eu",
+	    "AdminEmail": "kf@ws-gaming.eu",
 	    "ServerVersion": "1065",
 	    "IsVacSecured": "true",
 	    "MaxSpectators": "20",

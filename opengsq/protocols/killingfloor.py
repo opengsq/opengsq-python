@@ -12,9 +12,12 @@ class KillingFloor(Unreal2):
 
     full_name = "Killing Floor Protocol"
 
-    async def get_details(self) -> Status:
+    async def get_details(self, strip_color=True) -> Status:
         """
         Asynchronously retrieves the details of the game server.
+
+        Args:
+            strip_color (bool, optional): If True, strips color codes from the server name. Defaults to True.
 
         :return: A Status object containing the details of the game server.
         """
@@ -38,16 +41,16 @@ class KillingFloor(Unreal2):
             server_ip=br.read_string(),
             game_port=br.read_long(),
             query_port=br.read_long(),
-            server_name=self._read_string(br),
-            map_name=self._read_string(br),
-            game_type=self._read_string(br),
+            server_name=self._read_string(br, strip_color, False),
+            map_name=self._read_string(br, strip_color),
+            game_type=self._read_string(br, strip_color),
             num_players=br.read_long(),
             max_players=br.read_long(),
             wave_current=br.read_long(),
             wave_total=br.read_long(),
             ping=br.read_long(),
             flags=br.read_long(),
-            skill=self._read_string(br),
+            skill=self._read_string(br, strip_color),
         )
 
 
@@ -57,11 +60,12 @@ if __name__ == "__main__":
     async def main_async():
         # killingfloor
         killingFloor = KillingFloor(host="185.80.128.168", port=7708, timeout=10.0)
+        # killingFloor = KillingFloor(host="45.235.99.76", port=7710, timeout=10.0)
         details = await killingFloor.get_details()
         print(details)
-        rules = await killingFloor.get_rules()
-        print(rules)
-        players = await killingFloor.get_players()
-        print(players)
+        # rules = await killingFloor.get_rules()
+        # print(rules)
+        # players = await killingFloor.get_players()
+        # print(players)
 
     asyncio.run(main_async())
