@@ -14,3 +14,7 @@ class Environment(IntEnum):
 
     Mac = 0x6D
     """Mac"""
+
+    @staticmethod
+    def parse(byte: int):
+        return Environment(ord(chr(byte).lower()))

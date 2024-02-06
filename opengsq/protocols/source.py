@@ -89,8 +89,8 @@ class Source(ProtocolBase):
         info["players"] = br.read_byte()
         info["max_players"] = br.read_byte()
         info["bots"] = br.read_byte()
-        info["server_type"] = ServerType(br.read_byte())
-        info["environment"] = Environment(br.read_byte())
+        info["server_type"] = ServerType.parse(br.read_byte())
+        info["environment"] = Environment.parse(br.read_byte())
         info["visibility"] = Visibility(br.read_byte())
         info["vac"] = VAC(br.read_byte())
 
@@ -138,8 +138,8 @@ class Source(ProtocolBase):
         info["players"] = br.read_byte()
         info["max_players"] = br.read_byte()
         info["protocol"] = br.read_byte()
-        info["server_type"] = ServerType(ord(chr(br.read_byte()).lower()))
-        info["environment"] = Environment(ord(chr(br.read_byte()).lower()))
+        info["server_type"] = ServerType.parse(br.read_byte())
+        info["environment"] = Environment.parse(br.read_byte())
         info["visibility"] = Visibility(br.read_byte())
         info["mod"] = br.read_byte()
 

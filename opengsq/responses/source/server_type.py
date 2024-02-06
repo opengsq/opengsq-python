@@ -14,3 +14,7 @@ class ServerType(IntEnum):
 
     Proxy = 0x70
     """SourceTV relay (proxy)"""
+
+    @staticmethod
+    def parse(byte: int):
+        return ServerType(ord(chr(byte).lower()))
