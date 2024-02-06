@@ -94,7 +94,7 @@ class ASE(ProtocolBase):
 
             players.append(Player(**player))
 
-        return player
+        return players
 
 
 if __name__ == "__main__":

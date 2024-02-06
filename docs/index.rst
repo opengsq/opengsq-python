@@ -6,6 +6,20 @@
 Welcome to OpenGSQ Python's documentation!
 ==========================================
 
+.. image:: https://github.com/opengsq/opengsq-python/actions/workflows/python-package.yml/badge.svg
+   :target: https://github.com/opengsq/opengsq-python/actions/workflows/python-package.yml
+.. image:: https://img.shields.io/github/license/opengsq/opengsq-python
+   :target: https://github.com/opengsq/opengsq-python/blob/main/LICENSE
+.. image:: https://img.shields.io/pypi/v/opengsq.svg
+   :target: https://pypi.org/project/opengsq/
+.. image:: https://img.shields.io/pypi/pyversions/opengsq.svg
+   :target: https://pypi.org/project/opengsq/
+.. image:: https://pepy.tech/badge/opengsq
+   :target: https://pepy.tech/project/opengsq
+
+The OpenGSQ Python library provides a convenient way to query servers
+from applications written in the Python language.
+
 .. toctree::
    :maxdepth: 4
    :caption: Get Started

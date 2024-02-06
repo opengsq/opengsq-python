@@ -32,6 +32,7 @@ setup(
     project_urls={
         'Bug Tracker': 'https://github.com/opengsq/opengsq-python/issues',
         'Source Code': 'https://github.com/opengsq/opengsq-python',
+        'Documentation': 'https://python.opengsq.com/',
     },
     license='MIT',
     author='OpenGSQ',
