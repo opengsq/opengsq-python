@@ -83,7 +83,9 @@ class Minecraft(ProtocolBase):
                 data["description"]["extra"], list
             ):
                 for i, extra in enumerate(data["description"]["extra"]):
-                    if isinstance(extra["text"], str):
+                    if isinstance(extra, str):
+                        data["description"]["extra"][i] = Minecraft.strip_colors(extra)
+                    elif isinstance(extra["text"], str):
                         data["description"]["extra"][i][
                             "text"
                         ] = Minecraft.strip_colors(extra["text"])
@@ -171,6 +173,7 @@ if __name__ == "__main__":
 
     async def main_async():
         minecraft = Minecraft(host="mc.goldcraft.ir", port=25565, timeout=5.0)
+        # minecraft = Minecraft(host="xcl.no", port=25565, timeout=5.0)
         status = await minecraft.get_status(47, strip_color=True)
         print(status)
         status_pre17 = await minecraft.get_status_pre17()
