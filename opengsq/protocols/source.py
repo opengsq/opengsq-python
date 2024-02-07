@@ -279,7 +279,6 @@ class Source(ProtocolBase):
             # Packet id
             id = br.read_long()
             is_compressed = id & 0x80000000 != 0
-            print(is_compressed)
 
             # Check is GoldSource multi-packet response format
             if self.__is_gold_source_split(BinaryReader(br.read())):
@@ -378,13 +377,15 @@ if __name__ == "__main__":
     import asyncio
 
     async def main_async():
-        source = Source(host="146.19.87.161", port=27015, timeout=5.0)
-        # info = await source.get_info()
-        # print(info)
+        # Compressed response
+        # source = Source(host="146.19.87.161", port=27015, timeout=5.0)
+        source = Source(host="45.62.160.71", port=27015, timeout=5.0)
+        info = await source.get_info()
+        print(info)
 
-        # await asyncio.sleep(1)
-        # players = await source.get_players()
-        # print(players)
+        await asyncio.sleep(1)
+        players = await source.get_players()
+        print(players)
 
         await asyncio.sleep(1)
         rules = await source.get_rules()
