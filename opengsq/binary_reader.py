@@ -37,8 +37,9 @@ class BinaryReader:
 
         return data
 
-    def read_long(self) -> int:
-        data = struct.unpack('<l', self.__data[self.stream_position:self.stream_position + 4])[0]
+    def read_long(self, unsigned=False) -> int:
+        format = 'L' if unsigned else 'l'
+        data = struct.unpack(f'<{format}', self.__data[self.stream_position:self.stream_position + 4])[0]
         self.stream_position += 4
 
         return data
