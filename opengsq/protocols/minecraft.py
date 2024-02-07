@@ -71,24 +71,26 @@ class Minecraft(ProtocolBase):
 
             if isinstance(data["description"], str):
                 data["description"] = Minecraft.strip_colors(data["description"])
+            else:
+                if "text" in data["description"] and isinstance(
+                    data["description"]["text"], str
+                ):
+                    data["description"]["text"] = Minecraft.strip_colors(
+                        data["description"]["text"]
+                    )
 
-            if "text" in data["description"] and isinstance(
-                data["description"]["text"], str
-            ):
-                data["description"]["text"] = Minecraft.strip_colors(
-                    data["description"]["text"]
-                )
-
-            if "extra" in data["description"] and isinstance(
-                data["description"]["extra"], list
-            ):
-                for i, extra in enumerate(data["description"]["extra"]):
-                    if isinstance(extra, str):
-                        data["description"]["extra"][i] = Minecraft.strip_colors(extra)
-                    elif isinstance(extra["text"], str):
-                        data["description"]["extra"][i][
-                            "text"
-                        ] = Minecraft.strip_colors(extra["text"])
+                if "extra" in data["description"] and isinstance(
+                    data["description"]["extra"], list
+                ):
+                    for i, extra in enumerate(data["description"]["extra"]):
+                        if isinstance(extra, str):
+                            data["description"]["extra"][i] = Minecraft.strip_colors(
+                                extra
+                            )
+                        elif isinstance(extra["text"], str):
+                            data["description"]["extra"][i]["text"] = (
+                                Minecraft.strip_colors(extra["text"])
+                            )
 
         return data
 
