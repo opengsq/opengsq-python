@@ -17,4 +17,14 @@ class ServerType(IntEnum):
 
     @staticmethod
     def parse(byte: int):
+        """
+        Parses the given byte to a ServerType value. If the byte does not correspond to a valid
+        ServerType value, a ValueError is raised.
+
+        Args:
+            byte (int): The byte to parse.
+
+        Returns:
+            ServerType: The corresponding ServerType value.
+        """
         return ServerType(ord(chr(byte).lower()))
