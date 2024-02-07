@@ -103,3 +103,7 @@ opengsq source --host 123.123.123.123 --port 27015 --function get_info
 ## Tests and Results
 
 You can find information about tests and results at [https://python.opengsq.com/tests/protocols](https://python.opengsq.com/tests/protocols)
+
+## Stargazers over time
+
+[![Stargazers over time](https://starchart.cc/opengsq/opengsq-python.svg?variant=adaptive)](https://starchart.cc/opengsq/opengsq-python)
