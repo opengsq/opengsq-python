@@ -101,24 +101,26 @@ class Source(ProtocolBase):
             info["duration"] = br.read_byte()
 
         info["version"] = br.read_string()
-        edf = ExtraDataFlag(br.read_byte())
-        info["edf"] = edf
 
-        if edf.has_flag(ExtraDataFlag.Port):
-            info["port"] = br.read_short()
+        if not br.is_end():
+            edf = ExtraDataFlag(br.read_byte())
+            info["edf"] = edf
 
-        if edf.has_flag(ExtraDataFlag.SteamID):
-            info["steam_id"] = br.read_long_long()
+            if edf.has_flag(ExtraDataFlag.Port):
+                info["port"] = br.read_short()
 
-        if edf.has_flag(ExtraDataFlag.Spectator):
-            info["spectator_port"] = br.read_short()
-            info["spectator_name"] = br.read_string()
+            if edf.has_flag(ExtraDataFlag.SteamID):
+                info["steam_id"] = br.read_long_long()
 
-        if edf.has_flag(ExtraDataFlag.Keywords):
-            info["keywords"] = br.read_string()
+            if edf.has_flag(ExtraDataFlag.Spectator):
+                info["spectator_port"] = br.read_short()
+                info["spectator_name"] = br.read_string()
 
-        if edf.has_flag(ExtraDataFlag.GameID):
-            info["game_id"] = br.read_long_long()
+            if edf.has_flag(ExtraDataFlag.Keywords):
+                info["keywords"] = br.read_string()
+
+            if edf.has_flag(ExtraDataFlag.GameID):
+                info["game_id"] = br.read_long_long()
 
         return SourceInfo(**info)
 

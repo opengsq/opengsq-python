@@ -16,7 +16,7 @@ class SourceInfo(PartialInfo):
     version: str
     """Version of the game installed on the server."""
 
-    edf: ExtraDataFlag
+    edf: Optional[ExtraDataFlag] = None
     """If present, this specifies which additional data fields will be included."""
 
     port: Optional[int] = None
