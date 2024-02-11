@@ -24,6 +24,7 @@ from opengsq.protocols import (
     GameSpy2,
     GameSpy3,
     GameSpy4,
+    Kaillera,
     KillingFloor,
     Minecraft,
     Quake1,
