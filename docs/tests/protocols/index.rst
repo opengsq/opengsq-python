@@ -13,6 +13,7 @@ Protocols Tests
 	test_gamespy2/index
 	test_gamespy3/index
 	test_gamespy4/index
+	test_kaillera/index
 	test_killingfloor/index
 	test_minecraft/index
 	test_quake1/index
