@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import asyncio
 import inspect
@@ -32,7 +34,9 @@ class CLI:
 
         # Load all protocols from __init__.py
         with open(os.path.join(opengsq_path, "protocols", "__init__.py")) as f:
-            for protocol_path, protocol_classnames in re.findall(pattern, f.read()):
+            matches: list[str, str] = re.findall(pattern, f.read())
+
+            for protocol_path, protocol_classnames in matches:
                 for protocol_classname in protocol_classnames.split(","):
                     name, fullpath, parameters = self.__extract(
                         protocol_path, protocol_classname
@@ -130,9 +134,7 @@ class CLI:
 
 
 def main():
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main_async())
-    loop.close()
+    asyncio.run(main_async())
 
 
 async def main_async():
@@ -152,6 +154,9 @@ async def main_async():
     except asyncio.exceptions.TimeoutError:
         sys.stderr.write("opengsq: error: timed out\n")
         sys.exit(-2)
+    except asyncio.exceptions.CancelledError:
+        sys.stderr.write("opengsq: error: cancelled\n")
+        sys.exit(-3)
 
     sys.exit(0)
 
