@@ -39,11 +39,11 @@ class Battlefield(ProtocolBase):
         info["teams"] = [float(data.pop(0)) for _ in range(num_teams)]
         info["target_score"] = int(data.pop(0))
         info["status"] = data.pop(0)
-        info["ranked"] = data.pop(0) == "true"
-        info["punk_buster"] = data.pop(0) == "true"
-        info["password"] = data.pop(0) == "true"
-        info["uptime"] = int(data.pop(0))
-        info["round_time"] = int(data.pop(0))
+        info["ranked"] = (data.pop(0) == "true") if data else "false"
+        info["punk_buster"] = (data.pop(0) == "true") if data else "false"
+        info["password"] = (data.pop(0) == "true") if data else "false"
+        info["uptime"] = int(data.pop(0)) if data else 0
+        info["round_time"] = int(data.pop(0)) if data else 0
 
         try:
             if data[0] == "BC2":
