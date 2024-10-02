@@ -1,4 +1,6 @@
 import struct
+import time
+import aiohttp
 
 from opengsq.responses.satisfactory import Status
 from opengsq.binary_reader import BinaryReader
@@ -9,41 +11,113 @@ from opengsq.protocol_socket import UdpClient
 
 class Satisfactory(ProtocolBase):
     """
-    This class represents the Satisfactory Protocol. It provides methods to interact with the Satisfactory API.
+    This class represents the Satisfactory Protocol. It provides methods to interact with the Satisfactory Lightweight Query API.
     """
 
     full_name = "Satisfactory Protocol"
 
+    def __init__(self, host: str, port: int, app_token: str, timeout: float = 5):
+        """
+        Initializes the Satisfactory object with the given parameters.
+
+        :param host: The host of the server.
+        :param port: The port of the server.
+        :param access_token: The application token for the Satisfactory dedicated server.
+        :param timeout: The timeout for the server connection.
+        """
+
+        super().__init__(host, port, timeout)
+
+        if app_token is None:
+            raise ValueError("app_token must not be None")
+
+        self.api_url = f"https://{self._host}:{self._port}/api/v1/"
+        self.app_token = app_token
+        self.protocol_magic = 0xF6D5
+        self.protocol_version = 1
+
     async def get_status(self) -> Status:
         """
-        Asynchronously retrieves the status of the game server. The status includes the server state, version, and beacon port.
+        Asynchronously retrieves the status of the game server. The status includes the server state, name, player count and max player count.
         The server state can be one of the following:
-        1 - Idle (no game loaded)
-        2 - Currently loading or creating a game
-        3 - Currently in game
+        0 - Offline (The server is offline. Servers will never send this as a response)
+        1 - Idle (The server is running, but no save is currently loaded)
+        2 - Loading (The server is currently loading a map. In this state, HTTPS API is unavailable)
+        3 - Playing (The server is running, and a save is loaded. Server is joinable by players)
 
         :return: A Status object containing the status of the game server.
         """
-        # Credit: https://github.com/dopeghoti/SF-Tools/blob/main/Protocol.md
 
-        # Send message id, protocol version
-        request = struct.pack("2b", 0, 0) + "opengsq".encode()
+        # Generate a unique cookie using the current time (in ticks)
+        cookie = int(time.time() * 1000)
+
+        # Construct the request packet
+        request = struct.pack(
+            "<HBBQb", self.protocol_magic, 0, self.protocol_version, cookie, 1
+        )
+
+        # Send the Poll Server State request
         response = await UdpClient.communicate(self, request)
-        br = BinaryReader(response)
-        header = br.read_byte()
 
-        if header != 1:
-            raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    chr(header), chr(1)
-                )
+        # Unpack the response message
+        (
+            protocol_magic,
+            _,
+            _,
+            received_cookie,
+            server_state,
+            server_netcl,
+            server_flags,
+            num_substates,
+        ) = struct.unpack("<HBBQBLQB", response[:26])
+
+        if protocol_magic != self.protocol_magic or received_cookie != cookie:
+            return None
+
+        # Extract server name length and server name
+        server_name_length = struct.unpack(
+            "<H", response[26 + (num_substates * 3) : 28 + (num_substates * 3)]
+        )[0]
+        server_name = response[
+            28 + (num_substates * 3) : 28 + (num_substates * 3) + server_name_length
+        ].decode("utf-8")
+
+        # Request max number of players and number of players
+        if server_state == 3:
+
+            headers = {
+                "Authorization": f"Bearer {self.app_token}",
+                "Content-Type": "application/json",
+            }
+
+            data = {"function": "QueryServerState", "data": {"ServerGameState": {}}}
+
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    self.api_url,
+                    json=data,
+                    headers=headers,
+                    ssl=False,
+                ) as response:
+                    response.raise_for_status()
+                    data = await response.json()
+
+            server_max_nb_players, server_cur_nb_players = data.get("data", {}).get(
+                "serverGameState", {}
+            ).get("playerLimit", "Not Available"), data.get("data", {}).get(
+                "serverGameState", {}
+            ).get(
+                "numConnectedPlayers", "Not Available"
             )
 
-        br.read_byte()  # Protocol version
-        br.read_bytes(8)  # Request data
+        else:
+            server_max_nb_players, server_cur_nb_players = 0, 0
 
         return Status(
-            state=br.read_byte(), version=br.read_long(), beacon_port=br.read_short()
+            state=server_state,
+            name=server_name,
+            num_players=server_cur_nb_players,
+            max_players=server_max_nb_players,
         )
 
 
@@ -51,7 +125,12 @@ if __name__ == "__main__":
     import asyncio
 
     async def main_async():
-        satisfactory = Satisfactory(host="79.136.0.124", port=15777, timeout=5.0)
+        satisfactory = Satisfactory(
+            host="79.136.0.124",
+            port=7777,
+            timeout=5.0,
+            app_token="toto.yoda",
+        )
         status = await satisfactory.get_status()
         print(status)
 
