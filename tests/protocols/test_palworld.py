@@ -10,8 +10,8 @@ handler = ResultHandler(__file__)
 test = Palworld(
     host="79.136.0.124",
     port=8212,
-    app_username="admin",
-    app_password="",
+    api_username="admin",
+    api_password="",
 )
 
 

@@ -16,7 +16,7 @@ class Palworld(ProtocolBase):
 
     full_name = "Palworld Protocol"
 
-    def __init__(self, host: str, port: int, app_username: str, app_password: str, timeout: float = 5):
+    def __init__(self, host: str, port: int, api_username: str, api_password: str, timeout: float = 5):
         """
         Initializes the Palworld object with the given parameters.
 
@@ -29,17 +29,17 @@ class Palworld(ProtocolBase):
 
         super().__init__(host, port, timeout)
 
-        if app_username is None:
-            raise ValueError("app_username must not be None")
-        if app_password is None:
-            raise ValueError("app_password must not be None")
+        if api_username is None:
+            raise ValueError("api_username must not be None")
+        if api_password is None:
+            raise ValueError("api_password must not be None")
 
         self.api_url = f"http://{self._host}:{self._port}/v1/api"
-        self.app_username = app_username
-        self.app_password = app_password
+        self.api_username = api_username
+        self.api_password = api_password
    
     async def api_request(self,url):
-        auth = aiohttp.BasicAuth(self.app_username,self.app_password)
+        auth = aiohttp.BasicAuth(self.api_username,self.api_password)
         async with aiohttp.ClientSession(auth=auth) as session:
             async with session.get(url) as response:
                 data = await response.json()
@@ -69,10 +69,10 @@ if __name__ == "__main__":
     async def main_async():
         palworld = Palworld(
             host="79.136.0.124",
-            port=8123,
+            port=8212,
             timeout=5.0,
-            app_username="default",
-            app_password="default",
+            api_username="admin",
+            api_password="",
         )
         status = await palworld.get_status()
         print(status)
