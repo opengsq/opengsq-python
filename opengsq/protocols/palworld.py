@@ -3,10 +3,7 @@ import time
 import aiohttp
 
 from opengsq.responses.palworld import Status
-from opengsq.binary_reader import BinaryReader
-from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UdpClient
 
 
 class Palworld(ProtocolBase):
