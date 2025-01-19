@@ -8,7 +8,7 @@ from opengsq.protocol_base import ProtocolBase
 
 class Palworld(ProtocolBase):
     """
-    This class represents the Palworld Protocol. It provides methods to interact with the Palworld Rest API.
+    This class represents the Palworld Protocol. It provides methods to interact with the Palworld REST API.
     """
 
     full_name = "Palworld Protocol"
@@ -36,6 +36,9 @@ class Palworld(ProtocolBase):
         self.api_password = api_password
    
     async def api_request(self,url):
+        """
+        Asynchronously retrieves data from the game server through the REST API.
+        """
         auth = aiohttp.BasicAuth(self.api_username,self.api_password)
         async with aiohttp.ClientSession(auth=auth) as session:
             async with session.get(url) as response:
@@ -44,7 +47,7 @@ class Palworld(ProtocolBase):
 
     async def get_status(self) -> Status:
         """
-        Asynchronously retrieves the status of the game server. The status includes the server state, name, player count and max player count.
+        Retrieves the status of the game server. The status includes the server state, name, player count and max player count.
         """
         info_data = await self.api_request(f"{self.api_url}/info")
         metrics_data = await self.api_request(f"{self.api_url}/metrics")
