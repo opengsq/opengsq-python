@@ -10,6 +10,7 @@ from opengsq.protocols.gamespy4 import GameSpy4
 from opengsq.protocols.kaillera import Kaillera
 from opengsq.protocols.killingfloor import KillingFloor
 from opengsq.protocols.minecraft import Minecraft
+from opengsq.protocols.palworld import Palworld
 from opengsq.protocols.quake1 import Quake1
 from opengsq.protocols.quake2 import Quake2
 from opengsq.protocols.quake3 import Quake3

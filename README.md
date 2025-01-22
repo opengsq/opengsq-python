@@ -27,6 +27,7 @@ from opengsq.protocols import (
     Kaillera,
     KillingFloor,
     Minecraft,
+    Palworld,
     Quake1,
     Quake2,
     Quake3,
