@@ -21,6 +21,12 @@ class Socket():
         self.__protocol = None
         self.__kind = kind
 
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc_value, traceback):
+        self.close()
+
     def __enter__(self):
         return self
 
@@ -59,7 +65,14 @@ class Socket():
         else:
             self.__transport.sendto(data)
 
-    async def recv(self) -> bytes:
+    async def recv(self, size: int = None) -> bytes:
+        if size:
+            data = b""
+            while len(data) < size:
+                chunk = await self.__protocol.recv()
+                data += chunk
+                if len(data) >= size:
+                    return data[:size]
         return await self.__protocol.recv()
 
     class __Protocol(asyncio.Protocol):
