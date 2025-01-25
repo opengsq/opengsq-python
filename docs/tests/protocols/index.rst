@@ -16,6 +16,8 @@ Protocols Tests
 	test_kaillera/index
 	test_killingfloor/index
 	test_minecraft/index
+	test_nadeo/index
+	test_palworld/index
 	test_quake1/index
 	test_quake2/index
 	test_quake3/index
