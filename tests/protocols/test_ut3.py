@@ -3,6 +3,7 @@ from opengsq.protocols.ut3 import UT3
 from ..result_handler import ResultHandler
 
 handler = ResultHandler(__file__)
+handler.enable_save = True
 
 @pytest.mark.asyncio
 async def test_ut3_status():
