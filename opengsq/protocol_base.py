@@ -11,3 +11,4 @@ class ProtocolBase(abc.ABC):
         self._host = host
         self._port = port
         self._timeout = timeout
+        self._allow_broadcast = False
