@@ -38,7 +38,9 @@ from opengsq.protocols import (
     Scum,
     Source,
     TeamSpeak3,
+    UDK,
     Unreal2,
+    UT3,
     Vcmp,
     WON,
 )
