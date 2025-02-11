@@ -58,6 +58,7 @@ class Toxikk(UDK):
     def __init__(self, host: str, port: int = 14001, timeout: float = 5.0):
         super().__init__(host, port, timeout)
         self.game_id = 0x4D5707DB
+        self.packet_version = 7
 
     def _parse_response(self, buffer: bytes) -> dict:
         base_response = super()._parse_response(buffer)
