@@ -85,9 +85,7 @@ class Toxikk(UDK):
             setting_id = setting['id']
             value_index = setting['value_index']
             
-            if setting_id == 32779:  # Game Mode
-                toxikk_properties['gamemode'] = self.GAMEMODE_NAMES.get(value_index, f"Unknown_{value_index}")
-            elif setting_id == 0:
+            if setting_id == 0:
                 toxikk_properties['bot_skill'] = self.BOT_SKILL_NAMES.get(value_index)
             elif setting_id == 6:
                 toxikk_properties['pure_server'] = value_index
