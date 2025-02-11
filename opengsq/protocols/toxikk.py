@@ -5,10 +5,10 @@ class Toxikk(UDK):
     GAMEMODE_NAMES = {
         "cruzade.CRZBloodLust": "BloodLust",
         "cruzade.CRZTeamGame": "Squad Assault",
-        "Cruzade.CRZSquadSurvival": "Squad Survival",
+        "cruzade.CRZSquadSurvival": "Squad Survival",
         "cruzade.CRZCellCapture": "Cell Capture",
-        "Cruzade.CRZAreaDomination": "Area Domination",
-        "Cruzade.CRZArchRivals": "Arch Rivals"
+        "cruzade.CRZAreaDomination": "Area Domination",
+        "cruzade.CRZArchRivals": "Arch Rivals"
     }
 
     MUTATOR_NAMES = {
