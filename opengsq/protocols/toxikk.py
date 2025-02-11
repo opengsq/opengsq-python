@@ -1,7 +1,7 @@
 from opengsq.protocols.udk import UDK
 from opengsq.responses.toxikk.status import Status
 
-class TOXIKK(UDK):
+class Toxikk(UDK):
     GAMEMODE_NAMES = {
         0: "Deathmatch",
         1: "Team Deathmatch", 

@@ -6,7 +6,7 @@ handler = ResultHandler(__file__)
 #handler.enable_save = True
 
 @pytest.mark.asyncio
-async def test_ut3_status():
+async def test_toxikk_status():
    toxikk = TOXIKK(host="10.13.37.149", port=14001)
    result = await toxikk.get_status()
 
