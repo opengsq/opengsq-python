@@ -1,5 +1,5 @@
 import pytest
-from opengsq.protocols.toxikk import TOXIKK
+from opengsq.protocols.toxikk import Toxikk
 from ..result_handler import ResultHandler
 
 handler = ResultHandler(__file__)
@@ -7,7 +7,7 @@ handler = ResultHandler(__file__)
 
 @pytest.mark.asyncio
 async def test_toxikk_status():
-   toxikk = TOXIKK(host="10.13.37.149", port=14001)
+   toxikk = Toxikk(host="10.13.37.149", port=14001)
    result = await toxikk.get_status()
 
    print("\nToxikk Server Details:")
