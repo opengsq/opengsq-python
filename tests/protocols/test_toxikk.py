@@ -3,7 +3,7 @@ from opengsq.protocols.toxikk import Toxikk
 from ..result_handler import ResultHandler
 
 handler = ResultHandler(__file__)
-#handler.enable_save = True
+handler.enable_save = True
 
 @pytest.mark.asyncio
 async def test_toxikk_status():
