@@ -21,6 +21,7 @@ from opengsq.protocols.satisfactory import Satisfactory
 from opengsq.protocols.scum import Scum
 from opengsq.protocols.source import Source
 from opengsq.protocols.teamspeak3 import TeamSpeak3
+from opengsq.protocols.toxikk import Toxikk
 from opengsq.protocols.udk import UDK
 from opengsq.protocols.unreal2 import Unreal2
 from opengsq.protocols.ut3 import UT3
