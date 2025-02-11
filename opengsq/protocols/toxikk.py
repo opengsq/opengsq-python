@@ -1,5 +1,5 @@
 from opengsq.protocols.udk import UDK
-from opengsq.responses.ut3.status import Status
+from opengsq.responses.toxikk.status import Status
 
 class TOXIKK(UDK):
     GAMEMODE_NAMES = {
