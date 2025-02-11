@@ -3,16 +3,12 @@ from opengsq.responses.toxikk.status import Status
 
 class Toxikk(UDK):
     GAMEMODE_NAMES = {
-        0: "Deathmatch",
-        1: "Team Deathmatch", 
-        2: "Capture The Flag",
-        3: "Vehicle CTF",
-        4: "Warfare",
-        5: "Duel",
-        6: "Campaign",
-        7: "Greed",
-        8: "Betrayal",
-        9: "Custom"
+        "cruzade.CRZBloodLust": "BloodLust",
+        "cruzade.CRZTeamGame": "Squad Assault",
+        "Cruzade.CRZSquadSurvival": "Squad Survival",
+        "cruzade.CRZCellCapture": "Cell Capture",
+        "Cruzade.CRZAreaDomination": "Area Domination",
+        "Cruzade.CRZArchRivals": "Arch Rivals"
     }
 
     MUTATOR_NAMES = {
@@ -72,7 +68,7 @@ class Toxikk(UDK):
                 toxikk_properties['map'] = prop['data']
             elif prop_id == 1073741826:     # Game Type
                 base_response['game_type'] = prop['data']
-                toxikk_properties['gametype'] = prop['data']
+                toxikk_properties['gametype'] = self.GAMEMODE_NAMES.get(prop['data'], prop['data'])
             elif prop_id == 268435704:      # Frag Limit
                 toxikk_properties['frag_limit'] = prop['data']
             elif prop_id == 268435705:      # Time Limit
