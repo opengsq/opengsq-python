@@ -42,8 +42,8 @@ class Toxikk(UDK):
         toxikk_properties = {}
 
         # Remove mutators from base_response if added
-        # if 'mutators' in base_response:
-        #     del base_response['mutators']
+        if 'mutators' in base_response:
+            del base_response['mutators']
 
         for prop in base_response['raw']['settings_properties']:
             prop_id = prop['id']
@@ -61,7 +61,7 @@ class Toxikk(UDK):
                 toxikk_properties['numbots'] = prop['data']
             elif prop_id == 1073741828:  # Mutators
                 base_response['mutators'] = self._parse_mutators(prop['data'])
-                #toxikk_properties['mutators'] = self._parse_mutators(prop['data'])
+                toxikk_properties['mutators'] = self._parse_mutators(prop['data'])
 
         for setting in base_response['raw']['localized_settings']:
             setting_id = setting['id']
