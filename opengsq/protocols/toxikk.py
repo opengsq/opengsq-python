@@ -55,7 +55,8 @@ class Toxikk(UDK):
             elif prop_id == 268435703:      # Number of Bots
                 toxikk_properties['numbots'] = prop['data']
             elif prop_id == 1073741828:     # Mutators
-                toxikk_properties['mutators'] = self._parse_mutators(prop['data'])
+                base_response['mutators'] = self._parse_mutators(prop['data'])
+                toxikk_properties['mutators'] = base_response['mutators']
 
         for setting in base_response['raw']['localized_settings']:
             setting_id = setting['id']
