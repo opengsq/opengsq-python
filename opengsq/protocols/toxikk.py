@@ -75,10 +75,8 @@ class Toxikk(UDK):
                 toxikk_properties['time_limit'] = prop['data']
             elif prop_id == 268435703:      # Number of Bots
                 toxikk_properties['numbots'] = prop['data']
-            if prop_id == 268435717:  # Stock Mutators
-                toxikk_properties['stock_mutators'] = self._parse_mutators(prop['data'])
-            elif prop_id == 1073741828:  # Custom Mutators
-                toxikk_properties['custom_mutators'] = self._parse_mutators(prop['data'])
+            elif prop_id == 0x40000004:  # Mutators section
+                toxikk_properties['mutators'] = self._parse_mutators(prop['data'])
 
         # Process localized settings
         for setting in base_response['raw']['localized_settings']:
@@ -101,10 +99,7 @@ class Toxikk(UDK):
         return base_response
 
     def _parse_mutators(self, mutator_value: any) -> list:
-        if not mutator_value:
+        if not mutator_value or not isinstance(mutator_value, str):
             return []
-        try:
-            int_value = int(mutator_value)
-            return [name for flag, name in self.MUTATOR_NAMES.items() if int_value & flag]
-        except (ValueError, TypeError):
-            return []
+        mutators = mutator_value.split('\x1c')
+        return [mutator.title() for mutator in mutators if mutator]
