@@ -4,49 +4,29 @@ from opengsq.responses.toxikk.status import Status
 class Toxikk(UDK):
     GAMEMODE_NAMES = {
         "cruzade.CRZBloodLust": "BloodLust",
-        "cruzade.CRZTeamGame": "Squad Assault",
+        "cruzade.CRZTeamGame": "Squad Assault", 
         "cruzade.CRZSquadSurvival": "Squad Survival",
         "cruzade.CRZCellCapture": "Cell Capture",
         "cruzade.CRZAreaDomination": "Area Domination",
         "cruzade.CRZArchRivals": "Arch Rivals"
     }
 
-    MUTATOR_NAMES = {
-        0x1: "SlowTimeKills",
-        0x2: "BigHead",
-        0x4: "NoOrbs",
-        0x8: "FriendlyFire", 
-        0x10: "Handicap",
-        0x20: "Instagib",
-        0x40: "LowGrav",
-        0x80: "NoPowerups",
-        0x100: "NoTranslocator",
-        0x200: "Slomo",
-        0x400: "SpeedFreak",
-        0x800: "SuperBerserk",
-        0x1000: "WeaponReplacement",
-        0x2000: "WeaponsRespawn",
-        0x4000: "Survival",
-        0x8000: "Hero",
-        0x10000: "Arena"
-    }
-
     BOT_SKILL_NAMES = {
-    0: "Novice",
-    1: "Average", 
-    2: "Experienced",
-    3: "Skilled",
-    4: "Adept",
-    5: "Masterful",
-    6: "Inhuman",
-    7: "Godlike"
+        0: "Novice",
+        1: "Average",
+        2: "Experienced", 
+        3: "Skilled",
+        4: "Adept",
+        5: "Masterful",
+        6: "Inhuman",
+        7: "Godlike"
     }
 
     VS_BOTS_NAMES = {
-    0: "None",
-    1: "1:1",
-    2: "3:2", 
-    3: "2:1"
+        0: "None",
+        1: "1:1",
+        2: "3:2",
+        3: "2:1"
     }
 
     full_name = "Toxikk Protocol"
@@ -59,7 +39,6 @@ class Toxikk(UDK):
     def _parse_response(self, buffer: bytes) -> dict:
         base_response = super()._parse_response(buffer)
         
-        # Process properties
         toxikk_properties = {}
         for prop in base_response['raw']['settings_properties']:
             prop_id = prop['id']
@@ -75,10 +54,11 @@ class Toxikk(UDK):
                 toxikk_properties['time_limit'] = prop['data']
             elif prop_id == 268435703:      # Number of Bots
                 toxikk_properties['numbots'] = prop['data']
-            elif prop_id == 0x40000004:  # Mutators section
-                toxikk_properties['mutators'] = self._parse_mutators(prop['data'])
+            elif prop_id == 1073741828:  # Mutators
+                mutators = self._parse_mutators(prop['data'])
+                base_response['mutators'] = mutators
+                toxikk_properties['mutators'] = mutators
 
-        # Process localized settings
         for setting in base_response['raw']['localized_settings']:
             setting_id = setting['id']
             value_index = setting['value_index']
@@ -101,5 +81,4 @@ class Toxikk(UDK):
     def _parse_mutators(self, mutator_value: any) -> list:
         if not mutator_value or not isinstance(mutator_value, str):
             return []
-        mutators = mutator_value.split('\x1c')
-        return [mutator.title() for mutator in mutators if mutator]
+        return [m.title() for m in mutator_value.split('\x1c') if m]
