@@ -7,5 +7,3 @@ from opengsq.responses.udk.status import Status as UDKStatus
 class Status(UDKStatus):
     """Toxikk-specific status response"""
     mutators: List[str] = None
-    stock_mutators: List[str] = None
-    custom_mutators: List[str] = None

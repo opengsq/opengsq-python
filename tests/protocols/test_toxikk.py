@@ -28,12 +28,6 @@ async def test_toxikk_status():
    print(f"LAN Mode: {'Yes' if result.lan_mode else 'No'}")
    print(f"Stats Enabled: {'Yes' if result.stats_enabled else 'No'}")
 
-   print("\nMutators:")
-   if 'stock_mutators' in result.raw:
-       stock = result.raw['stock_mutators']
-       print("Stock:", ", ".join(stock) if stock else "None")
-   if 'custom_mutators' in result.raw:
-       custom = result.raw['custom_mutators']
-       print("Custom:", ", ".join(custom) if custom else "None")
+   print("\nMutators:", ", ".join(result.mutators) if result.mutators else "None")
 
    await handler.save_result("test_toxikk_status", result)
