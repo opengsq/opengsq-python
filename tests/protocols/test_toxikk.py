@@ -6,7 +6,7 @@ handler = ResultHandler(__file__)
 
 @pytest.mark.asyncio
 async def test_toxikk_status():
-    toxikk = Toxikk(host="10.13.36.1", port=14001)
+    toxikk = Toxikk(host="10.13.36.149", port=14001)
     result = await toxikk.get_status()
 
     print("\nToxikk Server Details:")
