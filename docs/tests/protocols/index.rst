@@ -11,6 +11,7 @@ Protocols Tests
 	test_minecraft/index
 	test_raknet/index
 	test_eos/index
+	test_renegadex/index
 	test_kaillera/index
 	test_ase/index
 	test_quake1/index
@@ -31,3 +32,4 @@ Protocols Tests
 	test_vcmp/index
 	test_satisfactory/index
 	test_gamespy3/index
+	test_renegadex/index
