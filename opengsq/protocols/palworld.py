@@ -2,7 +2,7 @@ import struct
 import time
 import aiohttp
 
-from opengsq.responses.palworld import Status
+from opengsq.responses.palworld import Player, Status
 from opengsq.protocol_base import ProtocolBase
 
 
@@ -62,6 +62,18 @@ class Palworld(ProtocolBase):
             max_players=server_max_players,
         )
 
+    async def get_players(self) -> list[Player]:
+        players = []
+        player_data = await self.api_request(f"{self.api_url}/players")
+        for obj in player_data["players"]:
+            players.append(
+                Player(
+                    name=obj["name"],
+                    ping=obj["ping"],
+                    level=obj["level"],
+                )
+            )
+        return players
 
 if __name__ == "__main__":
     import asyncio
@@ -76,5 +88,7 @@ if __name__ == "__main__":
         )
         status = await palworld.get_status()
         print(status)
+        players = await palworld.get_players()
+        print(players)
 
     asyncio.run(main_async())
