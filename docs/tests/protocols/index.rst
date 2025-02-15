@@ -7,6 +7,7 @@ Protocols Tests
 	test_gamespy4/index
 	test_teamspeak3/index
 	test_won/index
+	test_toxikk/index
 	test_gamespy1/index
 	test_minecraft/index
 	test_raknet/index
