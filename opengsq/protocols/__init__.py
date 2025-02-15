@@ -16,6 +16,7 @@ from opengsq.protocols.quake1 import Quake1
 from opengsq.protocols.quake2 import Quake2
 from opengsq.protocols.quake3 import Quake3
 from opengsq.protocols.raknet import RakNet
+from opengsq.protocols.renegadex import RenegadeX
 from opengsq.protocols.samp import Samp
 from opengsq.protocols.satisfactory import Satisfactory
 from opengsq.protocols.scum import Scum
