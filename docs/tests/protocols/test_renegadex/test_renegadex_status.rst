@@ -7,7 +7,7 @@ Here are the results for the test method.
 
 	{
 	    "name": "Ich bin ein ziemlich langer Server der nicht weis wie lang das geht",
-	    "current_map": "CNC-Field",
+	    "map": "CNC-Field",
 	    "port": 7777,
 	    "players": 0,
 	    "game_version": "Open Beta 5.85.815",
