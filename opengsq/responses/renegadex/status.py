@@ -32,7 +32,7 @@ class Variables:
 @dataclass
 class Status:
     name: str
-    current_map: str
+    map: str
     port: int
     players: int
     game_version: str
@@ -43,7 +43,7 @@ class Status:
     def from_dict(cls, data: dict[str, Any]) -> 'Status':
         return cls(
             name=data["Name"],
-            current_map=data["Current Map"],
+            map=data["Current Map"],
             port=data["Port"],
             players=data["Players"],
             game_version=data["Game Version"],
