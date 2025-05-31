@@ -193,19 +193,8 @@ class Warcraft3(ProtocolBase):
         )
 
     def _get_map_name_from_settings(self, settings_raw: bytearray) -> str:
-        """Extract map name from settings data - simplified version"""
-        try:
-            # Skip the first few bytes of settings
-            br = BinaryReader(settings_raw[8:])
-            map_name = ""
-            while br.remaining_bytes() > 0:
-                char = int.from_bytes(br.read_bytes(1), 'little')
-                if char == 0:
-                    break
-                map_name += chr(char)
-            return map_name
-        except:
-            return "Unknown"
+        """Map name parsing is skipped due to encoding complexity"""
+        return "Map name unavailable"
 
     def _get_game_type(self, flags: GameFlags) -> str:
         """Convert game flags to a readable game type"""
