@@ -3,9 +3,8 @@ from __future__ import annotations
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
 from opengsq.binary_reader import BinaryReader
-from opengsq.responses.warcraft3 import Status, Player
+from opengsq.responses.warcraft3 import Status
 from enum import IntFlag, IntEnum
-from typing import List, Optional
 
 class GameFlags(IntFlag):
     """Game flags based on the Go implementation"""
@@ -188,7 +187,6 @@ class Warcraft3(ProtocolBase):
             game_type=self._get_game_type(game_flags),
             num_players=slots_used,
             max_players=slots_total,
-            players=[],  # Would need additional packet parsing for player info
             raw=raw
         )
 

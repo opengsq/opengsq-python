@@ -1,6 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Dict, Any
-from opengsq.responses.warcraft3.player import Player
+from typing import Dict, Any
 
 @dataclass
 class Status:
@@ -13,5 +12,4 @@ class Status:
     game_type: str
     num_players: int
     max_players: int
-    players: List[Player]
     raw: Dict[str, Any] 

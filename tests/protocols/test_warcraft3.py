@@ -17,10 +17,6 @@ async def test_warcraft3_status():
     print(f"Game Type: {result.game_type}")
     print(f"Players: {result.num_players}/{result.max_players}")
 
-    print("\nPlayers:")
-    for player in result.players:
-        print(f"  {player.name} (Ping: {player.ping}ms)")
-
     # Example raw data that might be useful for debugging
     print("\nRaw Data:")
     if hasattr(result, 'raw'):

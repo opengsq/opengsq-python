@@ -12,7 +12,6 @@ Here are the results for the test method.
 	    "game_type": "Custom Game",
 	    "num_players": 1,
 	    "max_players": 2,
-	    "players": [],
 	    "raw": {
 	        "product": "PX3W",
 	        "version": 26,
