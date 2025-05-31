@@ -29,8 +29,8 @@ Protocols Tests
 	test_palworld/index
 	test_quake2/index
 	test_gamespy2/index
+	test_flatout2/index
 	test_doom3/index
 	test_vcmp/index
 	test_satisfactory/index
 	test_gamespy3/index
-	test_renegadex/index
