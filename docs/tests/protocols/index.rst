@@ -23,6 +23,7 @@ Protocols Tests
 	test_ut3/index
 	test_unreal2/index
 	test_quake3/index
+	test_warcraft3/index
 	test_nadeo/index
 	test_battlefield/index
 	test_fivem/index
