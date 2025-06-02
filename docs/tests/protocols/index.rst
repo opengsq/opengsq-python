@@ -23,14 +23,15 @@ Protocols Tests
 	test_ut3/index
 	test_unreal2/index
 	test_quake3/index
+	test_warcraft3/index
 	test_nadeo/index
 	test_battlefield/index
 	test_fivem/index
 	test_palworld/index
 	test_quake2/index
 	test_gamespy2/index
+	test_flatout2/index
 	test_doom3/index
 	test_vcmp/index
 	test_satisfactory/index
 	test_gamespy3/index
-	test_renegadex/index

@@ -3,6 +3,7 @@ from opengsq.protocols.battlefield import Battlefield
 from opengsq.protocols.doom3 import Doom3
 from opengsq.protocols.eos import EOS
 from opengsq.protocols.fivem import FiveM
+from opengsq.protocols.flatout2 import Flatout2
 from opengsq.protocols.gamespy1 import GameSpy1
 from opengsq.protocols.gamespy2 import GameSpy2
 from opengsq.protocols.gamespy3 import GameSpy3
@@ -27,4 +28,5 @@ from opengsq.protocols.udk import UDK
 from opengsq.protocols.unreal2 import Unreal2
 from opengsq.protocols.ut3 import UT3
 from opengsq.protocols.vcmp import Vcmp
+from opengsq.protocols.warcraft3 import Warcraft3
 from opengsq.protocols.won import WON
