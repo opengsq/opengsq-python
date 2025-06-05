@@ -84,13 +84,8 @@ class Flatout2(ProtocolBase):
             print(f"Packet too short: {len(data)} bytes")
             return False
 
-        # Check response header
-        header_matches = data.startswith(self.RESPONSE_HEADER)
-        if not header_matches:
-            print(f"Header mismatch: got {data[:2].hex()}, expected {self.RESPONSE_HEADER.hex()}")
-            return False
-
         # Check game identifier (position 10-14, after session ID and padding)
+        # This is the most reliable indicator for Flatout 2 servers
         game_id = data[10:14]
         game_id_matches = game_id == self.GAME_IDENTIFIER
         if not game_id_matches:
