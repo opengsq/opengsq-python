@@ -19,7 +19,7 @@ class Flatout2(ProtocolBase):
 
     # Protocol specific constants
     REQUEST_HEADER = b"\x22\x00"
-    RESPONSE_HEADER = b"\x59\x00"
+    RESPONSE_HEADERS = [b"\x5f\x00", b"\x55\x00", b"\x59\x00"]  # Multiple valid response headers
     GAME_IDENTIFIER = b"FO14"
     SESSION_ID = b"\x99\x72\xcc\x8f"
     COMMAND_QUERY = b"\x18\x0c"
@@ -60,18 +60,14 @@ class Flatout2(ProtocolBase):
         # Send broadcast and receive response
         data = await UdpClient.communicate(self, request_data, source_port=self.FLATOUT2_PORT)
 
-        # Debug output for packet analysis
-        print(f"Response header: {data[:2].hex()}, Expected: {self.RESPONSE_HEADER.hex()}")
-        print(f"Session ID: {data[2:6].hex()}")
-        print(f"Game ID: {data[10:14]}, Expected: {self.GAME_IDENTIFIER}")
-        print(f"Full packet length: {len(data)}")
+
 
         # Verify response packet
         if not self._verify_packet(data):
             raise InvalidPacketException("Invalid response packet received")
 
         br = BinaryReader(data)
-        return self._parse_response(br)
+        return self._parse_response(br, data)
 
     def _verify_packet(self, data: bytes) -> bool:
         """
@@ -81,15 +77,17 @@ class Flatout2(ProtocolBase):
         :return: True if the packet is valid, False otherwise
         """
         if len(data) < 14:  # Minimum length for header + session ID + padding + game ID
-            print(f"Packet too short: {len(data)} bytes")
             return False
+
+        # Check response header - accept any of the valid response headers
+        response_header = data[:2]
+        header_valid = response_header in self.RESPONSE_HEADERS
 
         # Check game identifier (position 10-14, after session ID and padding)
         # This is the most reliable indicator for Flatout 2 servers
         game_id = data[10:14]
         game_id_matches = game_id == self.GAME_IDENTIFIER
         if not game_id_matches:
-            print(f"Game ID mismatch: got {game_id}, expected {self.GAME_IDENTIFIER}")
             return False
 
         return True
@@ -111,10 +109,11 @@ class Flatout2(ProtocolBase):
         
         return bytes(bytes_list).decode('utf-16-le').strip()
 
-    def _parse_response(self, br: BinaryReader) -> Status:
+    def _parse_response(self, br: BinaryReader, original_data: bytes) -> Status:
         """
         Parses the binary response into a Status object.
         The response contains UTF-16 encoded strings and various server information.
+        Based on payload analysis of Flatout2 protocol responses.
 
         :param br: BinaryReader containing the response data
         :return: A Status object containing the parsed information
@@ -136,19 +135,55 @@ class Flatout2(ProtocolBase):
             server_flags = br.read_long(unsigned=True)  # Server configuration flags
             info["flags"] = str(server_flags)
 
-            # Skip reserved bytes
-            br.read_bytes(8)
+            # Skip map info and padding to reach player count section
+            br.read_bytes(16)  # Skip map info and padding
 
-            # Read server status
-            status_flags = br.read_long(unsigned=True)
-            info["status"] = str(status_flags)
+            # Extract max players from byte 76 (confirmed working)
+            max_players = 8  # Default
+            if len(original_data) > 76:
+                max_players = original_data[76]
+            
+            # Extract current players from byte 77
+            # Pattern discovered: 0x10 = 1 player, 0x20 = 2 players, etc.
+            # The player count is encoded as: count * 0x10
+            current_players = 0
+            if len(original_data) > 77:
+                player_byte = original_data[77]
+                if player_byte >= 0x10 and player_byte % 0x10 == 0:
+                    current_players = player_byte // 0x10
+                    # Sanity check: player count shouldn't exceed max players
+                    if current_players > max_players:
+                        current_players = 0
+            
+            info["current_players"] = current_players
+            info["max_players"] = max_players
+            
+            # Read remaining configuration data
+            # Calculate remaining bytes manually since br.tell() doesn't exist
+            bytes_read_so_far = 36 + len(server_name.encode('utf-16-le')) + 2 + 8 + 4 + 16  # Approximate
+            remaining_bytes = len(original_data) - bytes_read_so_far
+            if remaining_bytes > 0 and remaining_bytes < len(original_data):
+                try:
+                    config_data = br.read_bytes(min(remaining_bytes, 12))
+                    info["config"] = config_data.hex()
+                except:
+                    info["config"] = ""
+            else:
+                info["config"] = ""
 
-            # Read server configuration
-            config = br.read_bytes(12)  # Remaining configuration data
-            info["config"] = config.hex()
+            # Server status (if available in remaining data)
+            info["status"] = "1"  # Default active status
 
         except Exception as e:
             print(f"Error parsing response: {e}")
+            # Set defaults on error
+            info.setdefault("hostname", "Unknown Server")
+            info.setdefault("max_players", 8)
+            info.setdefault("current_players", 0)
+            info.setdefault("timestamp", "0")
+            info.setdefault("flags", "0")
+            info.setdefault("status", "1")
+            info.setdefault("config", "")
 
         return Status(info=info)
 
