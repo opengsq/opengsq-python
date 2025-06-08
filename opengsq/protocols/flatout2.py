@@ -25,6 +25,142 @@ class Flatout2(ProtocolBase):
     COMMAND_QUERY = b"\x18\x0c"
     PACKET_END = b"\x2e\x55\x19\xb4\xe1\x4f\x81\x4a"
 
+    # Map ID to name mapping (discovered through payload analysis)
+    # Map ID is a single byte located at offset 95 (second-to-last position)
+    # Track Type is a separate byte located at offset 94
+    MAP_ID_TO_NAME = {
+        # Farmlands series (Feld)
+        0x04: "Farmlands 2",
+        0x14: "Farmlands 3", 
+        0xF4: "Farmlands 1",
+        
+        # Water Canal series (Kanal)
+        0x04: "Water Canal 1",  # Note: Same ID as Farmlands 2, differentiated by track type
+        0x14: "Water Canal 2",  # Note: Same ID as Farmlands 3, differentiated by track type
+        0x24: "Water Canal 3",
+        
+        # Timberlands series (Wald)
+        0x14: "Timberlands 1",  # Note: Same ID as others, differentiated by track type
+        0x24: "Timberlands 2",
+        0x34: "Timberlands 3",
+        
+        # Pinegrove series (Wald)
+        0x44: "Pinegrove 1",
+        0x54: "Pinegrove 2",
+        0x64: "Pinegrove 3",
+        
+        # Midwest Ranch series (Feld)
+        0xC4: "Midwest Ranch 1",
+        0xD4: "Midwest Ranch 2",
+        0xE4: "Midwest Ranch 3",
+        
+        # City Central series (Stadt)
+        0xA4: "City Central 1",
+        0xB4: "City Central 2",
+        0xC4: "City Central 3",  # Note: Same ID as Midwest Ranch 1, differentiated by track type
+        
+        # Downtown series (Stadt)
+        0xD4: "Downtown 1",      # Note: Same ID as Midwest Ranch 2, differentiated by track type
+        0xE4: "Downtown 2",      # Note: Same ID as Midwest Ranch 3, differentiated by track type
+        0xF4: "Downtown 3",      # Note: Same ID as Farmlands 1, differentiated by track type
+        
+        # Desert series (Wüste)
+        0x64: "Desert Oil Field", # Note: Same ID as Pinegrove 3, differentiated by track type
+        0x74: "Desert Scrap Yard",
+        0x84: "Desert Town",
+        
+        # Riverbay Circuit series (Rennen)
+        0x84: "Riverbay Circuit 1", # Note: Same ID as Desert Town, differentiated by track type
+        0x94: "Riverbay Circuit 2",
+        0xA4: "Riverbay Circuit 3", # Note: Same ID as City Central 1, differentiated by track type
+        
+        # Motor Raceway series (Rennen)
+        0xB4: "Motor Raceway 1",    # Note: Same ID as City Central 2, differentiated by track type
+        0xC4: "Motor Raceway 2",    # Note: Same ID as others, differentiated by track type
+        0xD4: "Motor Raceway 3",    # Note: Same ID as others, differentiated by track type
+        
+        # Arena tracks
+        0x04: "Crash Alley",        # Note: Same ID as others, differentiated by track type
+        0x14: "Speedway Left",      # Note: Same ID as others, differentiated by track type
+        0x24: "Speedway Right",     # Note: Same ID as Water Canal 3, differentiated by track type
+        0x34: "Speedway Special",   # Note: Same ID as Timberlands 3, differentiated by track type
+        0xB4: "Figure of Eight 1",  # Note: Same ID as others, differentiated by track type
+        0xC4: "Triloop Special",    # Note: Same ID as others, differentiated by track type
+        0xD4: "Speedbowl",          # Note: Same ID as others, differentiated by track type
+        0xE4: "Sand Speedway",      # Note: Same ID as others, differentiated by track type
+        0xF4: "Figure of Eight 2",  # Note: Same ID as others, differentiated by track type
+    }
+    
+    # Complete track type mapping (byte at offset 94)
+    TRACK_TYPE_NAMES = {
+        0x10: "Wald",    # Forest tracks (Timberlands, Pinegrove, City Central, Downtown)
+        0x11: "Feld",    # Field tracks (Farmlands, Midwest Ranch, Water Canal, Desert)
+        0x12: "Rennen",  # Race tracks (Riverbay Circuit, Motor Raceway, some Farmlands)
+        0x13: "Arena",   # Arena tracks (Figure of Eight, Triloop Special, Speedbowl, Sand Speedway)
+        0x14: "Arena",   # Arena tracks (Crash Alley, Speedway variants)
+    }
+    
+    # Combined mapping for precise track identification
+    # Key format: (track_type_id, map_id) -> track_name
+    PRECISE_TRACK_MAPPING = {
+        # Feld tracks with Track Type 0x12
+        (0x12, 0x04): "Farmlands 2",
+        (0x12, 0x14): "Farmlands 3",
+        
+        # Kanal tracks with Track Type 0x11
+        (0x11, 0x04): "Water Canal 1",
+        (0x11, 0x14): "Water Canal 2",
+        (0x11, 0x24): "Water Canal 3",
+        
+        # Wald tracks with Track Type 0x10
+        (0x10, 0x14): "Timberlands 1",
+        (0x10, 0x24): "Timberlands 2",
+        (0x10, 0x34): "Timberlands 3",
+        (0x10, 0x44): "Pinegrove 1",
+        (0x10, 0x54): "Pinegrove 2",
+        (0x10, 0x64): "Pinegrove 3",
+        
+        # Feld tracks with Track Type 0x11
+        (0x11, 0xC4): "Midwest Ranch 1",
+        (0x11, 0xD4): "Midwest Ranch 2",
+        (0x11, 0xE4): "Midwest Ranch 3",
+        (0x11, 0xF4): "Farmlands 1",
+        
+        # Stadt tracks with Track Type 0x10
+        (0x10, 0xA4): "City Central 1",
+        (0x10, 0xB4): "City Central 2",
+        (0x10, 0xC4): "City Central 3",
+        (0x10, 0xD4): "Downtown 1",
+        (0x10, 0xE4): "Downtown 2",
+        (0x10, 0xF4): "Downtown 3",
+        
+        # Wüste tracks with Track Type 0x11
+        (0x11, 0x64): "Desert Oil Field",
+        (0x11, 0x74): "Desert Scrap Yard",
+        (0x11, 0x84): "Desert Town",
+        
+        # Rennen tracks with Track Type 0x12
+        (0x12, 0x84): "Riverbay Circuit 1",
+        (0x12, 0x94): "Riverbay Circuit 2",
+        (0x12, 0xA4): "Riverbay Circuit 3",
+        (0x12, 0xB4): "Motor Raceway 1",
+        (0x12, 0xC4): "Motor Raceway 2",
+        (0x12, 0xD4): "Motor Raceway 3",
+        
+        # Arena tracks with Track Type 0x13
+        (0x13, 0xB4): "Figure of Eight 1",
+        (0x13, 0xC4): "Triloop Special",
+        (0x13, 0xD4): "Speedbowl",
+        (0x13, 0xE4): "Sand Speedway",
+        (0x13, 0xF4): "Figure of Eight 2",
+        
+        # Arena tracks with Track Type 0x14
+        (0x14, 0x04): "Crash Alley",
+        (0x14, 0x14): "Speedway Left",
+        (0x14, 0x24): "Speedway Right",
+        (0x14, 0x34): "Speedway Special",
+    }
+
     def __init__(self, host: str, port: int = FLATOUT2_PORT, timeout: float = 5.0):
         """
         Initialize the Flatout 2 protocol handler.
@@ -109,6 +245,40 @@ class Flatout2(ProtocolBase):
         
         return bytes(bytes_list).decode('utf-16-le').strip()
 
+    def _extract_map_name(self, data: bytes, server_name: str) -> str:
+        """
+        Extracts the map name from the payload data.
+        Map ID is located at offset 95 (second-to-last byte).
+        Track Type is located at offset 94 (third-to-last byte).
+
+        :param data: The complete response data
+        :param server_name: The server name (unused, kept for compatibility)
+        :return: The map name or "Unknown Map" if not found
+        """
+        try:
+            # Map ID is at offset 95, Track Type is at offset 94
+            if len(data) >= 3:
+                track_type_id = data[-3]  # Third-to-last byte (offset 94)
+                map_id = data[-2]         # Second-to-last byte (offset 95)
+                
+                # First try precise mapping using both track type and map ID
+                precise_key = (track_type_id, map_id)
+                if precise_key in self.PRECISE_TRACK_MAPPING:
+                    track_name = self.PRECISE_TRACK_MAPPING[precise_key]
+                    track_type_name = self.TRACK_TYPE_NAMES.get(track_type_id, f"Type{track_type_id:02X}")
+                    return f"{track_name} ({track_type_name})"
+                
+                # Fallback to track type name if precise mapping not found
+                track_type_name = self.TRACK_TYPE_NAMES.get(track_type_id, f"Type{track_type_id:02X}")
+                return f"{track_type_name} Track (ID: 0x{map_id:02X})"
+                
+            else:
+                return "Unknown Map"
+                
+        except Exception as e:
+            print(f"Error extracting map name: {e}")
+            return "Unknown Map"
+
     def _parse_response(self, br: BinaryReader, original_data: bytes) -> Status:
         """
         Parses the binary response into a Status object.
@@ -127,6 +297,11 @@ class Flatout2(ProtocolBase):
             # Read server name (UTF-16 encoded)
             server_name = self._read_utf16_string(br)
             info["hostname"] = server_name
+
+            # Extract map information from the payload
+            # Map ID at offset 95, Track Type at offset 94
+            map_name = self._extract_map_name(original_data, server_name)
+            info["map"] = map_name
 
             # Read server information
             timestamp = br.read_long_long()  # Server timestamp
@@ -178,6 +353,7 @@ class Flatout2(ProtocolBase):
             print(f"Error parsing response: {e}")
             # Set defaults on error
             info.setdefault("hostname", "Unknown Server")
+            info.setdefault("map", "Unknown Map")
             info.setdefault("max_players", 8)
             info.setdefault("current_players", 0)
             info.setdefault("timestamp", "0")
