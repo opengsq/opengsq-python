@@ -279,6 +279,27 @@ class Flatout2(ProtocolBase):
             print(f"Error extracting map name: {e}")
             return "Unknown Map"
 
+    def _extract_lap_count(self, data: bytes) -> int:
+        """
+        Extracts the lap count from the payload data.
+        Lap count is encoded in the end byte (offset 96, last byte).
+        Formula: lap_count = (end_byte & 0xF0) >> 4
+
+        :param data: The complete response data
+        :return: The lap count or 0 if not found
+        """
+        try:
+            if len(data) >= 1:
+                end_byte = data[-1]  # Last byte (offset 96)
+                # Extract lap count from upper 4 bits
+                lap_count = (end_byte & 0xF0) >> 4
+                return lap_count
+            else:
+                return 0
+        except Exception as e:
+            print(f"Error extracting lap count: {e}")
+            return 0
+
     def _parse_response(self, br: BinaryReader, original_data: bytes) -> Status:
         """
         Parses the binary response into a Status object.
@@ -303,6 +324,11 @@ class Flatout2(ProtocolBase):
             map_name = self._extract_map_name(original_data, server_name)
             info["map"] = map_name
 
+            # Extract lap count from the payload
+            # Lap count is encoded in the end byte (offset 96)
+            lap_count = self._extract_lap_count(original_data)
+            info["lap_count"] = lap_count
+
             # Read server information
             timestamp = br.read_long_long()  # Server timestamp
             info["timestamp"] = str(timestamp)
@@ -313,22 +339,24 @@ class Flatout2(ProtocolBase):
             # Skip map info and padding to reach player count section
             br.read_bytes(16)  # Skip map info and padding
 
-            # Extract max players from byte 76 (confirmed working)
+            # Extract player counts from the correct byte positions
+            # The player counts are at fixed positions relative to the end of the payload
+            # Max players at -11 bytes from end, Current players at -10 bytes from end
             max_players = 8  # Default
-            if len(original_data) > 76:
-                max_players = original_data[76]
+            current_players = 0  # Default
             
-            # Extract current players from byte 77
-            # Pattern discovered: 0x10 = 1 player, 0x20 = 2 players, etc.
-            # The player count is encoded as: count * 0x10
-            current_players = 0
-            if len(original_data) > 77:
-                player_byte = original_data[77]
-                if player_byte >= 0x10 and player_byte % 0x10 == 0:
-                    current_players = player_byte // 0x10
-                    # Sanity check: player count shouldn't exceed max players
-                    if current_players > max_players:
-                        current_players = 0
+            if len(original_data) >= 11:
+                max_players_pos = len(original_data) - 11  # 11 bytes from end
+                current_players_pos = len(original_data) - 10  # 10 bytes from end
+                
+                max_players = original_data[max_players_pos]
+                current_players_raw = original_data[current_players_pos]
+                # Current players are encoded as count * 0x10
+                current_players = current_players_raw // 0x10 if current_players_raw > 0 else 0
+                
+                # Sanity check: current players shouldn't exceed max players
+                if current_players > max_players:
+                    current_players = max_players
             
             info["current_players"] = current_players
             info["max_players"] = max_players
@@ -354,6 +382,7 @@ class Flatout2(ProtocolBase):
             # Set defaults on error
             info.setdefault("hostname", "Unknown Server")
             info.setdefault("map", "Unknown Map")
+            info.setdefault("lap_count", 0)
             info.setdefault("max_players", 8)
             info.setdefault("current_players", 0)
             info.setdefault("timestamp", "0")
