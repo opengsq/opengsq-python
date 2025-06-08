@@ -25,6 +25,13 @@ class Flatout2(ProtocolBase):
     COMMAND_QUERY = b"\x18\x0c"
     PACKET_END = b"\x2e\x55\x19\xb4\xe1\x4f\x81\x4a"
 
+    # Game Mode Identifiers (byte at position -7 from end)
+    GAME_MODE_IDENTIFIERS = {
+        0x61: "Race",    # Rennen
+        0x63: "Derby",   # Derby
+        0x65: "Stunt",   # Stunt
+    }
+
     # Map ID to name mapping (discovered through payload analysis)
     # Map ID is a single byte located at offset 95 (second-to-last position)
     # Track Type is a separate byte located at offset 94
@@ -89,6 +96,12 @@ class Flatout2(ProtocolBase):
         0xD4: "Speedbowl",          # Note: Same ID as others, differentiated by track type
         0xE4: "Sand Speedway",      # Note: Same ID as others, differentiated by track type
         0xF4: "Figure of Eight 2",  # Note: Same ID as others, differentiated by track type
+        
+        # Derby-specific maps (new discoveries)
+        0x46: "Derby Arena",        # Derby-specific map
+        
+        # Stunt-specific maps (new discoveries)
+        0x62: "Stunt Arena",        # Stunt-specific map
     }
     
     # Complete track type mapping (byte at offset 94)
@@ -96,8 +109,8 @@ class Flatout2(ProtocolBase):
         0x10: "Wald",    # Forest tracks (Timberlands, Pinegrove, City Central, Downtown)
         0x11: "Feld",    # Field tracks (Farmlands, Midwest Ranch, Water Canal, Desert)
         0x12: "Rennen",  # Race tracks (Riverbay Circuit, Motor Raceway, some Farmlands)
-        0x13: "Arena",   # Arena tracks (Figure of Eight, Triloop Special, Speedbowl, Sand Speedway)
-        0x14: "Arena",   # Arena tracks (Crash Alley, Speedway variants)
+        0x13: "Arena",   # Arena tracks (Figure of Eight, Triloop Special, Speedbowl, Sand Speedway, Derby)
+        0x14: "Arena",   # Arena tracks (Crash Alley, Speedway variants, Stunt)
     }
     
     # Combined mapping for precise track identification
@@ -154,11 +167,17 @@ class Flatout2(ProtocolBase):
         (0x13, 0xE4): "Sand Speedway",
         (0x13, 0xF4): "Figure of Eight 2",
         
+        # Derby tracks with Track Type 0x13
+        (0x13, 0x46): "Derby Arena",
+        
         # Arena tracks with Track Type 0x14
         (0x14, 0x04): "Crash Alley",
         (0x14, 0x14): "Speedway Left",
         (0x14, 0x24): "Speedway Right",
         (0x14, 0x34): "Speedway Special",
+        
+        # Stunt tracks with Track Type 0x14
+        (0x14, 0x62): "Stunt Arena",
     }
 
     def __init__(self, host: str, port: int = FLATOUT2_PORT, timeout: float = 5.0):
@@ -245,6 +264,24 @@ class Flatout2(ProtocolBase):
         
         return bytes(bytes_list).decode('utf-16-le').strip()
 
+    def _extract_game_mode(self, data: bytes) -> str:
+        """
+        Extracts the game mode from the payload data.
+        Game mode identifier is located at offset -7 (7 bytes from end).
+
+        :param data: The complete response data
+        :return: The game mode name or "Unknown" if not found
+        """
+        try:
+            if len(data) >= 7:
+                game_mode_id = data[-7]  # 7 bytes from end
+                return self.GAME_MODE_IDENTIFIERS.get(game_mode_id, f"Unknown (0x{game_mode_id:02X})")
+            else:
+                return "Unknown"
+        except Exception as e:
+            print(f"Error extracting game mode: {e}")
+            return "Unknown"
+
     def _extract_map_name(self, data: bytes, server_name: str) -> str:
         """
         Extracts the map name from the payload data.
@@ -319,6 +356,11 @@ class Flatout2(ProtocolBase):
             server_name = self._read_utf16_string(br)
             info["hostname"] = server_name
 
+            # Extract game mode from the payload
+            # Game mode identifier at offset -7
+            game_mode = self._extract_game_mode(original_data)
+            info["game_mode"] = game_mode
+
             # Extract map information from the payload
             # Map ID at offset 95, Track Type at offset 94
             map_name = self._extract_map_name(original_data, server_name)
@@ -381,6 +423,7 @@ class Flatout2(ProtocolBase):
             print(f"Error parsing response: {e}")
             # Set defaults on error
             info.setdefault("hostname", "Unknown Server")
+            info.setdefault("game_mode", "Unknown")
             info.setdefault("map", "Unknown Map")
             info.setdefault("lap_count", 0)
             info.setdefault("max_players", 8)
