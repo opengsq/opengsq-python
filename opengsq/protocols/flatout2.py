@@ -270,26 +270,60 @@ class Flatout2(ProtocolBase):
             print(f"Error extracting map name: {e}")
             return "Unknown Map"
 
-    def _extract_lap_count(self, data: bytes) -> int:
+    def _extract_game_limit(self, data: bytes, game_mode: str) -> dict:
         """
-        Extracts the lap count from the payload data.
-        Lap count is encoded in the end byte (offset 96, last byte).
-        Formula: lap_count = (end_byte & 0xF0) >> 4
+        Extracts the game limit from the payload data.
+        The limit is encoded in the end byte (offset 96, last byte) and depends on game mode.
+        Formula: limit = (end_byte & 0xF0) >> 4
 
         :param data: The complete response data
-        :return: The lap count or 0 if not found
+        :param game_mode: The game mode (Race, Derby, Stunt)
+        :return: Dictionary with limit information or defaults if not found
         """
         try:
             if len(data) >= 1:
                 end_byte = data[-1]  # Last byte (offset 96)
-                # Extract lap count from upper 4 bits
-                lap_count = (end_byte & 0xF0) >> 4
-                return lap_count
+                # Extract limit from upper 4 bits
+                limit_value = (end_byte & 0xF0) >> 4
+                
+                if game_mode == "Race":
+                    return {
+                        "lap_count": limit_value,
+                        "time_limit": None,
+                        "has_limit": True
+                    }
+                elif game_mode == "Derby":
+                    return {
+                        "lap_count": None,
+                        "time_limit": limit_value,  # Minutes
+                        "has_limit": True
+                    }
+                elif game_mode == "Stunt":
+                    return {
+                        "lap_count": None,
+                        "time_limit": None,
+                        "has_limit": False
+                    }
+                else:
+                    # Unknown game mode, return raw value
+                    return {
+                        "lap_count": limit_value,
+                        "time_limit": None,
+                        "has_limit": True
+                    }
             else:
-                return 0
+                return {
+                    "lap_count": None,
+                    "time_limit": None,
+                    "has_limit": False
+                }
         except Exception as e:
-            print(f"Error extracting lap count: {e}")
-            return 0
+            print(f"Error extracting game limit: {e}")
+            return {
+                "lap_count": None,
+                "time_limit": None,
+                "has_limit": False
+            }
 
     def _parse_response(self, br: BinaryReader, original_data: bytes) -> Status:
         """
@@ -320,10 +354,15 @@ class Flatout2(ProtocolBase):
             map_name = self._extract_map_name(original_data, server_name)
             info["map"] = map_name
 
-            # Extract lap count from the payload
-            # Lap count is encoded in the end byte (offset 96)
-            lap_count = self._extract_lap_count(original_data)
-            info["lap_count"] = lap_count
+            # Extract game limits from the payload
+            # Limit is encoded in the end byte (offset 96) and depends on game mode:
+            # - Race: lap_count (number of laps)
+            # - Derby: time_limit (minutes)
+            # - Stunt: no limit (unlimited play time)
+            game_limits = self._extract_game_limit(original_data, game_mode)
+            info["lap_count"] = game_limits["lap_count"]
+            info["time_limit"] = game_limits["time_limit"]
+            info["has_limit"] = game_limits["has_limit"]
 
             # Read server information
             timestamp = br.read_long_long()  # Server timestamp
@@ -379,7 +418,9 @@ class Flatout2(ProtocolBase):
             info.setdefault("hostname", "Unknown Server")
             info.setdefault("game_mode", "Unknown")
             info.setdefault("map", "Unknown Map")
-            info.setdefault("lap_count", 0)
+            info.setdefault("lap_count", None)
+            info.setdefault("time_limit", None)
+            info.setdefault("has_limit", False)
             info.setdefault("max_players", 8)
             info.setdefault("current_players", 0)
             info.setdefault("timestamp", "0")
