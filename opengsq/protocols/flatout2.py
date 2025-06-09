@@ -26,12 +26,59 @@ class Flatout2(ProtocolBase):
     PACKET_END = b"\x2e\x55\x19\xb4\xe1\x4f\x81\x4a"
 
     # Car Type Identifiers (byte at position -8 from end)
+    # Based on comprehensive analysis: Car Type + Upgrade Setting combinations
     CAR_TYPE_IDENTIFIERS = {
-        0x08: "Jeder",      # Alle Wagentypen erlaubt
-        0x18: "Derby",      # Derby-Wagen
-        0x28: "Rennen",     # Rennwagen
-        0x38: "Strasse",    # Straßenwagen
-        0xE8: "Wie Host",   # Wagentyp wie Host-Einstellung
+        # Jeder (Alle Wagentypen erlaubt)
+        0x00: "Jeder (0% Upgrades)",
+        0x04: "Jeder (50% Upgrades)", 
+        0x08: "Jeder (100% Upgrades)",
+        0x0C: "Jeder (Wählbare Upgrades)",
+        
+        # Derby-Wagen
+        0x10: "Derby (0% Upgrades)",
+        0x14: "Derby (50% Upgrades)",
+        0x18: "Derby (100% Upgrades)", 
+        0x1C: "Derby (Wählbare Upgrades)",
+        
+        # Rennwagen
+        0x20: "Rennen (0% Upgrades)",
+        0x24: "Rennen (50% Upgrades)",
+        0x28: "Rennen (100% Upgrades)",
+        0x2C: "Rennen (Wählbare Upgrades)",
+        
+        # Straßenwagen
+        0x30: "Strasse (0% Upgrades)",
+        0x34: "Strasse (50% Upgrades)", 
+        0x38: "Strasse (100% Upgrades)",
+        0x3C: "Strasse (Wählbare Upgrades)",
+        
+        # Wie Host
+        0xD0: "Wie Host (0% Upgrades)",
+        0xD4: "Wie Host (50% Upgrades)",
+        0xD8: "Wie Host (100% Upgrades)",
+        0xDC: "Wie Host (Wählbare Upgrades)",
+        
+        # Legacy support for old single-byte car type detection
+        0xE8: "Wie Host",  # Old identifier, kept for backward compatibility
+    }
+
+    # Separate mappings for detailed analysis
+    CAR_TYPE_BASE = {
+        0x00: "Jeder", 0x04: "Jeder", 0x08: "Jeder", 0x0C: "Jeder",
+        0x10: "Derby", 0x14: "Derby", 0x18: "Derby", 0x1C: "Derby", 
+        0x20: "Rennen", 0x24: "Rennen", 0x28: "Rennen", 0x2C: "Rennen",
+        0x30: "Strasse", 0x34: "Strasse", 0x38: "Strasse", 0x3C: "Strasse",
+        0xD0: "Wie Host", 0xD4: "Wie Host", 0xD8: "Wie Host", 0xDC: "Wie Host",
+        0xE8: "Wie Host",  # Legacy
+    }
+    
+    UPGRADE_SETTINGS = {
+        0x00: "0%", 0x04: "50%", 0x08: "100%", 0x0C: "Wählbar",
+        0x10: "0%", 0x14: "50%", 0x18: "100%", 0x1C: "Wählbar",
+        0x20: "0%", 0x24: "50%", 0x28: "100%", 0x2C: "Wählbar", 
+        0x30: "0%", 0x34: "50%", 0x38: "100%", 0x3C: "Wählbar",
+        0xD0: "0%", 0xD4: "50%", 0xD8: "100%", 0xDC: "Wählbar",
+        0xE8: "Unknown",  # Legacy
     }
 
     # Game Mode Identifiers (byte at position -7 from end)
@@ -245,6 +292,41 @@ class Flatout2(ProtocolBase):
             print(f"Error extracting car type: {e}")
             return "Unknown"
 
+    def _extract_car_type_base(self, data: bytes) -> str:
+        """
+        Extracts the base car type (without upgrade info) from the payload data.
+        
+        :param data: The complete response data
+        :return: The base car type name or "Unknown" if not found
+        """
+        try:
+            if len(data) >= 8:
+                car_type_id = data[-8]  # 8 bytes from end
+                return self.CAR_TYPE_BASE.get(car_type_id, f"Unknown (0x{car_type_id:02X})")
+            else:
+                return "Unknown"
+        except Exception as e:
+            print(f"Error extracting base car type: {e}")
+            return "Unknown"
+
+    def _extract_upgrade_setting(self, data: bytes) -> str:
+        """
+        Extracts the upgrade setting from the payload data.
+        Upgrade setting is encoded in the car type byte at offset -8.
+        
+        :param data: The complete response data
+        :return: The upgrade setting or "Unknown" if not found
+        """
+        try:
+            if len(data) >= 8:
+                car_type_id = data[-8]  # 8 bytes from end
+                return self.UPGRADE_SETTINGS.get(car_type_id, f"Unknown (0x{car_type_id:02X})")
+            else:
+                return "Unknown"
+        except Exception as e:
+            print(f"Error extracting upgrade setting: {e}")
+            return "Unknown"
+
     def _extract_game_mode(self, data: bytes) -> str:
         """
         Extracts the game mode from the payload data.
@@ -371,10 +453,15 @@ class Flatout2(ProtocolBase):
             server_name = self._read_utf16_string(br)
             info["hostname"] = server_name
 
-            # Extract car type from the payload
-            # Car type identifier at offset -8
-            car_type = self._extract_car_type(original_data)
-            info["car_type"] = car_type
+            # Extract car type and upgrade information from the payload
+            # Car type identifier at offset -8 (includes upgrade settings)
+            car_type_full = self._extract_car_type(original_data)
+            car_type_base = self._extract_car_type_base(original_data)
+            upgrade_setting = self._extract_upgrade_setting(original_data)
+            
+            info["car_type"] = car_type_full  # Full description with upgrades
+            info["car_type_base"] = car_type_base  # Base car type only
+            info["upgrade_setting"] = upgrade_setting  # Upgrade setting only
 
             # Extract game mode from the payload
             # Game mode identifier at offset -7
@@ -449,6 +536,8 @@ class Flatout2(ProtocolBase):
             # Set defaults on error
             info.setdefault("hostname", "Unknown Server")
             info.setdefault("car_type", "Unknown")
+            info.setdefault("car_type_base", "Unknown")
+            info.setdefault("upgrade_setting", "Unknown")
             info.setdefault("game_mode", "Unknown")
             info.setdefault("map", "Unknown Map")
             info.setdefault("lap_count", None)
