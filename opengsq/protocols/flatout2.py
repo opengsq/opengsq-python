@@ -32,77 +32,7 @@ class Flatout2(ProtocolBase):
         0x65: "Stunt",   # Stunt
     }
 
-    # Map ID to name mapping (discovered through payload analysis)
-    # Map ID is a single byte located at offset 95 (second-to-last position)
-    # Track Type is a separate byte located at offset 94
-    MAP_ID_TO_NAME = {
-        # Farmlands series (Feld)
-        0x04: "Farmlands 2",
-        0x14: "Farmlands 3", 
-        0xF4: "Farmlands 1",
-        
-        # Water Canal series (Kanal)
-        0x04: "Water Canal 1",  # Note: Same ID as Farmlands 2, differentiated by track type
-        0x14: "Water Canal 2",  # Note: Same ID as Farmlands 3, differentiated by track type
-        0x24: "Water Canal 3",
-        
-        # Timberlands series (Wald)
-        0x14: "Timberlands 1",  # Note: Same ID as others, differentiated by track type
-        0x24: "Timberlands 2",
-        0x34: "Timberlands 3",
-        
-        # Pinegrove series (Wald)
-        0x44: "Pinegrove 1",
-        0x54: "Pinegrove 2",
-        0x64: "Pinegrove 3",
-        
-        # Midwest Ranch series (Feld)
-        0xC4: "Midwest Ranch 1",
-        0xD4: "Midwest Ranch 2",
-        0xE4: "Midwest Ranch 3",
-        
-        # City Central series (Stadt)
-        0xA4: "City Central 1",
-        0xB4: "City Central 2",
-        0xC4: "City Central 3",  # Note: Same ID as Midwest Ranch 1, differentiated by track type
-        
-        # Downtown series (Stadt)
-        0xD4: "Downtown 1",      # Note: Same ID as Midwest Ranch 2, differentiated by track type
-        0xE4: "Downtown 2",      # Note: Same ID as Midwest Ranch 3, differentiated by track type
-        0xF4: "Downtown 3",      # Note: Same ID as Farmlands 1, differentiated by track type
-        
-        # Desert series (Wüste)
-        0x64: "Desert Oil Field", # Note: Same ID as Pinegrove 3, differentiated by track type
-        0x74: "Desert Scrap Yard",
-        0x84: "Desert Town",
-        
-        # Riverbay Circuit series (Rennen)
-        0x84: "Riverbay Circuit 1", # Note: Same ID as Desert Town, differentiated by track type
-        0x94: "Riverbay Circuit 2",
-        0xA4: "Riverbay Circuit 3", # Note: Same ID as City Central 1, differentiated by track type
-        
-        # Motor Raceway series (Rennen)
-        0xB4: "Motor Raceway 1",    # Note: Same ID as City Central 2, differentiated by track type
-        0xC4: "Motor Raceway 2",    # Note: Same ID as others, differentiated by track type
-        0xD4: "Motor Raceway 3",    # Note: Same ID as others, differentiated by track type
-        
-        # Arena tracks
-        0x04: "Crash Alley",        # Note: Same ID as others, differentiated by track type
-        0x14: "Speedway Left",      # Note: Same ID as others, differentiated by track type
-        0x24: "Speedway Right",     # Note: Same ID as Water Canal 3, differentiated by track type
-        0x34: "Speedway Special",   # Note: Same ID as Timberlands 3, differentiated by track type
-        0xB4: "Figure of Eight 1",  # Note: Same ID as others, differentiated by track type
-        0xC4: "Triloop Special",    # Note: Same ID as others, differentiated by track type
-        0xD4: "Speedbowl",          # Note: Same ID as others, differentiated by track type
-        0xE4: "Sand Speedway",      # Note: Same ID as others, differentiated by track type
-        0xF4: "Figure of Eight 2",  # Note: Same ID as others, differentiated by track type
-        
-        # Derby-specific maps (new discoveries)
-        0x46: "Derby Arena",        # Derby-specific map
-        
-        # Stunt-specific maps (new discoveries)
-        0x62: "Stunt Arena",        # Stunt-specific map
-    }
+
     
     # Complete track type mapping (byte at offset 94)
     TRACK_TYPE_NAMES = {
@@ -111,6 +41,7 @@ class Flatout2(ProtocolBase):
         0x12: "Rennen",  # Race tracks (Riverbay Circuit, Motor Raceway, some Farmlands)
         0x13: "Arena",   # Arena tracks (Figure of Eight, Triloop Special, Speedbowl, Sand Speedway, Derby)
         0x14: "Arena",   # Arena tracks (Crash Alley, Speedway variants, Stunt)
+        0x15: "Stunt",   # Stunt special tracks
     }
     
     # Combined mapping for precise track identification
@@ -160,24 +91,47 @@ class Flatout2(ProtocolBase):
         (0x12, 0xC4): "Motor Raceway 2",
         (0x12, 0xD4): "Motor Raceway 3",
         
-        # Arena tracks with Track Type 0x13
+        # Arena tracks with Track Type 0x13 (Derby and Arena)
+        (0x13, 0x46): "Gas Station Derby",
+        (0x13, 0x56): "Parking Lot Derby",
+        (0x13, 0x66): "Skyscraper Derby",
+        (0x13, 0x76): "Derby Bowl 1",
+        (0x13, 0x86): "Derby Bowl 2",
+        (0x13, 0x96): "Derby Bowl 3",
         (0x13, 0xB4): "Figure of Eight 1",
+        (0x13, 0xB6): "Figure of Eight 1",  # Duplicate Map ID
         (0x13, 0xC4): "Triloop Special",
+        (0x13, 0xC6): "Triloop Special",    # Duplicate Map ID
         (0x13, 0xD4): "Speedbowl",
+        (0x13, 0xD6): "Speedbowl",          # Duplicate Map ID
         (0x13, 0xE4): "Sand Speedway",
+        (0x13, 0xE6): "Sand Speedway",      # Duplicate Map ID
         (0x13, 0xF4): "Figure of Eight 2",
+        (0x13, 0xF6): "Figure of Eight 2",  # Duplicate Map ID
         
-        # Derby tracks with Track Type 0x13
-        (0x13, 0x46): "Derby Arena",
-        
-        # Arena tracks with Track Type 0x14
+        # Arena tracks with Track Type 0x14 (Speedway and Stunt)
         (0x14, 0x04): "Crash Alley",
+        (0x14, 0x06): "Crash Alley",        # Duplicate Map ID
         (0x14, 0x14): "Speedway Left",
+        (0x14, 0x16): "Speedway Left",      # Duplicate Map ID
         (0x14, 0x24): "Speedway Right",
+        (0x14, 0x26): "Speedway Right",     # Duplicate Map ID
         (0x14, 0x34): "Speedway Special",
+        (0x14, 0x36): "Speedway Special",   # Duplicate Map ID
+        (0x14, 0x62): "High Jump",
+        (0x14, 0x72): "Bowling",
+        (0x14, 0x82): "Ski Jump",
+        (0x14, 0x92): "Curling",
+        (0x14, 0xA2): "Stone Skipping",
+        (0x14, 0xB2): "Ring of Fire",
         
-        # Stunt tracks with Track Type 0x14
-        (0x14, 0x62): "Stunt Arena",
+        # Stunt special tracks with Track Type 0x15
+        (0x15, 0x02): "Field Goal",
+        (0x15, 0x12): "Royal Flush",
+        (0x15, 0x22): "Basketball",
+        (0x15, 0x32): "Darts",
+        (0x15, 0x42): "Baseball",
+        (0x15, 0x52): "Soccer",
     }
 
     def __init__(self, host: str, port: int = FLATOUT2_PORT, timeout: float = 5.0):
