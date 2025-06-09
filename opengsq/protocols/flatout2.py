@@ -25,6 +25,15 @@ class Flatout2(ProtocolBase):
     COMMAND_QUERY = b"\x18\x0c"
     PACKET_END = b"\x2e\x55\x19\xb4\xe1\x4f\x81\x4a"
 
+    # Car Type Identifiers (byte at position -8 from end)
+    CAR_TYPE_IDENTIFIERS = {
+        0x08: "Jeder",      # Alle Wagentypen erlaubt
+        0x18: "Derby",      # Derby-Wagen
+        0x28: "Rennen",     # Rennwagen
+        0x38: "Strasse",    # Straßenwagen
+        0xE8: "Wie Host",   # Wagentyp wie Host-Einstellung
+    }
+
     # Game Mode Identifiers (byte at position -7 from end)
     GAME_MODE_IDENTIFIERS = {
         0x61: "Race",    # Rennen
@@ -218,6 +227,24 @@ class Flatout2(ProtocolBase):
         
         return bytes(bytes_list).decode('utf-16-le').strip()
 
+    def _extract_car_type(self, data: bytes) -> str:
+        """
+        Extracts the car type from the payload data.
+        Car type identifier is located at offset -8 (8 bytes from end).
+
+        :param data: The complete response data
+        :return: The car type name or "Unknown" if not found
+        """
+        try:
+            if len(data) >= 8:
+                car_type_id = data[-8]  # 8 bytes from end
+                return self.CAR_TYPE_IDENTIFIERS.get(car_type_id, f"Unknown (0x{car_type_id:02X})")
+            else:
+                return "Unknown"
+        except Exception as e:
+            print(f"Error extracting car type: {e}")
+            return "Unknown"
+
     def _extract_game_mode(self, data: bytes) -> str:
         """
         Extracts the game mode from the payload data.
@@ -344,6 +371,11 @@ class Flatout2(ProtocolBase):
             server_name = self._read_utf16_string(br)
             info["hostname"] = server_name
 
+            # Extract car type from the payload
+            # Car type identifier at offset -8
+            car_type = self._extract_car_type(original_data)
+            info["car_type"] = car_type
+
             # Extract game mode from the payload
             # Game mode identifier at offset -7
             game_mode = self._extract_game_mode(original_data)
@@ -416,6 +448,7 @@ class Flatout2(ProtocolBase):
             print(f"Error parsing response: {e}")
             # Set defaults on error
             info.setdefault("hostname", "Unknown Server")
+            info.setdefault("car_type", "Unknown")
             info.setdefault("game_mode", "Unknown")
             info.setdefault("map", "Unknown Map")
             info.setdefault("lap_count", None)
