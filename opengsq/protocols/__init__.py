@@ -1,6 +1,7 @@
 from opengsq.protocols.ase import ASE
 from opengsq.protocols.battlefield import Battlefield
 from opengsq.protocols.doom3 import Doom3
+from opengsq.protocols.eldewrito import ElDewrito
 from opengsq.protocols.eos import EOS
 from opengsq.protocols.fivem import FiveM
 from opengsq.protocols.flatout2 import Flatout2
