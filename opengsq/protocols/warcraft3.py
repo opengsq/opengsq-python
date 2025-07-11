@@ -191,8 +191,71 @@ class Warcraft3(ProtocolBase):
         )
 
     def _get_map_name_from_settings(self, settings_raw: bytearray) -> str:
-        """Map name parsing is skipped due to encoding complexity"""
-        return "Map name unavailable"
+        """
+        Extract map name from the encoded settings string.
+        Based on the Go implementation from gowarcraft3.
+        """
+        try:
+            # Decode the settings string (every even byte was incremented by 1)
+            decoded = bytearray()
+            i = 0
+            while i < len(settings_raw):
+                if i >= len(settings_raw):
+                    break
+                
+                # Read control byte
+                control = settings_raw[i]
+                i += 1
+                
+                # Process next 7 bytes based on control byte
+                for j in range(7):
+                    if i >= len(settings_raw):
+                        break
+                    
+                    byte_val = settings_raw[i]
+                    i += 1
+                    
+                    # Check if this byte was modified (bit j+1 in control byte)
+                    if control & (1 << (j + 1)) == 0:
+                        # Byte was incremented, so decrement it
+                        decoded.append(byte_val - 1)
+                    else:
+                        # Byte was not modified
+                        decoded.append(byte_val)
+            
+            if len(decoded) < 16:
+                return "Map name unavailable"
+            
+            # Parse the decoded settings
+            # Skip: flags (4), unknown (1), width (2), height (2), xoro (4) = 13 bytes
+            pos = 13
+            
+            # Read map path (null-terminated string)
+            map_path = ""
+            while pos < len(decoded) and decoded[pos] != 0:
+                map_path += chr(decoded[pos])
+                pos += 1
+            
+            if not map_path:
+                return "Map name unavailable"
+            
+            # Extract filename from path and remove extension
+            # Handle both forward and backward slashes
+            map_path = map_path.replace('\\', '/')
+            filename = map_path.split('/')[-1]
+            
+            # Remove file extension
+            if '.' in filename:
+                filename = filename.rsplit('.', 1)[0]
+            
+            # Remove player count prefix like "(2)", "(4)", etc.
+            import re
+            filename = re.sub(r'^\(\d+\)\s*', '', filename)
+            
+            return filename if filename else "Map name unavailable"
+            
+        except Exception:
+            return "Map name unavailable"
 
     def _get_game_type(self, flags: GameFlags) -> str:
         """Convert game flags to a readable game type"""
