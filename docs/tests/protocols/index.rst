@@ -24,6 +24,7 @@ Protocols Tests
 	test_killingfloor/index
 	test_battlefield/index
 	test_palworld/index
+	test_tmn/index
 	test_doom3/index
 	test_samp/index
 	test_ase/index
