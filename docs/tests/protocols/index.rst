@@ -10,6 +10,7 @@ Protocols Tests
 	test_fivem/index
 	test_gamespy2/index
 	test_nadeo/index
+	test_trackmania_nations/index
 	test_ut3/index
 	test_eldewrito/index
 	test_eos/index
