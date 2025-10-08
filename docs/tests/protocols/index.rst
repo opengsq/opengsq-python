@@ -19,6 +19,7 @@ Protocols Tests
 	test_gamespy3/index
 	test_kaillera/index
 	test_toxikk/index
+	test_avp2/index
 	test_gamespy1/index
 	test_scum/index
 	test_raknet/index

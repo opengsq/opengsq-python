@@ -1,6 +1,7 @@
 from opengsq.protocols.aoe1 import AoE1
 from opengsq.protocols.aoe2 import AoE2
 from opengsq.protocols.ase import ASE
+from opengsq.protocols.avp2 import AVP2
 from opengsq.protocols.battlefield import Battlefield
 from opengsq.protocols.directplay import DirectPlay
 from opengsq.protocols.doom3 import Doom3
