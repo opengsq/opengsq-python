@@ -5,6 +5,7 @@ Protocols Tests
 
 .. toctree::
 	test_flatout2/index
+	test_battlefield2/index
 	test_source/index
 	test_won/index
 	test_fivem/index
