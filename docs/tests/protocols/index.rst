@@ -4,6 +4,7 @@ Protocols Tests
 ===============
 
 .. toctree::
+	test_cod4/index
 	test_flatout2/index
 	test_battlefield2/index
 	test_source/index
