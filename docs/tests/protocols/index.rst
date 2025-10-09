@@ -40,4 +40,5 @@ Protocols Tests
 	test_quake1/index
 	test_unreal2/index
 	test_gamespy4/index
+	test_cod1/index
 	test_satisfactory/index
