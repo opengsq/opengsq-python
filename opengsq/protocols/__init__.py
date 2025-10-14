@@ -6,6 +6,7 @@ from opengsq.protocols.battlefield import Battlefield
 from opengsq.protocols.battlefield2 import Battlefield2
 from opengsq.protocols.cod1 import CoD1
 from opengsq.protocols.cod4 import CoD4
+from opengsq.protocols.cod5 import CoD5
 from opengsq.protocols.directplay import DirectPlay
 from opengsq.protocols.doom3 import Doom3
 from opengsq.protocols.eldewrito import ElDewrito
