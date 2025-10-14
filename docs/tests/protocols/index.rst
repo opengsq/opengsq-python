@@ -30,6 +30,7 @@ Protocols Tests
 	test_palworld/index
 	test_tmn/index
 	test_doom3/index
+	test_w40kdow/index
 	test_samp/index
 	test_ase/index
 	test_teamspeak3/index

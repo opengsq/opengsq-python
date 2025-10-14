@@ -38,5 +38,6 @@ from opengsq.protocols.udk import UDK
 from opengsq.protocols.unreal2 import Unreal2
 from opengsq.protocols.ut3 import UT3
 from opengsq.protocols.vcmp import Vcmp
+from opengsq.protocols.w40kdow import W40kDow
 from opengsq.protocols.warcraft3 import Warcraft3
 from opengsq.protocols.won import WON
