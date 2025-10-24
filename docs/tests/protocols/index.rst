@@ -19,8 +19,10 @@ Protocols Tests
 	test_eldewrito/index
 	test_eos/index
 	test_renegadex/index
+	test_stronghold_ce/index
 	test_quake2/index
 	test_gamespy3/index
+	test_stronghold_crusader/index
 	test_kaillera/index
 	test_toxikk/index
 	test_avp2/index

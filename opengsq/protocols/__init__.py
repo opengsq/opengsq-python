@@ -33,6 +33,8 @@ from opengsq.protocols.satisfactory import Satisfactory
 from opengsq.protocols.scum import Scum
 from opengsq.protocols.source import Source
 from opengsq.protocols.ssc import SSC
+from opengsq.protocols.stronghold_ce import StrongholdCE
+from opengsq.protocols.stronghold_crusader import StrongholdCrusader
 from opengsq.protocols.teamspeak3 import TeamSpeak3
 from opengsq.protocols.trackmania_nations import TrackmaniaNations
 from opengsq.protocols.toxikk import Toxikk
