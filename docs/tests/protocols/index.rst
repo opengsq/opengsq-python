@@ -8,6 +8,7 @@ Protocols Tests
 	test_halo1/index
 	test_flatout2/index
 	test_battlefield2/index
+	test_ssc/index
 	test_source/index
 	test_won/index
 	test_fivem/index
