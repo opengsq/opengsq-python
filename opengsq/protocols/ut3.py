@@ -89,6 +89,7 @@ class UT3(UDK):
             value_index = setting['value_index']
             
             if setting_id == 32779:  # Game Mode
+                base_response['game_type'] = self.GAMEMODE_NAMES.get(value_index, f"Unknown_{value_index}")
                 ut3_properties['gamemode'] = self.GAMEMODE_NAMES.get(value_index, f"Unknown_{value_index}")
             elif setting_id == 0:
                 ut3_properties['bot_skill'] = self.BOT_SKILL_NAMES.get(value_index)
