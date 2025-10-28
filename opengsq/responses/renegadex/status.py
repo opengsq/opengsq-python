@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Any
 
+
 @dataclass
 class Variables:
     player_limit: int
@@ -13,7 +14,7 @@ class Variables:
     spawn_crates: bool
     game_type: int
     ranked: bool
-    
+
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> 'Variables':
         return cls(
@@ -29,6 +30,7 @@ class Variables:
             ranked=data["bRanked"]
         )
 
+
 @dataclass
 class Status:
     name: str
@@ -38,7 +40,7 @@ class Status:
     game_version: str
     variables: Variables
     raw: dict[str, Any]
-    
+
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> 'Status':
         return cls(

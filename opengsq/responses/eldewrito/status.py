@@ -17,6 +17,7 @@ class Player:
     suicides: int = 0
     best_streak: int = 0
 
+
 @dataclass
 class Status:
     """ElDewrito server status information"""

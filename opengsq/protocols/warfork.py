@@ -14,7 +14,7 @@ class Warfork(Quake3):
     """
 
     full_name = "Warfork Protocol"
- 
+
     def __init__(self, host: str, port: int, timeout: float = 5.0):
         """
         Initializes the Quake3 object with the given parameters.
@@ -24,7 +24,7 @@ class Warfork(Quake3):
         :param timeout: The timeout for the server connection.
         """
         super().__init__(host, port, timeout)
- 
+
     async def get_status(self, strip_color=True) -> Status:
         br = await self._get_response_binary_reader()
 
@@ -40,7 +40,7 @@ class Warfork(Quake3):
                 player.name = Quake3.strip_colors(player.name)
 
         return status
- 
+
     def _parse_players(self, br: BinaryReader):
         """
         Parses the players from the given BinaryReader object.

@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import List
 from opengsq.responses.udk.status import Status as UDKStatus
 
+
 @dataclass
 class Status(UDKStatus):
     """UT3-specific status response"""

@@ -36,6 +36,7 @@ class GameFlags(IntFlag):
     OBS_MASK = 0x700000
     FILTER_MASK = 0x7FE000
 
+
 class GameSettingFlags(IntFlag):
     """Game setting flags based on the Go implementation"""
     SPEED_SLOW = 0x00000000
@@ -59,11 +60,13 @@ class GameSettingFlags(IntFlag):
     RANDOM_HERO = 0x02000000
     RANDOM_RACE = 0x04000000
 
+
 class SlotStatus(IntEnum):
     """Slot status based on the Go implementation"""
     OPEN = 0x00
     CLOSED = 0x01
     OCCUPIED = 0x02
+
 
 class Warcraft3(ProtocolBase):
     """
