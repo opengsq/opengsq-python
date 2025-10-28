@@ -1,10 +1,11 @@
 from opengsq.protocols.udk import UDK
 from opengsq.responses.ut3.status import Status
 
+
 class UT3(UDK):
     GAMEMODE_NAMES = {
         0: "Deathmatch",
-        1: "Team Deathmatch", 
+        1: "Team Deathmatch",
         2: "Capture The Flag",
         3: "Vehicle CTF",
         4: "Warfare",
@@ -19,7 +20,7 @@ class UT3(UDK):
         0x1: "SlowTimeKills",
         0x2: "BigHead",
         0x4: "NoOrbs",
-        0x8: "FriendlyFire", 
+        0x8: "FriendlyFire",
         0x10: "Handicap",
         0x20: "Instagib",
         0x40: "LowGrav",
@@ -37,7 +38,7 @@ class UT3(UDK):
 
     BOT_SKILL_NAMES = {
     0: "Novice",
-    1: "Average", 
+    1: "Average",
     2: "Experienced",
     3: "Skilled",
     4: "Adept",
@@ -49,19 +50,19 @@ class UT3(UDK):
     VS_BOTS_NAMES = {
     0: "None",
     1: "1:1",
-    2: "3:2", 
+    2: "3:2",
     3: "2:1"
     }
 
     full_name = "Unreal Tournament 3 Protocol"
-    
+
     def __init__(self, host: str, port: int = 14001, timeout: float = 5.0):
         super().__init__(host, port, timeout)
         self.game_id = 0x4D5707DB
 
     def _parse_response(self, buffer: bytes) -> dict:
         base_response = super()._parse_response(buffer)
-        
+
         # Process properties
         ut3_properties = {}
         for prop in base_response['raw']['settings_properties']:
@@ -87,7 +88,7 @@ class UT3(UDK):
         for setting in base_response['raw']['localized_settings']:
             setting_id = setting['id']
             value_index = setting['value_index']
-            
+
             if setting_id == 32779:  # Game Mode
                 base_response['game_type'] = self.GAMEMODE_NAMES.get(value_index, f"Unknown_{value_index}")
                 ut3_properties['gamemode'] = self.GAMEMODE_NAMES.get(value_index, f"Unknown_{value_index}")

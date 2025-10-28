@@ -28,4 +28,3 @@ if __name__ == "__main__":
         print(status)
 
     asyncio.run(main_async())
-

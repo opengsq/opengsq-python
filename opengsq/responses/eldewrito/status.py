@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import List, Dict, Any, Optional
+from typing import List
+
 
 @dataclass
 class Player:
@@ -15,7 +16,7 @@ class Player:
     time_spent_alive: int = 0
     suicides: int = 0
     best_streak: int = 0
-    
+
 @dataclass
 class Status:
     """ElDewrito server status information"""

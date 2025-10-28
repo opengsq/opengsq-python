@@ -15,10 +15,3 @@ class Cod4Status:
 
     status: Status
     """The server status response."""
-
-
-
-
-
-
-

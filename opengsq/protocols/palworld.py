@@ -1,5 +1,3 @@
-import struct
-import time
 import aiohttp
 
 from opengsq.responses.palworld import Player, Status
@@ -34,7 +32,7 @@ class Palworld(ProtocolBase):
         self.api_url = f"http://{self._host}:{self._port}/v1/api"
         self.api_username = api_username
         self.api_password = api_password
-   
+
     async def api_request(self,url):
         """
         Asynchronously retrieves data from the game server through the REST API.

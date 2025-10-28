@@ -43,7 +43,7 @@ class Kaillera(ProtocolBase):
         master_servers = []
 
         for i in range(0, len(servers), 2):
-            server_name, info = servers[i : i + 2]
+            server_name, info = servers[i:i+2]
             items = info.split(";")
             ip_address, port = items[0].split(":")
             users, maxusers = items[1].split("/")

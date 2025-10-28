@@ -61,7 +61,7 @@ class Status:
     def expansion_name(self) -> str:
         """
         Get the human-readable expansion name based on mod_name.
-        
+
         :return: Expansion name
         """
         expansion_map = {
@@ -87,12 +87,12 @@ class Status:
     def __init__(self, data: dict = None):
         """
         Initialize Status object from parsed data dictionary.
-        
+
         :param data: Dictionary containing server status information
         """
         if data is None:
             data = {}
-        
+
         # Set defaults first
         self.guid = ""
         self.hostname = ""
@@ -108,9 +108,8 @@ class Status:
         self.map_scenario = ""
         self.faction_codes = []
         self.map_features = []
-        
+
         # Update with provided data
         for key, value in data.items():
             if hasattr(self, key):
                 setattr(self, key, value)
-

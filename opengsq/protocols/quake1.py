@@ -146,7 +146,7 @@ class Quake1(ProtocolBase):
             response_data += self._delimiter2
 
         # Remove the first four 0xFF
-        return response_data[len(header) :]
+        return response_data[len(header):]
 
 
 if __name__ == "__main__":

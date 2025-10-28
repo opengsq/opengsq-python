@@ -5,17 +5,18 @@ from opengsq.binary_reader import BinaryReader
 import struct
 import os
 
+
 class UDK(ProtocolBase):
     full_name = "UnrealEngine3/UDK Protocol"
     LAN_BEACON_PACKET_HEADER_SIZE = 16
     UDK_PORT = 14001
-    
+
     def __init__(self, host: str, port: int = UDK_PORT, timeout: float = 5.0):
         if port != self.UDK_PORT:
             raise ValueError(f"UDK protocol requires port {self.UDK_PORT}")
         super().__init__(host, self.UDK_PORT, timeout)
         self._allow_broadcast = True
-        self.packet_version = 5 
+        self.packet_version = 5
         self.game_id = 0x00000000
         self.platform = PlatformType.Windows
         self.client_nonce = os.urandom(8)
@@ -29,7 +30,7 @@ class UDK(ProtocolBase):
             raise Exception("Invalid response")
         parsed_data = self._parse_response(data)
         return Status(**parsed_data)
-    
+
     def _build_query_packet(self) -> bytes:
         packet = bytearray(self.LAN_BEACON_PACKET_HEADER_SIZE)
         struct.pack_into("!BB", packet, 0, self.packet_version, self.platform)
@@ -42,13 +43,13 @@ class UDK(ProtocolBase):
     def _is_valid_response(self, buffer: bytes) -> bool:
         if len(buffer) <= self.LAN_BEACON_PACKET_HEADER_SIZE:
             return False
-            
+
         version = buffer[0]
         platform = buffer[1]
         game_id = struct.unpack("!I", buffer[2:6])[0]
         response_type = (buffer[6:7], buffer[7:8])
         response_nonce = buffer[8:16]
-        
+
         return (version == self.packet_version and
                 platform == self.platform and
                 game_id == self.game_id and
@@ -57,7 +58,7 @@ class UDK(ProtocolBase):
 
     def _parse_response(self, buffer: bytes) -> dict:
         br = BinaryReader(buffer[self.LAN_BEACON_PACKET_HEADER_SIZE:])
-        
+
         # Parse IP and port
         ip = struct.unpack("!I", br.read_bytes(4))[0]
         port = struct.unpack("!I", br.read_bytes(4))[0]
@@ -78,7 +79,7 @@ class UDK(ProtocolBase):
         uses_presence = br.read_bytes(1)[0] == 1
         allow_join_via_presence = br.read_bytes(1)[0] == 1
         uses_arbitration = br.read_bytes(1)[0] == 1
-        
+
         if self.packet_version >= 5:
             anti_cheat_protected = br.read_bytes(1)[0] == 1
 
@@ -173,5 +174,5 @@ class UDK(ProtocolBase):
         elif data_type == 6:  # SDT_Blob
             raise NotImplementedError("Blob data type not supported")
         elif data_type == 7:  # SDT_DateTime
-            return (struct.unpack("!i", br.read_bytes(4))[0], 
+            return (struct.unpack("!i", br.read_bytes(4))[0],
                    struct.unpack("!i", br.read_bytes(4))[0])  # (date, time)
