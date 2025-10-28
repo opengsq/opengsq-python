@@ -610,7 +610,7 @@ class Flatout2(ProtocolBase):
                 try:
                     config_data = br.read_bytes(min(remaining_bytes, 12))
                     info["config"] = config_data.hex()
-                except:
+                except Exception:
                     info["config"] = ""
             else:
                 info["config"] = ""

@@ -283,7 +283,7 @@ class TrackmaniaNations(ProtocolBase):
             string_data = data[offset+4:offset+4+length]
             string = string_data.decode('utf-8', errors='replace')
             return string, 4 + length
-        except:
+        except Exception:
             return None, 0
 
     def _extract_all_strings(self, data: bytes) -> List[str]:
@@ -307,7 +307,7 @@ class TrackmaniaNations(ProtocolBase):
                     try:
                         string = current_string.decode('ascii')
                         strings.append(string)
-                    except:
+                    except Exception:
                         pass
                 current_string = bytearray()
 
@@ -316,7 +316,7 @@ class TrackmaniaNations(ProtocolBase):
             try:
                 string = current_string.decode('ascii')
                 strings.append(string)
-            except:
+            except Exception:
                 pass
 
         return strings
@@ -634,7 +634,7 @@ class TrackmaniaNations(ProtocolBase):
                         if self._is_valid_challenge_name(string):
                             return string
                         found_strings.append(string)
-                    except:
+                    except Exception:
                         pass
                 current_string = bytearray()
 
@@ -645,7 +645,7 @@ class TrackmaniaNations(ProtocolBase):
                 if self._is_valid_challenge_name(string):
                     return string
                 found_strings.append(string)
-            except:
+            except Exception:
                 pass
 
         # Fallback: Erste gültige Challenge aus gefundenen Strings

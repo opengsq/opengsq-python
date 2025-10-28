@@ -226,8 +226,6 @@ class W40kDow(ProtocolBase):
 
 
 if __name__ == "__main__":
-    import asyncio
-
     async def main_async():
         # Test with the provided server
         w4kdow = W40kDow(host="172.29.100.29", port=6112, timeout=10.0)
@@ -236,7 +234,7 @@ if __name__ == "__main__":
             print("Listening for Dawn of War server broadcasts...")
             status = await w4kdow.get_status()
             print(f"\n{'='*60}")
-            print(f"Server Status:")
+            print("Server Status:")
             print(f"{'='*60}")
             print(f"GUID: {status.guid}")
             print(f"Hostname: {status.hostname}")
@@ -249,7 +247,7 @@ if __name__ == "__main__":
             print(f"Build: {status.build_number}")
             print(f"Magic: {status.magic_marker}")
             print(f"\nFaction Codes: {', '.join(status.faction_codes)}")
-            print(f"\nMap Features:")
+            print("\nMap Features:")
             for i, feature in enumerate(status.map_features, 1):
                 print(f"  {i}. {feature}")
 

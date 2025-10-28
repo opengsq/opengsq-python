@@ -86,6 +86,7 @@ class Status:
 
         return cls(version, server_options, players, map_info)
 
+
 @dataclass
 class MapInfo:
     """Represents current map information."""
