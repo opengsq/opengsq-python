@@ -23,14 +23,14 @@ class Status:
     def __str__(self) -> str:
         """
         Returns a human-readable string representation of the server status.
-        
+
         :return: Formatted server status string
         """
         result = []
-        
+
         # Add server info
         result.append("Server Information:")
         for key, value in self.info.items():
             result.append(f"  {key}: {value}")
-        
-        return "\n".join(result) 
+
+        return "\n".join(result)

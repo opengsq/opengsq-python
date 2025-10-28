@@ -1,10 +1,11 @@
 from opengsq.protocols.udk import UDK
 from opengsq.responses.toxikk.status import Status
 
+
 class Toxikk(UDK):
     GAMEMODE_NAMES = {
         "cruzade.CRZBloodLust": "BloodLust",
-        "cruzade.CRZTeamGame": "Squad Assault", 
+        "cruzade.CRZTeamGame": "Squad Assault",
         "cruzade.CRZSquadSurvival": "Squad Survival",
         "cruzade.CRZCellCapture": "Cell Capture",
         "cruzade.CRZAreaDomination": "Area Domination",
@@ -14,7 +15,7 @@ class Toxikk(UDK):
     BOT_SKILL_NAMES = {
         0: "Novice",
         1: "Average",
-        2: "Experienced", 
+        2: "Experienced",
         3: "Skilled",
         4: "Adept",
         5: "Masterful",
@@ -30,7 +31,7 @@ class Toxikk(UDK):
     }
 
     full_name = "Toxikk Protocol"
-    
+
     def __init__(self, host: str, port: int = 14001, timeout: float = 5.0):
         super().__init__(host, port, timeout)
         self.game_id = 0x4D5707DB
@@ -60,7 +61,7 @@ class Toxikk(UDK):
         for setting in base_response['raw']['localized_settings']:
             setting_id = setting['id']
             value_index = setting['value_index']
-            
+
             if setting_id == 0:
                 toxikk_properties['bot_skill'] = self.BOT_SKILL_NAMES.get(value_index)
             elif setting_id == 6:

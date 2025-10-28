@@ -28,15 +28,15 @@ class SSC(GameSpy1):
         """
         # Get full status and flatten all information into one dict
         status = await self.get_status()
-        
+
         # Combine info with player information in a flattened format
         result = dict(status.info)
-        
+
         # Add player information as indexed fields
         for i, player in enumerate(status.players):
             for key, value in player.items():
                 result[f"{key}_{i}"] = value
-        
+
         return result
 
     async def get_status(self, xserverquery: bool = False):
@@ -88,4 +88,3 @@ if __name__ == "__main__":
         print(status)
 
     asyncio.run(main_async())
-

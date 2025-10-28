@@ -15,6 +15,6 @@ class Status:
 
     max_players: int
     """The maximum number of players that can connect to the server."""
- 
+
     name: str
     """The name of the server."""

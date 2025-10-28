@@ -1,5 +1,3 @@
-import struct
-import time
 import aiohttp
 
 from opengsq.responses.palworld import Player, Status
@@ -34,12 +32,12 @@ class Palworld(ProtocolBase):
         self.api_url = f"http://{self._host}:{self._port}/v1/api"
         self.api_username = api_username
         self.api_password = api_password
-   
-    async def api_request(self,url):
+
+    async def api_request(self, url):
         """
         Asynchronously retrieves data from the game server through the REST API.
         """
-        auth = aiohttp.BasicAuth(self.api_username,self.api_password)
+        auth = aiohttp.BasicAuth(self.api_username, self.api_password)
         async with aiohttp.ClientSession(auth=auth) as session:
             async with session.get(url) as response:
                 data = await response.json()
@@ -74,6 +72,7 @@ class Palworld(ProtocolBase):
                 )
             )
         return players
+
 
 if __name__ == "__main__":
     import asyncio

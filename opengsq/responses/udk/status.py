@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Union, List
 from enum import IntEnum
 
+
 class PlatformType(IntEnum):
     Unknown = 0
     Windows = 1
@@ -10,12 +11,14 @@ class PlatformType(IntEnum):
     Linux = 16
     MacOSX = 32
 
+
 @dataclass
 class Player:
     name: str
     score: int = 0
     ping: int = 0
     team: int = 0
+
 
 @dataclass
 class Status:

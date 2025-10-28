@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
@@ -12,14 +11,14 @@ class Flatout2(ProtocolBase):
     """
     ✅ KORRIGIERT: This class represents the Flatout 2 Protocol with complete game option decoding.
     Based on comprehensive analysis of 2074 systematically varied payloads.
-    
+
     Supports decoding of all 5 target game options:
     - Car Type (Byte -8, Bits 7-4) + Upgrade Setting (Byte -8, Bits 3-2)
     - Game Mode (Byte -7, Bits 7-1) + Nitro Multi Bit 0 (Byte -7, Bit 0)
-    - Race Damage (Byte -6, Bits 6-4) 
+    - Race Damage (Byte -6, Bits 6-4)
     - Derby Damage (Byte -6, Bits 3-2)
     - Nitro Multi (2-byte system: Byte -6 Bit 7 + Byte -7 Bit 0)
-    
+
     The protocol uses broadcast packets to discover and query servers.
     """
 
@@ -84,8 +83,6 @@ class Flatout2(ProtocolBase):
         0x3: 2,     # Modified + High (Byte -6 Bit 7 = 1, Byte -7 Bit 0 = 1)
     }
 
-
-    
     # Complete track type mapping (byte at offset 94)
     TRACK_TYPE_NAMES = {
         0x10: "Wald",    # Forest tracks (Timberlands, Pinegrove, City Central, Downtown)
@@ -95,19 +92,19 @@ class Flatout2(ProtocolBase):
         0x14: "Arena",   # Arena tracks (Crash Alley, Speedway variants, Stunt)
         0x15: "Stunt",   # Stunt special tracks
     }
-    
+
     # Combined mapping for precise track identification
     # Key format: (track_type_id, map_id) -> track_name
     PRECISE_TRACK_MAPPING = {
         # Feld tracks with Track Type 0x12
         (0x12, 0x04): "Farmlands 2",
         (0x12, 0x14): "Farmlands 3",
-        
+
         # Kanal tracks with Track Type 0x11
         (0x11, 0x04): "Water Canal 1",
         (0x11, 0x14): "Water Canal 2",
         (0x11, 0x24): "Water Canal 3",
-        
+
         # Wald tracks with Track Type 0x10
         (0x10, 0x14): "Timberlands 1",
         (0x10, 0x24): "Timberlands 2",
@@ -115,13 +112,13 @@ class Flatout2(ProtocolBase):
         (0x10, 0x44): "Pinegrove 1",
         (0x10, 0x54): "Pinegrove 2",
         (0x10, 0x64): "Pinegrove 3",
-        
+
         # Feld tracks with Track Type 0x11
         (0x11, 0xC4): "Midwest Ranch 1",
         (0x11, 0xD4): "Midwest Ranch 2",
         (0x11, 0xE4): "Midwest Ranch 3",
         (0x11, 0xF4): "Farmlands 1",
-        
+
         # Stadt tracks with Track Type 0x10
         (0x10, 0xA4): "City Central 1",
         (0x10, 0xB4): "City Central 2",
@@ -129,12 +126,12 @@ class Flatout2(ProtocolBase):
         (0x10, 0xD4): "Downtown 1",
         (0x10, 0xE4): "Downtown 2",
         (0x10, 0xF4): "Downtown 3",
-        
+
         # Wüste tracks with Track Type 0x11
         (0x11, 0x64): "Desert Oil Field",
         (0x11, 0x74): "Desert Scrap Yard",
         (0x11, 0x84): "Desert Town",
-        
+
         # Rennen tracks with Track Type 0x12
         (0x12, 0x84): "Riverbay Circuit 1",
         (0x12, 0x94): "Riverbay Circuit 2",
@@ -142,7 +139,7 @@ class Flatout2(ProtocolBase):
         (0x12, 0xB4): "Motor Raceway 1",
         (0x12, 0xC4): "Motor Raceway 2",
         (0x12, 0xD4): "Motor Raceway 3",
-        
+
         # Arena tracks with Track Type 0x13 (Derby and Arena)
         (0x13, 0x46): "Gas Station Derby",
         (0x13, 0x56): "Parking Lot Derby",
@@ -160,7 +157,7 @@ class Flatout2(ProtocolBase):
         (0x13, 0xE6): "Sand Speedway",      # Duplicate Map ID
         (0x13, 0xF4): "Figure of Eight 2",
         (0x13, 0xF6): "Figure of Eight 2",  # Duplicate Map ID
-        
+
         # Arena tracks with Track Type 0x14 (Speedway and Stunt)
         (0x14, 0x04): "Crash Alley",
         (0x14, 0x06): "Crash Alley",        # Duplicate Map ID
@@ -176,7 +173,7 @@ class Flatout2(ProtocolBase):
         (0x14, 0x92): "Curling",
         (0x14, 0xA2): "Stone Skipping",
         (0x14, 0xB2): "Ring of Fire",
-        
+
         # Stunt special tracks with Track Type 0x15
         (0x15, 0x02): "Field Goal",
         (0x15, 0x12): "Royal Flush",
@@ -220,8 +217,6 @@ class Flatout2(ProtocolBase):
 
         # Send broadcast and receive response
         data = await UdpClient.communicate(self, request_data, source_port=self.FLATOUT2_PORT)
-
-
 
         # Verify response packet
         if not self._verify_packet(data):
@@ -267,7 +262,7 @@ class Flatout2(ProtocolBase):
             if char_bytes == b"\x00\x00":  # End of string
                 break
             bytes_list.extend(char_bytes)
-        
+
         return bytes(bytes_list).decode('utf-16-le').strip()
 
     def _extract_car_type(self, data: bytes) -> str:
@@ -281,15 +276,15 @@ class Flatout2(ProtocolBase):
         try:
             if len(data) >= 8:
                 byte_minus_8 = data[-8]  # 8 bytes from end
-                
+
                 # Extract car type from bits 7-4
                 car_type_bits = (byte_minus_8 >> 4) & 0x0F
                 car_type_base = self.CAR_TYPE_BASE_MAPPINGS.get(car_type_bits, f"Unknown (0x{car_type_bits:X})")
-                
+
                 # Extract upgrade setting from bits 3-2
                 upgrade_bits = (byte_minus_8 >> 2) & 0x03
                 upgrade_setting = self.UPGRADE_SETTING_MAPPINGS.get(upgrade_bits, f"Unknown (0x{upgrade_bits:X})")
-                
+
                 return f"{car_type_base} ({upgrade_setting} Upgrades)"
             else:
                 return "Unknown"
@@ -300,14 +295,14 @@ class Flatout2(ProtocolBase):
     def _extract_car_type_base(self, data: bytes) -> str:
         """
         ✅ KORRIGIERT: Extracts base car type using bit-dekodierung (Byte -8, Bits 7-4)
-        
+
         :param data: The complete response data
         :return: The base car type name or "Unknown" if not found
         """
         try:
             if len(data) >= 8:
                 byte_minus_8 = data[-8]  # 8 bytes from end
-                
+
                 # Extract car type from bits 7-4
                 car_type_bits = (byte_minus_8 >> 4) & 0x0F
                 return self.CAR_TYPE_BASE_MAPPINGS.get(car_type_bits, f"Unknown (0x{car_type_bits:X})")
@@ -320,14 +315,14 @@ class Flatout2(ProtocolBase):
     def _extract_upgrade_setting(self, data: bytes) -> str:
         """
         ✅ KORRIGIERT: Extracts upgrade setting using bit-dekodierung (Byte -8, Bits 3-2)
-        
+
         :param data: The complete response data
         :return: The upgrade setting or "Unknown" if not found
         """
         try:
             if len(data) >= 8:
                 byte_minus_8 = data[-8]  # 8 bytes from end
-                
+
                 # Extract upgrade setting from bits 3-2
                 upgrade_bits = (byte_minus_8 >> 2) & 0x03
                 return self.UPGRADE_SETTING_MAPPINGS.get(upgrade_bits, f"Unknown (0x{upgrade_bits:X})")
@@ -348,7 +343,7 @@ class Flatout2(ProtocolBase):
         try:
             if len(data) >= 7:
                 byte_minus_7 = data[-7]  # 7 bytes from end
-                
+
                 # Extract game mode base (ignore bit 0 for nitro)
                 game_mode_base = byte_minus_7 & 0xFE  # Clear bit 0
                 return self.GAME_MODE_BASE_MAPPINGS.get(game_mode_base, f"Unknown (0x{byte_minus_7:02X})")
@@ -369,7 +364,7 @@ class Flatout2(ProtocolBase):
         try:
             if len(data) >= 6:
                 byte_minus_6 = data[-6]  # 6 bytes from end
-                
+
                 # Extract race damage from bits 6-4
                 race_damage_bits = (byte_minus_6 >> 4) & 0x07
                 return self.RACE_DAMAGE_MAPPINGS.get(race_damage_bits, 0)
@@ -390,7 +385,7 @@ class Flatout2(ProtocolBase):
         try:
             if len(data) >= 6:
                 byte_minus_6 = data[-6]  # 6 bytes from end
-                
+
                 # Extract derby damage from bits 3-2
                 derby_damage_bits = (byte_minus_6 >> 2) & 0x03
                 return self.DERBY_DAMAGE_MAPPINGS.get(derby_damage_bits, 0.5)
@@ -413,11 +408,11 @@ class Flatout2(ProtocolBase):
             if len(data) >= 7:
                 byte_minus_6 = data[-6]  # 6 bytes from end
                 byte_minus_7 = data[-7]  # 7 bytes from end
-                
+
                 # Extract nitro bits from both bytes
                 nitro_bit_7 = (byte_minus_6 >> 7) & 0x01  # Bit 7 from byte -6
                 nitro_bit_0 = byte_minus_7 & 0x01         # Bit 0 from byte -7
-                
+
                 # Combine bits: (bit_7 << 1) | bit_0
                 nitro_combined = (nitro_bit_7 << 1) | nitro_bit_0
                 return self.NITRO_MULTI_MAPPINGS.get(nitro_combined, 0)
@@ -442,21 +437,21 @@ class Flatout2(ProtocolBase):
             if len(data) >= 3:
                 track_type_id = data[-3]  # Third-to-last byte (offset 94)
                 map_id = data[-2]         # Second-to-last byte (offset 95)
-                
+
                 # First try precise mapping using both track type and map ID
                 precise_key = (track_type_id, map_id)
                 if precise_key in self.PRECISE_TRACK_MAPPING:
                     track_name = self.PRECISE_TRACK_MAPPING[precise_key]
                     track_type_name = self.TRACK_TYPE_NAMES.get(track_type_id, f"Type{track_type_id:02X}")
                     return f"{track_name} ({track_type_name})"
-                
+
                 # Fallback to track type name if precise mapping not found
                 track_type_name = self.TRACK_TYPE_NAMES.get(track_type_id, f"Type{track_type_id:02X}")
                 return f"{track_type_name} Track (ID: 0x{map_id:02X})"
-                
+
             else:
                 return "Unknown Map"
-                
+
         except Exception as e:
             print(f"Error extracting map name: {e}")
             return "Unknown Map"
@@ -476,7 +471,7 @@ class Flatout2(ProtocolBase):
                 end_byte = data[-1]  # Last byte (offset 96)
                 # Extract limit from upper 4 bits
                 limit_value = (end_byte & 0xF0) >> 4
-                
+
                 if game_mode == "Race":
                     return {
                         "lap_count": limit_value,
@@ -540,7 +535,7 @@ class Flatout2(ProtocolBase):
             car_type_full = self._extract_car_type(original_data)
             car_type_base = self._extract_car_type_base(original_data)
             upgrade_setting = self._extract_upgrade_setting(original_data)
-            
+
             info["car_type"] = car_type_full  # Full description with upgrades
             info["car_type_base"] = car_type_base  # Base car type only
             info["upgrade_setting"] = upgrade_setting  # Upgrade setting only
@@ -590,23 +585,23 @@ class Flatout2(ProtocolBase):
             # Max players at -11 bytes from end, Current players at -10 bytes from end
             max_players = 8  # Default
             current_players = 0  # Default
-            
+
             if len(original_data) >= 11:
                 max_players_pos = len(original_data) - 11  # 11 bytes from end
                 current_players_pos = len(original_data) - 10  # 10 bytes from end
-                
+
                 max_players = original_data[max_players_pos]
                 current_players_raw = original_data[current_players_pos]
                 # Current players are encoded as count * 0x10
                 current_players = current_players_raw // 0x10 if current_players_raw > 0 else 0
-                
+
                 # Sanity check: current players shouldn't exceed max players
                 if current_players > max_players:
                     current_players = max_players
-            
+
             info["current_players"] = current_players
             info["max_players"] = max_players
-            
+
             # Read remaining configuration data
             # Calculate remaining bytes manually since br.tell() doesn't exist
             bytes_read_so_far = 36 + len(server_name.encode('utf-16-le')) + 2 + 8 + 4 + 16  # Approximate
@@ -615,7 +610,7 @@ class Flatout2(ProtocolBase):
                 try:
                     config_data = br.read_bytes(min(remaining_bytes, 12))
                     info["config"] = config_data.hex()
-                except:
+                except Exception:
                     info["config"] = ""
             else:
                 info["config"] = ""
@@ -655,4 +650,6 @@ if __name__ == "__main__":
         # Use broadcast address for LAN discovery
         flatout2 = Flatout2(host="255.255.255.255", port=23757, timeout=5.0)
         status = await flatout2.get_status()
-        print(status) 
+        print(status)
+
+    asyncio.run(main_async())

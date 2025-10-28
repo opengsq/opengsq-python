@@ -15,7 +15,3 @@ class Cod1Status:
 
     status: Status
     """The server status response."""
-
-
-
-

@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from typing import Dict, Any
 
+
 @dataclass
 class Status:
     """
@@ -12,4 +13,4 @@ class Status:
     game_type: str
     num_players: int
     max_players: int
-    raw: Dict[str, Any] 
+    raw: Dict[str, Any]

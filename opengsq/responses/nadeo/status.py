@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -13,7 +13,7 @@ class Player:
     is_spectator: bool
     ladder_ranking: int
     flags: int
-    
+
 
 @dataclass
 class ServerOptions:
@@ -44,10 +44,10 @@ class Status:
     server_options: ServerOptions
     players: list[Player]
     map_info: MapInfo  # Add this
-    
+
     @classmethod
-    def from_raw_data(cls, version_data: dict[str, str], 
-                    server_data: dict[str, Any], 
+    def from_raw_data(cls, version_data: dict[str, str],
+                    server_data: dict[str, Any],
                     players_data: list[dict[str, Any]],
                     map_data: dict[str, Any]) -> Status:
         version = Version(
@@ -55,7 +55,7 @@ class Status:
             version=version_data.get('Version', ''),
             build=version_data.get('Build', '')
         )
-        
+
         server_options = ServerOptions(
             name=server_data.get('Name', ''),
             comment=server_data.get('Comment', ''),
@@ -68,7 +68,7 @@ class Status:
             ladder_mode=server_data.get('CurrentLadderMode', 0),
             vehicle_quality=server_data.get('CurrentVehicleNetQuality', 0)
         )
-        
+
         players = [
             Player(
                 login=p.get('Login', ''),
@@ -81,18 +81,19 @@ class Status:
             )
             for p in players_data
         ]
-        
+
         map_info = MapInfo.from_dict(map_data)
 
         return cls(version, server_options, players, map_info)
-    
+
+
 @dataclass
 class MapInfo:
     """Represents current map information."""
     name: str
     author: str
     environment: str
-    
+
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> MapInfo:
         return cls(

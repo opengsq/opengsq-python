@@ -73,4 +73,3 @@ class BinaryReader:
         length = self.read_byte()
         pascal_string = str(self.read_bytes(length - 1), encoding=encoding, errors=errors)
         return pascal_string
-

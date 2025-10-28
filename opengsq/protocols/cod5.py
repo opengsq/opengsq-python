@@ -34,29 +34,29 @@ class CoD5(ProtocolBase):
         """
         # Construct the getinfo payload: ffffffff676574696e666f20787878
         payload = b"\xFF\xFF\xFF\xFF" + b"getinfo " + challenge.encode('ascii')
-        
+
         response_data = await UdpClient.communicate(self, payload, source_port=self._source_port)
-        
+
         # Parse the response
         br = BinaryReader(response_data)
-        
+
         # Skip the header (4 bytes of 0xFF)
         header = br.read_bytes(4)
         if header != b"\xFF\xFF\xFF\xFF":
             raise InvalidPacketException(
                 f"Invalid packet header. Expected: \\xFF\\xFF\\xFF\\xFF. Received: {header.hex()}"
             )
-        
+
         # Read the response type
         response_type = br.read_string([b'\n'])
         if response_type != "infoResponse":
             raise InvalidPacketException(
                 f"Unexpected response type. Expected: infoResponse. Received: {response_type}"
             )
-        
+
         # Parse the key-value pairs
         info_data = self._parse_key_value_pairs(br)
-        
+
         return Info(info_data)
 
     async def get_status(self) -> Status:
@@ -67,29 +67,29 @@ class CoD5(ProtocolBase):
         """
         # Construct the getstatus payload: ffffffff676574737461747573
         payload = b"\xFF\xFF\xFF\xFF" + b"getstatus"
-        
+
         response_data = await UdpClient.communicate(self, payload, source_port=self._source_port)
-        
+
         # Parse the response
         br = BinaryReader(response_data)
-        
+
         # Skip the header (4 bytes of 0xFF)
         header = br.read_bytes(4)
         if header != b"\xFF\xFF\xFF\xFF":
             raise InvalidPacketException(
                 f"Invalid packet header. Expected: \\xFF\\xFF\\xFF\\xFF. Received: {header.hex()}"
             )
-        
+
         # Read the response type
         response_type = br.read_string([b'\n'])
         if response_type != "statusResponse":
             raise InvalidPacketException(
                 f"Unexpected response type. Expected: statusResponse. Received: {response_type}"
             )
-        
+
         # Parse the key-value pairs
         status_data = self._parse_key_value_pairs(br)
-        
+
         return Status(status_data)
 
     async def get_full_status(self, challenge: str = "xxx") -> Cod5Status:
@@ -100,12 +100,12 @@ class CoD5(ProtocolBase):
         :return: A Cod5Status object containing both info and status.
         """
         import asyncio
-        
+
         # Add a small delay between requests to avoid socket conflicts
         info = await self.get_info(challenge)
         await asyncio.sleep(0.1)  # 100ms delay
         status = await self.get_status()
-        
+
         return Cod5Status(info=info, status=status)
 
     def _parse_key_value_pairs(self, br: BinaryReader) -> dict[str, str]:
@@ -117,17 +117,17 @@ class CoD5(ProtocolBase):
         :return: A dictionary containing the parsed key-value pairs.
         """
         data = {}
-        
+
         # Read the remaining data as string
         remaining_data = br.read().decode('ascii', errors='ignore')
-        
+
         # Split by backslash and process pairs
         parts = remaining_data.split('\\')
-        
+
         # Remove empty first element if it exists (starts with \)
         if parts and parts[0] == '':
             parts = parts[1:]
-        
+
         # Process pairs (key, value, key, value, ...)
         for i in range(0, len(parts) - 1, 2):
             if i + 1 < len(parts):
@@ -135,7 +135,7 @@ class CoD5(ProtocolBase):
                 value = parts[i + 1].strip()
                 if key:  # Only add non-empty keys
                     data[key] = value
-        
+
         return data
 
 
@@ -145,7 +145,7 @@ if __name__ == "__main__":
     async def main_async():
         # Test with the provided server
         cod5 = CoD5(host="172.29.100.29", port=28960, timeout=5.0)
-        
+
         try:
             print("Getting server info...")
             info = await cod5.get_info()
@@ -154,7 +154,7 @@ if __name__ == "__main__":
             print(f"Map: {info.mapname}")
             print(f"Gametype: {info.gametype}")
             print(f"Players: {info.clients}/{info.sv_maxclients}")
-            
+
             print("\n" + "="*50)
             print("Getting server status...")
             await asyncio.sleep(0.2)  # Wait a bit before next request
@@ -163,7 +163,7 @@ if __name__ == "__main__":
             print(f"Server Name: {status.sv_hostname}")
             print(f"Game: {status.gamename}")
             print(f"Map: {status.mapname}")
-            
+
         except Exception as e:
             print(f"Error: {e}")
             import traceback

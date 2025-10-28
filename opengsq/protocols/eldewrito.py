@@ -1,35 +1,32 @@
-import asyncio
 import aiohttp
-import json
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
 from opengsq.responses.eldewrito.status import Status, Player
-from opengsq.binary_reader import BinaryReader
-import struct
 import logging
+
 
 class ElDewrito(ProtocolBase):
     """ElDewrito Protocol Implementation"""
-    
+
     ELDEWRITO_BROADCAST_PORT = 11774
     ELDEWRITO_HTTP_PORT = 11775
-    
+
     # ElDewrito broadcast query payload
     BROADCAST_QUERY = bytes([
-        0x01, 0x62, 0x6c, 0x61, 0x6d, 0x00, 0x00, 0x00, 
-        0x09, 0x81, 0x00, 0x02, 0x00, 0x01, 0x2d, 0xc3, 
+        0x01, 0x62, 0x6c, 0x61, 0x6d, 0x00, 0x00, 0x00,
+        0x09, 0x81, 0x00, 0x02, 0x00, 0x01, 0x2d, 0xc3,
         0x04, 0x93, 0xdc, 0x05, 0xd9, 0x95, 0x40
     ])
-    
+
     @property
     def full_name(self) -> str:
         return "ElDewrito Protocol"
-    
+
     def __init__(self, host: str, port: int = ELDEWRITO_BROADCAST_PORT, timeout: float = 5.0):
         super().__init__(host, port, timeout)
         self._allow_broadcast = True
         self.logger = logging.getLogger(f"{__name__}.ElDewrito")
-        
+
     async def get_status(self) -> Status:
         """
         Get server status using ElDewrito's two-step discovery process:
@@ -39,38 +36,38 @@ class ElDewrito(ProtocolBase):
         # Step 1: Send broadcast query and wait for response
         try:
             data = await UdpClient.communicate(
-                self, 
-                self.BROADCAST_QUERY, 
+                self,
+                self.BROADCAST_QUERY,
                 source_port=self.ELDEWRITO_BROADCAST_PORT
             )
-            
+
             # Step 2: Validate response (must be > 120 bytes from port 11774)
             if not self._is_valid_broadcast_response(data):
                 raise Exception("Invalid broadcast response")
-                
+
             # Step 3: Query HTTP endpoint for detailed server info
             server_info = await self._query_http_endpoint()
-            
+
             # Step 4: Parse and return status
             return self._parse_server_info(server_info)
-            
+
         except Exception as e:
             self.logger.error(f"Error getting ElDewrito server status: {e}")
             raise
-    
+
     def _is_valid_broadcast_response(self, data: bytes) -> bool:
         """
         Validate ElDewrito broadcast response.
         Response should be > 120 bytes and from port 11774.
         """
         return len(data) > 120
-    
+
     async def _query_http_endpoint(self) -> dict:
         """
         Query the ElDewrito HTTP endpoint on port 11775 for server information.
         """
         url = f"http://{self._host}:{self.ELDEWRITO_HTTP_PORT}/"
-        
+
         try:
             async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=self._timeout)) as session:
                 async with session.get(url) as response:
@@ -78,11 +75,11 @@ class ElDewrito(ProtocolBase):
                         return await response.json()
                     else:
                         raise Exception(f"HTTP request failed with status {response.status}")
-                        
+
         except Exception as e:
             self.logger.error(f"Error querying HTTP endpoint: {e}")
             raise
-    
+
     def _parse_server_info(self, server_info: dict) -> Status:
         """
         Parse the JSON response from ElDewrito HTTP endpoint into Status object.
@@ -105,7 +102,7 @@ class ElDewrito(ProtocolBase):
                     best_streak=player_data.get('bestStreak', 0)
                 )
                 players.append(player)
-            
+
             # Create Status object
             status = Status(
                 name=server_info.get('name', 'Unknown ElDewrito Server'),
@@ -137,31 +134,31 @@ class ElDewrito(ProtocolBase):
                 game_version=server_info.get('gameVersion', 'Unknown'),
                 eldewrito_version=server_info.get('eldewritoVersion', 'Unknown')
             )
-            
+
             return status
-            
+
         except Exception as e:
             self.logger.error(f"Error parsing server info: {e}")
             raise Exception(f"Failed to parse ElDewrito server info: {e}")
-    
+
     async def discover_servers(self, broadcast_address: str = "255.255.255.255") -> list:
         """
         Discover ElDewrito servers using broadcast query.
         This method can be used for network discovery.
         """
         discovered_servers = []
-        
+
         try:
             # Create a temporary instance for broadcast
             broadcast_client = ElDewrito(broadcast_address, self.ELDEWRITO_BROADCAST_PORT, self._timeout)
-            
+
             # Send broadcast query - use regular communicate method
             data = await UdpClient.communicate(
                 broadcast_client,
                 self.BROADCAST_QUERY,
                 source_port=self.ELDEWRITO_BROADCAST_PORT
             )
-            
+
             # Process response if valid
             if self._is_valid_broadcast_response(data):
                 try:
@@ -171,8 +168,8 @@ class ElDewrito(ProtocolBase):
                     discovered_servers.append(((broadcast_address, self.ELDEWRITO_BROADCAST_PORT), status))
                 except Exception as e:
                     self.logger.debug(f"Failed to get status from {broadcast_address}:{self.ELDEWRITO_BROADCAST_PORT}: {e}")
-                        
+
         except Exception as e:
             self.logger.error(f"Error during server discovery: {e}")
-            
-        return discovered_servers 
+
+        return discovered_servers

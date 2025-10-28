@@ -116,4 +116,4 @@ class ServerInfo:
             'challenge_crc': self.challenge_crc,
             'public_ip': self.public_ip,
             'local_ip': self.local_ip
-        } 
+        }

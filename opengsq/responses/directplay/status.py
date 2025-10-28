@@ -20,7 +20,7 @@ class Player:
     ready: bool = False
 
 
-@dataclass 
+@dataclass
 class Status:
     """DirectPlay Status Response"""
     name: str

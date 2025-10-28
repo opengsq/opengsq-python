@@ -6,6 +6,7 @@ from opengsq.binary_reader import BinaryReader
 from opengsq.responses.warcraft3 import Status
 from enum import IntFlag, IntEnum
 
+
 class GameFlags(IntFlag):
     """Game flags based on the Go implementation"""
     CUSTOM_GAME = 0x000001
@@ -35,6 +36,7 @@ class GameFlags(IntFlag):
     OBS_MASK = 0x700000
     FILTER_MASK = 0x7FE000
 
+
 class GameSettingFlags(IntFlag):
     """Game setting flags based on the Go implementation"""
     SPEED_SLOW = 0x00000000
@@ -58,11 +60,13 @@ class GameSettingFlags(IntFlag):
     RANDOM_HERO = 0x02000000
     RANDOM_RACE = 0x04000000
 
+
 class SlotStatus(IntEnum):
     """Slot status based on the Go implementation"""
     OPEN = 0x00
     CLOSED = 0x01
     OCCUPIED = 0x02
+
 
 class Warcraft3(ProtocolBase):
     """
@@ -122,7 +126,7 @@ class Warcraft3(ProtocolBase):
             raise Exception("Invalid response")
 
         br = BinaryReader(response)
-        
+
         # Validate protocol signature
         if int.from_bytes(br.read_bytes(1), 'little') != self.PROTOCOL_SIG:
             raise Exception("Invalid protocol signature")
@@ -202,19 +206,19 @@ class Warcraft3(ProtocolBase):
             while i < len(settings_raw):
                 if i >= len(settings_raw):
                     break
-                
+
                 # Read control byte
                 control = settings_raw[i]
                 i += 1
-                
+
                 # Process next 7 bytes based on control byte
                 for j in range(7):
                     if i >= len(settings_raw):
                         break
-                    
+
                     byte_val = settings_raw[i]
                     i += 1
-                    
+
                     # Check if this byte was modified (bit j+1 in control byte)
                     if control & (1 << (j + 1)) == 0:
                         # Byte was incremented, so decrement it
@@ -222,38 +226,38 @@ class Warcraft3(ProtocolBase):
                     else:
                         # Byte was not modified
                         decoded.append(byte_val)
-            
+
             if len(decoded) < 16:
                 return "Map name unavailable"
-            
+
             # Parse the decoded settings
             # Skip: flags (4), unknown (1), width (2), height (2), xoro (4) = 13 bytes
             pos = 13
-            
+
             # Read map path (null-terminated string)
             map_path = ""
             while pos < len(decoded) and decoded[pos] != 0:
                 map_path += chr(decoded[pos])
                 pos += 1
-            
+
             if not map_path:
                 return "Map name unavailable"
-            
+
             # Extract filename from path and remove extension
             # Handle both forward and backward slashes
             map_path = map_path.replace('\\', '/')
             filename = map_path.split('/')[-1]
-            
+
             # Remove file extension
             if '.' in filename:
                 filename = filename.rsplit('.', 1)[0]
-            
+
             # Remove player count prefix like "(2)", "(4)", etc.
             import re
             filename = re.sub(r'^\(\d+\)\s*', '', filename)
-            
+
             return filename if filename else "Map name unavailable"
-            
+
         except Exception:
             return "Map name unavailable"
 
@@ -273,4 +277,4 @@ class Warcraft3(ProtocolBase):
             return "Ladder 4v4"
         elif flags & GameFlags.SAVED_GAME:
             return "Saved Game"
-        return "Unknown" 
+        return "Unknown"
