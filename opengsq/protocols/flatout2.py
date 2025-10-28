@@ -83,8 +83,6 @@ class Flatout2(ProtocolBase):
         0x3: 2,     # Modified + High (Byte -6 Bit 7 = 1, Byte -7 Bit 0 = 1)
     }
 
-
-
     # Complete track type mapping (byte at offset 94)
     TRACK_TYPE_NAMES = {
         0x10: "Wald",    # Forest tracks (Timberlands, Pinegrove, City Central, Downtown)
@@ -219,8 +217,6 @@ class Flatout2(ProtocolBase):
 
         # Send broadcast and receive response
         data = await UdpClient.communicate(self, request_data, source_port=self.FLATOUT2_PORT)
-
-
 
         # Verify response packet
         if not self._verify_packet(data):
@@ -655,3 +651,5 @@ if __name__ == "__main__":
         flatout2 = Flatout2(host="255.255.255.255", port=23757, timeout=5.0)
         status = await flatout2.get_status()
         print(status)
+
+    asyncio.run(main_async())
