@@ -111,7 +111,7 @@ class CoD1(ProtocolBase):
     def _parse_key_value_pairs(self, br: BinaryReader) -> dict[str, str]:
         """
         Parses key-value pairs from the binary reader.
-        CoD1 uses backslash (\) as delimiter between keys and values.
+        CoD1 uses backslash ( \\ ) as delimiter between keys and values.
 
         :param br: The BinaryReader object to parse from.
         :return: A dictionary containing the parsed key-value pairs.
