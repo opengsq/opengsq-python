@@ -109,7 +109,9 @@ class SupCom(ProtocolBase):
                 def error_received(self, exc):
                     pass
             
-            # Create UDP socket for receiving responses
+            # Create UDP socket on RESPONSE_PORT for both sending AND receiving
+            # Supreme Commander servers respond to the source port of the query,
+            # so we must send FROM port 55582, not just listen on it
             transport, protocol = await loop.create_datagram_endpoint(
                 ResponseCollector,
                 local_addr=('0.0.0.0', self.RESPONSE_PORT),
@@ -117,22 +119,11 @@ class SupCom(ProtocolBase):
             )
             
             try:
-                # Create separate socket for sending broadcast
-                send_transport, _ = await loop.create_datagram_endpoint(
-                    asyncio.DatagramProtocol,
-                    local_addr=('0.0.0.0', 0),
-                    allow_broadcast=True
-                )
+                # Send broadcast query FROM port 55582
+                transport.sendto(self.QUERY_PAYLOAD, (broadcast_addr, self.QUERY_PORT))
                 
-                try:
-                    # Send broadcast query
-                    send_transport.sendto(self.QUERY_PAYLOAD, (broadcast_addr, self.QUERY_PORT))
-                    
-                    # Wait for responses
-                    await asyncio.sleep(self._timeout)
-                    
-                finally:
-                    send_transport.close()
+                # Wait for responses
+                await asyncio.sleep(self._timeout)
                 
                 # Parse all responses
                 for data, addr in responses:
