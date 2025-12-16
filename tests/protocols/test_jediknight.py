@@ -47,3 +47,4 @@ class TestJediKnight:
         assert jk._source_port == 29070
         await handler.save_result("test_protocol_properties", jk)
 
+
