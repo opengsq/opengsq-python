@@ -18,6 +18,7 @@ from opengsq.protocols.gamespy2 import GameSpy2
 from opengsq.protocols.gamespy3 import GameSpy3
 from opengsq.protocols.gamespy4 import GameSpy4
 from opengsq.protocols.halo1 import Halo1
+from opengsq.protocols.jediknight import JediKnight
 from opengsq.protocols.kaillera import Kaillera
 from opengsq.protocols.killingfloor import KillingFloor
 from opengsq.protocols.minecraft import Minecraft
