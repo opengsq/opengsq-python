@@ -23,6 +23,7 @@ Protocols Tests
 	test_quake2/index
 	test_gamespy3/index
 	test_stronghold_crusader/index
+	test_supcom/index
 	test_kaillera/index
 	test_toxikk/index
 	test_avp2/index
