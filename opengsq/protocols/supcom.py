@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import struct
 import asyncio
+import socket
 from typing import Dict, Any, Optional, List, Tuple
 
 from opengsq.binary_reader import BinaryReader
@@ -112,10 +113,16 @@ class SupCom(ProtocolBase):
             # Create UDP socket on RESPONSE_PORT for both sending AND receiving
             # Supreme Commander servers respond to the source port of the query,
             # so we must send FROM port 55582, not just listen on it
+            # Use SO_REUSEADDR to allow rapid re-binding after previous scan
+            sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+            sock.bind(('0.0.0.0', self.RESPONSE_PORT))
+            sock.setblocking(False)
+            
             transport, protocol = await loop.create_datagram_endpoint(
                 ResponseCollector,
-                local_addr=('0.0.0.0', self.RESPONSE_PORT),
-                allow_broadcast=True
+                sock=sock
             )
             
             try:
