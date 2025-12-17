@@ -7,3 +7,15 @@ from .server_type import ServerType
 from .source_info import SourceInfo
 from .vac import VAC
 from .visibility import Visibility
+
+__all__ = [
+    "Environment",
+    "ExtraDataFlag",
+    "GoldSourceInfo",
+    "PartialInfo",
+    "Player",
+    "ServerType",
+    "SourceInfo",
+    "VAC",
+    "Visibility",
+]
