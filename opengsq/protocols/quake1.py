@@ -134,7 +134,7 @@ class Quake1(ProtocolBase):
         :param data: The data to send to the game server.
         :return: The response from the game server.
         """
-        header = b"\xFF\xFF\xFF\xFF"
+        header = b"\xff\xff\xff\xff"
         response_data = await UdpClient.communicate(self, header + data + b"\x00")
 
         # Remove the last 0x00 if exists (Only if Quake1)
@@ -146,7 +146,7 @@ class Quake1(ProtocolBase):
             response_data += self._delimiter2
 
         # Remove the first four 0xFF
-        return response_data[len(header):]
+        return response_data[len(header) :]
 
 
 if __name__ == "__main__":

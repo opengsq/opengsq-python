@@ -18,7 +18,3 @@ tmn = TrackmaniaNations(host=SERVER_IP, port=SERVER_PORT)
 async def test_get_info():
     result = await tmn.get_info()
     await handler.save_result("test_get_info", result)
-
-
-
-

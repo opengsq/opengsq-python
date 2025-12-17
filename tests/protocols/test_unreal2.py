@@ -10,6 +10,7 @@ handler = ResultHandler(__file__)
 # test = Unreal2(host="109.230.224.189", port=6970)
 test = Unreal2(host="80.4.151.145", port=7778)
 
+
 @pytest.mark.asyncio
 async def test_get_details():
     result = await test.get_details()

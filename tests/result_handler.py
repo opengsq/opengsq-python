@@ -53,7 +53,7 @@ class ResultHandler:
                 f.write(title + "\n")
                 f.write(("=" * len(title)) + "\n")
                 f.write("\nHere are the results for the test method.\n")
-                f.write(f'\n.. code-block:: {(is_json and "json" or "text")}\n\n')
+                f.write(f"\n.. code-block:: {(is_json and 'json' or 'text')}\n\n")
 
                 for line in result.splitlines():
                     f.write("\t" + line + "\n")
@@ -63,15 +63,17 @@ class ResultHandler:
         await asyncio.sleep(self.delay_per_test)
 
     def create_tests_index_rst(self):
-        test_files = Path(os.path.join(os.path.dirname(__file__), self.last_dir)).glob("test_*.py")
+        test_files = Path(os.path.join(os.path.dirname(__file__), self.last_dir)).glob(
+            "test_*.py"
+        )
 
         with open(
             os.path.join(self.results_path, "index.rst"), "w", encoding="utf-8"
         ) as f:
-            title = self.last_dir.title().replace("_", " ") + ' Tests'
+            title = self.last_dir.title().replace("_", " ") + " Tests"
             f.write(f".. _{self.last_dir}_tests:\n")
             f.write(f"\n{title}\n")
-            f.write(f'{"=" * len(title)}\n')
+            f.write(f"{'=' * len(title)}\n")
             f.write("\n.. toctree::\n")
 
             for file in test_files:
@@ -85,7 +87,7 @@ class ResultHandler:
         ) as f:
             f.write(f".. _{self.file_name}:\n")
             f.write(f"\n{self.file_name}\n")
-            f.write(f'{"=" * len(self.file_name)}\n')
+            f.write(f"{'=' * len(self.file_name)}\n")
             f.write("\n.. toctree::\n")
 
             for file in test_results_files:

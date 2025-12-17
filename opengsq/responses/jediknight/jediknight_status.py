@@ -15,5 +15,3 @@ class JediKnightStatus:
 
     status: Status
     """The server status response."""
-
-

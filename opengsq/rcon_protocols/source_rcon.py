@@ -151,7 +151,7 @@ class SourceRcon(ProtocolBase):
             size = br.read_long()
 
             if br.stream_position + size > len(packet_bytes):
-                return packets, packet_bytes[br.stream_position - 4:]
+                return packets, packet_bytes[br.stream_position - 4 :]
 
             id = br.read_long()
             type = br.read_long()

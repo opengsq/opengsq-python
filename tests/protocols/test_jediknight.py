@@ -7,6 +7,7 @@ from ..result_handler import ResultHandler
 handler = ResultHandler(__file__)
 handler.enable_save = True
 
+
 class TestJediKnight:
     @pytest.mark.asyncio
     async def test_get_info(self):
@@ -14,9 +15,9 @@ class TestJediKnight:
         info = await jk.get_info()
         assert info is not None
         # Check that we got some basic info
-        assert hasattr(info, 'hostname')
-        assert hasattr(info, 'mapname')
-        assert hasattr(info, 'gametype')
+        assert hasattr(info, "hostname")
+        assert hasattr(info, "mapname")
+        assert hasattr(info, "gametype")
         await handler.save_result("test_get_info", info)
 
     @pytest.mark.asyncio
@@ -25,10 +26,10 @@ class TestJediKnight:
         status = await jk.get_status()
         assert status is not None
         # Check that we got some basic status info
-        assert hasattr(status, 'sv_hostname')
-        assert hasattr(status, 'mapname')
-        assert hasattr(status, 'gamename')
-        assert hasattr(status, 'players')
+        assert hasattr(status, "sv_hostname")
+        assert hasattr(status, "mapname")
+        assert hasattr(status, "gamename")
+        assert hasattr(status, "players")
         await handler.save_result("test_get_status", status)
 
     @pytest.mark.asyncio
@@ -46,5 +47,3 @@ class TestJediKnight:
         assert jk.full_name == "Star Wars Jedi Knight - Jedi Academy Protocol"
         assert jk._source_port == 29070
         await handler.save_result("test_protocol_properties", jk)
-
-

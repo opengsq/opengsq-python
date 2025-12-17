@@ -69,7 +69,7 @@ class TeamSpeak3(ProtocolBase):
             tcpClient.send(f"use port={self._voice_port}\n".encode())
             await tcpClient.recv()
 
-            tcpClient.send(data + b"\x0A")
+            tcpClient.send(data + b"\x0a")
             response = b""
 
             while not response.endswith(b"error id=0 msg=ok\n\r"):

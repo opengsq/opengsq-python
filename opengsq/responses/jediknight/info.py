@@ -9,12 +9,12 @@ def translate_gametype(gametype_code: str) -> str:
     :return: Display name for the gametype
     """
     gametype_translations = {
-        '0': 'Free For All',
-        '3': 'Duel',
-        '4': 'Power Duel',
-        '6': 'Team FFA',
-        '7': 'Siege',
-        '8': 'Capture the Flag',
+        "0": "Free For All",
+        "3": "Duel",
+        "4": "Power Duel",
+        "6": "Team FFA",
+        "7": "Siege",
+        "8": "Capture the Flag",
     }
 
     return gametype_translations.get(str(gametype_code), gametype_code)
@@ -79,14 +79,13 @@ class Info:
         return translate_gametype(self.gametype)
 
     def __getattribute__(self, name):
-        if name == '__dict__':
+        if name == "__dict__":
             # Create a custom dict that includes properties
             result = {}
             # Get the original __dict__ first
-            original_dict = object.__getattribute__(self, '__dict__')
+            original_dict = object.__getattribute__(self, "__dict__")
             result.update(original_dict)
             # Add the translated gametype
-            result['gametype_translated'] = self.gametype_translated
+            result["gametype_translated"] = self.gametype_translated
             return result
         return object.__getattribute__(self, name)
-

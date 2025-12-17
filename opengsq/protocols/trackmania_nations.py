@@ -12,6 +12,7 @@ from opengsq.responses.trackmania_nations import ServerInfo
 @dataclass
 class TrackmaniaPayloadData:
     """Strukturierte Daten aus dem Trackmania Payload"""
+
     server_name: Optional[str] = None
     srv_type: Optional[str] = None
     environment: Optional[str] = None
@@ -65,11 +66,12 @@ class TrackmaniaNations(ProtocolBase):
         # Connect via TCP
         try:
             reader, writer = await asyncio.wait_for(
-                asyncio.open_connection(self._host, self._port),
-                timeout=self._timeout
+                asyncio.open_connection(self._host, self._port), timeout=self._timeout
             )
         except (OSError, asyncio.TimeoutError) as e:
-            raise InvalidPacketException(f"Failed to connect to {self._host}:{self._port}: {e}")
+            raise InvalidPacketException(
+                f"Failed to connect to {self._host}:{self._port}: {e}"
+            )
 
         try:
             # Send first packet
@@ -85,13 +87,14 @@ class TrackmaniaNations(ProtocolBase):
 
             # Read response
             response_data = await asyncio.wait_for(
-                reader.read(4096),
-                timeout=self._timeout
+                reader.read(4096), timeout=self._timeout
             )
 
             # Validate response contains #SRV# marker
-            if b'#SRV#' not in response_data:
-                raise InvalidPacketException(f"Response does not contain #SRV# marker. Got {len(response_data)} bytes.")
+            if b"#SRV#" not in response_data:
+                raise InvalidPacketException(
+                    f"Response does not contain #SRV# marker. Got {len(response_data)} bytes."
+                )
 
             # Parse using MCP-based parser
             payload_data = self.parse_server_payload(response_data)
@@ -99,28 +102,31 @@ class TrackmaniaNations(ProtocolBase):
             # Convert to ServerInfo format
             # Die Namens-Logik in parse_server_payload hat bereits die richtigen Namen zugeordnet
             return ServerInfo(
-                name=payload_data.server_name or "Unknown",  # Echter Server-Name (korrigiert in parse_server_payload)
+                name=payload_data.server_name
+                or "Unknown",  # Echter Server-Name (korrigiert in parse_server_payload)
                 map=payload_data.maps[0] if payload_data.maps else "Unknown",
                 players=payload_data.players or 0,
                 max_players=payload_data.max_players or 0,
                 game_mode=payload_data.game_mode or "Unknown",
-                password_protected=payload_data.srv_type == 'p',
+                password_protected=payload_data.srv_type == "p",
                 version=None,
                 environment=payload_data.environment,
                 comment=payload_data.comment,  # PC-UID oder andere Info
                 server_login="",
-                pc_guid=payload_data.comment if payload_data.comment and payload_data.comment.startswith('PC-') else None,  # PC-UID
+                pc_guid=payload_data.comment
+                if payload_data.comment and payload_data.comment.startswith("PC-")
+                else None,  # PC-UID
                 time_limit=0,
                 nb_laps=0,
                 spectator_slots=0,
                 build_number=0,
-                private_server=payload_data.srv_type == 'p',
-                ladder_server=payload_data.srv_type == 's',
+                private_server=payload_data.srv_type == "p",
+                ladder_server=payload_data.srv_type == "s",
                 status_flags=0,
                 challenge_crc=0,
                 public_ip="",
                 local_ip="",
-                raw_data=response_data.hex()
+                raw_data=response_data.hex(),
             )
 
         except asyncio.TimeoutError:
@@ -143,22 +149,22 @@ class TrackmaniaNations(ProtocolBase):
 
         # 1. String bei 0x27 extrahieren (kann PC-UID oder Server-Name sein, abhängig vom SRV-Typ)
         string_at_0x27 = None
-        if len(data) >= 0x2b:  # 0x27 + 4 bytes für Länge
+        if len(data) >= 0x2B:  # 0x27 + 4 bytes für Länge
             string_at_0x27, _ = self._deserialize_string(data, 0x27)
             # Temporär speichern - wird später basierend auf SRV-Typ zugeordnet
             result.server_name = string_at_0x27
 
         # 2. #SRV# Marker und Typ finden
-        srv_pos = data.find(b'#SRV#')
+        srv_pos = data.find(b"#SRV#")
         if srv_pos != -1 and srv_pos + 5 < len(data):
             # Typ-Byte nach #SRV#
             srv_type_byte = data[srv_pos + 5]
             if srv_type_byte == 0x00:
-                result.srv_type = 'null'
-            elif chr(srv_type_byte).lower() in ['f', 's', 'p']:
+                result.srv_type = "null"
+            elif chr(srv_type_byte).lower() in ["f", "s", "p"]:
                 result.srv_type = chr(srv_type_byte).lower()
             else:
-                result.srv_type = f'unknown_{srv_type_byte:02x}'
+                result.srv_type = f"unknown_{srv_type_byte:02x}"
 
         # 3. MCP-basierte Challenge/Map-Namen Extraktion (mit SRV-Typ)
         challenge_name = self._extract_challenge_name(data, srv_pos, result.srv_type)
@@ -175,7 +181,7 @@ class TrackmaniaNations(ProtocolBase):
             if not result.maps and self._is_valid_challenge_name(string):
                 result.maps.append(string)
             # Environment
-            elif string.lower() in ['stadium', 'island', 'bay', 'coast']:
+            elif string.lower() in ["stadium", "island", "bay", "coast"]:
                 result.environment = string.title()
 
         # 6. Spielerzahlen extrahieren (basierend auf Typ)
@@ -189,37 +195,45 @@ class TrackmaniaNations(ProtocolBase):
             result.game_mode = mode_name
 
         # 8. MCP-basierte korrekte Zuordnung basierend auf SRV-Typ
-        if result.srv_type == 'p':
+        if result.srv_type == "p":
             # Private Server: 0x27 = PC-UID, echter Name in ASCII-Strings
             result.comment = string_at_0x27  # PC-UID
 
             # Finde echten Server-Namen aus ASCII-Strings
-            potential_names = [s for s in strings if
-                              len(s) >= 4 and
-                              not s.startswith('PC-') and
-                              s != result.environment and
-                              not self._is_valid_challenge_name(s) and
-                              not s.startswith('#') and
-                              'lanparty' not in s.lower() and
-                              'obstacle' not in s.lower()]  # Filter korrupte Namen
+            potential_names = [
+                s
+                for s in strings
+                if len(s) >= 4
+                and not s.startswith("PC-")
+                and s != result.environment
+                and not self._is_valid_challenge_name(s)
+                and not s.startswith("#")
+                and "lanparty" not in s.lower()
+                and "obstacle" not in s.lower()
+            ]  # Filter korrupte Namen
 
             if potential_names:
                 potential_names.sort(key=len, reverse=True)
                 result.server_name = potential_names[0]  # Längster = echter Server-Name
 
-        elif result.srv_type == 'null' or result.srv_type is None:
+        elif result.srv_type == "null" or result.srv_type is None:
             # Default/Null Server: Finde echten Server-Namen in ASCII-Strings
             # 0x27 könnte PC-UID oder Server-Name sein - prüfe Pattern
 
             # Finde potentielle Server-Namen (alphabetische Namen bevorzugt)
-            potential_names = [s for s in strings if
-                              3 <= len(s) <= 15 and  # Kurze, prägnante Namen
-                              not s.startswith('PC-') and
-                              not s.startswith('#') and
-                              s != result.environment and
-                              not self._is_valid_challenge_name(s) and
-                              not any(kw in s.lower() for kw in ['stadium', 'lanparty', 'obstacle']) and
-                              s.isalpha()]  # Nur alphabetische Namen (wie "Bruno")
+            potential_names = [
+                s
+                for s in strings
+                if 3 <= len(s) <= 15  # Kurze, prägnante Namen
+                and not s.startswith("PC-")
+                and not s.startswith("#")
+                and s != result.environment
+                and not self._is_valid_challenge_name(s)
+                and not any(
+                    kw in s.lower() for kw in ["stadium", "lanparty", "obstacle"]
+                )
+                and s.isalpha()
+            ]  # Nur alphabetische Namen (wie "Bruno")
 
             if potential_names:
                 # Priorisiere kürzeste alphabetische Namen
@@ -240,16 +254,19 @@ class TrackmaniaNations(ProtocolBase):
 
         else:
             # Andere Server-Typen: Fallback zur alten Logik
-            potential_names = [s for s in strings if
-                              len(s) >= 3 and
-                              s != result.environment and
-                              not self._is_valid_challenge_name(s) and
-                              not s.startswith('#')]
+            potential_names = [
+                s
+                for s in strings
+                if len(s) >= 3
+                and s != result.environment
+                and not self._is_valid_challenge_name(s)
+                and not s.startswith("#")
+            ]
 
             if potential_names:
                 potential_names.sort(key=len, reverse=True)
                 longest = potential_names[0]
-                if len(longest) > len(string_at_0x27 or ''):
+                if len(longest) > len(string_at_0x27 or ""):
                     result.server_name = longest
                     result.comment = string_at_0x27
                 else:
@@ -257,7 +274,9 @@ class TrackmaniaNations(ProtocolBase):
 
         return result
 
-    def _deserialize_string(self, data: bytes, offset: int) -> Tuple[Optional[str], int]:
+    def _deserialize_string(
+        self, data: bytes, offset: int
+    ) -> Tuple[Optional[str], int]:
         """
         Deserialisiert einen String mit 4-Byte Längen-Präfix (Little Endian).
 
@@ -272,7 +291,7 @@ class TrackmaniaNations(ProtocolBase):
             return None, 0
 
         # Länge lesen (4 Bytes, Little Endian)
-        length = struct.unpack('<I', data[offset:offset+4])[0]
+        length = struct.unpack("<I", data[offset : offset + 4])[0]
 
         # Plausibilitätsprüfung
         if length == 0 or length > 100 or offset + 4 + length > len(data):
@@ -280,8 +299,8 @@ class TrackmaniaNations(ProtocolBase):
 
         # String lesen
         try:
-            string_data = data[offset+4:offset+4+length]
-            string = string_data.decode('utf-8', errors='replace')
+            string_data = data[offset + 4 : offset + 4 + length]
+            string = string_data.decode("utf-8", errors="replace")
             return string, 4 + length
         except Exception:
             return None, 0
@@ -305,7 +324,7 @@ class TrackmaniaNations(ProtocolBase):
             else:
                 if len(current_string) >= 3:  # Mindestens 3 Zeichen
                     try:
-                        string = current_string.decode('ascii')
+                        string = current_string.decode("ascii")
                         strings.append(string)
                     except Exception:
                         pass
@@ -314,7 +333,7 @@ class TrackmaniaNations(ProtocolBase):
         # Letzten String nicht vergessen
         if len(current_string) >= 3:
             try:
-                string = current_string.decode('ascii')
+                string = current_string.decode("ascii")
                 strings.append(string)
             except Exception:
                 pass
@@ -326,14 +345,17 @@ class TrackmaniaNations(ProtocolBase):
         Prüft ob ein String ein Map-Name ist (striktere Typen, keine korrupten Suffixe).
         """
         import re
-        allowed = r'(race|acrobatic|speed|endurance|platform|puzzle)'
-        if re.match(rf'^[A-E]\d{{2}}-{allowed}$', string, re.IGNORECASE):
+
+        allowed = r"(race|acrobatic|speed|endurance|platform|puzzle)"
+        if re.match(rf"^[A-E]\d{{2}}-{allowed}$", string, re.IGNORECASE):
             return True
-        if re.match(rf'^\d+-{allowed}$', string, re.IGNORECASE):
+        if re.match(rf"^\d+-{allowed}$", string, re.IGNORECASE):
             return True
         return False
 
-    def _extract_player_counts(self, data: bytes, srv_pos: int, srv_type: str) -> Optional[Tuple[int, int]]:
+    def _extract_player_counts(
+        self, data: bytes, srv_pos: int, srv_type: str
+    ) -> Optional[Tuple[int, int]]:
         """
         Extrahiert Spielerzahlen basierend auf dem SRV-Typ.
 
@@ -343,17 +365,21 @@ class TrackmaniaNations(ProtocolBase):
             return None
 
         # Verschiedene Offset-Patterns basierend auf Typ (MCP-korrigiert)
-        if srv_type == 'null':
+        if srv_type == "null":
             # Für Null-Byte: Offsets +7 und +9
             offsets = [(7, 9)]
-        elif srv_type == 'p':
+        elif srv_type == "p":
             # Für Private Server: MCP-Analyse zeigt +10/+11 für aktive Spieler, +9/+11 fallback
             offsets = [
                 # Beobachtung 172.29.100.29: plausibles Paar 1/6 bei SRV+29/SRV+50
                 (29, 50),
-                (10, 11), (9, 11), (7, 11),
+                (10, 11),
+                (9, 11),
+                (7, 11),
                 # zusätzliche pragmatische Kandidaten, beobachtet auf manchen 'p'-Servern
-                (12, 14), (7, 9), (41, 45)
+                (12, 14),
+                (7, 9),
+                (41, 45),
             ]  # Reihenfolge: etabliert, dann heuristisch
         else:
             # Für andere Typen: Teste mehrere Patterns
@@ -366,13 +392,12 @@ class TrackmaniaNations(ProtocolBase):
                 max_players = data[srv_pos + max_offset]
 
                 # Plausibilitätsprüfung
-                if (0 <= current_players <= max_players <= 200 and
-                    max_players > 0):
+                if 0 <= current_players <= max_players <= 200 and max_players > 0:
                     return current_players, max_players
 
         # Letzter Fallback nur für 'p'-Server: heuristische Suche in kleinem Fenster
         # Motiv: Es gibt Varianten, bei denen die Felder deutlich verschoben sind.
-        if srv_type == 'p':
+        if srv_type == "p":
             window_start = max(0, srv_pos)
             window_end = min(len(data), srv_pos + 96)
             best_pair = None
@@ -388,7 +413,9 @@ class TrackmaniaNations(ProtocolBase):
                     cur_val = data[cur_idx]
                     if 0 <= cur_val <= max_val:
                         # Scoring: kleinere max-Werte bevorzugen (realistische Slot-Zahlen), Nähe der Felder
-                        score = (0 if max_val in common_max_values else 10) + (max_idx - cur_idx)
+                        score = (0 if max_val in common_max_values else 10) + (
+                            max_idx - cur_idx
+                        )
                         if score < best_score:
                             best_score = score
                             best_pair = (cur_val, max_val)
@@ -428,7 +455,7 @@ class TrackmaniaNations(ProtocolBase):
         Sucht nach dem 0xFFFFFFFF Marker und liest das Spielmodus-Byte bei +7.
         Laut Analyse liefert dieses Byte Werte wie 0x09 (Cup), 0x07 (Rounds), 0x06 (Team), 0x00 (Time Attack).
         """
-        marker = b'\xff\xff\xff\xff'
+        marker = b"\xff\xff\xff\xff"
         idx = data.find(marker)
         if idx != -1 and idx + 8 <= len(data):
             try:
@@ -455,8 +482,8 @@ class TrackmaniaNations(ProtocolBase):
         - 0x09 xx   => Cup (ID 9)
         """
         # Suche 'Stadium' NACH dem '#SRV#'-Marker, um den richtigen Kontext zu erwischen
-        anchor = b'Stadium'
-        srv_pos = data.find(b'#SRV#')
+        anchor = b"Stadium"
+        srv_pos = data.find(b"#SRV#")
         if srv_pos == -1:
             return None
         pos = data.find(anchor, srv_pos)
@@ -474,7 +501,7 @@ class TrackmaniaNations(ProtocolBase):
             b6 = data[pattern_start + 6]
             if b5 == 0x01 and b6 == 0x20:
                 return 0  # TimeAttack
-            if b5 == 0x03 and b6 == 0x1e:
+            if b5 == 0x03 and b6 == 0x1E:
                 return 3  # Tournament
             if b5 == 0x06 and b6 == 0x32:
                 return 6  # Team
@@ -488,7 +515,7 @@ class TrackmaniaNations(ProtocolBase):
         # Paare, die als direkt aufeinanderfolgende Bytes auftreten sollten
         pair_to_mode = {
             (0x01, 0x20): 0,  # TimeAttack
-            (0x03, 0x1e): 3,  # Tournament
+            (0x03, 0x1E): 3,  # Tournament
             (0x06, 0x32): 6,  # Team
             (0x07, 0x03): 7,  # Rounds
         }
@@ -513,22 +540,24 @@ class TrackmaniaNations(ProtocolBase):
         Bevorzugt bekannte TMNF-Bezeichnungen.
         """
         mapping = {
-            0: 'TimeAttack',
-            3: 'Tournament',          # In manchen Quellen auch 'Tournament'; hier konservativ auf Laps mappen
-            6: 'Team',
-            7: 'Rounds',
-            9: 'Cup',
+            0: "TimeAttack",
+            3: "Tournament",  # In manchen Quellen auch 'Tournament'; hier konservativ auf Laps mappen
+            6: "Team",
+            7: "Rounds",
+            9: "Cup",
         }
         # Weitere bekannte IDs aus Dokus (falls auftauchen)
         extra_aliases = {
-            1: 'TimeAttack',
-            2: 'Team',
-            4: 'Stunts',
-            5: 'Cup',
+            1: "TimeAttack",
+            2: "Team",
+            4: "Stunts",
+            5: "Cup",
         }
         return mapping.get(mode_id) or extra_aliases.get(mode_id)
 
-    def _extract_challenge_name(self, data: bytes, srv_pos: int, srv_type: str = None) -> Optional[str]:
+    def _extract_challenge_name(
+        self, data: bytes, srv_pos: int, srv_type: str = None
+    ) -> Optional[str]:
         """
         Extrahiert den Challenge/Map-Namen basierend auf MCP-Analyse.
 
@@ -554,17 +583,23 @@ class TrackmaniaNations(ProtocolBase):
         # Fallback: direkte ASCII-Strings
         return self._extract_challenge_without_prefix(data, srv_pos)
 
-    def _extract_challenge_with_prefix(self, data: bytes, srv_pos: int) -> Optional[str]:
+    def _extract_challenge_with_prefix(
+        self, data: bytes, srv_pos: int
+    ) -> Optional[str]:
         """
         Extrahiert Challenge-Namen mit Längenpräfix (1/2/4 Byte; LE für 2/4).
         """
         for prefix_size in (1, 2, 4):
-            candidate = self._scan_challenge_with_prefix_size(data, srv_pos, prefix_size)
+            candidate = self._scan_challenge_with_prefix_size(
+                data, srv_pos, prefix_size
+            )
             if candidate:
                 return candidate
         return None
 
-    def _scan_challenge_with_prefix_size(self, data: bytes, srv_pos: int, prefix_size: int) -> Optional[str]:
+    def _scan_challenge_with_prefix_size(
+        self, data: bytes, srv_pos: int, prefix_size: int
+    ) -> Optional[str]:
         """
         Durchsucht den Bereich nach #SRV# nach einem length-prefixed String mit gegebener Präfixgröße.
         """
@@ -582,9 +617,9 @@ class TrackmaniaNations(ProtocolBase):
                 if prefix_size == 1:
                     length = data[offset]
                 elif prefix_size == 2:
-                    length = struct.unpack('<H', data[offset:offset+2])[0]
+                    length = struct.unpack("<H", data[offset : offset + 2])[0]
                 else:
-                    length = struct.unpack('<I', data[offset:offset+4])[0]
+                    length = struct.unpack("<I", data[offset : offset + 4])[0]
 
                 if not (5 <= length <= 40):
                     continue
@@ -596,12 +631,12 @@ class TrackmaniaNations(ProtocolBase):
 
                 segment = data[start:end]
                 try:
-                    raw_text = segment.decode('ascii', errors='ignore')
+                    raw_text = segment.decode("ascii", errors="ignore")
                 except Exception:
                     continue
 
                 # Nur druckbare Zeichen behalten
-                cleaned = ''.join(ch for ch in raw_text if 32 <= ord(ch) <= 126)
+                cleaned = "".join(ch for ch in raw_text if 32 <= ord(ch) <= 126)
                 if not cleaned:
                     continue
 
@@ -613,7 +648,9 @@ class TrackmaniaNations(ProtocolBase):
                 continue
         return None
 
-    def _extract_challenge_without_prefix(self, data: bytes, srv_pos: int) -> Optional[str]:
+    def _extract_challenge_without_prefix(
+        self, data: bytes, srv_pos: int
+    ) -> Optional[str]:
         """
         Extrahiert Challenge-Namen ohne Längenpräfix (für Private Server).
         """
@@ -630,7 +667,7 @@ class TrackmaniaNations(ProtocolBase):
             else:
                 if len(current_string) >= 5:  # Mindestens 5 Zeichen für Challenge-Namen
                     try:
-                        string = current_string.decode('ascii')
+                        string = current_string.decode("ascii")
                         if self._is_valid_challenge_name(string):
                             return string
                         found_strings.append(string)
@@ -641,7 +678,7 @@ class TrackmaniaNations(ProtocolBase):
         # Letzten String nicht vergessen
         if len(current_string) >= 5:
             try:
-                string = current_string.decode('ascii')
+                string = current_string.decode("ascii")
                 if self._is_valid_challenge_name(string):
                     return string
                 found_strings.append(string)
@@ -682,28 +719,49 @@ class TrackmaniaNations(ProtocolBase):
 
         # Standard TrackMania Challenge Pattern: A01-Race, C02-Acrobatic
         # Aber nur vollständige bekannte Challenge-Namen (KEINE korrupten wie "C04-Raceh")
-        standard_pattern = re.match(r'^[A-E]\d{2}-([A-Za-z]{4,})$', name)
+        standard_pattern = re.match(r"^[A-E]\d{2}-([A-Za-z]{4,})$", name)
         if standard_pattern:
             challenge_type = standard_pattern.group(1).lower()
             # Nur bekannte Challenge-Typen aus MCP-Analyse
-            known_types = ['race', 'acrobatic', 'speed', 'endurance', 'platform', 'puzzle']
+            known_types = [
+                "race",
+                "acrobatic",
+                "speed",
+                "endurance",
+                "platform",
+                "puzzle",
+            ]
             # WICHTIG: "raceh" ist NICHT in known_types, also wird C04-Raceh abgelehnt!
             if challenge_type in known_types:
                 return True
 
         # Verkürzte Namen: 5-Endurance, 1-Speed (nur bekannte Typen)
-        short_pattern = re.match(r'^\d+-([A-Za-z]{4,})$', name)
+        short_pattern = re.match(r"^\d+-([A-Za-z]{4,})$", name)
         if short_pattern:
             challenge_type = short_pattern.group(1).lower()
             # Nur bekannte Challenge-Typen
-            known_types = ['race', 'acrobatic', 'speed', 'endurance', 'platform', 'puzzle']
+            known_types = [
+                "race",
+                "acrobatic",
+                "speed",
+                "endurance",
+                "platform",
+                "puzzle",
+            ]
             if challenge_type in known_types:
                 return True
 
         # Challenge/Race Keywords (aus MCP-Strings)
         challenge_keywords = [
-            'race', 'speed', 'endurance', 'acrobatic', 'challenge',
-            'track', 'circuit', 'course', 'stage'
+            "race",
+            "speed",
+            "endurance",
+            "acrobatic",
+            "challenge",
+            "track",
+            "circuit",
+            "course",
+            "stage",
         ]
 
         name_lower = name.lower()
@@ -711,16 +769,23 @@ class TrackmaniaNations(ProtocolBase):
             # Aber nicht wenn es offensichtlich ein Server-Name oder anderer String ist
             # Und mindestens ein Wort muss vollständig sein (nicht nur Teil eines Wortes)
             # WICHTIG: Blockiere korrupte Namen wie "raceh" (race + unbekanntes Ende)
-            if (not any(exclude in name_lower for exclude in ['server', 'player', 'time', 'score']) and
-                len(name) >= 4 and  # Mindestlänge
-                not name_lower.endswith('p') and  # Nicht unvollständig wie "RaceP"
-                not name_lower.endswith('h') and  # Nicht unvollständig wie "Raceh"
-                not re.match(r'^[A-E]\d{2}-.*[ph]$', name, re.IGNORECASE) and  # Nicht Standard-Pattern mit 'p'/'h' am Ende
-                (' ' in name or len(name) >= 5)):  # Entweder Leerzeichen oder mindestens 5 Zeichen
+            if (
+                not any(
+                    exclude in name_lower
+                    for exclude in ["server", "player", "time", "score"]
+                )
+                and len(name) >= 4  # Mindestlänge
+                and not name_lower.endswith("p")  # Nicht unvollständig wie "RaceP"
+                and not name_lower.endswith("h")  # Nicht unvollständig wie "Raceh"
+                and not re.match(
+                    r"^[A-E]\d{2}-.*[ph]$", name, re.IGNORECASE
+                )  # Nicht Standard-Pattern mit 'p'/'h' am Ende
+                and (" " in name or len(name) >= 5)
+            ):  # Entweder Leerzeichen oder mindestens 5 Zeichen
                 return True
 
         # GBX-Pattern (aus MCP: .TrackMania.gbx)
-        if '.gbx' in name_lower or 'trackmania' in name_lower:
+        if ".gbx" in name_lower or "trackmania" in name_lower:
             return True
 
         return False
@@ -731,7 +796,11 @@ class TrackmaniaNations(ProtocolBase):
         (z. B. A01-Race, C06-Speed, etc.) und gibt den ersten Treffer zurück.
         """
         import re
-        pattern = re.compile(r'([A-E]\d{2}-(?:Race|Acrobatic|Speed|Endurance|Platform|Puzzle))', re.IGNORECASE)
+
+        pattern = re.compile(
+            r"([A-E]\d{2}-(?:Race|Acrobatic|Speed|Endurance|Platform|Puzzle))",
+            re.IGNORECASE,
+        )
         m = pattern.search(text)
         return m.group(0) if m else None
 
@@ -746,40 +815,42 @@ class TrackmaniaNations(ProtocolBase):
             Dictionary mit Debug-Informationen
         """
         debug_info = {
-            'length': len(data),
-            'hex_dump': data[:100].hex() if len(data) > 100 else data.hex(),
-            'server_name_offset': 0x27,
-            'srv_marker_pos': -1,
-            'srv_type': None,
-            'strings': [],
-            'potential_player_offsets': {}
+            "length": len(data),
+            "hex_dump": data[:100].hex() if len(data) > 100 else data.hex(),
+            "server_name_offset": 0x27,
+            "srv_marker_pos": -1,
+            "srv_type": None,
+            "strings": [],
+            "potential_player_offsets": {},
         }
 
         # Servername bei 0x27
-        if len(data) >= 0x2b:
+        if len(data) >= 0x2B:
             server_name, bytes_read = self._deserialize_string(data, 0x27)
-            debug_info['server_name'] = server_name
-            debug_info['server_name_bytes_read'] = bytes_read
+            debug_info["server_name"] = server_name
+            debug_info["server_name_bytes_read"] = bytes_read
 
         # SRV Marker
-        srv_pos = data.find(b'#SRV#')
+        srv_pos = data.find(b"#SRV#")
         if srv_pos != -1:
-            debug_info['srv_marker_pos'] = srv_pos
+            debug_info["srv_marker_pos"] = srv_pos
             if srv_pos + 5 < len(data):
                 srv_type_byte = data[srv_pos + 5]
-                debug_info['srv_type_byte'] = f'0x{srv_type_byte:02x}'
+                debug_info["srv_type_byte"] = f"0x{srv_type_byte:02x}"
                 if srv_type_byte == 0x00:
-                    debug_info['srv_type'] = 'null'
-                elif chr(srv_type_byte) in ['f', 's', 'p']:
-                    debug_info['srv_type'] = chr(srv_type_byte)
+                    debug_info["srv_type"] = "null"
+                elif chr(srv_type_byte) in ["f", "s", "p"]:
+                    debug_info["srv_type"] = chr(srv_type_byte)
 
         # Alle Strings
-        debug_info['strings'] = self._extract_all_strings(data)
+        debug_info["strings"] = self._extract_all_strings(data)
 
         # MCP-basierte Challenge-Namen Extraktion
         challenge_name = self._extract_challenge_name(data, srv_pos)
-        debug_info['mcp_challenge_name'] = challenge_name
-        debug_info['challenge_extraction_method'] = 'MCP-based' if challenge_name else 'fallback'
+        debug_info["mcp_challenge_name"] = challenge_name
+        debug_info["challenge_extraction_method"] = (
+            "MCP-based" if challenge_name else "fallback"
+        )
 
         # Potentielle Spielerzahl-Offsets
         if srv_pos != -1:
@@ -788,6 +859,8 @@ class TrackmaniaNations(ProtocolBase):
                 if srv_pos + max_off < len(data):
                     curr = data[srv_pos + curr_off]
                     max_val = data[srv_pos + max_off]
-                    debug_info['potential_player_offsets'][f'+{curr_off}/+{max_off}'] = f'{curr}/{max_val}'
+                    debug_info["potential_player_offsets"][
+                        f"+{curr_off}/+{max_off}"
+                    ] = f"{curr}/{max_val}"
 
         return debug_info

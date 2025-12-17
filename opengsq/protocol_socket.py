@@ -10,10 +10,12 @@ class SocketKind(Enum):
     SOCK_DGRAM = auto()
 
 
-class Socket():
+class Socket:
     @staticmethod
     async def gethostbyname(hostname: str):
-        return await asyncio.get_running_loop().run_in_executor(None, socket.gethostbyname, hostname)
+        return await asyncio.get_running_loop().run_in_executor(
+            None, socket.gethostbyname, hostname
+        )
 
     class Protocol(asyncio.Protocol):
         def __init__(self, timeout: float):
@@ -78,13 +80,17 @@ class Socket():
                 lambda: self.__protocol,
                 host=remote_addr[0],
                 port=remote_addr[1],
-                local_addr=('0.0.0.0', self.__local_port) if self.__local_port else None
+                local_addr=("0.0.0.0", self.__local_port)
+                if self.__local_port
+                else None,
             )
         else:
             self.__transport, _ = await loop.create_datagram_endpoint(
                 lambda: self.__protocol,
                 remote_addr=remote_addr,
-                local_addr=('0.0.0.0', self.__local_port) if self.__local_port else None
+                local_addr=("0.0.0.0", self.__local_port)
+                if self.__local_port
+                else None,
             )
 
     def close(self):
@@ -156,8 +162,8 @@ class UdpClient(Socket):
             loop = asyncio.get_running_loop()
             transport, protocol_instance = await loop.create_datagram_endpoint(
                 lambda: Socket.Protocol(protocol._timeout),  # Use public Protocol class
-                local_addr=('0.0.0.0', source_port if source_port else 0),
-                allow_broadcast=protocol._allow_broadcast
+                local_addr=("0.0.0.0", source_port if source_port else 0),
+                allow_broadcast=protocol._allow_broadcast,
             )
 
             try:
@@ -183,13 +189,15 @@ class TcpClient(Socket):
         super().__init__(SocketKind.SOCK_STREAM)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+
     async def test_socket_async():
         with Socket() as socket_async:
             socket_async.settimeout(5)
-            await socket_async.connect(('122.128.109.245', 27015))
+            await socket_async.connect(("122.128.109.245", 27015))
             socket_async.send(
-                b'\xFF\xFF\xFF\xFFTSource Engine Query\x00\xFF\xFF\xFF\xFF')
+                b"\xff\xff\xff\xffTSource Engine Query\x00\xff\xff\xff\xff"
+            )
             print(await socket_async.recv())
 
     loop = asyncio.get_event_loop()

@@ -5,6 +5,7 @@ from enum import IntEnum
 
 class DirectPlayGameType(IntEnum):
     """DirectPlay Game Types"""
+
     UNKNOWN = 0
     AGE_OF_EMPIRES_1 = 1
     AGE_OF_EMPIRES_2 = 2
@@ -13,6 +14,7 @@ class DirectPlayGameType(IntEnum):
 @dataclass
 class Player:
     """DirectPlay Player Information"""
+
     name: str
     civilization: str = ""
     team: int = 0
@@ -23,6 +25,7 @@ class Player:
 @dataclass
 class Status:
     """DirectPlay Status Response"""
+
     name: str
     game_type: str
     map: str

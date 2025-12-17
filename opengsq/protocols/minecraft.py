@@ -101,7 +101,7 @@ class Minecraft(ProtocolBase):
         :param strip_color: Whether to strip color from the response. Defaults to True.
         :return: A StatusPre17 object containing the status of the game server.
         """
-        response = await TcpClient.communicate(self, b"\xFE\x01")
+        response = await TcpClient.communicate(self, b"\xfe\x01")
 
         br = BinaryReader(response)
         header = br.read_byte()

@@ -82,7 +82,6 @@ class Satisfactory(ProtocolBase):
 
         # Request max number of players and number of players
         if server_state == 3:
-
             headers = {
                 "Authorization": f"Bearer {self.app_token}",
                 "Content-Type": "application/json",
@@ -100,12 +99,13 @@ class Satisfactory(ProtocolBase):
                     response.raise_for_status()
                     data = await response.json()
 
-            server_max_nb_players, server_cur_nb_players = data.get("data", {}).get(
-                "serverGameState", {}
-            ).get("playerLimit", "Not Available"), data.get("data", {}).get(
-                "serverGameState", {}
-            ).get(
-                "numConnectedPlayers", "Not Available"
+            server_max_nb_players, server_cur_nb_players = (
+                data.get("data", {})
+                .get("serverGameState", {})
+                .get("playerLimit", "Not Available"),
+                data.get("data", {})
+                .get("serverGameState", {})
+                .get("numConnectedPlayers", "Not Available"),
             )
 
         else:

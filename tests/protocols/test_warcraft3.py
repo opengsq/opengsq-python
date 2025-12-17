@@ -5,9 +5,12 @@ from ..result_handler import ResultHandler
 handler = ResultHandler(__file__)
 handler.enable_save = True
 
+
 @pytest.mark.asyncio
 async def test_warcraft3_status():
-    warcraft3 = Warcraft3(host="10.10.101.4", port=6112)  # Replace with your test server
+    warcraft3 = Warcraft3(
+        host="10.10.101.4", port=6112
+    )  # Replace with your test server
     result = await warcraft3.get_status()
 
     print("\nWarcraft 3 Server Details:")
@@ -19,8 +22,8 @@ async def test_warcraft3_status():
 
     # Example raw data that might be useful for debugging
     print("\nRaw Data:")
-    if hasattr(result, 'raw'):
+    if hasattr(result, "raw"):
         for key, value in result.raw.items():
             print(f"{key}: {value}")
 
-    await handler.save_result("test_warcraft3_status", result) 
+    await handler.save_result("test_warcraft3_status", result)
