@@ -159,15 +159,25 @@ class UdpClient(Socket):
                 udpClient.bind_port(source_port)
             udpClient.settimeout(protocol._timeout)
 
+            if protocol._allow_broadcast:
+                local_addr = ('0.0.0.0', source_port if source_port else 0)
+                remote_addr = None
+                sendto_addr = (protocol._host, protocol._port)
+            else:
+                local_addr = ('0.0.0.0', source_port) if source_port else None
+                remote_addr = (protocol._host, protocol._port)
+                sendto_addr = None
+
             loop = asyncio.get_running_loop()
             transport, protocol_instance = await loop.create_datagram_endpoint(
                 lambda: Socket.Protocol(protocol._timeout),  # Use public Protocol class
-                local_addr=("0.0.0.0", source_port if source_port else 0),
-                allow_broadcast=protocol._allow_broadcast,
+                local_addr=local_addr,
+                remote_addr=remote_addr,
+                allow_broadcast=protocol._allow_broadcast
             )
 
             try:
-                transport.sendto(data, (protocol._host, protocol._port))
+                transport.sendto(data, sendto_addr)
                 return await protocol_instance.recv()
             finally:
                 transport.close()
