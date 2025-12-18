@@ -1,5 +1,4 @@
 from opengsq.protocols.directplay import DirectPlay
-from opengsq.responses.aoe2.status import Status
 from opengsq.binary_reader import BinaryReader
 
 
@@ -14,7 +13,9 @@ class AoE2(DirectPlay):
     full_name = "Age of Empires 2 DirectPlay Protocol"
 
     # AoE2 spezifische Konstanten und Payload
-    AOE2_UDP_PAYLOAD = bytes.fromhex("3400b0fa020008fc000000000000000000000000706c617902000e0060a269fb3150d311a2d4006097ba65500000000011000000")
+    AOE2_UDP_PAYLOAD = bytes.fromhex(
+        "3400b0fa020008fc000000000000000000000000706c617902000e0060a269fb3150d311a2d4006097ba65500000000011000000"
+    )
 
     # DirectPlay Payload-Struktur für AoE2:
     # Bytes 0-27:  Gemeinsamer DirectPlay Header (identisch mit AoE1)
@@ -44,7 +45,7 @@ class AoE2(DirectPlay):
         15: "Aztecs",
         16: "Mayans",
         17: "Huns",
-        18: "Koreans"
+        18: "Koreans",
     }
 
     # AoE2 Game Modes
@@ -56,10 +57,15 @@ class AoE2(DirectPlay):
         4: "Campaign",
         5: "King of the Hill",
         6: "Wonder Race",
-        7: "Defend the Wonder"
+        7: "Defend the Wonder",
     }
 
-    def __init__(self, host: str, port: int = DirectPlay.DIRECTPLAY_UDP_PORT, timeout: float = 5.0):
+    def __init__(
+        self,
+        host: str,
+        port: int = DirectPlay.DIRECTPLAY_UDP_PORT,
+        timeout: float = 5.0,
+    ):
         super().__init__(host, port, timeout)
 
     def _build_query_packet(self) -> bytes:
@@ -90,33 +96,41 @@ class AoE2(DirectPlay):
         result = super()._parse_response(buffer)
 
         # AoE2-spezifische Anpassungen
-        result['game_type'] = 'Age of Empires II'
+        result["game_type"] = "Age of Empires II"
 
         # Extrahiere echte Version-Informationen
         version_info = self._extract_version_info(buffer)
-        if 'likely_version' in version_info:
-            result['game_version'] = version_info['likely_version'].replace('Age of Empires II ', '')
-        elif 'detected_version' in version_info:
-            result['game_version'] = version_info['detected_version'].replace('Age of Empires II ', '')
-        elif 'game_version' in version_info:
-            result['game_version'] = version_info['game_version'].replace('Age of Empires II ', '')
+        if "likely_version" in version_info:
+            result["game_version"] = version_info["likely_version"].replace(
+                "Age of Empires II ", ""
+            )
+        elif "detected_version" in version_info:
+            result["game_version"] = version_info["detected_version"].replace(
+                "Age of Empires II ", ""
+            )
+        elif "game_version" in version_info:
+            result["game_version"] = version_info["game_version"].replace(
+                "Age of Empires II ", ""
+            )
         else:
-            result['game_version'] = '2.0a'  # Fallback
+            result["game_version"] = "2.0a"  # Fallback
 
         # Versuche AoE2-spezifische Daten zu parsen
         try:
             aoe2_data = self._parse_aoe2_specific_data(buffer)
             result.update(aoe2_data)
         except Exception as e:
-            result['raw']['aoe2_parse_error'] = str(e)
+            result["raw"]["aoe2_parse_error"] = str(e)
 
         # Debug-Informationen hinzufügen
-        result['raw']['game_guid'] = self.AOE2_GAME_GUID
-        result['raw']['buffer_size'] = len(buffer)
-        result['raw']['buffer_preview'] = buffer[:50].hex() if len(buffer) > 50 else buffer.hex()
-        result['raw']['version_info'] = version_info
-        result['raw']['civilizations'] = self.CIVILIZATIONS
-        result['raw']['game_modes'] = self.GAME_MODES
+        result["raw"]["game_guid"] = self.AOE2_GAME_GUID
+        result["raw"]["buffer_size"] = len(buffer)
+        result["raw"]["buffer_preview"] = (
+            buffer[:50].hex() if len(buffer) > 50 else buffer.hex()
+        )
+        result["raw"]["version_info"] = version_info
+        result["raw"]["civilizations"] = self.CIVILIZATIONS
+        result["raw"]["game_modes"] = self.GAME_MODES
 
         return result
 
@@ -147,30 +161,30 @@ class AoE2(DirectPlay):
             # Suche nach Spielnamen (AoE2 verwendet ASCII-Strings)
             game_name = self._extract_aoe2_game_name(remaining_data)
             if game_name:
-                result['name'] = game_name
+                result["name"] = game_name
 
             # Versuche Spieleranzahl zu ermitteln (ähnlich wie AoE1)
             player_count = self._extract_aoe2_player_count(remaining_data)
             if player_count >= 0:
-                result['num_players'] = player_count
+                result["num_players"] = player_count
 
             # Versuche Max Players zu ermitteln
             max_players = self._extract_aoe2_max_players(remaining_data)
             if max_players > 0:
-                result['max_players'] = max_players
+                result["max_players"] = max_players
 
             # Versuche Kartennamen zu extrahieren
             map_name = self._extract_aoe2_map_name(remaining_data)
             if map_name:
-                result['map'] = map_name
+                result["map"] = map_name
 
             # AoE2-spezifische Spielmodi
             game_mode = self._extract_aoe2_game_mode(remaining_data)
             if game_mode:
-                result['game_mode'] = game_mode
+                result["game_mode"] = game_mode
 
         except Exception as e:
-            result['aoe2_specific_error'] = str(e)
+            result["aoe2_specific_error"] = str(e)
 
         return result
 
@@ -193,7 +207,7 @@ class AoE2(DirectPlay):
             for i in range(search_start, len(data) - 8, 4):
                 if i + 4 < len(data):
                     # Lese 32-bit Längenwert (little-endian)
-                    potential_length = int.from_bytes(data[i:i+4], 'little')
+                    potential_length = int.from_bytes(data[i : i + 4], "little")
 
                     # Plausible Länge für einen Spielnamen (3-200 chars für ASCII, kann auch komplette String-Sektion sein)
                     if 3 <= potential_length <= 200:
@@ -204,23 +218,29 @@ class AoE2(DirectPlay):
                         effective_length = min(potential_length, available_length)
 
                         if effective_length > 0:
-                            name_bytes = data[name_start:name_start + effective_length]
+                            name_bytes = data[
+                                name_start : name_start + effective_length
+                            ]
 
                             try:
                                 # AoE2 verwendet ASCII/UTF-8 encoding
-                                decoded = name_bytes.decode('ascii', errors='strict')
+                                decoded = name_bytes.decode("ascii", errors="strict")
 
                                 # Finde den ersten null-terminierten String
-                                null_pos = decoded.find('\x00')
+                                null_pos = decoded.find("\x00")
                                 if null_pos >= 0:
                                     clean_name = decoded[:null_pos].strip()
                                 else:
                                     clean_name = decoded.strip()
 
                                 # Validierung: Name sollte druckbare Zeichen enthalten
-                                if (len(clean_name) >= 3 and
-                                    all(ord(c) >= 32 or c.isspace() for c in clean_name) and
-                                    any(c.isalnum() for c in clean_name)):
+                                if (
+                                    len(clean_name) >= 3
+                                    and all(
+                                        ord(c) >= 32 or c.isspace() for c in clean_name
+                                    )
+                                    and any(c.isalnum() for c in clean_name)
+                                ):
                                     return clean_name
                             except UnicodeDecodeError:
                                 continue
@@ -249,8 +269,13 @@ class AoE2(DirectPlay):
                     max_players_offset = session_start + 24
                     current_players_offset = session_start + 28
 
-                    max_players = int.from_bytes(data[max_players_offset:max_players_offset+4], 'little')
-                    current_players = int.from_bytes(data[current_players_offset:current_players_offset+4], 'little')
+                    max_players = int.from_bytes(
+                        data[max_players_offset : max_players_offset + 4], "little"
+                    )
+                    current_players = int.from_bytes(
+                        data[current_players_offset : current_players_offset + 4],
+                        "little",
+                    )
 
                     # Validierung der Werte (AoE2 unterstützt bis zu 8 Spieler)
                     if 1 <= max_players <= 8 and 0 <= current_players <= max_players:
@@ -258,10 +283,10 @@ class AoE2(DirectPlay):
 
             # Fallback: Suche nach plausiblen Werten
             for i in range(len(data) - 8):
-                value = int.from_bytes(data[i:i+4], 'little')
-                next_value = int.from_bytes(data[i+4:i+8], 'little')
+                value = int.from_bytes(data[i : i + 4], "little")
+                next_value = int.from_bytes(data[i + 4 : i + 8], "little")
 
-                if (0 <= value <= 8 and 1 <= next_value <= 8 and value <= next_value):
+                if 0 <= value <= 8 and 1 <= next_value <= 8 and value <= next_value:
                     return value
 
         except Exception:
@@ -288,18 +313,23 @@ class AoE2(DirectPlay):
                     max_players_offset = session_start + 24
                     current_players_offset = session_start + 28
 
-                    max_players = int.from_bytes(data[max_players_offset:max_players_offset+4], 'little')
-                    current_players = int.from_bytes(data[current_players_offset:current_players_offset+4], 'little')
+                    max_players = int.from_bytes(
+                        data[max_players_offset : max_players_offset + 4], "little"
+                    )
+                    current_players = int.from_bytes(
+                        data[current_players_offset : current_players_offset + 4],
+                        "little",
+                    )
 
                     if 1 <= max_players <= 8 and 0 <= current_players <= max_players:
                         return max_players
 
             # Fallback: Suche nach dem zweiten Wert im Spieler-Paar
             for i in range(len(data) - 8):
-                value = int.from_bytes(data[i:i+4], 'little')
-                next_value = int.from_bytes(data[i+4:i+8], 'little')
+                value = int.from_bytes(data[i : i + 4], "little")
+                next_value = int.from_bytes(data[i + 4 : i + 8], "little")
 
-                if (0 <= value <= 8 and 1 <= next_value <= 8 and value <= next_value):
+                if 0 <= value <= 8 and 1 <= next_value <= 8 and value <= next_value:
                     return next_value
 
         except Exception:
@@ -319,15 +349,30 @@ class AoE2(DirectPlay):
         """
         # Bekannte AoE2-Kartennamen
         known_maps = [
-            "Arabia", "Black Forest", "Baltic", "Mediterranean", "Rivers",
-            "Coastal", "Continental", "Highland", "Islands", "Team Islands",
-            "Random Map", "Archipelago", "Arena", "Fortress", "Gold Rush",
-            "Nomad", "Oasis", "Random Land Map", "Scandinavia"
+            "Arabia",
+            "Black Forest",
+            "Baltic",
+            "Mediterranean",
+            "Rivers",
+            "Coastal",
+            "Continental",
+            "Highland",
+            "Islands",
+            "Team Islands",
+            "Random Map",
+            "Archipelago",
+            "Arena",
+            "Fortress",
+            "Gold Rush",
+            "Nomad",
+            "Oasis",
+            "Random Land Map",
+            "Scandinavia",
         ]
 
         try:
             # Suche nach bekannten Kartennamen in den ASCII-Daten
-            data_str = data.decode('ascii', errors='ignore').lower()
+            data_str = data.decode("ascii", errors="ignore").lower()
 
             for map_name in known_maps:
                 if map_name.lower() in data_str:
@@ -349,7 +394,7 @@ class AoE2(DirectPlay):
             str: Der Spielmodus oder leer
         """
         try:
-            data_str = data.decode('ascii', errors='ignore').lower()
+            data_str = data.decode("ascii", errors="ignore").lower()
 
             for mode_id, mode_name in self.GAME_MODES.items():
                 if mode_name.lower() in data_str:

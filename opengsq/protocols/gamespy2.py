@@ -27,7 +27,7 @@ class GameSpy2(ProtocolBase):
         :param request: A Request object indicating the type of information to retrieve.
         :return: A Status object containing the status of the game server.
         """
-        data = b"\xFE\xFD\x00\x04\x05\x06\x07" + self.__get_request_bytes(request)
+        data = b"\xfe\xfd\x00\x04\x05\x06\x07" + self.__get_request_bytes(request)
         response = await UdpClient.communicate(self, data)
 
         # Remove the first 5 bytes { 0x00, 0x04, 0x05, 0x06, 0x07 }
@@ -55,13 +55,13 @@ class GameSpy2(ProtocolBase):
         :return: The request bytes.
         """
         request_bytes = (
-            self.__has_flag(request, self.Request.INFO) and b"\xFF" or b"\x00"
+            self.__has_flag(request, self.Request.INFO) and b"\xff" or b"\x00"
         )
         request_bytes += (
-            self.__has_flag(request, self.Request.PLAYERS) and b"\xFF" or b"\x00"
+            self.__has_flag(request, self.Request.PLAYERS) and b"\xff" or b"\x00"
         )
         request_bytes += (
-            self.__has_flag(request, self.Request.TEAMS) and b"\xFF" or b"\x00"
+            self.__has_flag(request, self.Request.TEAMS) and b"\xff" or b"\x00"
         )
 
         return request_bytes

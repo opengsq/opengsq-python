@@ -26,7 +26,7 @@ class RenegadeX(ProtocolBase):
 
         transport, _ = await loop.create_datagram_endpoint(
             lambda: BroadcastProtocol(queue, self._host),
-            local_addr=('0.0.0.0', self.BROADCAST_PORT)
+            local_addr=("0.0.0.0", self.BROADCAST_PORT),
         )
 
         try:
@@ -37,14 +37,16 @@ class RenegadeX(ProtocolBase):
                     complete_data.extend(data)
 
                     try:
-                        json_str = complete_data.decode('utf-8')
+                        json_str = complete_data.decode("utf-8")
                         server_info = json.loads(json_str)
                         return Status.from_dict(server_info)
                     except (UnicodeDecodeError, json.JSONDecodeError):
                         continue
 
                 except asyncio.TimeoutError:
-                    raise TimeoutError("No broadcast received from the specified server")
+                    raise TimeoutError(
+                        "No broadcast received from the specified server"
+                    )
 
         finally:
             transport.close()

@@ -33,22 +33,24 @@ class CoD5(ProtocolBase):
         :return: An Info object containing the server information.
         """
         # Construct the getinfo payload: ffffffff676574696e666f20787878
-        payload = b"\xFF\xFF\xFF\xFF" + b"getinfo " + challenge.encode('ascii')
+        payload = b"\xff\xff\xff\xff" + b"getinfo " + challenge.encode("ascii")
 
-        response_data = await UdpClient.communicate(self, payload, source_port=self._source_port)
+        response_data = await UdpClient.communicate(
+            self, payload, source_port=self._source_port
+        )
 
         # Parse the response
         br = BinaryReader(response_data)
 
         # Skip the header (4 bytes of 0xFF)
         header = br.read_bytes(4)
-        if header != b"\xFF\xFF\xFF\xFF":
+        if header != b"\xff\xff\xff\xff":
             raise InvalidPacketException(
                 f"Invalid packet header. Expected: \\xFF\\xFF\\xFF\\xFF. Received: {header.hex()}"
             )
 
         # Read the response type
-        response_type = br.read_string([b'\n'])
+        response_type = br.read_string([b"\n"])
         if response_type != "infoResponse":
             raise InvalidPacketException(
                 f"Unexpected response type. Expected: infoResponse. Received: {response_type}"
@@ -66,22 +68,24 @@ class CoD5(ProtocolBase):
         :return: A Status object containing the server status.
         """
         # Construct the getstatus payload: ffffffff676574737461747573
-        payload = b"\xFF\xFF\xFF\xFF" + b"getstatus"
+        payload = b"\xff\xff\xff\xff" + b"getstatus"
 
-        response_data = await UdpClient.communicate(self, payload, source_port=self._source_port)
+        response_data = await UdpClient.communicate(
+            self, payload, source_port=self._source_port
+        )
 
         # Parse the response
         br = BinaryReader(response_data)
 
         # Skip the header (4 bytes of 0xFF)
         header = br.read_bytes(4)
-        if header != b"\xFF\xFF\xFF\xFF":
+        if header != b"\xff\xff\xff\xff":
             raise InvalidPacketException(
                 f"Invalid packet header. Expected: \\xFF\\xFF\\xFF\\xFF. Received: {header.hex()}"
             )
 
         # Read the response type
-        response_type = br.read_string([b'\n'])
+        response_type = br.read_string([b"\n"])
         if response_type != "statusResponse":
             raise InvalidPacketException(
                 f"Unexpected response type. Expected: statusResponse. Received: {response_type}"
@@ -111,7 +115,7 @@ class CoD5(ProtocolBase):
     def _parse_key_value_pairs(self, br: BinaryReader) -> dict[str, str]:
         """
         Parses key-value pairs from the binary reader.
-        CoD5 uses backslash (\) as delimiter between keys and values.
+        CoD5 uses backslash ( \\ ) as delimiter between keys and values.
 
         :param br: The BinaryReader object to parse from.
         :return: A dictionary containing the parsed key-value pairs.
@@ -119,13 +123,13 @@ class CoD5(ProtocolBase):
         data = {}
 
         # Read the remaining data as string
-        remaining_data = br.read().decode('ascii', errors='ignore')
+        remaining_data = br.read().decode("ascii", errors="ignore")
 
         # Split by backslash and process pairs
-        parts = remaining_data.split('\\')
+        parts = remaining_data.split("\\")
 
         # Remove empty first element if it exists (starts with \)
-        if parts and parts[0] == '':
+        if parts and parts[0] == "":
             parts = parts[1:]
 
         # Process pairs (key, value, key, value, ...)
@@ -155,7 +159,7 @@ if __name__ == "__main__":
             print(f"Gametype: {info.gametype}")
             print(f"Players: {info.clients}/{info.sv_maxclients}")
 
-            print("\n" + "="*50)
+            print("\n" + "=" * 50)
             print("Getting server status...")
             await asyncio.sleep(0.2)  # Wait a bit before next request
             status = await cod5.get_status()
@@ -167,6 +171,7 @@ if __name__ == "__main__":
         except Exception as e:
             print(f"Error: {e}")
             import traceback
+
             traceback.print_exc()
 
     asyncio.run(main_async())

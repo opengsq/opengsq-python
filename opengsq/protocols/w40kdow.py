@@ -44,7 +44,7 @@ class W40kDow(ProtocolBase):
         # Create UDP socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(('0.0.0.0', self._port))
+        sock.bind(("0.0.0.0", self._port))
         sock.setblocking(False)
 
         loop = asyncio.get_running_loop()
@@ -53,8 +53,7 @@ class W40kDow(ProtocolBase):
             # Keep receiving broadcasts until we get one from the expected host
             while True:
                 data, addr = await asyncio.wait_for(
-                    loop.sock_recvfrom(sock, 2048),
-                    timeout=self._timeout
+                    loop.sock_recvfrom(sock, 2048), timeout=self._timeout
                 )
 
                 # Only process broadcasts from the expected host
@@ -79,7 +78,7 @@ class W40kDow(ProtocolBase):
 
             # Validate header magic (0x08 0x01)
             header = br.read_bytes(2)
-            if header != b'\x08\x01':
+            if header != b"\x08\x01":
                 raise InvalidPacketException(
                     f"Invalid header. Expected: 0x0801. Received: {header.hex()}"
                 )
@@ -91,13 +90,13 @@ class W40kDow(ProtocolBase):
                     f"Unexpected GUID length. Expected: 38. Received: {guid_len}"
                 )
 
-            guid = br.read_bytes(guid_len).decode('ascii', errors='ignore')
+            guid = br.read_bytes(guid_len).decode("ascii", errors="ignore")
 
             # Read hostname (UTF-16LE with length prefix in code units)
             hostname_len_units = br.read_long(unsigned=True)
             hostname_len_bytes = hostname_len_units * 2
             hostname_bytes = br.read_bytes(hostname_len_bytes)
-            hostname = hostname_bytes.decode('utf-16le', errors='ignore')
+            hostname = hostname_bytes.decode("utf-16le", errors="ignore")
 
             # Skip null terminator + padding (4 bytes total after hostname)
             br.read_bytes(4)
@@ -127,11 +126,11 @@ class W40kDow(ProtocolBase):
 
             # Read total payload size (4 bytes) - note: first byte appears twice (redundant)
             br.read_bytes(4)  # Payload size (we don't really need this value)
-            br.read_byte()     # Skip the redundant duplicate byte
+            br.read_byte()  # Skip the redundant duplicate byte
 
             # Read and validate magic marker "WODW"
-            magic_marker = br.read_bytes(4).decode('ascii', errors='ignore')
-            if magic_marker != 'WODW':
+            magic_marker = br.read_bytes(4).decode("ascii", errors="ignore")
+            if magic_marker != "WODW":
                 raise InvalidPacketException(
                     f"Invalid magic marker. Expected: WODW. Received: {magic_marker}"
                 )
@@ -141,27 +140,27 @@ class W40kDow(ProtocolBase):
 
             # Read version string
             version_len = br.read_long(unsigned=True)
-            version = br.read_bytes(version_len).decode('ascii', errors='ignore')
+            version = br.read_bytes(version_len).decode("ascii", errors="ignore")
 
             # Read mod name
             mod_name_len = br.read_long(unsigned=True)
-            mod_name = br.read_bytes(mod_name_len).decode('ascii', errors='ignore')
+            mod_name = br.read_bytes(mod_name_len).decode("ascii", errors="ignore")
 
             # Read game title (UTF-16LE with length in code units)
             game_title_len_units = br.read_long(unsigned=True)
             game_title_len_bytes = game_title_len_units * 2
             game_title_bytes = br.read_bytes(game_title_len_bytes)
-            game_title = game_title_bytes.decode('utf-16le', errors='ignore')
+            game_title = game_title_bytes.decode("utf-16le", errors="ignore")
 
             # Read unknown ASCII field (appears to be a version like "1.0", length in bytes)
             unknown_ascii_len = br.read_long(unsigned=True)
-            unknown_ascii = br.read_bytes(unknown_ascii_len).decode('ascii', errors='ignore')
+            _ = br.read_bytes(unknown_ascii_len)  # unknown_ascii, skip for now
 
             # Read map/scenario name (UTF-16LE with length in code units)
             map_scenario_len_units = br.read_long(unsigned=True)
             map_scenario_len_bytes = map_scenario_len_units * 2
             map_scenario_bytes = br.read_bytes(map_scenario_len_bytes)
-            map_scenario = map_scenario_bytes.decode('utf-16le', errors='ignore')
+            map_scenario = map_scenario_bytes.decode("utf-16le", errors="ignore")
 
             # Skip unknown null bytes/padding after map scenario (10 bytes)
             br.read_bytes(10)
@@ -172,7 +171,7 @@ class W40kDow(ProtocolBase):
             # Read faction codes (each is 4 ASCII bytes + 4 padding bytes = 8 bytes total)
             faction_codes = []
             for _ in range(num_factions):
-                faction_code = br.read_bytes(4).decode('ascii', errors='ignore')
+                faction_code = br.read_bytes(4).decode("ascii", errors="ignore")
                 br.read_bytes(4)  # Skip 4 padding bytes after each faction code
                 faction_codes.append(faction_code)
 
@@ -193,7 +192,7 @@ class W40kDow(ProtocolBase):
                         break
 
                     feature_bytes = br.read_bytes(feature_len_bytes)
-                    feature = feature_bytes.decode('utf-16le', errors='ignore')
+                    feature = feature_bytes.decode("utf-16le", errors="ignore")
                     map_features.append(feature)
                 except Exception:
                     # If we can't read a feature, break
@@ -201,20 +200,20 @@ class W40kDow(ProtocolBase):
 
             # Create Status object
             status_data = {
-                'guid': guid,
-                'hostname': hostname,
-                'current_players': current_players,
-                'max_players': max_players,
-                'ip_address': ip_address,
-                'port': port,
-                'magic_marker': magic_marker,
-                'build_number': build_number,
-                'version': version,
-                'mod_name': mod_name,
-                'game_title': game_title,
-                'map_scenario': map_scenario,
-                'faction_codes': faction_codes,
-                'map_features': map_features
+                "guid": guid,
+                "hostname": hostname,
+                "current_players": current_players,
+                "max_players": max_players,
+                "ip_address": ip_address,
+                "port": port,
+                "magic_marker": magic_marker,
+                "build_number": build_number,
+                "version": version,
+                "mod_name": mod_name,
+                "game_title": game_title,
+                "map_scenario": map_scenario,
+                "faction_codes": faction_codes,
+                "map_features": map_features,
             }
 
             return Status(status_data)
@@ -226,6 +225,7 @@ class W40kDow(ProtocolBase):
 
 
 if __name__ == "__main__":
+
     async def main_async():
         # Test with the provided server
         w4kdow = W40kDow(host="172.29.100.29", port=6112, timeout=10.0)
@@ -233,9 +233,9 @@ if __name__ == "__main__":
         try:
             print("Listening for Dawn of War server broadcasts...")
             status = await w4kdow.get_status()
-            print(f"\n{'='*60}")
+            print(f"\n{'=' * 60}")
             print("Server Status:")
-            print(f"{'='*60}")
+            print(f"{'=' * 60}")
             print(f"GUID: {status.guid}")
             print(f"Hostname: {status.hostname}")
             print(f"Players: {status.current_players}/{status.max_players}")
@@ -253,10 +253,13 @@ if __name__ == "__main__":
 
         except asyncio.TimeoutError:
             print("Error: No broadcast received within timeout period")
-            print("Make sure a Dawn of War server is running and broadcasting on the network")
+            print(
+                "Make sure a Dawn of War server is running and broadcasting on the network"
+            )
         except Exception as e:
             print(f"Error: {e}")
             import traceback
+
             traceback.print_exc()
 
     asyncio.run(main_async())

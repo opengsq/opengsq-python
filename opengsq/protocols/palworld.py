@@ -11,7 +11,14 @@ class Palworld(ProtocolBase):
 
     full_name = "Palworld Protocol"
 
-    def __init__(self, host: str, port: int, api_username: str, api_password: str, timeout: float = 5):
+    def __init__(
+        self,
+        host: str,
+        port: int,
+        api_username: str,
+        api_password: str,
+        timeout: float = 5,
+    ):
         """
         Initializes the Palworld object with the given parameters.
 

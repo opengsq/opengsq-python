@@ -7,6 +7,7 @@ class Status:
     """
     Represents the status of a Warcraft 3 game server.
     """
+
     game_version: str
     hostname: str
     map_name: str

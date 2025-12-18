@@ -18,6 +18,7 @@ from opengsq.protocols.gamespy2 import GameSpy2
 from opengsq.protocols.gamespy3 import GameSpy3
 from opengsq.protocols.gamespy4 import GameSpy4
 from opengsq.protocols.halo1 import Halo1
+from opengsq.protocols.jediknight import JediKnight
 from opengsq.protocols.kaillera import Kaillera
 from opengsq.protocols.killingfloor import KillingFloor
 from opengsq.protocols.minecraft import Minecraft
@@ -33,6 +34,7 @@ from opengsq.protocols.satisfactory import Satisfactory
 from opengsq.protocols.scum import Scum
 from opengsq.protocols.source import Source
 from opengsq.protocols.ssc import SSC
+from opengsq.protocols.supcom import SupCom
 from opengsq.protocols.stronghold_ce import StrongholdCE
 from opengsq.protocols.stronghold_crusader import StrongholdCrusader
 from opengsq.protocols.teamspeak3 import TeamSpeak3
@@ -45,3 +47,55 @@ from opengsq.protocols.vcmp import Vcmp
 from opengsq.protocols.w40kdow import W40kDow
 from opengsq.protocols.warcraft3 import Warcraft3
 from opengsq.protocols.won import WON
+
+__all__ = [
+    "AoE1",
+    "AoE2",
+    "ASE",
+    "AVP2",
+    "Battlefield",
+    "Battlefield2",
+    "CoD1",
+    "CoD4",
+    "CoD5",
+    "DirectPlay",
+    "Doom3",
+    "ElDewrito",
+    "EOS",
+    "FiveM",
+    "Flatout2",
+    "GameSpy1",
+    "GameSpy2",
+    "GameSpy3",
+    "GameSpy4",
+    "Halo1",
+    "JediKnight",
+    "Kaillera",
+    "KillingFloor",
+    "Minecraft",
+    "Nadeo",
+    "Palworld",
+    "Quake1",
+    "Quake2",
+    "Quake3",
+    "RakNet",
+    "RenegadeX",
+    "Samp",
+    "Satisfactory",
+    "Scum",
+    "Source",
+    "SSC",
+    "SupCom",
+    "StrongholdCE",
+    "StrongholdCrusader",
+    "TeamSpeak3",
+    "TrackmaniaNations",
+    "Toxikk",
+    "UDK",
+    "Unreal2",
+    "UT3",
+    "Vcmp",
+    "W40kDow",
+    "Warcraft3",
+    "WON",
+]

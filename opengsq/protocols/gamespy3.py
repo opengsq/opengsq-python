@@ -27,7 +27,7 @@ class GameSpy3(ProtocolBase):
             udpClient.settimeout(self._timeout)
             await udpClient.connect((self._host, self._port))
 
-            request_h = b"\xFE\xFD"
+            request_h = b"\xfe\xfd"
             timestamp = b"\x04\x05\x06\x07"
             challenge = b""
 
@@ -52,7 +52,7 @@ class GameSpy3(ProtocolBase):
                 )
 
             request_data = request_h + b"\x00" + timestamp + challenge
-            udpClient.send(request_data + b"\xFF\xFF\xFF\x01")
+            udpClient.send(request_data + b"\xff\xff\xff\x01")
 
             # Packet 4: Server information response
             # (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_4:_Server_information_response)

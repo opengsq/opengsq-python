@@ -6,6 +6,7 @@ from typing import Any
 @dataclass
 class Player:
     """Represents a player on the server."""
+
     login: str
     nickname: str
     player_id: int
@@ -18,6 +19,7 @@ class Player:
 @dataclass
 class ServerOptions:
     """Represents server configuration options."""
+
     name: str
     comment: str
     password: bool
@@ -33,6 +35,7 @@ class ServerOptions:
 @dataclass
 class Version:
     """Represents the server version information."""
+
     name: str
     version: str
     build: str
@@ -46,38 +49,41 @@ class Status:
     map_info: MapInfo  # Add this
 
     @classmethod
-    def from_raw_data(cls, version_data: dict[str, str],
-                    server_data: dict[str, Any],
-                    players_data: list[dict[str, Any]],
-                    map_data: dict[str, Any]) -> Status:
+    def from_raw_data(
+        cls,
+        version_data: dict[str, str],
+        server_data: dict[str, Any],
+        players_data: list[dict[str, Any]],
+        map_data: dict[str, Any],
+    ) -> Status:
         version = Version(
-            name=version_data.get('Name', ''),
-            version=version_data.get('Version', ''),
-            build=version_data.get('Build', '')
+            name=version_data.get("Name", ""),
+            version=version_data.get("Version", ""),
+            build=version_data.get("Build", ""),
         )
 
         server_options = ServerOptions(
-            name=server_data.get('Name', ''),
-            comment=server_data.get('Comment', ''),
-            password=server_data.get('Password', False),
-            max_players=server_data.get('CurrentMaxPlayers', 0),
-            max_spectators=server_data.get('CurrentMaxSpectators', 0),
-            current_game_mode=server_data.get('CurrentGameMode', 0),
-            current_chat_time=server_data.get('CurrentChatTime', 0),
-            hide_server=server_data.get('HideServer', 0),
-            ladder_mode=server_data.get('CurrentLadderMode', 0),
-            vehicle_quality=server_data.get('CurrentVehicleNetQuality', 0)
+            name=server_data.get("Name", ""),
+            comment=server_data.get("Comment", ""),
+            password=server_data.get("Password", False),
+            max_players=server_data.get("CurrentMaxPlayers", 0),
+            max_spectators=server_data.get("CurrentMaxSpectators", 0),
+            current_game_mode=server_data.get("CurrentGameMode", 0),
+            current_chat_time=server_data.get("CurrentChatTime", 0),
+            hide_server=server_data.get("HideServer", 0),
+            ladder_mode=server_data.get("CurrentLadderMode", 0),
+            vehicle_quality=server_data.get("CurrentVehicleNetQuality", 0),
         )
 
         players = [
             Player(
-                login=p.get('Login', ''),
-                nickname=p.get('NickName', ''),
-                player_id=p.get('PlayerId', -1),
-                team_id=p.get('TeamId', -1),
-                is_spectator=p.get('IsSpectator', False),
-                ladder_ranking=p.get('LadderRanking', 0),
-                flags=p.get('Flags', 0)
+                login=p.get("Login", ""),
+                nickname=p.get("NickName", ""),
+                player_id=p.get("PlayerId", -1),
+                team_id=p.get("TeamId", -1),
+                is_spectator=p.get("IsSpectator", False),
+                ladder_ranking=p.get("LadderRanking", 0),
+                flags=p.get("Flags", 0),
             )
             for p in players_data
         ]
@@ -90,6 +96,7 @@ class Status:
 @dataclass
 class MapInfo:
     """Represents current map information."""
+
     name: str
     author: str
     environment: str
@@ -97,7 +104,7 @@ class MapInfo:
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> MapInfo:
         return cls(
-            name=data.get('Name', ''),
-            author=data.get('Author', ''),
-            environment=data.get('Environment', '')
+            name=data.get("Name", ""),
+            author=data.get("Author", ""),
+            environment=data.get("Environment", ""),
         )

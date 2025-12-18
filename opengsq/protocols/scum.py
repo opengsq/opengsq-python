@@ -101,9 +101,9 @@ class Scum(ProtocolBase):
                                     ]
                                 )
                             )
-                            server[
-                                "version"
-                            ] = f"{int(v[0], 16)}.{int(v[1], 16)}.{int(v[2] + v[3], 16)}.{int(v[4] + v[5] + v[6] + v[7], 16)}"
+                            server["version"] = (
+                                f"{int(v[0], 16)}.{int(v[1], 16)}.{int(v[2] + v[3], 16)}.{int(v[4] + v[5] + v[6] + v[7], 16)}"
+                            )
                             servers.append(Status(**server))
 
                         # if the length is less than 127, save the unused bytes for next loop

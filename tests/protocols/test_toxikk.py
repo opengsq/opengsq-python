@@ -4,6 +4,7 @@ from ..result_handler import ResultHandler
 
 handler = ResultHandler(__file__)
 
+
 @pytest.mark.asyncio
 async def test_toxikk_status():
     toxikk = Toxikk(host="10.13.37.149", port=14001)
@@ -28,7 +29,7 @@ async def test_toxikk_status():
     print(f"Stats Enabled: {'Yes' if result.stats_enabled else 'No'}")
 
     print("\nMutators:")
-    mutators = result.raw.get('mutators', [])
+    mutators = result.raw.get("mutators", [])
     print(", ".join(mutators) if mutators else "None")
 
     await handler.save_result("test_toxikk_status", result)

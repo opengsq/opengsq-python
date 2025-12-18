@@ -5,6 +5,7 @@ from typing import List
 @dataclass
 class Player:
     """Represents a player in an ElDewrito server"""
+
     name: str
     uid: str = ""
     team: int = 0
@@ -21,6 +22,7 @@ class Player:
 @dataclass
 class Status:
     """ElDewrito server status information"""
+
     name: str
     port: int
     file_server_port: int

@@ -20,6 +20,7 @@ Protocols Tests
 	test_gamespy3/index
 	test_gamespy4/index
 	test_halo1/index
+	test_jediknight/index
 	test_kaillera/index
 	test_killingfloor/index
 	test_minecraft/index
@@ -37,6 +38,7 @@ Protocols Tests
 	test_ssc/index
 	test_stronghold_ce/index
 	test_stronghold_crusader/index
+	test_supcom/index
 	test_teamspeak3/index
 	test_toxikk/index
 	test_trackmania_nations/index

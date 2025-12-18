@@ -65,22 +65,22 @@ class Status:
         :return: Expansion name
         """
         expansion_map = {
-            'w40k': 'Dawn of War',
-            'wxp': 'Winter Assault',
-            'dxp2': 'Dark Crusade',
-            'dxp3': 'Soulstorm'
+            "w40k": "Dawn of War",
+            "wxp": "Winter Assault",
+            "dxp2": "Dark Crusade",
+            "dxp3": "Soulstorm",
         }
         return expansion_map.get(self.mod_name, self.mod_name)
 
     def __getattribute__(self, name):
-        if name == '__dict__':
+        if name == "__dict__":
             # Create a custom dict that includes properties
             result = {}
             # Get the original __dict__ first
-            original_dict = object.__getattribute__(self, '__dict__')
+            original_dict = object.__getattribute__(self, "__dict__")
             result.update(original_dict)
             # Add the expansion name
-            result['expansion_name'] = self.expansion_name
+            result["expansion_name"] = self.expansion_name
             return result
         return object.__getattribute__(self, name)
 

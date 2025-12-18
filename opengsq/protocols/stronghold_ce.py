@@ -1,5 +1,4 @@
 from opengsq.protocols.directplay import DirectPlay
-from opengsq.responses.stronghold_ce.status import Status
 from opengsq.binary_reader import BinaryReader
 
 
@@ -14,7 +13,9 @@ class StrongholdCE(DirectPlay):
     full_name = "Stronghold Crusader Extreme DirectPlay Protocol"
 
     # Stronghold Crusader Extreme spezifische Konstanten und Payload
-    STRONGHOLD_CE_UDP_PAYLOAD = bytes.fromhex("3400b0fa020008fc000000000000000000000000706c617902000e00f04d0c49c79b4c4cb959d41f1cce460e0000000091000000")
+    STRONGHOLD_CE_UDP_PAYLOAD = bytes.fromhex(
+        "3400b0fa020008fc000000000000000000000000706c617902000e00f04d0c49c79b4c4cb959d41f1cce460e0000000091000000"
+    )
 
     # DirectPlay Payload-Struktur für Stronghold Crusader Extreme:
     # Bytes 0-27:  Gemeinsamer DirectPlay Header (identisch mit AoE1/AoE2)
@@ -24,7 +25,12 @@ class StrongholdCE(DirectPlay):
     # Bytes 48-51: Version/Type ID: 91 00 00 00 (145 dezimal)
     STRONGHOLD_CE_GAME_GUID = "f04d0c49-c79b-4c4c-b959-d41f1cce460e"
 
-    def __init__(self, host: str, port: int = DirectPlay.DIRECTPLAY_UDP_PORT, timeout: float = 5.0):
+    def __init__(
+        self,
+        host: str,
+        port: int = DirectPlay.DIRECTPLAY_UDP_PORT,
+        timeout: float = 5.0,
+    ):
         super().__init__(host, port, timeout)
 
     def _build_query_packet(self) -> bytes:
@@ -55,20 +61,22 @@ class StrongholdCE(DirectPlay):
         result = super()._parse_response(buffer)
 
         # Stronghold CE-spezifische Anpassungen
-        result['game_type'] = 'Stronghold Crusader Extreme'
-        result['game_version'] = '1.4.1'  # Stronghold Crusader Extreme Version
+        result["game_type"] = "Stronghold Crusader Extreme"
+        result["game_version"] = "1.4.1"  # Stronghold Crusader Extreme Version
 
         # Versuche Stronghold CE-spezifische Daten zu parsen
         try:
             stronghold_data = self._parse_stronghold_ce_specific_data(buffer)
             result.update(stronghold_data)
         except Exception as e:
-            result['raw']['stronghold_ce_parse_error'] = str(e)
+            result["raw"]["stronghold_ce_parse_error"] = str(e)
 
         # Debug-Informationen hinzufügen
-        result['raw']['game_guid'] = self.STRONGHOLD_CE_GAME_GUID
-        result['raw']['buffer_size'] = len(buffer)
-        result['raw']['buffer_preview'] = buffer[:50].hex() if len(buffer) > 50 else buffer.hex()
+        result["raw"]["game_guid"] = self.STRONGHOLD_CE_GAME_GUID
+        result["raw"]["buffer_size"] = len(buffer)
+        result["raw"]["buffer_preview"] = (
+            buffer[:50].hex() if len(buffer) > 50 else buffer.hex()
+        )
 
         return result
 
@@ -99,20 +107,20 @@ class StrongholdCE(DirectPlay):
             # Suche nach Spielnamen (Stronghold CE verwendet UTF-16LE Strings)
             game_name = self._extract_stronghold_ce_game_name(remaining_data)
             if game_name:
-                result['name'] = game_name
+                result["name"] = game_name
 
             # Versuche Spieleranzahl zu ermitteln
             player_count = self._extract_stronghold_ce_player_count(remaining_data)
             if player_count >= 0:
-                result['num_players'] = player_count
+                result["num_players"] = player_count
 
             # Versuche Max Players zu ermitteln
             max_players = self._extract_stronghold_ce_max_players(remaining_data)
             if max_players > 0:
-                result['max_players'] = max_players
+                result["max_players"] = max_players
 
         except Exception as e:
-            result['stronghold_ce_specific_error'] = str(e)
+            result["stronghold_ce_specific_error"] = str(e)
 
         return result
 
@@ -145,7 +153,7 @@ class StrongholdCE(DirectPlay):
             for i in range(search_start, len(data) - 8, 4):
                 if i + 4 < len(data):
                     # Lese 32-bit Längenwert (little-endian)
-                    potential_length = int.from_bytes(data[i:i+4], 'little')
+                    potential_length = int.from_bytes(data[i : i + 4], "little")
 
                     # Plausible Länge für einen Spielnamen (12-400 bytes für UTF-16LE)
                     # Der Length-Wert kann die gesamte String-Sektion oder nur den String repräsentieren
@@ -157,14 +165,16 @@ class StrongholdCE(DirectPlay):
                         effective_length = min(potential_length, available_length)
 
                         if effective_length > 0:
-                            name_bytes = data[name_start:name_start + effective_length]
+                            name_bytes = data[
+                                name_start : name_start + effective_length
+                            ]
 
                             try:
                                 # Stronghold CE verwendet UTF-16LE encoding
-                                decoded = name_bytes.decode('utf-16le', errors='strict')
+                                decoded = name_bytes.decode("utf-16le", errors="strict")
 
                                 # Finde den ersten null-terminierten String
-                                null_pos = decoded.find('\x00')
+                                null_pos = decoded.find("\x00")
                                 if null_pos >= 0:
                                     clean_name = decoded[:null_pos].strip()
                                 else:
@@ -172,9 +182,13 @@ class StrongholdCE(DirectPlay):
 
                                 # Validierung: Name sollte druckbare Zeichen enthalten
                                 # und "Stronghold" oder ähnliche Begriffe könnten vorkommen
-                                if (len(clean_name) >= 3 and
-                                    all(ord(c) >= 32 or c.isspace() for c in clean_name) and
-                                    any(c.isalnum() for c in clean_name)):
+                                if (
+                                    len(clean_name) >= 3
+                                    and all(
+                                        ord(c) >= 32 or c.isspace() for c in clean_name
+                                    )
+                                    and any(c.isalnum() for c in clean_name)
+                                ):
                                     return clean_name
                             except UnicodeDecodeError:
                                 continue
@@ -208,8 +222,13 @@ class StrongholdCE(DirectPlay):
                     max_players_offset = session_start + 24
                     current_players_offset = session_start + 28
 
-                    max_players = int.from_bytes(data[max_players_offset:max_players_offset+4], 'little')
-                    current_players = int.from_bytes(data[current_players_offset:current_players_offset+4], 'little')
+                    max_players = int.from_bytes(
+                        data[max_players_offset : max_players_offset + 4], "little"
+                    )
+                    current_players = int.from_bytes(
+                        data[current_players_offset : current_players_offset + 4],
+                        "little",
+                    )
 
                     # Validierung der Werte (Stronghold CE unterstützt bis zu 8 Spieler)
                     if 1 <= max_players <= 8 and 0 <= current_players <= max_players:
@@ -217,11 +236,11 @@ class StrongholdCE(DirectPlay):
 
             # Fallback: Suche nach plausiblen Werten
             for i in range(len(data) - 8):
-                value = int.from_bytes(data[i:i+4], 'little')
-                next_value = int.from_bytes(data[i+4:i+8], 'little')
+                value = int.from_bytes(data[i : i + 4], "little")
+                next_value = int.from_bytes(data[i + 4 : i + 8], "little")
 
                 # Suche nach dem Muster: current_players, max_players
-                if (0 <= value <= 8 and 1 <= next_value <= 8 and value <= next_value):
+                if 0 <= value <= 8 and 1 <= next_value <= 8 and value <= next_value:
                     return value
 
         except Exception:
@@ -248,18 +267,23 @@ class StrongholdCE(DirectPlay):
                     max_players_offset = session_start + 24
                     current_players_offset = session_start + 28
 
-                    max_players = int.from_bytes(data[max_players_offset:max_players_offset+4], 'little')
-                    current_players = int.from_bytes(data[current_players_offset:current_players_offset+4], 'little')
+                    max_players = int.from_bytes(
+                        data[max_players_offset : max_players_offset + 4], "little"
+                    )
+                    current_players = int.from_bytes(
+                        data[current_players_offset : current_players_offset + 4],
+                        "little",
+                    )
 
                     if 1 <= max_players <= 8 and 0 <= current_players <= max_players:
                         return max_players
 
             # Fallback: Suche nach dem zweiten Wert im Spieler-Paar
             for i in range(len(data) - 8):
-                value = int.from_bytes(data[i:i+4], 'little')
-                next_value = int.from_bytes(data[i+4:i+8], 'little')
+                value = int.from_bytes(data[i : i + 4], "little")
+                next_value = int.from_bytes(data[i + 4 : i + 8], "little")
 
-                if (0 <= value <= 8 and 1 <= next_value <= 8 and value <= next_value):
+                if 0 <= value <= 8 and 1 <= next_value <= 8 and value <= next_value:
                     return next_value
 
         except Exception:

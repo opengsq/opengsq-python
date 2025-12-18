@@ -234,11 +234,11 @@ class Source(ProtocolBase):
             await udpClient.connect((self._host, self._port))
 
             # Send and receive
-            request_base = b"\xFF\xFF\xFF\xFF" + header
+            request_base = b"\xff\xff\xff\xff" + header
             request_data = request_base
 
             if header != self._A2S_INFO:
-                request_data += b"\xFF\xFF\xFF\xFF"
+                request_data += b"\xff\xff\xff\xff"
 
             udpClient.send(request_data)
 
@@ -321,7 +321,7 @@ class Source(ProtocolBase):
                 )
 
         return (
-            combined_payload.startswith(b"\xFF\xFF\xFF\xFF")
+            combined_payload.startswith(b"\xff\xff\xff\xff")
             and combined_payload[4:]
             or combined_payload
         )
@@ -331,7 +331,7 @@ class Source(ProtocolBase):
         number = br.read_byte() >> 4
 
         # Check is it Gold Source packet split format
-        return number == 0 and br.read().startswith(b"\xFF\xFF\xFF\xFF")
+        return number == 0 and br.read().startswith(b"\xff\xff\xff\xff")
 
     async def __parse_gold_source_packet(self, udpClient: UdpClient, packets: list):
         total_packets = -1
@@ -367,7 +367,7 @@ class Source(ProtocolBase):
         combined_payload = b"".join(payloads[number] for number in sorted(payloads))
 
         return (
-            combined_payload.startswith(b"\xFF\xFF\xFF\xFF")
+            combined_payload.startswith(b"\xff\xff\xff\xff")
             and combined_payload[4:]
             or combined_payload
         )
