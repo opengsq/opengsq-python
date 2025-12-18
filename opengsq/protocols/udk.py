@@ -68,22 +68,22 @@ class UDK(ProtocolBase):
 
         # Parse connection info
         num_open_public_conn = struct.unpack("!I", br.read_bytes(4))[0]
-        num_open_private_conn = struct.unpack("!I", br.read_bytes(4))[0]
+        _ = struct.unpack("!I", br.read_bytes(4))[0]  # num_open_private_conn
         num_public_conn = struct.unpack("!I", br.read_bytes(4))[0]
-        num_private_conn = struct.unpack("!I", br.read_bytes(4))[0]
+        _ = struct.unpack("!I", br.read_bytes(4))[0]  # num_private_conn
 
         # Parse flags
-        should_advertise = br.read_bytes(1)[0] == 1
+        _ = br.read_bytes(1)[0] == 1  # should_advertise
         is_lan_match = br.read_bytes(1)[0] == 1
         uses_stats = br.read_bytes(1)[0] == 1
-        allow_join_in_progress = br.read_bytes(1)[0] == 1
-        allow_invites = br.read_bytes(1)[0] == 1
-        uses_presence = br.read_bytes(1)[0] == 1
-        allow_join_via_presence = br.read_bytes(1)[0] == 1
-        uses_arbitration = br.read_bytes(1)[0] == 1
+        _ = br.read_bytes(1)[0] == 1  # allow_join_in_progress
+        _ = br.read_bytes(1)[0] == 1  # allow_invites
+        _ = br.read_bytes(1)[0] == 1  # uses_presence
+        _ = br.read_bytes(1)[0] == 1  # allow_join_via_presence
+        _ = br.read_bytes(1)[0] == 1  # uses_arbitration
 
         if self.packet_version >= 5:
-            anti_cheat_protected = br.read_bytes(1)[0] == 1
+            _ = br.read_bytes(1)[0] == 1  # anti_cheat_protected
 
         # Read owner info
         owner_id = br.read_bytes(8)

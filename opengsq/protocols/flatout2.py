@@ -232,10 +232,6 @@ class Flatout2(ProtocolBase):
         if len(data) < 14:  # Minimum length for header + session ID + padding + game ID
             return False
 
-        # Check response header - accept any of the valid response headers
-        response_header = data[:2]
-        header_valid = response_header in self.RESPONSE_HEADERS
-
         # Check game identifier (position 10-14, after session ID and padding)
         # This is the most reliable indicator for Flatout 2 servers
         game_id = data[10:14]
