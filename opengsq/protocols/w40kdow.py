@@ -44,7 +44,7 @@ class W40kDow(ProtocolBase):
         # Create UDP socket
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind(("0.0.0.0", self._port))
+        sock.bind((self._host, self._port))
         sock.setblocking(False)
 
         loop = asyncio.get_running_loop()
