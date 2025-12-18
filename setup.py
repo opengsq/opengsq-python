@@ -31,7 +31,7 @@ setup(
     install_requires=install_requires,
     entry_points={"console_scripts": ["opengsq=opengsq.cli:main"]},
     packages=find_packages(exclude=["tests", "tests.*"]),
-    python_requires=">=3.7",
+    python_requires=">=3.9",
     url="https://github.com/opengsq/opengsq-python",
     project_urls={
         "Bug Tracker": "https://github.com/opengsq/opengsq-python/issues",
