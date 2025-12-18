@@ -154,9 +154,7 @@ class W40kDow(ProtocolBase):
 
             # Read unknown ASCII field (appears to be a version like "1.0", length in bytes)
             unknown_ascii_len = br.read_long(unsigned=True)
-            unknown_ascii = br.read_bytes(unknown_ascii_len).decode(
-                "ascii", errors="ignore"
-            )
+            _ = br.read_bytes(unknown_ascii_len)  # unknown_ascii, skip for now
 
             # Read map/scenario name (UTF-16LE with length in code units)
             map_scenario_len_units = br.read_long(unsigned=True)

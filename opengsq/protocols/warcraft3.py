@@ -183,9 +183,9 @@ class Warcraft3(ProtocolBase):
         slots_total = int.from_bytes(br.read_bytes(4), "little")
         game_flags = GameFlags(int.from_bytes(br.read_bytes(4), "little"))
         slots_used = int.from_bytes(br.read_bytes(4), "little")
-        slots_available = int.from_bytes(br.read_bytes(4), "little")
-        uptime_seconds = int.from_bytes(br.read_bytes(4), "little")
-        port = int.from_bytes(br.read_bytes(2), "little")
+        _ = int.from_bytes(br.read_bytes(4), "little")  # slots_available
+        _ = int.from_bytes(br.read_bytes(4), "little")  # uptime_seconds
+        _ = int.from_bytes(br.read_bytes(2), "little")  # port
 
         # Store raw data for debugging
         raw = {
