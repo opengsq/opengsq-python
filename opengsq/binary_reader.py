@@ -16,7 +16,7 @@ class BinaryReader:
         self.__data = data + self.__data
 
     def read(self) -> bytes:
-        return self.__data[self.stream_position:]
+        return self.__data[self.stream_position :]
 
     def read_byte(self) -> int:
         data = self.__data[self.stream_position]
@@ -25,39 +25,49 @@ class BinaryReader:
         return data
 
     def read_bytes(self, count: int) -> bytes:
-        data = self.__data[self.stream_position:self.stream_position + count]
+        data = self.__data[self.stream_position : self.stream_position + count]
         self.stream_position += count
 
         return data
 
     def read_short(self, unsigned=True) -> int:
-        format = 'H' if unsigned else 'h'
-        data = struct.unpack(f'<{format}', self.__data[self.stream_position:self.stream_position + 2])[0]
+        format = "H" if unsigned else "h"
+        data = struct.unpack(
+            f"<{format}", self.__data[self.stream_position : self.stream_position + 2]
+        )[0]
         self.stream_position += 2
 
         return data
 
     def read_long(self, unsigned=False) -> int:
-        format = 'L' if unsigned else 'l'
-        data = struct.unpack(f'<{format}', self.__data[self.stream_position:self.stream_position + 4])[0]
+        format = "L" if unsigned else "l"
+        data = struct.unpack(
+            f"<{format}", self.__data[self.stream_position : self.stream_position + 4]
+        )[0]
         self.stream_position += 4
 
         return data
 
     def read_long_long(self) -> int:
-        data = struct.unpack('<q', self.__data[self.stream_position:self.stream_position + 8])[0]
+        data = struct.unpack(
+            "<q", self.__data[self.stream_position : self.stream_position + 8]
+        )[0]
         self.stream_position += 8
 
         return data
 
     def read_float(self) -> float:
-        data = struct.unpack('<f', self.__data[self.stream_position:self.stream_position + 4])[0]
+        data = struct.unpack(
+            "<f", self.__data[self.stream_position : self.stream_position + 4]
+        )[0]
         self.stream_position += 4
 
         return data
 
-    def read_string(self, delimiters=[b'\x00'], encoding='utf-8', errors='ignore') -> str:
-        bytes_string = b''
+    def read_string(
+        self, delimiters=[b"\x00"], encoding="utf-8", errors="ignore"
+    ) -> str:
+        bytes_string = b""
 
         while self.remaining_bytes() > 0:
             stream_byte = bytes([self.read_byte()])
@@ -69,7 +79,9 @@ class BinaryReader:
 
         return str(bytes_string, encoding=encoding, errors=errors)
 
-    def read_pascal_string(self, encoding='utf-8', errors='ignore'):
+    def read_pascal_string(self, encoding="utf-8", errors="ignore"):
         length = self.read_byte()
-        pascal_string = str(self.read_bytes(length - 1), encoding=encoding, errors=errors)
+        pascal_string = str(
+            self.read_bytes(length - 1), encoding=encoding, errors=errors
+        )
         return pascal_string

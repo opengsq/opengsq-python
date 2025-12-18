@@ -9,6 +9,7 @@ from enum import IntFlag, IntEnum
 
 class GameFlags(IntFlag):
     """Game flags based on the Go implementation"""
+
     CUSTOM_GAME = 0x000001
     SINGLE_PLAYER = 0x000005
     LADDER_1V1 = 0x000010
@@ -39,6 +40,7 @@ class GameFlags(IntFlag):
 
 class GameSettingFlags(IntFlag):
     """Game setting flags based on the Go implementation"""
+
     SPEED_SLOW = 0x00000000
     SPEED_NORMAL = 0x00000001
     SPEED_FAST = 0x00000002
@@ -63,6 +65,7 @@ class GameSettingFlags(IntFlag):
 
 class SlotStatus(IntEnum):
     """Slot status based on the Go implementation"""
+
     OPEN = 0x00
     CLOSED = 0x01
     OCCUPIED = 0x02
@@ -98,19 +101,28 @@ class Warcraft3(ProtocolBase):
     def _create_search_game_packet(self) -> bytes:
         """Creates a search game packet based on the Go implementation"""
         packet = bytearray()
-        packet.extend([
-            self.PROTOCOL_SIG,  # Protocol signature
-            self.PID_SEARCH_GAME,  # Packet type
-            0x10, 0x00,  # Packet size (16 bytes)
-            0x50, 0x58, 0x33, 0x57,  # Product "PX3W" (reversed "W3XP")
-            # Game version (little endian)
-            self.CURRENT_GAME_VERSION & 0xFF,
-            (self.CURRENT_GAME_VERSION >> 8) & 0xFF,
-            (self.CURRENT_GAME_VERSION >> 16) & 0xFF,
-            (self.CURRENT_GAME_VERSION >> 24) & 0xFF,
-            # Host counter
-            0x00, 0x00, 0x00, 0x00
-        ])
+        packet.extend(
+            [
+                self.PROTOCOL_SIG,  # Protocol signature
+                self.PID_SEARCH_GAME,  # Packet type
+                0x10,
+                0x00,  # Packet size (16 bytes)
+                0x50,
+                0x58,
+                0x33,
+                0x57,  # Product "PX3W" (reversed "W3XP")
+                # Game version (little endian)
+                self.CURRENT_GAME_VERSION & 0xFF,
+                (self.CURRENT_GAME_VERSION >> 8) & 0xFF,
+                (self.CURRENT_GAME_VERSION >> 16) & 0xFF,
+                (self.CURRENT_GAME_VERSION >> 24) & 0xFF,
+                # Host counter
+                0x00,
+                0x00,
+                0x00,
+                0x00,
+            ]
+        )
         return bytes(packet)
 
     async def get_status(self) -> Status:
@@ -120,7 +132,9 @@ class Warcraft3(ProtocolBase):
         :return: A Status object containing the status of the game server.
         """
         request = self._create_search_game_packet()
-        response = await UdpClient.communicate(self, request, source_port=self.WARCRAFT3_PORT)
+        response = await UdpClient.communicate(
+            self, request, source_port=self.WARCRAFT3_PORT
+        )
 
         if not response or len(response) < 4:
             raise Exception("Invalid response")
@@ -128,28 +142,28 @@ class Warcraft3(ProtocolBase):
         br = BinaryReader(response)
 
         # Validate protocol signature
-        if int.from_bytes(br.read_bytes(1), 'little') != self.PROTOCOL_SIG:
+        if int.from_bytes(br.read_bytes(1), "little") != self.PROTOCOL_SIG:
             raise Exception("Invalid protocol signature")
 
         # Validate packet type
-        if int.from_bytes(br.read_bytes(1), 'little') != self.PID_GAME_INFO:
+        if int.from_bytes(br.read_bytes(1), "little") != self.PID_GAME_INFO:
             raise Exception("Invalid response packet type")
 
         # Read packet size
-        packet_size = int.from_bytes(br.read_bytes(2), 'little')
+        packet_size = int.from_bytes(br.read_bytes(2), "little")
         if len(response) < packet_size:
             raise Exception("Incomplete response")
 
         # Read game version info
-        product = br.read_bytes(4).decode('ascii')  # Product code (WAR3/W3XP)
-        version = int.from_bytes(br.read_bytes(4), 'little')  # Game version
-        host_counter = int.from_bytes(br.read_bytes(4), 'little')  # Host counter
-        entry_key = int.from_bytes(br.read_bytes(4), 'little')  # Entry key
+        product = br.read_bytes(4).decode("ascii")  # Product code (WAR3/W3XP)
+        version = int.from_bytes(br.read_bytes(4), "little")  # Game version
+        host_counter = int.from_bytes(br.read_bytes(4), "little")  # Host counter
+        entry_key = int.from_bytes(br.read_bytes(4), "little")  # Entry key
 
         # Read game name (null-terminated)
         game_name = ""
         while True:
-            char = int.from_bytes(br.read_bytes(1), 'little')
+            char = int.from_bytes(br.read_bytes(1), "little")
             if char == 0:
                 break
             game_name += chr(char)
@@ -160,28 +174,28 @@ class Warcraft3(ProtocolBase):
         # Read game settings string (null-terminated)
         settings_raw = bytearray()
         while True:
-            byte = int.from_bytes(br.read_bytes(1), 'little')
+            byte = int.from_bytes(br.read_bytes(1), "little")
             if byte == 0:
                 break
             settings_raw.append(byte)
 
         # Read remaining fields
-        slots_total = int.from_bytes(br.read_bytes(4), 'little')
-        game_flags = GameFlags(int.from_bytes(br.read_bytes(4), 'little'))
-        slots_used = int.from_bytes(br.read_bytes(4), 'little')
-        slots_available = int.from_bytes(br.read_bytes(4), 'little')
-        uptime_seconds = int.from_bytes(br.read_bytes(4), 'little')
-        port = int.from_bytes(br.read_bytes(2), 'little')
+        slots_total = int.from_bytes(br.read_bytes(4), "little")
+        game_flags = GameFlags(int.from_bytes(br.read_bytes(4), "little"))
+        slots_used = int.from_bytes(br.read_bytes(4), "little")
+        _ = int.from_bytes(br.read_bytes(4), "little")  # slots_available
+        _ = int.from_bytes(br.read_bytes(4), "little")  # uptime_seconds
+        _ = int.from_bytes(br.read_bytes(2), "little")  # port
 
         # Store raw data for debugging
         raw = {
-            'product': product,
-            'version': version,
-            'host_counter': host_counter,
-            'entry_key': entry_key,
-            'settings_raw': settings_raw.hex(),
-            'game_flags': game_flags,
-            'remaining_data': br.read_bytes(br.remaining_bytes()).hex()
+            "product": product,
+            "version": version,
+            "host_counter": host_counter,
+            "entry_key": entry_key,
+            "settings_raw": settings_raw.hex(),
+            "game_flags": game_flags,
+            "remaining_data": br.read_bytes(br.remaining_bytes()).hex(),
         }
 
         return Status(
@@ -191,7 +205,7 @@ class Warcraft3(ProtocolBase):
             game_type=self._get_game_type(game_flags),
             num_players=slots_used,
             max_players=slots_total,
-            raw=raw
+            raw=raw,
         )
 
     def _get_map_name_from_settings(self, settings_raw: bytearray) -> str:
@@ -245,16 +259,17 @@ class Warcraft3(ProtocolBase):
 
             # Extract filename from path and remove extension
             # Handle both forward and backward slashes
-            map_path = map_path.replace('\\', '/')
-            filename = map_path.split('/')[-1]
+            map_path = map_path.replace("\\", "/")
+            filename = map_path.split("/")[-1]
 
             # Remove file extension
-            if '.' in filename:
-                filename = filename.rsplit('.', 1)[0]
+            if "." in filename:
+                filename = filename.rsplit(".", 1)[0]
 
             # Remove player count prefix like "(2)", "(4)", etc.
             import re
-            filename = re.sub(r'^\(\d+\)\s*', '', filename)
+
+            filename = re.sub(r"^\(\d+\)\s*", "", filename)
 
             return filename if filename else "Map name unavailable"
 

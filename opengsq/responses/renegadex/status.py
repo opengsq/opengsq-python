@@ -16,7 +16,7 @@ class Variables:
     ranked: bool
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> 'Variables':
+    def from_dict(cls, data: dict[str, Any]) -> "Variables":
         return cls(
             player_limit=data["Player Limit"],
             vehicle_limit=data["Vehicle Limit"],
@@ -27,7 +27,7 @@ class Variables:
             team_mode=data["Team Mode"],
             spawn_crates=data["bSpawnCrates"],
             game_type=data["Game Type"],
-            ranked=data["bRanked"]
+            ranked=data["bRanked"],
         )
 
 
@@ -42,7 +42,7 @@ class Status:
     raw: dict[str, Any]
 
     @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> 'Status':
+    def from_dict(cls, data: dict[str, Any]) -> "Status":
         return cls(
             name=data["Name"],
             map=data["Current Map"],
@@ -50,5 +50,5 @@ class Status:
             players=data["Players"],
             game_version=data["Game Version"],
             variables=Variables.from_dict(data["Variables"]),
-            raw=data
+            raw=data,
         )

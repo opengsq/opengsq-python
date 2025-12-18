@@ -33,7 +33,9 @@ class DirectPlay(ProtocolBase):
     DIRECTPLAY_UDP_PORT = 47624
     DIRECTPLAY_TCP_PORT = 2300
 
-    def __init__(self, host: str, port: int = DIRECTPLAY_UDP_PORT, timeout: float = 5.0):
+    def __init__(
+        self, host: str, port: int = DIRECTPLAY_UDP_PORT, timeout: float = 5.0
+    ):
         super().__init__(host, port, timeout)
         self._tcp_listen_port = self.DIRECTPLAY_TCP_PORT
 
@@ -55,9 +57,18 @@ class DirectPlay(ProtocolBase):
 
         # Filtere nur gültige Status-Parameter
         status_fields = {
-            'name', 'game_type', 'map', 'num_players', 'max_players',
-            'password_protected', 'game_version', 'game_mode',
-            'difficulty', 'speed', 'players', 'raw'
+            "name",
+            "game_type",
+            "map",
+            "num_players",
+            "max_players",
+            "password_protected",
+            "game_version",
+            "game_mode",
+            "difficulty",
+            "speed",
+            "players",
+            "raw",
         }
 
         filtered_data = {k: v for k, v in parsed_data.items() if k in status_fields}
@@ -84,7 +95,7 @@ class DirectPlay(ProtocolBase):
         class DirectPlayTcpProtocol(asyncio.Protocol):
             def __init__(self):
                 self.transport = None
-                self.received_data = b''
+                self.received_data = b""
 
             def connection_made(self, transport):
                 self.transport = transport
@@ -110,14 +121,14 @@ class DirectPlay(ProtocolBase):
                 try:
                     actual_tcp_port = self._tcp_listen_port + port_offset
                     server = await loop.create_server(
-                        DirectPlayTcpProtocol,
-                        '0.0.0.0',
-                        actual_tcp_port
+                        DirectPlayTcpProtocol, "0.0.0.0", actual_tcp_port
                     )
                     break
                 except OSError:
                     if port_offset == 9:  # Letzter Versuch
-                        raise Exception(f"Could not bind TCP server to ports {self._tcp_listen_port}-{actual_tcp_port}")
+                        raise Exception(
+                            f"Could not bind TCP server to ports {self._tcp_listen_port}-{actual_tcp_port}"
+                        )
                     continue
 
             # Sicherstellen, dass der Server wirklich läuft
@@ -128,7 +139,9 @@ class DirectPlay(ProtocolBase):
             await self._send_udp_query(query_packet)
 
             # Warten auf TCP-Antwort mit asyncio.Future
-            response_data = await asyncio.wait_for(response_future, timeout=self._timeout)
+            response_data = await asyncio.wait_for(
+                response_future, timeout=self._timeout
+            )
 
             return response_data
 
@@ -150,8 +163,7 @@ class DirectPlay(ProtocolBase):
 
         # UDP Socket erstellen
         transport, protocol = await loop.create_datagram_endpoint(
-            lambda: asyncio.DatagramProtocol(),
-            local_addr=('0.0.0.0', 0)
+            lambda: asyncio.DatagramProtocol(), local_addr=("0.0.0.0", 0)
         )
 
         try:
@@ -193,22 +205,22 @@ class DirectPlay(ProtocolBase):
 
         # Basis-Parsing für DirectPlay-Pakete
         result = {
-            'name': 'DirectPlay Server',
-            'game_type': 'DirectPlay Game',
-            'map': 'Unknown Map',
-            'num_players': 0,
-            'max_players': 8,
-            'password_protected': False,
-            'game_version': '1.0',
-            'game_mode': 'Standard',
-            'difficulty': 'Standard',
-            'speed': 'Normal',
-            'players': [],
-            'raw': {
-                'magic': magic.hex(),
-                'buffer_length': len(buffer),
-                'full_buffer': buffer.hex()
-            }
+            "name": "DirectPlay Server",
+            "game_type": "DirectPlay Game",
+            "map": "Unknown Map",
+            "num_players": 0,
+            "max_players": 8,
+            "password_protected": False,
+            "game_version": "1.0",
+            "game_mode": "Standard",
+            "difficulty": "Standard",
+            "speed": "Normal",
+            "players": [],
+            "raw": {
+                "magic": magic.hex(),
+                "buffer_length": len(buffer),
+                "full_buffer": buffer.hex(),
+            },
         }
 
         # Versuche weitere Daten zu parsen, falls vorhanden
@@ -216,7 +228,7 @@ class DirectPlay(ProtocolBase):
             result.update(self._parse_directplay_data(br))
         except Exception as e:
             # Fallback bei Parsing-Fehlern
-            result['raw']['parse_error'] = str(e)
+            result["raw"]["parse_error"] = str(e)
 
         return result
 
@@ -239,11 +251,11 @@ class DirectPlay(ProtocolBase):
             if br.remaining_bytes() >= 8:
                 # Session ID (32-bit)
                 session_id = br.read_uint32()
-                result['session_id'] = session_id
+                result["session_id"] = session_id
 
                 # Message Type (32-bit)
                 message_type = br.read_uint32()
-                result['message_type'] = message_type
+                result["message_type"] = message_type
 
                 # Unterschiedliche Message Types verarbeiten
                 if message_type == 0x0001:  # ENUM_SESSIONS_REPLY
@@ -254,7 +266,7 @@ class DirectPlay(ProtocolBase):
                     result.update(self._parse_player_data(br))
 
         except Exception as e:
-            result['parse_warning'] = f"Partial parsing error: {str(e)}"
+            result["parse_warning"] = f"Partial parsing error: {str(e)}"
 
         return result
 
@@ -266,7 +278,7 @@ class DirectPlay(ProtocolBase):
             if br.remaining_bytes() >= 4:
                 # Session count
                 session_count = br.read_uint32()
-                result['session_count'] = session_count
+                result["session_count"] = session_count
 
                 # Parse each session
                 sessions = []
@@ -278,22 +290,26 @@ class DirectPlay(ProtocolBase):
 
                     # Session GUID (16 bytes)
                     guid_bytes = br.read_bytes(16)
-                    session['guid'] = guid_bytes.hex()
+                    session["guid"] = guid_bytes.hex()
 
                     # Session name length und name
                     if br.remaining_bytes() >= 2:
                         name_length = br.read_uint16()
                         if br.remaining_bytes() >= name_length:
-                            session['name'] = br.read_bytes(name_length).decode('utf-16le', errors='ignore').rstrip('\x00')
+                            session["name"] = (
+                                br.read_bytes(name_length)
+                                .decode("utf-16le", errors="ignore")
+                                .rstrip("\x00")
+                            )
 
                     sessions.append(session)
 
-                result['sessions'] = sessions
+                result["sessions"] = sessions
                 if sessions:
-                    result['name'] = sessions[0].get('name', 'DirectPlay Game')
+                    result["name"] = sessions[0].get("name", "DirectPlay Game")
 
         except Exception as e:
-            result['enum_sessions_error'] = str(e)
+            result["enum_sessions_error"] = str(e)
 
         return result
 
@@ -307,17 +323,17 @@ class DirectPlay(ProtocolBase):
                 max_players = br.read_uint32()
                 current_players = br.read_uint32()
 
-                result['max_players'] = max_players
-                result['num_players'] = current_players
+                result["max_players"] = max_players
+                result["num_players"] = current_players
 
                 # Session flags
                 if br.remaining_bytes() >= 4:
                     flags = br.read_uint32()
-                    result['password_protected'] = bool(flags & 0x1)
-                    result['session_flags'] = flags
+                    result["password_protected"] = bool(flags & 0x1)
+                    result["session_flags"] = flags
 
         except Exception as e:
-            result['session_desc_error'] = str(e)
+            result["session_desc_error"] = str(e)
 
         return result
 
@@ -331,7 +347,7 @@ class DirectPlay(ProtocolBase):
             # Player count
             if br.remaining_bytes() >= 4:
                 player_count = br.read_uint32()
-                result['num_players'] = player_count
+                result["num_players"] = player_count
 
                 # Parse each player
                 for i in range(min(player_count, 16)):  # Limit für Sicherheit
@@ -342,31 +358,33 @@ class DirectPlay(ProtocolBase):
 
                     # Player ID
                     player_id = br.read_uint32()
-                    player['id'] = player_id
+                    player["id"] = player_id
 
                     # Player name length
                     name_length = br.read_uint16()
                     if br.remaining_bytes() >= name_length:
                         # Player name (Unicode)
                         name_bytes = br.read_bytes(name_length)
-                        player['name'] = name_bytes.decode('utf-16le', errors='ignore').rstrip('\x00')
+                        player["name"] = name_bytes.decode(
+                            "utf-16le", errors="ignore"
+                        ).rstrip("\x00")
 
                     # Player flags/status
                     if br.remaining_bytes() >= 2:
                         player_flags = br.read_uint16()
-                        player['ready'] = bool(player_flags & 0x1)
-                        player['flags'] = player_flags
+                        player["ready"] = bool(player_flags & 0x1)
+                        player["flags"] = player_flags
 
                     players.append(player)
 
-                result['players'] = players
+                result["players"] = players
 
         except Exception as e:
-            result['player_data_error'] = str(e)
+            result["player_data_error"] = str(e)
 
         return result
 
-    def _read_string(self, br: BinaryReader, encoding: str = 'utf-8') -> str:
+    def _read_string(self, br: BinaryReader, encoding: str = "utf-8") -> str:
         """
         Hilfsfunktion zum Lesen von Strings aus BinaryReader.
 
@@ -381,7 +399,7 @@ class DirectPlay(ProtocolBase):
         length = br.read_uint16()
         if length == 0:
             return ""
-        return br.read_bytes(length).decode(encoding, errors='ignore')
+        return br.read_bytes(length).decode(encoding, errors="ignore")
 
     def _read_directplay_string(self, br: BinaryReader) -> str:
         """
@@ -402,9 +420,9 @@ class DirectPlay(ProtocolBase):
 
         # DirectPlay verwendet oft UTF-16LE für Strings
         string_bytes = br.read_bytes(length)
-        return string_bytes.decode('utf-16le', errors='ignore').rstrip('\x00')
+        return string_bytes.decode("utf-16le", errors="ignore").rstrip("\x00")
 
-    def _read_cstring(self, br: BinaryReader, encoding: str = 'utf-8') -> str:
+    def _read_cstring(self, br: BinaryReader, encoding: str = "utf-8") -> str:
         """
         Liest einen null-terminierten C-String.
 
@@ -415,14 +433,14 @@ class DirectPlay(ProtocolBase):
         Returns:
             str: Der gelesene String
         """
-        string_bytes = b''
+        string_bytes = b""
         while br.remaining_bytes() > 0:
             byte = br.read_bytes(1)
-            if byte == b'\x00':
+            if byte == b"\x00":
                 break
             string_bytes += byte
 
-        return string_bytes.decode(encoding, errors='ignore')
+        return string_bytes.decode(encoding, errors="ignore")
 
     def _validate_directplay_magic(self, magic: bytes) -> bool:
         """
@@ -436,9 +454,9 @@ class DirectPlay(ProtocolBase):
         """
         # DirectPlay verwendet verschiedene Magic Values
         known_magic = [
-            b'\x34\x00\xb0\xfa',  # Standard DirectPlay
-            b'\x20\x00\x00\x00',  # Alternative DirectPlay
-            b'\x10\x00\x00\x00',  # DirectPlay Session
+            b"\x34\x00\xb0\xfa",  # Standard DirectPlay
+            b"\x20\x00\x00\x00",  # Alternative DirectPlay
+            b"\x10\x00\x00\x00",  # DirectPlay Session
         ]
 
         return magic in known_magic
@@ -478,11 +496,13 @@ class DirectPlay(ProtocolBase):
             return ""
 
         # Microsoft GUID Format: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
-        return (f"{guid_bytes[0:4][::-1].hex()}-"
-                f"{guid_bytes[4:6][::-1].hex()}-"
-                f"{guid_bytes[6:8][::-1].hex()}-"
-                f"{guid_bytes[8:10].hex()}-"
-                f"{guid_bytes[10:16].hex()}")
+        return (
+            f"{guid_bytes[0:4][::-1].hex()}-"
+            f"{guid_bytes[4:6][::-1].hex()}-"
+            f"{guid_bytes[6:8][::-1].hex()}-"
+            f"{guid_bytes[8:10].hex()}-"
+            f"{guid_bytes[10:16].hex()}"
+        )
 
     def _get_debug_info(self, buffer: bytes) -> dict:
         """
@@ -495,21 +515,23 @@ class DirectPlay(ProtocolBase):
             dict: Debug-Informationen
         """
         debug_info = {
-            'buffer_size': len(buffer),
-            'buffer_hex': buffer[:100].hex() if len(buffer) > 100 else buffer.hex(),
-            'ascii_preview': buffer[:50].decode('ascii', errors='replace') if len(buffer) > 0 else "",
+            "buffer_size": len(buffer),
+            "buffer_hex": buffer[:100].hex() if len(buffer) > 100 else buffer.hex(),
+            "ascii_preview": buffer[:50].decode("ascii", errors="replace")
+            if len(buffer) > 0
+            else "",
         }
 
         if len(buffer) >= 4:
             magic = buffer[:4]
-            debug_info['magic_hex'] = magic.hex()
-            debug_info['magic_valid'] = self._validate_directplay_magic(magic)
+            debug_info["magic_hex"] = magic.hex()
+            debug_info["magic_valid"] = self._validate_directplay_magic(magic)
 
         # Versuche Game GUID zu extrahieren
-        if hasattr(self, '_build_query_packet'):
+        if hasattr(self, "_build_query_packet"):
             try:
                 query_packet = self._build_query_packet()
-                debug_info['game_guid'] = self._extract_game_guid(query_packet)
+                debug_info["game_guid"] = self._extract_game_guid(query_packet)
             except Exception:
                 pass
 
@@ -532,50 +554,50 @@ class DirectPlay(ProtocolBase):
 
         try:
             # Magic Number Analysis (TCP Response)
-            magic = int.from_bytes(buffer[0:4], 'little')
-            version_info['magic_number'] = f"0x{magic:08x}"
+            magic = int.from_bytes(buffer[0:4], "little")
+            version_info["magic_number"] = f"0x{magic:08x}"
 
             # Bekannte Magic Numbers für verschiedene Versionen
             known_versions = {
-                0x8e00b0fa: "Age of Empires 1.0c",
-                0x8800b0fa: "Age of Empires II 2.0a",
-                0x3400b0fa: "DirectPlay Query"
+                0x8E00B0FA: "Age of Empires 1.0c",
+                0x8800B0FA: "Age of Empires II 2.0a",
+                0x3400B0FA: "DirectPlay Query",
             }
 
             if magic in known_versions:
-                version_info['detected_version'] = known_versions[magic]
+                version_info["detected_version"] = known_versions[magic]
 
             # UDP Query Version ID (wenn verfügbar im Original Query)
-            if hasattr(self, '_build_query_packet'):
+            if hasattr(self, "_build_query_packet"):
                 try:
                     query_packet = self._build_query_packet()
                     if len(query_packet) >= 52:
-                        udp_version_id = int.from_bytes(query_packet[48:52], 'little')
-                        version_info['udp_version_id'] = udp_version_id
+                        udp_version_id = int.from_bytes(query_packet[48:52], "little")
+                        version_info["udp_version_id"] = udp_version_id
 
                         # Bekannte UDP Version IDs
                         udp_versions = {
                             1: "Age of Empires 1.0",
-                            17: "Age of Empires II 2.0"
+                            17: "Age of Empires II 2.0",
                         }
 
                         if udp_version_id in udp_versions:
-                            version_info['game_version'] = udp_versions[udp_version_id]
+                            version_info["game_version"] = udp_versions[udp_version_id]
                 except Exception:
                     pass
 
             # Session Data Version Analysis (Offset 84)
             if len(buffer) >= 88:
-                session_version = int.from_bytes(buffer[84:88], 'little')
-                version_info['session_version'] = session_version
+                session_version = int.from_bytes(buffer[84:88], "little")
+                version_info["session_version"] = session_version
 
                 # Charakteristische Session Version Values
                 if session_version == 567281:  # 0x0008a7f1
-                    version_info['likely_version'] = "Age of Empires 1.0c"
+                    version_info["likely_version"] = "Age of Empires 1.0c"
                 elif session_version == 2274156:  # 0x0022b36c
-                    version_info['likely_version'] = "Age of Empires II 2.0a"
+                    version_info["likely_version"] = "Age of Empires II 2.0a"
 
         except Exception as e:
-            version_info['version_error'] = str(e)
+            version_info["version_error"] = str(e)
 
         return version_info

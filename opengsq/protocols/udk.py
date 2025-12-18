@@ -1,6 +1,6 @@
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
-from opengsq.responses.udk.status import Status, PlatformType, Player
+from opengsq.responses.udk.status import Status, PlatformType
 from opengsq.binary_reader import BinaryReader
 import struct
 import os
@@ -20,8 +20,8 @@ class UDK(ProtocolBase):
         self.game_id = 0x00000000
         self.platform = PlatformType.Windows
         self.client_nonce = os.urandom(8)
-        self.packet_types_query = (b'S', b'Q')
-        self.packet_types_response = (b'S', b'R')
+        self.packet_types_query = (b"S", b"Q")
+        self.packet_types_response = (b"S", b"R")
 
     async def get_status(self) -> Status:
         packet = self._build_query_packet()
@@ -50,14 +50,16 @@ class UDK(ProtocolBase):
         response_type = (buffer[6:7], buffer[7:8])
         response_nonce = buffer[8:16]
 
-        return (version == self.packet_version and
-                platform == self.platform and
-                game_id == self.game_id and
-                response_type == self.packet_types_response and
-                response_nonce == self.client_nonce)
+        return (
+            version == self.packet_version
+            and platform == self.platform
+            and game_id == self.game_id
+            and response_type == self.packet_types_response
+            and response_nonce == self.client_nonce
+        )
 
     def _parse_response(self, buffer: bytes) -> dict:
-        br = BinaryReader(buffer[self.LAN_BEACON_PACKET_HEADER_SIZE:])
+        br = BinaryReader(buffer[self.LAN_BEACON_PACKET_HEADER_SIZE :])
 
         # Parse IP and port
         ip = struct.unpack("!I", br.read_bytes(4))[0]
@@ -66,22 +68,22 @@ class UDK(ProtocolBase):
 
         # Parse connection info
         num_open_public_conn = struct.unpack("!I", br.read_bytes(4))[0]
-        num_open_private_conn = struct.unpack("!I", br.read_bytes(4))[0]
+        _ = struct.unpack("!I", br.read_bytes(4))[0]  # num_open_private_conn
         num_public_conn = struct.unpack("!I", br.read_bytes(4))[0]
-        num_private_conn = struct.unpack("!I", br.read_bytes(4))[0]
+        _ = struct.unpack("!I", br.read_bytes(4))[0]  # num_private_conn
 
         # Parse flags
-        should_advertise = br.read_bytes(1)[0] == 1
+        _ = br.read_bytes(1)[0] == 1  # should_advertise
         is_lan_match = br.read_bytes(1)[0] == 1
         uses_stats = br.read_bytes(1)[0] == 1
-        allow_join_in_progress = br.read_bytes(1)[0] == 1
-        allow_invites = br.read_bytes(1)[0] == 1
-        uses_presence = br.read_bytes(1)[0] == 1
-        allow_join_via_presence = br.read_bytes(1)[0] == 1
-        uses_arbitration = br.read_bytes(1)[0] == 1
+        _ = br.read_bytes(1)[0] == 1  # allow_join_in_progress
+        _ = br.read_bytes(1)[0] == 1  # allow_invites
+        _ = br.read_bytes(1)[0] == 1  # uses_presence
+        _ = br.read_bytes(1)[0] == 1  # allow_join_via_presence
+        _ = br.read_bytes(1)[0] == 1  # uses_arbitration
 
         if self.packet_version >= 5:
-            anti_cheat_protected = br.read_bytes(1)[0] == 1
+            _ = br.read_bytes(1)[0] == 1  # anti_cheat_protected
 
         # Read owner info
         owner_id = br.read_bytes(8)
@@ -96,11 +98,13 @@ class UDK(ProtocolBase):
             setting_id = struct.unpack("!i", br.read_bytes(4))[0]
             value_index = struct.unpack("!i", br.read_bytes(4))[0]
             advertisement_type = br.read_bytes(1)[0]
-            localized_settings.append({
-                'id': setting_id,
-                'value_index': value_index,
-                'advertisement_type': advertisement_type
-            })
+            localized_settings.append(
+                {
+                    "id": setting_id,
+                    "value_index": value_index,
+                    "advertisement_type": advertisement_type,
+                }
+            )
 
         num_properties = struct.unpack("!I", br.read_bytes(4))[0]
         settings_properties = []
@@ -111,44 +115,46 @@ class UDK(ProtocolBase):
             data_type = br.read_bytes(1)[0]
             data = self._read_settings_data(br, data_type)
             advertisement_type = br.read_bytes(1)[0]
-            settings_properties.append({
-                'id': property_id,
-                'data': data,
-                'advertisement_type': advertisement_type
-            })
+            settings_properties.append(
+                {
+                    "id": property_id,
+                    "data": data,
+                    "advertisement_type": advertisement_type,
+                }
+            )
 
         raw = {
-            'hostaddress': ip_str,
-            'hostport': port,
-            'num_players': num_public_conn - num_open_public_conn,
-            'max_players': num_public_conn,
-            'lan_mode': is_lan_match,
-            'uses_stats': uses_stats,
-            'owner_id': owner_id.hex(),
-            'owner_name': owner_name,
-            'localized_settings': localized_settings,
-            'settings_properties': settings_properties
+            "hostaddress": ip_str,
+            "hostport": port,
+            "num_players": num_public_conn - num_open_public_conn,
+            "max_players": num_public_conn,
+            "lan_mode": is_lan_match,
+            "uses_stats": uses_stats,
+            "owner_id": owner_id.hex(),
+            "owner_name": owner_name,
+            "localized_settings": localized_settings,
+            "settings_properties": settings_properties,
         }
 
         result = {
-            'name': owner_name,
-            'map': '',
-            'game_type': '',
-            'num_players': raw['num_players'],
-            'max_players': raw['max_players'],
-            'password_protected': False,
-            'stats_enabled': uses_stats,
-            'lan_mode': is_lan_match,
-            'players': [],
-            'raw': raw
+            "name": owner_name,
+            "map": "",
+            "game_type": "",
+            "num_players": raw["num_players"],
+            "max_players": raw["max_players"],
+            "password_protected": False,
+            "stats_enabled": uses_stats,
+            "lan_mode": is_lan_match,
+            "players": [],
+            "raw": raw,
         }
 
         # Map properties by ID
         for prop in settings_properties:
-            if prop['id'] == 1073741825:  # Map
-                result['map'] = prop['data']
-            elif prop['id'] == 1073741826:  # Game Type
-                result['game_type'] = prop['data']
+            if prop["id"] == 1073741825:  # Map
+                result["map"] = prop["data"]
+            elif prop["id"] == 1073741826:  # Game Type
+                result["game_type"] = prop["data"]
 
         return result
 
@@ -156,7 +162,7 @@ class UDK(ProtocolBase):
         length = struct.unpack("!i", br.read_bytes(4))[0]
         if length <= 0:
             return ""
-        return br.read_bytes(length).decode('utf-8')
+        return br.read_bytes(length).decode("utf-8")
 
     def _read_settings_data(self, br: BinaryReader, data_type: int) -> any:
         if data_type == 0:  # SDT_Empty
@@ -174,5 +180,7 @@ class UDK(ProtocolBase):
         elif data_type == 6:  # SDT_Blob
             raise NotImplementedError("Blob data type not supported")
         elif data_type == 7:  # SDT_DateTime
-            return (struct.unpack("!i", br.read_bytes(4))[0],
-                   struct.unpack("!i", br.read_bytes(4))[0])  # (date, time)
+            return (
+                struct.unpack("!i", br.read_bytes(4))[0],
+                struct.unpack("!i", br.read_bytes(4))[0],
+            )  # (date, time)

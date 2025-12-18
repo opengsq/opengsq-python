@@ -32,7 +32,7 @@ class Doom3(ProtocolBase):
 
         This function sends a request to the game server and processes the response to extract server information and player details. If the 'strip_color' parameter is set to True, color codes in player names are removed. The function returns a Status object which includes a dictionary of server information and a list of players.
         """
-        request = b"\xFF\xFFgetInfo\x00ogsq\x00"
+        request = b"\xff\xffgetInfo\x00ogsq\x00"
         response = await UdpClient.communicate(self, request)
 
         # Remove the first two 0xFF

@@ -15,4 +15,3 @@ eldewrito = ElDewrito(host="172.29.100.29", port=11774)
 async def test_get_info():
     result = await eldewrito.get_status()
     await handler.save_result("test_get_status", result)
-

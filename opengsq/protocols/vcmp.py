@@ -79,7 +79,7 @@ class Vcmp(ProtocolBase):
                 f"Packet header mismatch. Received: {header}. Expected: {self._response_header}."
             )
 
-        return response[len(self._response_header) + len(packet_header):]
+        return response[len(self._response_header) + len(packet_header) :]
 
     def __read_string(self, br: BinaryReader, read_offset=1):
         """

@@ -5,6 +5,7 @@ from ..result_handler import ResultHandler
 handler = ResultHandler(__file__)
 handler.enable_save = True
 
+
 @pytest.mark.asyncio
 async def test_renegadex_status():
     rx = RenegadeX(host="10.13.37.149")
