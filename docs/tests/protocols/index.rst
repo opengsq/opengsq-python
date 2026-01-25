@@ -48,3 +48,4 @@ Protocols Tests
 	test_w40kdow/index
 	test_warcraft3/index
 	test_won/index
+	test_ut2004/index

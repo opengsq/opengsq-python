@@ -42,6 +42,7 @@ from opengsq.protocols.trackmania_nations import TrackmaniaNations
 from opengsq.protocols.toxikk import Toxikk
 from opengsq.protocols.udk import UDK
 from opengsq.protocols.unreal2 import Unreal2
+from opengsq.protocols.ut2004 import UT2004
 from opengsq.protocols.ut3 import UT3
 from opengsq.protocols.vcmp import Vcmp
 from opengsq.protocols.w40kdow import W40kDow
@@ -93,6 +94,7 @@ __all__ = [
     "Toxikk",
     "UDK",
     "Unreal2",
+    "UT2004",
     "UT3",
     "Vcmp",
     "W40kDow",
