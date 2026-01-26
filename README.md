@@ -59,6 +59,7 @@ from opengsq.protocols import (
     Toxikk,
     UDK,
     Unreal2,
+    UT2004
     UT3,
     Vcmp,
     W40kDow,
