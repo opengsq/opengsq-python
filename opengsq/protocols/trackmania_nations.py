@@ -1,866 +1,549 @@
+"""
+TrackMania Nations/United Forever (TmForever) native server query.
+
+The query uses the game's own TCP protocol on the game port (default 2350), the
+same way the game client fetches the details shown in its server browser.
+Reverse-engineered from TrackmaniaServer.exe (2011-02-21).
+
+All integers are little-endian.
+
+TCP framing::
+
+    u32 length | message[length]
+
+Message (CNetNod)::
+
+    u8  flags     0x80 | 0x01 compressed | 0x02 checksum | 0x04/0x08 sequenced
+    u8  type      0x03 = CNetFormConnectionAdmin (class 0x12010000)
+    u16 sequence  only if flags & 0x0C
+    u32 checksum  only if flags & 0x02: sum of the four u32 words of
+                  HMAC-MD5(_CHECKSUM_KEY, message with the checksum zeroed)
+    payload       if flags & 0x01: u32 uncompressed size + LZO1X stream
+
+CNetFormConnectionAdmin payload (the checksum is mandatory)::
+
+    u32 version   must be 7, otherwise the server answers "Please upgrade"
+    u32 subtype   8: switch the connection into query mode (no payload)
+                  7: u32 request_id                         (client -> server)
+                  6: u32 request_id | u32 size | u8[size]   (server -> client)
+
+The subtype 6 data is the server info (CTrackManiaNetworkServerInfo), see
+TrackmaniaNations.parse_server_info. str is u32 length + bytes, wstr the same
+with UTF-8 (prefixed by a BOM if it contains non-ASCII characters).
+"""
+
 from __future__ import annotations
 
 import asyncio
+import hashlib
+import hmac
+import secrets
 import struct
-from typing import Optional, Dict, Any, List, Tuple
-from dataclasses import dataclass
+from typing import List, Optional, Tuple
+
+from opengsq.exceptions import InvalidPacketException, ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
-from opengsq.exceptions import InvalidPacketException
-from opengsq.responses.trackmania_nations import ServerInfo
-
-
-@dataclass
-class TrackmaniaPayloadData:
-    """Strukturierte Daten aus dem Trackmania Payload"""
-
-    server_name: Optional[str] = None
-    srv_type: Optional[str] = None
-    environment: Optional[str] = None
-    maps: List[str] = None
-    players: Optional[int] = None
-    max_players: Optional[int] = None
-    game_mode: Optional[str] = None
-    comment: Optional[str] = None
-    raw_strings: List[str] = None
-
-    def __post_init__(self):
-        if self.maps is None:
-            self.maps = []
-        if self.raw_strings is None:
-            self.raw_strings = []
+from opengsq.responses.trackmania_nations import Challenge, Player, ServerInfo
 
 
 class TrackmaniaNations(ProtocolBase):
     """
     Trackmania Nations Protocol Implementation
-    Basiert auf MCP/Ghidra Reverse-Engineering
-
-    MCP-Erkenntnisse:
-    - Servername bei Position 0x27 mit 4-Byte Längen-Präfix (Little Endian)
-    - #SRV# Marker mit 5-Byte Länge und Typ-Indikator
-    - Drei Haupt-Typen: SRV#f (Float), SRV#s (String), SRV#p (Packet)
-    - Strings verwenden 4-Byte Längen-Präfixe
     """
 
     @property
     def full_name(self) -> str:
-        return "Trackmania Nations Protocol (MCP-Enhanced)"
+        return "Trackmania Nations Protocol"
 
-    # Standard Trackmania Nations port
     DEFAULT_PORT = 2350
 
-    # TCP packets (verifiziert)
-    _PACKET_1 = bytes.fromhex("0e000000820399f895580700000008000000")
-    _PACKET_2 = bytes.fromhex("1200000082033bd464400700000007000000d53d4100")
+    GAME_MODES = {
+        1: "TimeAttack",
+        3: "Rounds",
+        6: "Team",
+        7: "Laps",
+        8: "Stunts",
+        9: "Cup",
+    }
+
+    _FLAG_COMPRESSED = 0x01
+    _FLAG_CHECKSUM = 0x02
+    _FLAG_SEQUENCE = 0x0C
+
+    _MESSAGE_CONNECTION_ADMIN = 0x03
+    _CONNECTION_ADMIN_VERSION = 7
+    _SUBTYPE_REFUSED = 1
+    _SUBTYPE_INFO = 6
+    _SUBTYPE_INFO_REQUEST = 7
+    _SUBTYPE_QUERY_MODE = 8
+
+    # Request id the server puts into the reply when it has no game info yet.
+    _NO_INFO = 0xFFFFFFFF
+
+    _CHECKSUM_KEY = struct.pack("<4I", 0x80D79DB8, 0xBA216B72, 0x15439598, 0xE1EC1CFA)
+    _MAX_MESSAGE_SIZE = 0x100000
+
+    # First byte of the server info: high bits 001 = valid, low bits = game.
+    _GAME_TAG_TRACKMANIA = 0x0D
 
     def __init__(self, host: str, port: int = DEFAULT_PORT, timeout: float = 5.0):
         super().__init__(host, port, timeout)
 
     async def get_info(self) -> ServerInfo:
         """
-        Retrieves server information by sending the two TCP packets in sequence.
+        Retrieves the server information.
 
         :return: A ServerInfo object containing server information
-        :raises InvalidPacketException: If the response doesn't contain #SRV# marker
+        :raises ServerNotFoundException: If no TCP connection can be established
+        :raises InvalidPacketException: If the server does not answer like a TrackMania server
         """
-        # Connect via TCP
+        request_id = secrets.randbelow(0x7FFFFFFF) + 1
+
         try:
             reader, writer = await asyncio.wait_for(
                 asyncio.open_connection(self._host, self._port), timeout=self._timeout
             )
         except (OSError, asyncio.TimeoutError) as e:
-            raise InvalidPacketException(
+            raise ServerNotFoundException(
                 f"Failed to connect to {self._host}:{self._port}: {e}"
-            )
+            ) from e
 
         try:
-            # Send first packet
-            writer.write(self._PACKET_1)
+            writer.write(
+                self.build_connection_admin(self._SUBTYPE_QUERY_MODE)
+                + self.build_connection_admin(self._SUBTYPE_INFO_REQUEST, request_id)
+            )
             await writer.drain()
 
-            # Wait 200ms as specified
-            await asyncio.sleep(0.2)
-
-            # Send second packet
-            writer.write(self._PACKET_2)
-            await writer.drain()
-
-            # Read response
-            response_data = await asyncio.wait_for(
-                reader.read(4096), timeout=self._timeout
+            data = await asyncio.wait_for(
+                self._receive_info(reader, request_id), timeout=self._timeout
             )
-
-            # Validate response contains #SRV# marker
-            if b"#SRV#" not in response_data:
-                raise InvalidPacketException(
-                    f"Response does not contain #SRV# marker. Got {len(response_data)} bytes."
-                )
-
-            # Parse using MCP-based parser
-            payload_data = self.parse_server_payload(response_data)
-
-            # Convert to ServerInfo format
-            # Die Namens-Logik in parse_server_payload hat bereits die richtigen Namen zugeordnet
-            return ServerInfo(
-                name=payload_data.server_name
-                or "Unknown",  # Echter Server-Name (korrigiert in parse_server_payload)
-                map=payload_data.maps[0] if payload_data.maps else "Unknown",
-                players=payload_data.players or 0,
-                max_players=payload_data.max_players or 0,
-                game_mode=payload_data.game_mode or "Unknown",
-                password_protected=payload_data.srv_type == "p",
-                version=None,
-                environment=payload_data.environment,
-                comment=payload_data.comment,  # PC-UID oder andere Info
-                server_login="",
-                pc_guid=payload_data.comment
-                if payload_data.comment and payload_data.comment.startswith("PC-")
-                else None,  # PC-UID
-                time_limit=0,
-                nb_laps=0,
-                spectator_slots=0,
-                build_number=0,
-                private_server=payload_data.srv_type == "p",
-                ladder_server=payload_data.srv_type == "s",
-                status_flags=0,
-                challenge_crc=0,
-                public_ip="",
-                local_ip="",
-                raw_data=response_data.hex(),
-            )
-
-        except asyncio.TimeoutError:
-            raise InvalidPacketException("Timeout while waiting for server response")
+        except asyncio.TimeoutError as e:
+            raise InvalidPacketException("Timeout while waiting for server info") from e
+        except asyncio.IncompleteReadError as e:
+            raise InvalidPacketException("Connection closed by the server") from e
+        except OSError as e:
+            raise InvalidPacketException(f"Connection error: {e}") from e
         finally:
             writer.close()
-            await writer.wait_closed()
-
-    def parse_server_payload(self, data: bytes) -> TrackmaniaPayloadData:
-        """
-        Parst einen Server-Payload basierend auf MCP-Erkenntnissen.
-
-        Args:
-            data: Die Rohdaten des Payloads
-
-        Returns:
-            TrackmaniaPayloadData mit extrahierten Informationen
-        """
-        result = TrackmaniaPayloadData()
-
-        # 1. String bei 0x27 extrahieren (kann PC-UID oder Server-Name sein, abhängig vom SRV-Typ)
-        string_at_0x27 = None
-        if len(data) >= 0x2B:  # 0x27 + 4 bytes für Länge
-            string_at_0x27, _ = self._deserialize_string(data, 0x27)
-            # Temporär speichern - wird später basierend auf SRV-Typ zugeordnet
-            result.server_name = string_at_0x27
-
-        # 2. #SRV# Marker und Typ finden
-        srv_pos = data.find(b"#SRV#")
-        if srv_pos != -1 and srv_pos + 5 < len(data):
-            # Typ-Byte nach #SRV#
-            srv_type_byte = data[srv_pos + 5]
-            if srv_type_byte == 0x00:
-                result.srv_type = "null"
-            elif chr(srv_type_byte).lower() in ["f", "s", "p"]:
-                result.srv_type = chr(srv_type_byte).lower()
-            else:
-                result.srv_type = f"unknown_{srv_type_byte:02x}"
-
-        # 3. MCP-basierte Challenge/Map-Namen Extraktion (mit SRV-Typ)
-        challenge_name = self._extract_challenge_name(data, srv_pos, result.srv_type)
-        if challenge_name:
-            result.maps.append(challenge_name)
-
-        # 4. Weitere Strings extrahieren für Environment, etc.
-        strings = self._extract_all_strings(data)
-        result.raw_strings = strings
-
-        # 5. Spezifische Daten extrahieren
-        for string in strings:
-            # Fallback für Maps wenn MCP-Extraktion nichts fand
-            if not result.maps and self._is_valid_challenge_name(string):
-                result.maps.append(string)
-            # Environment
-            elif string.lower() in ["stadium", "island", "bay", "coast"]:
-                result.environment = string.title()
-
-        # 6. Spielerzahlen extrahieren (basierend auf Typ)
-        player_data = self._extract_player_counts(data, srv_pos, result.srv_type)
-        if player_data:
-            result.players, result.max_players = player_data
-
-        # 7. Game-Mode via MCP/Ghidra-Marker extrahieren (robust, ohne String-Heuristik)
-        mode_name = self._extract_game_mode(data)
-        if mode_name:
-            result.game_mode = mode_name
-
-        # 8. MCP-basierte korrekte Zuordnung basierend auf SRV-Typ
-        if result.srv_type == "p":
-            # Private Server: 0x27 = PC-UID, echter Name in ASCII-Strings
-            result.comment = string_at_0x27  # PC-UID
-
-            # Finde echten Server-Namen aus ASCII-Strings
-            potential_names = [
-                s
-                for s in strings
-                if len(s) >= 4
-                and not s.startswith("PC-")
-                and s != result.environment
-                and not self._is_valid_challenge_name(s)
-                and not s.startswith("#")
-                and "lanparty" not in s.lower()
-                and "obstacle" not in s.lower()
-            ]  # Filter korrupte Namen
-
-            if potential_names:
-                potential_names.sort(key=len, reverse=True)
-                result.server_name = potential_names[0]  # Längster = echter Server-Name
-
-        elif result.srv_type == "null" or result.srv_type is None:
-            # Default/Null Server: Finde echten Server-Namen in ASCII-Strings
-            # 0x27 könnte PC-UID oder Server-Name sein - prüfe Pattern
-
-            # Finde potentielle Server-Namen (alphabetische Namen bevorzugt)
-            potential_names = [
-                s
-                for s in strings
-                if 3 <= len(s) <= 15  # Kurze, prägnante Namen
-                and not s.startswith("PC-")
-                and not s.startswith("#")
-                and s != result.environment
-                and not self._is_valid_challenge_name(s)
-                and not any(
-                    kw in s.lower() for kw in ["stadium", "lanparty", "obstacle"]
-                )
-                and s.isalpha()
-            ]  # Nur alphabetische Namen (wie "Bruno")
-
-            if potential_names:
-                # Priorisiere kürzeste alphabetische Namen
-                potential_names.sort(key=len)
-                real_server_name = potential_names[0]
-
-                # Wenn 0x27 String länger/anders ist, ist es wahrscheinlich PC-UID
-                if string_at_0x27 and string_at_0x27 != real_server_name:
-                    result.server_name = real_server_name
-                    result.comment = string_at_0x27  # PC-UID/Login
-                else:
-                    result.server_name = string_at_0x27 or real_server_name
-                    result.comment = None
-            else:
-                # Fallback: 0x27 als Server-Name
-                result.server_name = string_at_0x27
-                result.comment = None
-
-        else:
-            # Andere Server-Typen: Fallback zur alten Logik
-            potential_names = [
-                s
-                for s in strings
-                if len(s) >= 3
-                and s != result.environment
-                and not self._is_valid_challenge_name(s)
-                and not s.startswith("#")
-            ]
-
-            if potential_names:
-                potential_names.sort(key=len, reverse=True)
-                longest = potential_names[0]
-                if len(longest) > len(string_at_0x27 or ""):
-                    result.server_name = longest
-                    result.comment = string_at_0x27
-                else:
-                    result.comment = longest
-
-        return result
-
-    def _deserialize_string(
-        self, data: bytes, offset: int
-    ) -> Tuple[Optional[str], int]:
-        """
-        Deserialisiert einen String mit 4-Byte Längen-Präfix (Little Endian).
-
-        Args:
-            data: Die Rohdaten
-            offset: Start-Position
-
-        Returns:
-            Tuple aus (String oder None, Anzahl gelesener Bytes)
-        """
-        if offset + 4 > len(data):
-            return None, 0
-
-        # Länge lesen (4 Bytes, Little Endian)
-        length = struct.unpack("<I", data[offset : offset + 4])[0]
-
-        # Plausibilitätsprüfung
-        if length == 0 or length > 100 or offset + 4 + length > len(data):
-            return None, 0
-
-        # String lesen
-        try:
-            string_data = data[offset + 4 : offset + 4 + length]
-            string = string_data.decode("utf-8", errors="replace")
-            return string, 4 + length
-        except Exception:
-            return None, 0
-
-    def _extract_all_strings(self, data: bytes) -> List[str]:
-        """
-        Extrahiert alle lesbaren ASCII-Strings aus den Daten.
-
-        Args:
-            data: Die Rohdaten
-
-        Returns:
-            Liste der gefundenen Strings
-        """
-        strings = []
-        current_string = bytearray()
-
-        for byte in data:
-            if 32 <= byte <= 126:  # Druckbare ASCII-Zeichen
-                current_string.append(byte)
-            else:
-                if len(current_string) >= 3:  # Mindestens 3 Zeichen
-                    try:
-                        string = current_string.decode("ascii")
-                        strings.append(string)
-                    except Exception:
-                        pass
-                current_string = bytearray()
-
-        # Letzten String nicht vergessen
-        if len(current_string) >= 3:
             try:
-                string = current_string.decode("ascii")
-                strings.append(string)
-            except Exception:
+                await writer.wait_closed()
+            except OSError:
                 pass
 
-        return strings
+        return self.parse_server_info(data)
 
-    def _is_map_name(self, string: str) -> bool:
-        """
-        Prüft ob ein String ein Map-Name ist (striktere Typen, keine korrupten Suffixe).
-        """
-        import re
+    async def _receive_info(
+        self, reader: asyncio.StreamReader, request_id: int
+    ) -> bytes:
+        while True:
+            length = struct.unpack("<I", await reader.readexactly(4))[0]
 
-        allowed = r"(race|acrobatic|speed|endurance|platform|puzzle)"
-        if re.match(rf"^[A-E]\d{{2}}-{allowed}$", string, re.IGNORECASE):
-            return True
-        if re.match(rf"^\d+-{allowed}$", string, re.IGNORECASE):
-            return True
-        return False
+            if not 2 <= length <= self._MAX_MESSAGE_SIZE:
+                raise InvalidPacketException(f"Invalid message length: {length}")
 
-    def _extract_player_counts(
-        self, data: bytes, srv_pos: int, srv_type: str
-    ) -> Optional[Tuple[int, int]]:
-        """
-        Extrahiert Spielerzahlen basierend auf dem SRV-Typ.
-
-        MCP-Erkenntnisse zeigen verschiedene Offsets für verschiedene Typen.
-        """
-        if srv_pos == -1:
-            return None
-
-        # Verschiedene Offset-Patterns basierend auf Typ (MCP-korrigiert)
-        if srv_type == "null":
-            # Für Null-Byte: Offsets +7 und +9
-            offsets = [(7, 9)]
-        elif srv_type == "p":
-            # Für Private Server: MCP-Analyse zeigt +10/+11 für aktive Spieler, +9/+11 fallback
-            offsets = [
-                # Beobachtung 172.29.100.29: plausibles Paar 1/6 bei SRV+29/SRV+50
-                (29, 50),
-                (10, 11),
-                (9, 11),
-                (7, 11),
-                # zusätzliche pragmatische Kandidaten, beobachtet auf manchen 'p'-Servern
-                (12, 14),
-                (7, 9),
-                (41, 45),
-            ]  # Reihenfolge: etabliert, dann heuristisch
-        else:
-            # Für andere Typen: Teste mehrere Patterns
-            offsets = [(7, 9), (9, 11), (7, 11), (41, 45), (12, 14), (15, 17)]
-
-        # Teste die Offset-Patterns (MCP-korrigiert für aktuelle Spieler)
-        for current_offset, max_offset in offsets:
-            if srv_pos + max_offset < len(data):
-                current_players = data[srv_pos + current_offset]
-                max_players = data[srv_pos + max_offset]
-
-                # Plausibilitätsprüfung
-                if 0 <= current_players <= max_players <= 200 and max_players > 0:
-                    return current_players, max_players
-
-        # Letzter Fallback nur für 'p'-Server: heuristische Suche in kleinem Fenster
-        # Motiv: Es gibt Varianten, bei denen die Felder deutlich verschoben sind.
-        if srv_type == "p":
-            window_start = max(0, srv_pos)
-            window_end = min(len(data), srv_pos + 96)
-            best_pair = None
-            best_score = 1e9
-            common_max_values = {6, 8, 10, 12, 14, 16, 20, 24, 32, 48, 64}
-            for max_idx in range(srv_pos + 16, window_end):
-                max_val = data[max_idx]
-                if not (1 <= max_val <= 64):
-                    continue
-                # Suche current in der Nähe, bevorzugt vorher
-                search_from = max(window_start, max_idx - 40)
-                for cur_idx in range(search_from, max_idx):
-                    cur_val = data[cur_idx]
-                    if 0 <= cur_val <= max_val:
-                        # Scoring: kleinere max-Werte bevorzugen (realistische Slot-Zahlen), Nähe der Felder
-                        score = (0 if max_val in common_max_values else 10) + (
-                            max_idx - cur_idx
-                        )
-                        if score < best_score:
-                            best_score = score
-                            best_pair = (cur_val, max_val)
-            if best_pair is not None:
-                return best_pair
-
-        return None
-
-    def _extract_game_mode(self, data: bytes) -> Optional[str]:
-        """
-        Extrahiert den Spielmodus aus dem Payload.
-
-        Strategien (in dieser Reihenfolge):
-        1) #SRV#-Offset-Erkennung: Für bestimmte Varianten (z. B. 'p') liegt die Mode-ID an einem festen Offset
-        2) Marker-basierte Erkennung: Suche nach 0xFF 0xFF 0xFF 0xFF und nutze Byte an +7 als Modus-ID
-        3) Stadium-Pattern-Fallback: Auswertung der Bytes nach dem 'Stadium' String
-        4) Letzter Fallback: Keine Heuristik über Mapnamen (vermeidet Fehlzuordnung wie 'A01-Race')
-        """
-        # 1) Marker-basierte Erkennung
-        mode_id = self._extract_game_mode_id_by_marker(data)
-        if mode_id is not None:
-            name = self._map_game_mode_id_to_name(mode_id)
-            if name:
-                return name
-
-        # 2) Stadium-Pattern-Fallback
-        mode_id = self._extract_game_mode_id_by_stadium_pattern(data)
-        if mode_id is not None:
-            name = self._map_game_mode_id_to_name(mode_id)
-            if name:
-                return name
-
-        return None
-
-    def _extract_game_mode_id_by_marker(self, data: bytes) -> Optional[int]:
-        """
-        Sucht nach dem 0xFFFFFFFF Marker und liest das Spielmodus-Byte bei +7.
-        Laut Analyse liefert dieses Byte Werte wie 0x09 (Cup), 0x07 (Rounds), 0x06 (Team), 0x00 (Time Attack).
-        """
-        marker = b"\xff\xff\xff\xff"
-        idx = data.find(marker)
-        if idx != -1 and idx + 8 <= len(data):
-            try:
-                # Kandidaten-Offsets testen (+6, +7, +5), nur plausible IDs akzeptieren
-                candidates = [idx + 7, idx + 6, idx + 5]
-                valid_ids = {0, 1, 2, 3, 4, 5, 6, 7, 9}
-                for off in candidates:
-                    if 0 <= off < len(data):
-                        val = data[off]
-                        if val in valid_ids:
-                            return val
-            except Exception:
-                return None
-        return None
-
-    def _extract_game_mode_id_by_stadium_pattern(self, data: bytes) -> Optional[int]:
-        """
-        Fallback-Erkennung über Byte-Muster relativ zum 'Stadium'-String.
-        Bekanntes Mapping:
-        - 0x01 0x20 => TimeAttack (ID 0)
-        - 0x03 0x1e => Tournament (ID 3)
-        - 0x06 0x32 => Team (ID 6)
-        - 0x07 0x03 => Rounds (ID 7)
-        - 0x09 xx   => Cup (ID 9)
-        """
-        # Suche 'Stadium' NACH dem '#SRV#'-Marker, um den richtigen Kontext zu erwischen
-        anchor = b"Stadium"
-        srv_pos = data.find(b"#SRV#")
-        if srv_pos == -1:
-            return None
-        pos = data.find(anchor, srv_pos)
-        if pos == -1:
-            return None
-        pattern_start = pos + len(anchor)
-        # Wir benötigen mindestens ein kleines Fenster nach dem Anchor
-        window_end = min(len(data), pattern_start + 32)
-        if pattern_start >= window_end:
-            return None
-
-        # 1) Klassische Position b5/b6 (kompatibel zu früherer Implementierung)
-        if len(data) > pattern_start + 6:
-            b5 = data[pattern_start + 5]
-            b6 = data[pattern_start + 6]
-            if b5 == 0x01 and b6 == 0x20:
-                return 0  # TimeAttack
-            if b5 == 0x03 and b6 == 0x1E:
-                return 3  # Tournament
-            if b5 == 0x06 and b6 == 0x32:
-                return 6  # Team
-            if b5 == 0x07 and b6 == 0x03:
-                return 7  # Rounds
-            if b5 == 0x09:
-                return 9  # Cup
-
-        # 2) Flexibles Scannen im kleinen Fenster: suche bekannte Paare in beliebiger Ausrichtung
-        window = data[pattern_start:window_end]
-        # Paare, die als direkt aufeinanderfolgende Bytes auftreten sollten
-        pair_to_mode = {
-            (0x01, 0x20): 0,  # TimeAttack
-            (0x03, 0x1E): 3,  # Tournament
-            (0x06, 0x32): 6,  # Team
-            (0x07, 0x03): 7,  # Rounds
-        }
-        for i in range(0, len(window) - 1):
-            a, b = window[i], window[i + 1]
-            if (a, b) in pair_to_mode:
-                return pair_to_mode[(a, b)]
-        # Cup kann als Einzelwert im Fenster auftreten
-        if 0x09 in window:
-            return 9
-
-        # 3) Schwache Heuristik: Einzel-ID im Fenster (z. B. 0x07 für Rounds) bevorzugt, wenn eindeutig
-        for candidate in (7, 6, 3, 0):
-            if candidate in window:
-                return candidate
-
-        return None
-
-    def _map_game_mode_id_to_name(self, mode_id: int) -> Optional[str]:
-        """
-        Mappt erkannte Modus-IDs auf sprechende Namen.
-        Bevorzugt bekannte TMNF-Bezeichnungen.
-        """
-        mapping = {
-            0: "TimeAttack",
-            3: "Tournament",  # In manchen Quellen auch 'Tournament'; hier konservativ auf Laps mappen
-            6: "Team",
-            7: "Rounds",
-            9: "Cup",
-        }
-        # Weitere bekannte IDs aus Dokus (falls auftauchen)
-        extra_aliases = {
-            1: "TimeAttack",
-            2: "Team",
-            4: "Stunts",
-            5: "Cup",
-        }
-        return mapping.get(mode_id) or extra_aliases.get(mode_id)
-
-    def _extract_challenge_name(
-        self, data: bytes, srv_pos: int, srv_type: str = None
-    ) -> Optional[str]:
-        """
-        Extrahiert den Challenge/Map-Namen basierend auf MCP-Analyse.
-
-        WICHTIGE MCP-Erkenntnisse:
-        - Default/Null Server: Challenge-Namen MIT 4-Byte Längenpräfix (Little Endian)
-        - Private Server: Challenge-Namen OHNE Längenpräfix (direkte ASCII-Strings)
-
-        Args:
-            data: Die Rohdaten
-            srv_pos: Position des #SRV# Markers
-            srv_type: Typ des Servers ('null', 'p', etc.)
-
-        Returns:
-            Challenge-Name oder None
-        """
-        if srv_pos == -1:
-            return None
-
-        # Zuerst Prefix-Varianten versuchen (1/2/4 Bytes), unabhängig vom SRV-Typ
-        name = self._extract_challenge_with_prefix(data, srv_pos)
-        if name:
-            return name
-        # Fallback: direkte ASCII-Strings
-        return self._extract_challenge_without_prefix(data, srv_pos)
-
-    def _extract_challenge_with_prefix(
-        self, data: bytes, srv_pos: int
-    ) -> Optional[str]:
-        """
-        Extrahiert Challenge-Namen mit Längenpräfix (1/2/4 Byte; LE für 2/4).
-        """
-        for prefix_size in (1, 2, 4):
-            candidate = self._scan_challenge_with_prefix_size(
-                data, srv_pos, prefix_size
+            message_type, payload = self.decode_message(
+                await reader.readexactly(length)
             )
-            if candidate:
-                return candidate
-        return None
 
-    def _scan_challenge_with_prefix_size(
-        self, data: bytes, srv_pos: int, prefix_size: int
-    ) -> Optional[str]:
-        """
-        Durchsucht den Bereich nach #SRV# nach einem length-prefixed String mit gegebener Präfixgröße.
-        """
-        search_start = srv_pos + 32
-        search_end = min(len(data), srv_pos + 220)
-        if search_start >= search_end:
+            if message_type != self._MESSAGE_CONNECTION_ADMIN:
+                continue
+
+            data = self._read_info_reply(payload, request_id)
+
+            if data is not None:
+                return data
+
+    def _read_info_reply(self, payload: bytes, request_id: int) -> Optional[bytes]:
+        reader = _Reader(payload)
+        version = reader.u32()
+        subtype = reader.u32()
+
+        if version != self._CONNECTION_ADMIN_VERSION:
+            raise InvalidPacketException(
+                f"Unsupported ConnectionAdmin version: {version}"
+            )
+
+        if subtype == self._SUBTYPE_REFUSED:
+            raise InvalidPacketException("The server refused the query")
+
+        if subtype != self._SUBTYPE_INFO:
             return None
 
-        step = 1
-        for offset in range(search_start, search_end - (prefix_size + 4), step):
-            try:
-                if offset + prefix_size >= len(data):
-                    break
+        reply_id = reader.u32()
+        data = reader.take(reader.u32())
 
-                if prefix_size == 1:
-                    length = data[offset]
-                elif prefix_size == 2:
-                    length = struct.unpack("<H", data[offset : offset + 2])[0]
-                else:
-                    length = struct.unpack("<I", data[offset : offset + 4])[0]
+        if reply_id == self._NO_INFO:
+            raise InvalidPacketException("The server has no game info available yet")
 
-                if not (5 <= length <= 40):
-                    continue
+        return data if reply_id == request_id else None
 
-                start = offset + prefix_size
-                end = start + length
-                if end > len(data):
-                    continue
+    @classmethod
+    def build_connection_admin(
+        cls, subtype: int, request_id: Optional[int] = None
+    ) -> bytes:
+        """Builds a framed CNetFormConnectionAdmin message."""
+        payload = struct.pack("<II", cls._CONNECTION_ADMIN_VERSION, subtype)
 
-                segment = data[start:end]
-                try:
-                    raw_text = segment.decode("ascii", errors="ignore")
-                except Exception:
-                    continue
+        if request_id is not None:
+            payload += struct.pack("<I", request_id)
 
-                # Nur druckbare Zeichen behalten
-                cleaned = "".join(ch for ch in raw_text if 32 <= ord(ch) <= 126)
-                if not cleaned:
-                    continue
+        return cls.build_message(cls._MESSAGE_CONNECTION_ADMIN, payload)
 
-                # Strikte Map-Erkennung als Substring
-                strict = self._find_strict_challenge_in_text(cleaned)
-                if strict:
-                    return strict
-            except Exception:
-                continue
-        return None
+    @classmethod
+    def build_message(cls, message_type: int, payload: bytes) -> bytes:
+        """Builds a framed, checksummed and uncompressed message."""
+        message = bytearray([0x80 | cls._FLAG_CHECKSUM, message_type])
+        message += bytes(4) + payload
+        message[2:6] = struct.pack("<I", cls._checksum(message, 2))
 
-    def _extract_challenge_without_prefix(
-        self, data: bytes, srv_pos: int
-    ) -> Optional[str]:
+        return struct.pack("<I", len(message)) + bytes(message)
+
+    @classmethod
+    def decode_message(cls, message: bytes) -> Tuple[int, bytes]:
         """
-        Extrahiert Challenge-Namen ohne Längenpräfix (für Private Server).
+        Decodes a message without its length prefix.
+
+        :return: Message type and (decompressed) payload
         """
-        # Suche nach direkten ASCII-Strings ab SRV-Position
-        search_start = srv_pos + 10
-        search_data = data[search_start:]
+        if len(message) < 2 or message[0] & 0xF0 != 0x80:
+            raise InvalidPacketException("Invalid message header")
 
-        current_string = bytearray()
-        found_strings = []
+        flags, message_type = message[0], message[1]
+        position = 2
 
-        for i, byte in enumerate(search_data):
-            if 32 <= byte <= 126:  # Druckbare ASCII-Zeichen
-                current_string.append(byte)
-            else:
-                if len(current_string) >= 5:  # Mindestens 5 Zeichen für Challenge-Namen
-                    try:
-                        string = current_string.decode("ascii")
-                        if self._is_valid_challenge_name(string):
-                            return string
-                        found_strings.append(string)
-                    except Exception:
-                        pass
-                current_string = bytearray()
+        if flags & cls._FLAG_SEQUENCE:
+            position += 2
 
-        # Letzten String nicht vergessen
-        if len(current_string) >= 5:
-            try:
-                string = current_string.decode("ascii")
-                if self._is_valid_challenge_name(string):
-                    return string
-                found_strings.append(string)
-            except Exception:
-                pass
+        if flags & cls._FLAG_CHECKSUM:
+            if len(message) < position + 4:
+                raise InvalidPacketException("Truncated message")
 
-        # Fallback: Erste gültige Challenge aus gefundenen Strings
-        for string in found_strings:
-            if self._is_valid_challenge_name(string):
-                return string
+            checksum = struct.unpack_from("<I", message, position)[0]
 
-        return None
+            if checksum != cls._checksum(message, position):
+                raise InvalidPacketException("Message checksum mismatch")
 
-    def _is_valid_challenge_name(self, name: str) -> bool:
+            position += 4
+
+        if not flags & cls._FLAG_COMPRESSED:
+            return message_type, bytes(message[position:])
+
+        if len(message) < position + 4:
+            raise InvalidPacketException("Truncated message")
+
+        size = struct.unpack_from("<I", message, position)[0]
+
+        if size > cls._MAX_MESSAGE_SIZE:
+            raise InvalidPacketException(f"Invalid uncompressed size: {size}")
+
+        return message_type, _lzo1x_decompress(message[position + 4 :], size)
+
+    @classmethod
+    def _checksum(cls, message: bytes, position: int) -> int:
+        data = bytearray(message)
+        data[position : position + 4] = bytes(4)
+        digest = hmac.new(cls._CHECKSUM_KEY, bytes(data), hashlib.md5).digest()
+
+        return sum(struct.unpack("<4I", digest)) & 0xFFFFFFFF
+
+    @classmethod
+    def parse_server_info(cls, data: bytes) -> ServerInfo:
         """
-        Prüft ob ein String ein gültiger Challenge/Map-Name ist.
+        Parses the server info sent in reply to an info request.
 
-        MCP-Erkenntnisse zeigen folgende Patterns:
-        - Standard TrackMania Challenge-Namen: A01-Race, C02-Acrobatic, etc.
-        - GBX-Referenzen
-        - Race/Challenge Keywords
+        Layout, one block per class of the serialisation chain::
 
-        Args:
-            name: Zu prüfender String
-
-        Returns:
-            True wenn gültiger Challenge-Name
+            CNetMasterHost
+                u8      game tag: (tag & 0xE0) == 0x20, (tag & 0x1F) == 0x0D
+                u8[4]   IP address, reversed byte order
+                u16     port
+                str     host login
+            CGameNetServerInfo
+                str     "#SRV#" + "p" player password / "s" spectator password / "f" both
+            CGameCtnNetServerInfo                  (only for a "#SRV#" login)
+                str     unused, always empty
+                u8      player count, max players, spectator count, max spectators,
+                        ladder mode
+                wstr    server name
+                str     pack mask
+                u32 n   wstr player names[n], i32 ladder rankings[n]
+                wstr    comment
+            CTrackManiaNetworkServerInfo
+                u8      game mode (GAME_MODES)
+                u32     time limit (ms) / points limit / number of laps
+                u8      number of challenges in the playlist
+                u32 n   challenges[n]: wstr name, u32 gold time, u16 copper price,
+                        u8 environment index; current challenge first
+                u32 n   environment ids[n] (Nadeo lookback strings)
         """
-        import re
+        reader = _Reader(data)
+        game_tag = reader.u8()
 
-        # Nur druckbare ASCII-Zeichen zulassen
-        if any(ord(c) < 32 or ord(c) > 126 for c in name):
-            return False
+        if game_tag & 0xE0 != 0x20 or game_tag & 0x1F != cls._GAME_TAG_TRACKMANIA:
+            raise InvalidPacketException(
+                f"Not a TrackMania server (game tag 0x{game_tag:02x})"
+            )
 
-        # Zu kurz oder zu lang
-        if len(name) < 3 or len(name) > 50:
-            return False
+        address = ".".join(str(octet) for octet in reversed(reader.take(4)))
+        port = reader.u16()
+        server_login = reader.string()
+        player_login = reader.string()
 
-        # Standard TrackMania Challenge Pattern: A01-Race, C02-Acrobatic
-        # Aber nur vollständige bekannte Challenge-Namen (KEINE korrupten wie "C04-Raceh")
-        standard_pattern = re.match(r"^[A-E]\d{2}-([A-Za-z]{4,})$", name)
-        if standard_pattern:
-            challenge_type = standard_pattern.group(1).lower()
-            # Nur bekannte Challenge-Typen aus MCP-Analyse
-            known_types = [
-                "race",
-                "acrobatic",
-                "speed",
-                "endurance",
-                "platform",
-                "puzzle",
-            ]
-            # WICHTIG: "raceh" ist NICHT in known_types, also wird C04-Raceh abgelehnt!
-            if challenge_type in known_types:
-                return True
+        info = ServerInfo(
+            name=server_login,
+            map="",
+            players=0,
+            max_players=0,
+            game_mode="Unknown",
+            server_login=server_login,
+            pc_guid=server_login,
+            server_address=address,
+            server_port=port,
+            local_ip=address,
+            raw_data=data.hex(),
+        )
 
-        # Verkürzte Namen: 5-Endurance, 1-Speed (nur bekannte Typen)
-        short_pattern = re.match(r"^\d+-([A-Za-z]{4,})$", name)
-        if short_pattern:
-            challenge_type = short_pattern.group(1).lower()
-            # Nur bekannte Challenge-Typen
-            known_types = [
-                "race",
-                "acrobatic",
-                "speed",
-                "endurance",
-                "platform",
-                "puzzle",
-            ]
-            if challenge_type in known_types:
-                return True
+        if not player_login.startswith("#SRV#"):
+            return info
 
-        # Challenge/Race Keywords (aus MCP-Strings)
-        challenge_keywords = [
-            "race",
-            "speed",
-            "endurance",
-            "acrobatic",
-            "challenge",
-            "track",
-            "circuit",
-            "course",
-            "stage",
+        password_flag = player_login[5:6]
+        info.password_protected = info.private_server = password_flag in ("p", "f")
+        info.spectator_password_protected = password_flag in ("s", "f")
+
+        reader.string()
+        info.players = reader.u8()
+        info.max_players = reader.u8()
+        info.spectators = reader.u8()
+        info.max_spectators = info.spectator_slots = reader.u8()
+        info.ladder_mode = reader.u8()
+        info.ladder_server = info.ladder_mode != 0
+        info.name = reader.wstring()
+        info.pack_mask = reader.string()
+
+        names = [reader.wstring() for _ in range(reader.count())]
+        info.player_list = [Player(name, reader.i32()) for name in names]
+        info.comment = reader.wstring()
+
+        if reader.remaining == 0:
+            return info
+
+        info.game_mode_id = reader.u8()
+        info.game_mode = cls.GAME_MODES.get(
+            info.game_mode_id, f"Unknown ({info.game_mode_id})"
+        )
+        limit = reader.u32()
+
+        if info.game_mode_id in (1, 8):
+            info.time_limit = limit
+        elif info.game_mode_id == 7:
+            info.nb_laps = limit
+        elif info.game_mode_id in (3, 6, 9):
+            info.points_limit = limit
+
+        info.nb_challenges = reader.u8()
+        challenges = [
+            (reader.wstring(), reader.u32(), reader.u16(), reader.u8())
+            for _ in range(reader.count())
+        ]
+        ids = _IdReader(reader)
+        environments = [ids.read() for _ in range(reader.count())]
+
+        info.challenges = [
+            Challenge(
+                name,
+                gold_time,
+                copper_price,
+                environments[index] if index < len(environments) else "Unknown",
+            )
+            for name, gold_time, copper_price, index in challenges
         ]
 
-        name_lower = name.lower()
-        if any(keyword in name_lower for keyword in challenge_keywords):
-            # Aber nicht wenn es offensichtlich ein Server-Name oder anderer String ist
-            # Und mindestens ein Wort muss vollständig sein (nicht nur Teil eines Wortes)
-            # WICHTIG: Blockiere korrupte Namen wie "raceh" (race + unbekanntes Ende)
-            if (
-                not any(
-                    exclude in name_lower
-                    for exclude in ["server", "player", "time", "score"]
+        if info.challenges:
+            info.map = info.challenges[0].name
+            info.environment = info.challenges[0].environment
+        elif info.pack_mask:
+            info.environment = info.pack_mask
+
+        return info
+
+
+class _Reader:
+    """Bounds-checked little-endian reader for Nadeo archives."""
+
+    def __init__(self, data: bytes):
+        self._data = data
+        self._position = 0
+
+    @property
+    def remaining(self) -> int:
+        return len(self._data) - self._position
+
+    def take(self, count: int) -> bytes:
+        if count < 0 or count > self.remaining:
+            raise InvalidPacketException("Truncated server info")
+
+        data = self._data[self._position : self._position + count]
+        self._position += count
+
+        return data
+
+    def u8(self) -> int:
+        return self.take(1)[0]
+
+    def u16(self) -> int:
+        return struct.unpack("<H", self.take(2))[0]
+
+    def u32(self) -> int:
+        return struct.unpack("<I", self.take(4))[0]
+
+    def i32(self) -> int:
+        return struct.unpack("<i", self.take(4))[0]
+
+    def count(self) -> int:
+        # Every list element takes at least one byte.
+        count = self.u32()
+
+        if count > self.remaining:
+            raise InvalidPacketException(f"Invalid list length: {count}")
+
+        return count
+
+    def string(self) -> str:
+        return self.take(self.u32()).decode("utf-8", errors="replace")
+
+    def wstring(self) -> str:
+        return self.take(self.u32()).decode("utf-8-sig", errors="replace")
+
+
+class _IdReader:
+    """Reads Nadeo identifiers ("lookback strings") sharing one string table."""
+
+    def __init__(self, reader: _Reader):
+        self._reader = reader
+        self._version: Optional[int] = None
+        self._strings: List[str] = []
+
+    def read(self) -> str:
+        if self._version is None:
+            self._version = self._reader.u32()
+
+            if self._version not in (2, 3):
+                raise InvalidPacketException(f"Unsupported id version: {self._version}")
+
+        value = self._reader.u32()
+
+        if value == 0xFFFFFFFF:
+            return ""
+
+        if value & 0xC0000000 not in (0x40000000, 0x80000000):
+            # Numeric collection id
+            return str(value)
+
+        index = value & 0x0FFFFFFF
+
+        if self._version == 2 or index == 0:
+            string = self._reader.string()
+            self._strings.append(string)
+            return string
+
+        if index > len(self._strings):
+            raise InvalidPacketException(f"Invalid id reference: {index}")
+
+        return self._strings[index - 1]
+
+
+def _lzo1x_decompress(source: bytes, size: int) -> bytes:
+    """Decompresses an LZO1X stream into exactly size bytes."""
+    output = bytearray()
+    position = 0
+
+    def copy_literals(count: int):
+        nonlocal position
+
+        if position + count > len(source) or len(output) + count > size:
+            raise InvalidPacketException("Corrupted LZO stream")
+
+        output.extend(source[position : position + count])
+        position += count
+
+    def copy_match(distance_position: int, count: int):
+        if distance_position < 0 or len(output) + count > size:
+            raise InvalidPacketException("Corrupted LZO stream")
+
+        for i in range(count):
+            output.append(output[distance_position + i])
+
+    def read_length(base: int) -> int:
+        nonlocal position
+        length = 0
+
+        while source[position] == 0:
+            length += 255
+            position += 1
+
+        length += base + source[position]
+        position += 1
+
+        return length
+
+    try:
+        # 0: next code < 16 is a literal run, 1-3: a 2 byte match follows
+        # the trailing literals, 4: a 3 byte match follows a literal run.
+        state = 0
+
+        if source[0] > 17:
+            position = 1
+            count = source[0] - 17
+            copy_literals(count)
+            state = count if count < 4 else 4
+
+        while True:
+            code = source[position]
+            position += 1
+
+            if code < 16:
+                if state == 0:
+                    copy_literals((code or read_length(15)) + 3)
+                    state = 4
+                    continue
+
+                distance = (code >> 2) + (source[position] << 2)
+                position += 1
+
+                if state == 4:
+                    copy_match(len(output) - 0x801 - distance, 3)
+                else:
+                    copy_match(len(output) - 1 - distance, 2)
+            elif code >= 64:
+                distance = ((code >> 2) & 7) + (source[position] << 3)
+                position += 1
+                copy_match(len(output) - 1 - distance, (code >> 5) + 1)
+            elif code >= 32:
+                count = (code & 31 or read_length(31)) + 2
+                distance = (source[position] | source[position + 1] << 8) >> 2
+                position += 2
+                copy_match(len(output) - 1 - distance, count)
+            else:
+                count = (code & 7 or read_length(7)) + 2
+                distance = ((code & 8) << 11) + (
+                    (source[position] | source[position + 1] << 8) >> 2
                 )
-                and len(name) >= 4  # Mindestlänge
-                and not name_lower.endswith("p")  # Nicht unvollständig wie "RaceP"
-                and not name_lower.endswith("h")  # Nicht unvollständig wie "Raceh"
-                and not re.match(
-                    r"^[A-E]\d{2}-.*[ph]$", name, re.IGNORECASE
-                )  # Nicht Standard-Pattern mit 'p'/'h' am Ende
-                and (" " in name or len(name) >= 5)
-            ):  # Entweder Leerzeichen oder mindestens 5 Zeichen
-                return True
+                position += 2
 
-        # GBX-Pattern (aus MCP: .TrackMania.gbx)
-        if ".gbx" in name_lower or "trackmania" in name_lower:
-            return True
+                if distance == 0:
+                    break
 
-        return False
+                copy_match(len(output) - distance - 0x4000, count)
 
-    def _find_strict_challenge_in_text(self, text: str) -> Optional[str]:
-        """
-        Sucht in einem Text nach einem strikt passenden Challenge-Namen
-        (z. B. A01-Race, C06-Speed, etc.) und gibt den ersten Treffer zurück.
-        """
-        import re
+            state = source[position - 2] & 3
 
-        pattern = re.compile(
-            r"([A-E]\d{2}-(?:Race|Acrobatic|Speed|Endurance|Platform|Puzzle))",
-            re.IGNORECASE,
-        )
-        m = pattern.search(text)
-        return m.group(0) if m else None
+            if state:
+                copy_literals(state)
+    except IndexError as e:
+        raise InvalidPacketException("Truncated LZO stream") from e
 
-    def debug_payload(self, data: bytes) -> Dict[str, Any]:
-        """
-        Debug-Funktion zur Analyse eines Payloads.
+    if len(output) != size:
+        raise InvalidPacketException("LZO size mismatch")
 
-        Args:
-            data: Die Rohdaten
-
-        Returns:
-            Dictionary mit Debug-Informationen
-        """
-        debug_info = {
-            "length": len(data),
-            "hex_dump": data[:100].hex() if len(data) > 100 else data.hex(),
-            "server_name_offset": 0x27,
-            "srv_marker_pos": -1,
-            "srv_type": None,
-            "strings": [],
-            "potential_player_offsets": {},
-        }
-
-        # Servername bei 0x27
-        if len(data) >= 0x2B:
-            server_name, bytes_read = self._deserialize_string(data, 0x27)
-            debug_info["server_name"] = server_name
-            debug_info["server_name_bytes_read"] = bytes_read
-
-        # SRV Marker
-        srv_pos = data.find(b"#SRV#")
-        if srv_pos != -1:
-            debug_info["srv_marker_pos"] = srv_pos
-            if srv_pos + 5 < len(data):
-                srv_type_byte = data[srv_pos + 5]
-                debug_info["srv_type_byte"] = f"0x{srv_type_byte:02x}"
-                if srv_type_byte == 0x00:
-                    debug_info["srv_type"] = "null"
-                elif chr(srv_type_byte) in ["f", "s", "p"]:
-                    debug_info["srv_type"] = chr(srv_type_byte)
-
-        # Alle Strings
-        debug_info["strings"] = self._extract_all_strings(data)
-
-        # MCP-basierte Challenge-Namen Extraktion
-        challenge_name = self._extract_challenge_name(data, srv_pos)
-        debug_info["mcp_challenge_name"] = challenge_name
-        debug_info["challenge_extraction_method"] = (
-            "MCP-based" if challenge_name else "fallback"
-        )
-
-        # Potentielle Spielerzahl-Offsets
-        if srv_pos != -1:
-            test_offsets = [(7, 9), (41, 45), (12, 14), (15, 17)]
-            for curr_off, max_off in test_offsets:
-                if srv_pos + max_off < len(data):
-                    curr = data[srv_pos + curr_off]
-                    max_val = data[srv_pos + max_off]
-                    debug_info["potential_player_offsets"][
-                        f"+{curr_off}/+{max_off}"
-                    ] = f"{curr}/{max_val}"
-
-        return debug_info
+    return bytes(output)
