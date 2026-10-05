@@ -7,11 +7,13 @@ Here are the results for the test method.
 
 	{
 	    "name": "Sunrise LAN Server",
-	    "map": "GrandPrix",
+	    "map": "GoodMorning",
 	    "players": 0,
 	    "max_players": 32,
 	    "game_mode": "TimeAttack",
-	    "game_id": "",
+	    "game_id": "TmSunrise",
+	    "environment": "Island",
+	    "mood": "Sunrise",
 	    "game_tag": 7,
 	    "protocol_version": 4,
 	    "password_protected": false,
@@ -31,126 +33,166 @@ Here are the results for the test method.
 	    "nb_challenges": 54,
 	    "challenges": [
 	        {
-	            "name": "GrandPrix",
-	            "gold_time": 39740,
-	            "copper_price": 1394,
-	            "decoration_index": 7
+	            "name": "GoodMorning",
+	            "gold_time": 56800,
+	            "copper_price": 1544,
+	            "decoration_index": 14,
+	            "environment": "Island",
+	            "mood": "Sunrise"
 	        },
 	        {
-	            "name": "Snake",
-	            "gold_time": 31960,
-	            "copper_price": 1615,
-	            "decoration_index": 8
+	            "name": "High Tide",
+	            "gold_time": 16000,
+	            "copper_price": 700,
+	            "decoration_index": 15,
+	            "environment": "Island",
+	            "mood": "Sunset"
 	        },
 	        {
-	            "name": "Chaos Area",
-	            "gold_time": 27000,
-	            "copper_price": 725,
-	            "decoration_index": 5
+	            "name": "Midnight",
+	            "gold_time": 65660,
+	            "copper_price": 1606,
+	            "decoration_index": 13,
+	            "environment": "Island",
+	            "mood": "Night"
 	        },
 	        {
-	            "name": "ParadiseIsland",
-	            "gold_time": 53620,
-	            "copper_price": 1268,
-	            "decoration_index": 15
+	            "name": "HighStreet",
+	            "gold_time": 117660,
+	            "copper_price": 1500,
+	            "decoration_index": 3,
+	            "environment": "Bay",
+	            "mood": "Night"
 	        },
 	        {
-	            "name": "XRace07",
-	            "gold_time": 110820,
-	            "copper_price": 1865,
-	            "decoration_index": 10
+	            "name": "Suburbs",
+	            "gold_time": 64360,
+	            "copper_price": 1554,
+	            "decoration_index": 2,
+	            "environment": "Bay",
+	            "mood": "Day"
 	        },
 	        {
-	            "name": "TunnelEffect",
-	            "gold_time": 73980,
-	            "copper_price": 1570,
-	            "decoration_index": 5
+	            "name": "GrandPrix30",
+	            "gold_time": 1280000,
+	            "copper_price": 1549,
+	            "decoration_index": 10,
+	            "environment": "Coast",
+	            "mood": "Sunset"
 	        },
 	        {
-	            "name": "Small Ring",
-	            "gold_time": 19000,
-	            "copper_price": 962,
-	            "decoration_index": 12
+	            "name": "QuietRide",
+	            "gold_time": 27970,
+	            "copper_price": 913,
+	            "decoration_index": 9,
+	            "environment": "Coast",
+	            "mood": "Sunrise"
 	        },
 	        {
-	            "name": "Aerial Lights",
-	            "gold_time": 25000,
-	            "copper_price": 1379,
-	            "decoration_index": 13
+	            "name": "HomeRun",
+	            "gold_time": 71340,
+	            "copper_price": 1452,
+	            "decoration_index": 10,
+	            "environment": "Coast",
+	            "mood": "Sunset"
 	        },
 	        {
-	            "name": "Downtown",
-	            "gold_time": 52430,
-	            "copper_price": 1609,
-	            "decoration_index": 3
+	            "name": "BuildingRider",
+	            "gold_time": 110840,
+	            "copper_price": 1662,
+	            "decoration_index": 2,
+	            "environment": "Bay",
+	            "mood": "Day"
 	        },
 	        {
-	            "name": "SpeedWave",
-	            "gold_time": 108000,
-	            "copper_price": 1457,
-	            "decoration_index": 14
+	            "name": "XRace09",
+	            "gold_time": 84560,
+	            "copper_price": 3190,
+	            "decoration_index": 12,
+	            "environment": "Island",
+	            "mood": "Day"
 	        },
 	        {
-	            "name": "Village",
-	            "gold_time": 51590,
-	            "copper_price": 1574,
-	            "decoration_index": 7
+	            "name": "Bouncy Alley",
+	            "gold_time": 12000,
+	            "copper_price": 1048,
+	            "decoration_index": 2,
+	            "environment": "Bay",
+	            "mood": "Day"
 	        },
 	        {
-	            "name": "HappyBay",
-	            "gold_time": 225000,
-	            "copper_price": 1188,
-	            "decoration_index": 2
+	            "name": "XRace01",
+	            "gold_time": 47490,
+	            "copper_price": 1968,
+	            "decoration_index": 8,
+	            "environment": "Coast",
+	            "mood": "Night"
 	        },
 	        {
-	            "name": "XRace02",
-	            "gold_time": 45280,
-	            "copper_price": 1991,
-	            "decoration_index": 5
+	            "name": "FollowTheLeader",
+	            "gold_time": 47500,
+	            "copper_price": 1660,
+	            "decoration_index": 2,
+	            "environment": "Bay",
+	            "mood": "Day"
 	        },
 	        {
-	            "name": "Magnitude",
-	            "gold_time": 72990,
-	            "copper_price": 1424,
-	            "decoration_index": 9
+	            "name": "XRace08",
+	            "gold_time": 74350,
+	            "copper_price": 3203,
+	            "decoration_index": 2,
+	            "environment": "Bay",
+	            "mood": "Day"
 	        },
 	        {
-	            "name": "Up and Down",
-	            "gold_time": 30000,
-	            "copper_price": 859,
-	            "decoration_index": 10
+	            "name": "SkidOrDie",
+	            "gold_time": 50690,
+	            "copper_price": 1274,
+	            "decoration_index": 14,
+	            "environment": "Island",
+	            "mood": "Sunrise"
 	        },
 	        {
-	            "name": "XRace05",
-	            "gold_time": 77170,
-	            "copper_price": 1976,
-	            "decoration_index": 2
+	            "name": "BeautifulDay",
+	            "gold_time": 188250,
+	            "copper_price": 1406,
+	            "decoration_index": 12,
+	            "environment": "Island",
+	            "mood": "Day"
 	        },
 	        {
-	            "name": "Forest Jump",
-	            "gold_time": 23000,
-	            "copper_price": 879,
-	            "decoration_index": 5
+	            "name": "Five Rows",
+	            "gold_time": 31000,
+	            "copper_price": 706,
+	            "decoration_index": 9,
+	            "environment": "Coast",
+	            "mood": "Sunrise"
 	        },
 	        {
-	            "name": "NightRider",
-	            "gold_time": 132390,
-	            "copper_price": 1814,
-	            "decoration_index": 8
+	            "name": "JumpOnBrakes",
+	            "gold_time": 47800,
+	            "copper_price": 1398,
+	            "decoration_index": 10,
+	            "environment": "Coast",
+	            "mood": "Sunset"
 	        },
 	        {
-	            "name": "Deviation",
-	            "gold_time": 91430,
-	            "copper_price": 1441,
-	            "decoration_index": 2
+	            "name": "NightFlight",
+	            "gold_time": 39150,
+	            "copper_price": 1451,
+	            "decoration_index": 13,
+	            "environment": "Island",
+	            "mood": "Night"
 	        },
 	        {
-	            "name": "Orbital",
-	            "gold_time": 125000,
-	            "copper_price": 1683,
-	            "decoration_index": 14
+	            "name": "CarPark",
+	            "gold_time": 37110,
+	            "copper_price": 1233,
+	            "decoration_index": 12,
+	            "environment": "Island",
+	            "mood": "Day"
 	        }
 	    ],
 	    "player_list": [],
-	    "raw_data": "0704650a0a2e090f0000004445534b544f502d4a424b4c354a300500000023535256230000000000200020001200000053756e72697365204c414e20536572766572000000001e000000547261636b4d616e69612053756e726973652045787472656d65204c414e01e09304003614000000090000004772616e6450726978070000003c9b00007205000005000000536e616b6508000000d87c00004f0600000a0000004368616f7320417265610500000078690000d50200000e000000506172616469736549736c616e640f00000074d10000f404000007000000585261636530370a000000e4b00100490700000c00000054756e6e656c45666665637405000000fc200100220600000a000000536d616c6c2052696e670c000000384a0000c20300000d00000041657269616c204c69676874730d000000a86100006305000008000000446f776e746f776e03000000cecc000049060000090000005370656564576176650e000000e0a50100b10500000700000056696c6c6167650700000086c900002606000008000000486170707942617902000000e86e0300a4040000070000005852616365303205000000e0b00000c7070000090000004d61676e6974756465090000001e1d0100900500000b000000557020616e6420446f776e0a000000307500005b030000070000005852616365303502000000722d0100b80700000b000000466f72657374204a756d7005000000d85900006f0300000a0000004e69676874526964657208000000260502001607000009000000446576696174696f6e0200000026650100a1050000070000004f72626974616c0e00000048e8010093060000"
+	    "raw_data": "0704650a0a2e090f0000004445534b544f502d4a424b4c354a300500000023535256230000000000200020001200000053756e72697365204c414e20536572766572000000001e000000547261636b4d616e69612053756e726973652045787472656d65204c414e01e093040036140000000b000000476f6f644d6f726e696e670e000000e0dd000008060000090000004869676820546964650f000000803e0000bc020000080000004d69646e696768740d0000007c000100460600000a00000048696768537472656574030000009ccb0100dc05000007000000537562757262730200000068fb0000120600000b0000004772616e645072697833300a000000008813000d0600000900000051756965745269646509000000426d00009103000007000000486f6d6552756e0a000000ac160100ac0500000d0000004275696c64696e67526964657202000000f8b001007e06000007000000585261636530390c000000504a0100760c00000c000000426f756e637920416c6c657902000000e02e00001804000007000000585261636530310800000082b90000b00700000f000000466f6c6c6f775468654c6561646572020000008cb900007c0600000700000058526163653038020000006e220100830c000009000000536b69644f724469650e00000002c60000fa0400000c00000042656175746966756c4461790c0000005adf02007e050000090000004669766520526f77730900000018790000c20200000c0000004a756d704f6e4272616b65730a000000b8ba0000760500000b0000004e69676874466c696768740d000000ee980000ab050000070000004361725061726b0c000000f6900000d1040000"
 	}

@@ -33,9 +33,14 @@ class Challenge:
     decoration_index: int
     """
     2 + index of the challenge decoration (environment and mood) in the
-    decoration table the server builds from its game data, 0 if unknown.
-    Engine internal, it cannot be mapped to an environment name.
+    decoration table of the server, 0 if unknown. See TrackmaniaSunrise.decoration().
     """
+
+    environment: str = ""
+    """Environment of the challenge, e.g. Island. Empty if the game is unknown."""
+
+    mood: str = ""
+    """Decoration (mood) of the challenge, e.g. Night. Empty if unknown."""
 
 
 @dataclass
@@ -61,9 +66,16 @@ class ServerInfo:
 
     game_id: str = ""
     """
-    Game the server runs: TmNationsESWC, or empty for TmOriginal/TmSunrise.
-    These two cannot be told apart by this query, use get_session() for that.
+    Game the server runs. TmNationsESWC is recognised by the game tag,
+    TmOriginal and TmSunrise only when passed to get_info() (use get_session()
+    to find out), otherwise it is empty.
     """
+
+    environment: str = ""
+    """Environment of the current challenge, e.g. Island. Empty if the game is unknown."""
+
+    mood: str = ""
+    """Decoration (mood) of the current challenge, e.g. Night."""
 
     game_tag: int = 0
     """Game tag of the server info (0x07 Original/Sunrise, 0x09 Nations ESWC)."""
@@ -136,7 +148,7 @@ class ServerInfo:
         """
         return (
             f"TrackMania Server: {self.plain_name}\n"
-            f"Map: {self.map}\n"
+            f"Map: {self.map} ({self.environment or 'Unknown'})\n"
             f"Players: {self.players}/{self.max_players}\n"
             f"Spectators: {self.spectators}/{self.max_spectators}\n"
             f"Game Mode: {self.game_mode}\n"

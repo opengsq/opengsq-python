@@ -87,6 +87,34 @@ class TrackmaniaSunrise(ProtocolBase):
         8: "Stunts",
     }
 
+    # Environments and decorations (moods) the server puts into its decoration
+    # table, per game (0x005ea740). The decoration index of a challenge is
+    # 2 + its position in that table, see decoration().
+    DECORATIONS = {
+        "TmOriginal": (
+            ("Alpine", "Speed", "Rally"),
+            (
+                "32x32Sunset",
+                "32x32Sunrise",
+                "Simple",
+                "30x30Sunrise",
+                "30x30",
+                "30x30Sunset",
+                "20x60Sunrise",
+                "20x60",
+                "20x60Sunset",
+                "10x150Sunrise",
+                "10x150",
+                "10x150Sunset",
+            ),
+        ),
+        "TmSunrise": (
+            ("Bay", "Coast", "Island"),
+            ("Sunrise", "Day", "Sunset", "Night"),
+        ),
+        "TmNationsESWC": (("Stadium",), ("Day",)),
+    }
+
     _FLAG_COMPRESSED = 0x01
     _FLAG_CHECKSUM = 0x02
     _FLAG_SEQUENCE = 0x0C
@@ -119,13 +147,16 @@ class TrackmaniaSunrise(ProtocolBase):
     def __init__(self, host: str, port: int = DEFAULT_PORT, timeout: float = 5.0):
         super().__init__(host, port, timeout)
 
-    async def get_info(self) -> ServerInfo:
+    async def get_info(self, game_id: Optional[str] = None) -> ServerInfo:
         """
         Retrieves the server information via TCP.
 
         Original and Sunrise servers cannot be told apart by this query
         (game_id is empty for them), use get_session() for that.
 
+        :param game_id: Game of the server (TmOriginal or TmSunrise), known from
+            get_session(). Needed to resolve the environments of the challenges of
+            an Original or Sunrise server.
         :return: A ServerInfo object containing server information
         :raises ServerNotFoundException: If no TCP connection can be established
         :raises InvalidPacketException: If the server does not answer like a TrackMania server
@@ -144,7 +175,7 @@ class TrackmaniaSunrise(ProtocolBase):
             version = e.server_version
             data = await self._query_info(version)
 
-        info = self.parse_server_info(data)
+        info = self.parse_server_info(data, game_id)
         info.protocol_version = version
 
         return info
@@ -404,9 +435,45 @@ class TrackmaniaSunrise(ProtocolBase):
         )
 
     @classmethod
-    def parse_server_info(cls, data: bytes) -> ServerInfo:
+    def decoration(
+        cls, game_id: str, decoration_index: int
+    ) -> Optional[Tuple[str, str]]:
+        """
+        Resolves the decoration index of a challenge.
+
+        The server builds its decoration table from DECORATIONS: every environment
+        with each decoration plus one entry without decoration (an unassigned id),
+        sorted case-insensitively by environment, then by decoration name
+        ("Unassigned" for the missing one). The index is 2 + the table position.
+
+        :return: Environment and decoration (mood), the decoration is empty for
+            the entry without one; None if the index is unknown
+        """
+        if game_id not in cls.DECORATIONS:
+            return None
+
+        environments, decorations = cls.DECORATIONS[game_id]
+        table = sorted(
+            (
+                (environment, decoration)
+                for environment in environments
+                for decoration in (*decorations, "")
+            ),
+            key=lambda entry: (entry[0].lower(), (entry[1] or "Unassigned").lower()),
+        )
+        position = decoration_index - 2
+
+        return table[position] if 0 <= position < len(table) else None
+
+    @classmethod
+    def parse_server_info(
+        cls, data: bytes, game_id: Optional[str] = None
+    ) -> ServerInfo:
         """
         Parses the server info sent in reply to an info request.
+
+        :param game_id: Game of the server (TmOriginal or TmSunrise) if known, to
+            resolve the environments. Nations ESWC is recognised by its game tag.
 
         Layout, one block per class of the serialisation chain::
 
@@ -430,6 +497,8 @@ class TrackmaniaSunrise(ProtocolBase):
                 u8      number of challenges in the playlist
                 u32 n   challenges[n]: wstr name, u32 decoration index,
                         u32 gold time, u32 copper price; current challenge first
+
+        The decoration index is resolved to environment and mood, see decoration().
         """
         reader = _Reader(data)
         game_tag = reader.u8()
@@ -444,13 +513,17 @@ class TrackmaniaSunrise(ProtocolBase):
         server_login = reader.string()
         player_login = reader.string()
 
+        # Original and Sunrise share the game tag, Nations ESWC has its own
+        if cls._GAME_TAGS[game_tag] or game_id not in ("TmOriginal", "TmSunrise"):
+            game_id = cls._GAME_TAGS[game_tag]
+
         info = ServerInfo(
             name=server_login,
             map="",
             players=0,
             max_players=0,
             game_mode="Unknown",
-            game_id=cls._GAME_TAGS[game_tag],
+            game_id=game_id,
             game_tag=game_tag,
             server_login=server_login,
             server_address=address,
@@ -505,8 +578,16 @@ class TrackmaniaSunrise(ProtocolBase):
             for _ in range(reader.count())
         ]
 
+        for challenge in info.challenges:
+            decoration = cls.decoration(game_id, challenge.decoration_index)
+
+            if decoration:
+                challenge.environment, challenge.mood = decoration
+
         if info.challenges:
             info.map = info.challenges[0].name
+            info.environment = info.challenges[0].environment
+            info.mood = info.challenges[0].mood
 
         return info
 
@@ -536,9 +617,9 @@ if __name__ == "__main__":
     async def main_async():
         host = sys.argv[1] if len(sys.argv) > 1 else "127.0.0.1"
         tm = TrackmaniaSunrise(host, TrackmaniaSunrise.DEFAULT_PORT, 5.0)
-        info = await tm.get_info()
-        print(json.dumps(info.to_dict(), indent=4, ensure_ascii=False))
         session = await tm.get_session()
         print(json.dumps(session.to_dict(), indent=4, ensure_ascii=False))
+        info = await tm.get_info(session.game_id)
+        print(json.dumps(info.to_dict(), indent=4, ensure_ascii=False))
 
     asyncio.run(main_async())

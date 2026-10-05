@@ -88,14 +88,15 @@ def _server_info(
     data += b"".join(struct.pack("<i", -1) for _ in players)
     data += wstr("Kommentar")
     data += bytes([3]) + struct.pack("<I", 30) + bytes([1]) + struct.pack("<I", 1)
-    data += wstr("A01-Race") + struct.pack("<III", 4, 25000, 600)
+    data += wstr("A01-Race") + struct.pack("<III", 2, 25000, 600)
 
     return data
 
 
 @pytest.mark.asyncio
 async def test_get_info():
-    result = await tms.get_info()
+    session = await tms.get_session()
+    result = await tms.get_info(session.game_id)
     await handler.save_result("test_get_info", result)
 
 
@@ -141,6 +142,65 @@ def test_parse_captured_server_info():
     assert info.challenges[0].decoration_index == 13
     assert info.challenges[15].name == "HappyBay"
     assert info.challenges[-1].name == "XRace05"
+    # Original and Sunrise share the game tag, the environment needs the game id
+    assert (info.environment, info.challenges[0].environment) == ("", "")
+
+
+def test_parse_captured_server_info_with_game_id():
+    info = TrackmaniaSunrise.parse_server_info(_decode_captured_info(), "TmSunrise")
+    challenges = {challenge.name: challenge for challenge in info.challenges}
+
+    assert info.game_id == "TmSunrise"
+    assert (info.map, info.environment, info.mood) == ("NightFlight", "Island", "Night")
+    assert (challenges["HappyBay"].environment, challenges["HappyBay"].mood) == (
+        "Bay",
+        "Day",
+    )
+    assert (challenges["Downtown"].environment, challenges["Downtown"].mood) == (
+        "Bay",
+        "Night",
+    )
+    assert (
+        challenges["ParadiseIsland"].environment,
+        challenges["ParadiseIsland"].mood,
+    ) == ("Island", "Sunset")
+
+
+@pytest.mark.parametrize(
+    "game_id, decoration_index, expected",
+    [
+        ("TmSunrise", 2, ("Bay", "Day")),
+        ("TmSunrise", 3, ("Bay", "Night")),
+        ("TmSunrise", 4, ("Bay", "Sunrise")),
+        ("TmSunrise", 5, ("Bay", "Sunset")),
+        ("TmSunrise", 6, ("Bay", "")),
+        ("TmSunrise", 7, ("Coast", "Day")),
+        ("TmSunrise", 13, ("Island", "Night")),
+        ("TmSunrise", 16, ("Island", "")),
+        ("TmSunrise", 17, None),
+        ("TmSunrise", 0, None),
+        ("TmOriginal", 2, ("Alpine", "10x150")),
+        ("TmOriginal", 3, ("Alpine", "10x150Sunrise")),
+        ("TmOriginal", 13, ("Alpine", "Simple")),
+        ("TmOriginal", 14, ("Alpine", "")),
+        ("TmOriginal", 15, ("Rally", "10x150")),
+        ("TmOriginal", 40, ("Speed", "")),
+        ("TmOriginal", 41, None),
+        ("TmNationsESWC", 2, ("Stadium", "Day")),
+        ("TmNationsESWC", 3, ("Stadium", "")),
+        ("", 2, None),
+    ],
+)
+def test_decoration(game_id, decoration_index, expected):
+    assert TrackmaniaSunrise.decoration(game_id, decoration_index) == expected
+
+
+def test_game_id_from_game_tag_wins():
+    eswc = TrackmaniaSunrise.parse_server_info(_server_info(game_tag=0x09), "TmSunrise")
+    sunrise = TrackmaniaSunrise.parse_server_info(_server_info(), "TmNationsESWC")
+
+    assert (eswc.game_id, eswc.environment) == ("TmNationsESWC", "Stadium")
+    assert (sunrise.game_id, sunrise.environment) == ("", "")
 
 
 def test_parse_session_reply():
@@ -196,6 +256,7 @@ def test_nations_eswc_game_tag():
     info = TrackmaniaSunrise.parse_server_info(_server_info(game_tag=0x09))
 
     assert (info.game_tag, info.game_id) == (0x09, "TmNationsESWC")
+    assert (info.environment, info.mood) == ("Stadium", "Day")
 
 
 @pytest.mark.parametrize("game_tag", [0x2D, 0x0D, 0x27, 0x08])
