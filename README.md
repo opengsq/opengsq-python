@@ -56,6 +56,7 @@ from opengsq.protocols import (
     StrongholdCrusader,
     TeamSpeak3,
     TrackmaniaNations,
+    TrackmaniaSunrise,
     Toxikk,
     UDK,
     Unreal2,

@@ -39,6 +39,7 @@ from opengsq.protocols.stronghold_ce import StrongholdCE
 from opengsq.protocols.stronghold_crusader import StrongholdCrusader
 from opengsq.protocols.teamspeak3 import TeamSpeak3
 from opengsq.protocols.trackmania_nations import TrackmaniaNations
+from opengsq.protocols.trackmania_sunrise import TrackmaniaSunrise
 from opengsq.protocols.toxikk import Toxikk
 from opengsq.protocols.udk import UDK
 from opengsq.protocols.unreal2 import Unreal2
@@ -90,6 +91,7 @@ __all__ = [
     "StrongholdCrusader",
     "TeamSpeak3",
     "TrackmaniaNations",
+    "TrackmaniaSunrise",
     "Toxikk",
     "UDK",
     "Unreal2",

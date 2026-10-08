@@ -42,6 +42,7 @@ Protocols Tests
 	test_teamspeak3/index
 	test_toxikk/index
 	test_trackmania_nations/index
+	test_trackmania_sunrise/index
 	test_unreal2/index
 	test_ut3/index
 	test_vcmp/index
