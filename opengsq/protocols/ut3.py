@@ -1,8 +1,10 @@
+from typing import ClassVar
+
 from opengsq.protocols.udk import UDK
 
 
 class UT3(UDK):
-    GAMEMODE_NAMES = {
+    GAMEMODE_NAMES: ClassVar[dict[int, str]] = {
         0: "Deathmatch",
         1: "Team Deathmatch",
         2: "Capture The Flag",
@@ -15,7 +17,7 @@ class UT3(UDK):
         9: "Custom",
     }
 
-    MUTATOR_NAMES = {
+    MUTATOR_NAMES: ClassVar[dict[int, str]] = {
         0x1: "SlowTimeKills",
         0x2: "BigHead",
         0x4: "NoOrbs",
@@ -35,7 +37,7 @@ class UT3(UDK):
         0x10000: "Arena",
     }
 
-    BOT_SKILL_NAMES = {
+    BOT_SKILL_NAMES: ClassVar[dict[int, str]] = {
         0: "Novice",
         1: "Average",
         2: "Experienced",
@@ -46,7 +48,7 @@ class UT3(UDK):
         7: "Godlike",
     }
 
-    VS_BOTS_NAMES = {0: "None", 1: "1:1", 2: "3:2", 3: "2:1"}
+    VS_BOTS_NAMES: ClassVar[dict[int, str]] = {0: "None", 1: "1:1", 2: "3:2", 3: "2:1"}
 
     full_name = "Unreal Tournament 3 Protocol"
 

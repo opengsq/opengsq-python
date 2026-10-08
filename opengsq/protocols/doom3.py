@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import re
+from typing import ClassVar
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
@@ -16,7 +17,7 @@ class Doom3(ProtocolBase):
 
     full_name = "Doom3 Protocol"
 
-    _player_fields = {
+    _player_fields: ClassVar[dict[str, list[str]]] = {
         "doom": ["id", "ping", "rate", "name"],
         "quake4": ["id", "ping", "rate", "name", "clantag"],
         "etqw": ["id", "ping", "name", "clantag_pos", "clantag", "typeflag"],
@@ -75,7 +76,7 @@ class Doom3(ProtocolBase):
         stream_position = br.stream_position
 
         # Try parse the fields
-        for mod in self._player_fields.keys():
+        for mod in self._player_fields:
             try:
                 players = self.__parse_player(br, self._player_fields[mod], strip_color)
                 break

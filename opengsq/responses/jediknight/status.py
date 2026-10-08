@@ -174,7 +174,7 @@ class Status:
     players: list[Player] = field(default_factory=list)
     """List of players on the server."""
 
-    def __init__(self, data: dict[str, str], players: list[Player] = None):
+    def __init__(self, data: dict[str, str], players: list[Player] | None = None):
         """
         Initialize Status object from parsed data dictionary.
 

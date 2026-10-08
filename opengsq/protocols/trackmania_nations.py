@@ -39,6 +39,7 @@ import hashlib
 import hmac
 import secrets
 import struct
+from typing import ClassVar
 
 from opengsq.exceptions import InvalidPacketException, ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
@@ -56,7 +57,7 @@ class TrackmaniaNations(ProtocolBase):
 
     DEFAULT_PORT = 2350
 
-    GAME_MODES = {
+    GAME_MODES: ClassVar[dict[int, str]] = {
         1: "TimeAttack",
         3: "Rounds",
         6: "Team",

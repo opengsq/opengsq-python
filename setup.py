@@ -6,7 +6,7 @@ current_dir = os.path.abspath(os.path.dirname(__file__))
 version_contents = {}
 
 with open(os.path.join(current_dir, "opengsq", "version.py"), encoding="utf-8") as f:
-    exec(f.read(), version_contents)
+    exec(f.read(), version_contents)  # noqa: S102
 
 with open("README.md", "r", encoding="utf-8") as f:
     long_description = f.read()

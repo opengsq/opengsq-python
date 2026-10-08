@@ -44,7 +44,7 @@ class ResultHandler:
             # with open(os.path.join(self.__protocol_path, f'{function_name}.{(is_json and "json" or "txt")}'), 'w', encoding='utf-8') as f:
             #     print(result, file=f)
 
-            with open(
+            with open(  # noqa: ASYNC230
                 os.path.join(self.__protocol_path, f"{function_name}.rst"),
                 "w",
                 encoding="utf-8",

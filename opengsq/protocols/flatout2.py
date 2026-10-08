@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import ClassVar
+
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
@@ -27,7 +29,7 @@ class Flatout2(ProtocolBase):
 
     # Protocol specific constants
     REQUEST_HEADER = b"\x22\x00"
-    RESPONSE_HEADERS = [
+    RESPONSE_HEADERS: ClassVar[list[bytes]] = [
         b"\x5f\x00",
         b"\x55\x00",
         b"\x59\x00",
@@ -39,7 +41,7 @@ class Flatout2(ProtocolBase):
 
     # ✅ KORRIGIERT: Car Type Bit-Dekodierung (Byte -8, Bits 7-4)
     # Based on 2074-payload analysis with precise bit mapping
-    CAR_TYPE_BASE_MAPPINGS = {
+    CAR_TYPE_BASE_MAPPINGS: ClassVar[dict[int, str]] = {
         0x0: "Jeder",  # Bits 7-4 = 0000
         0x1: "Derby",  # Bits 7-4 = 0001
         0x2: "Rennen",  # Bits 7-4 = 0010
@@ -48,7 +50,7 @@ class Flatout2(ProtocolBase):
     }
 
     # ✅ KORRIGIERT: Upgrade Setting Bit-Dekodierung (Byte -8, Bits 3-2)
-    UPGRADE_SETTING_MAPPINGS = {
+    UPGRADE_SETTING_MAPPINGS: ClassVar[dict[int, str]] = {
         0x0: "0%",  # Bits 3-2 = 00
         0x1: "50%",  # Bits 3-2 = 01
         0x2: "100%",  # Bits 3-2 = 10
@@ -56,14 +58,14 @@ class Flatout2(ProtocolBase):
     }
 
     # ✅ KORRIGIERT: Game Mode Base Dekodierung (Byte -7, Bits 7-1)
-    GAME_MODE_BASE_MAPPINGS = {
+    GAME_MODE_BASE_MAPPINGS: ClassVar[dict[int, str]] = {
         0x60: "Rennen",  # 0x60 >> 1 = 0x30
         0x62: "Derby",  # 0x62 >> 1 = 0x31
         0x64: "Stunt",  # 0x64 >> 1 = 0x32
     }
 
     # ✅ NEU: Race Damage Dekodierung (Byte -6, Bits 6-4)
-    RACE_DAMAGE_MAPPINGS = {
+    RACE_DAMAGE_MAPPINGS: ClassVar[dict[int, float]] = {
         0x0: 0,  # Bits 6-4 = 000
         0x1: 0.5,  # Bits 6-4 = 001
         0x2: 1,  # Bits 6-4 = 010
@@ -72,7 +74,7 @@ class Flatout2(ProtocolBase):
     }
 
     # ✅ NEU: Derby Damage Dekodierung (Byte -6, Bits 3-2)
-    DERBY_DAMAGE_MAPPINGS = {
+    DERBY_DAMAGE_MAPPINGS: ClassVar[dict[int, float]] = {
         0x0: 0.5,  # Bits 3-2 = 00
         0x1: 1,  # Bits 3-2 = 01
         0x2: 1.5,  # Bits 3-2 = 10
@@ -80,7 +82,7 @@ class Flatout2(ProtocolBase):
     }
 
     # ✅ NEU: Nitro Multi Vollständige Dekodierung (2-Byte-System)
-    NITRO_MULTI_MAPPINGS = {
+    NITRO_MULTI_MAPPINGS: ClassVar[dict[int, float]] = {
         0x0: 0,  # Standard + Low  (Byte -6 Bit 7 = 0, Byte -7 Bit 0 = 0)
         0x1: 1,  # Standard + High (Byte -6 Bit 7 = 0, Byte -7 Bit 0 = 1)
         0x2: 0.5,  # Modified + Low  (Byte -6 Bit 7 = 1, Byte -7 Bit 0 = 0)
@@ -88,7 +90,7 @@ class Flatout2(ProtocolBase):
     }
 
     # Complete track type mapping (byte at offset 94)
-    TRACK_TYPE_NAMES = {
+    TRACK_TYPE_NAMES: ClassVar[dict[int, str]] = {
         0x10: "Wald",  # Forest tracks (Timberlands, Pinegrove, City Central, Downtown)
         0x11: "Feld",  # Field tracks (Farmlands, Midwest Ranch, Water Canal, Desert)
         0x12: "Rennen",  # Race tracks (Riverbay Circuit, Motor Raceway, some Farmlands)
@@ -99,7 +101,7 @@ class Flatout2(ProtocolBase):
 
     # Combined mapping for precise track identification
     # Key format: (track_type_id, map_id) -> track_name
-    PRECISE_TRACK_MAPPING = {
+    PRECISE_TRACK_MAPPING: ClassVar[dict[tuple[int, int], str]] = {
         # Feld tracks with Track Type 0x12
         (0x12, 0x04): "Farmlands 2",
         (0x12, 0x14): "Farmlands 3",
@@ -236,10 +238,7 @@ class Flatout2(ProtocolBase):
         # This is the most reliable indicator for Flatout 2 servers
         game_id = data[10:14]
         game_id_matches = game_id == self.GAME_IDENTIFIER
-        if not game_id_matches:
-            return False
-
-        return True
+        return game_id_matches
 
     def _read_utf16_string(self, br: BinaryReader) -> str:
         """

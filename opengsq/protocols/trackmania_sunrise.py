@@ -47,6 +47,7 @@ import hashlib
 import hmac
 import secrets
 import struct
+from typing import ClassVar
 
 from opengsq.exceptions import InvalidPacketException, ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
@@ -72,13 +73,13 @@ class TrackmaniaSunrise(ProtocolBase):
     DEFAULT_PORT = 2350
 
     # Game ids the server compares LAN session queries against
-    GAMES = {
+    GAMES: ClassVar[dict[str, str]] = {
         "TmOriginal": "TrackMania Original",
         "TmSunrise": "TrackMania Sunrise",
         "TmNationsESWC": "TrackMania Nations ESWC",
     }
 
-    GAME_MODES = {
+    GAME_MODES: ClassVar[dict[int, str]] = {
         1: "TimeAttack",
         3: "Rounds",
         6: "Team",
@@ -89,7 +90,7 @@ class TrackmaniaSunrise(ProtocolBase):
     # Environments and decorations (moods) the server puts into its decoration
     # table, per game (0x005ea740). The decoration index of a challenge is
     # 2 + its position in that table, see decoration().
-    DECORATIONS = {
+    DECORATIONS: ClassVar[dict[str, tuple[tuple[str, ...], tuple[str, ...]]]] = {
         "TmOriginal": (
             ("Alpine", "Speed", "Rally"),
             (
@@ -139,7 +140,7 @@ class TrackmaniaSunrise(ProtocolBase):
 
     # First byte of the server info: high bits 000 = valid, low bits = game.
     # The game id is known for Nations ESWC only, Original and Sunrise share 0x07.
-    _GAME_TAGS = {0x07: "", 0x09: "TmNationsESWC"}
+    _GAME_TAGS: ClassVar[dict[int, str]] = {0x07: "", 0x09: "TmNationsESWC"}
 
     _CLIENT_NAME = "opengsq"
 

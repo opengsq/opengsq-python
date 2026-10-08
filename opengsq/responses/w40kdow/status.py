@@ -83,7 +83,7 @@ class Status:
             return result
         return object.__getattribute__(self, name)
 
-    def __init__(self, data: dict = None):
+    def __init__(self, data: dict | None = None):
         """
         Initialize Status object from parsed data dictionary.
 

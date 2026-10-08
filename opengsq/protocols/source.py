@@ -209,7 +209,7 @@ class Source(ProtocolBase):
             )
 
         rule_count = br.read_short()
-        rules = dict((br.read_string(), br.read_string()) for _ in range(rule_count))
+        rules = {(br.read_string(), br.read_string()) for _ in range(rule_count)}
 
         return rules
 
@@ -253,8 +253,8 @@ class Source(ProtocolBase):
 
     async def __receive(self, udpClient: UdpClient) -> bytes:
         total_packets = -1
-        payloads = dict()
-        packets = list()
+        payloads = {}
+        packets = []
 
         while True:
             response_data = await udpClient.recv()
@@ -327,7 +327,7 @@ class Source(ProtocolBase):
 
     async def __parse_gold_source_packet(self, udpClient: UdpClient, packets: list):
         total_packets = -1
-        payloads = dict()
+        payloads = {}
 
         while total_packets == -1 or len(payloads) < total_packets:
             # Load the old received packets first, then receive the packets

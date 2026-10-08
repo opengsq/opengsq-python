@@ -65,8 +65,8 @@ class Satisfactory(ProtocolBase):
             _,
             received_cookie,
             server_state,
-            server_netcl,
-            server_flags,
+            __server_netcl,
+            __server_flags,
             num_substates,
         ) = struct.unpack("<HBBQBLQB", response[:26])
 

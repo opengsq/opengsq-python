@@ -1,8 +1,10 @@
+from typing import ClassVar
+
 from opengsq.protocols.udk import UDK
 
 
 class Toxikk(UDK):
-    GAMEMODE_NAMES = {
+    GAMEMODE_NAMES: ClassVar[dict[str, str]] = {
         "cruzade.CRZBloodLust": "BloodLust",
         "cruzade.CRZTeamGame": "Squad Assault",
         "cruzade.CRZSquadSurvival": "Squad Survival",
@@ -11,7 +13,7 @@ class Toxikk(UDK):
         "cruzade.CRZArchRivals": "Arch Rivals",
     }
 
-    BOT_SKILL_NAMES = {
+    BOT_SKILL_NAMES: ClassVar[dict[int, str]] = {
         0: "Novice",
         1: "Average",
         2: "Experienced",
@@ -22,7 +24,7 @@ class Toxikk(UDK):
         7: "Godlike",
     }
 
-    VS_BOTS_NAMES = {0: "None", 1: "1:1", 2: "3:2", 3: "2:1"}
+    VS_BOTS_NAMES: ClassVar[dict[int, str]] = {0: "None", 1: "1:1", 2: "3:2", 3: "2:1"}
 
     full_name = "Toxikk Protocol"
 

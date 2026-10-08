@@ -65,8 +65,11 @@ class BinaryReader:
         return data
 
     def read_string(
-        self, delimiters=[b"\x00"], encoding="utf-8", errors="ignore"
+        self, delimiters: list[bytes] | None = None, encoding="utf-8", errors="ignore"
     ) -> str:
+        if delimiters is None:
+            delimiters = [b"\x00"]
+
         bytes_string = b""
 
         while self.remaining_bytes() > 0:

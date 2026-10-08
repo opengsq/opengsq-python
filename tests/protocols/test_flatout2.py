@@ -49,7 +49,7 @@ async def test_flatout2_get_status():
         mock_communicate.assert_called_once()
         call_args = mock_communicate.call_args
         assert call_args is not None
-        args, kwargs = call_args
+        __args, kwargs = call_args
         assert kwargs.get("source_port") == Flatout2.FLATOUT2_PORT
 
         # Verify server info

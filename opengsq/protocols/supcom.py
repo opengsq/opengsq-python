@@ -20,7 +20,7 @@ from __future__ import annotations
 import asyncio
 import socket
 import struct
-from typing import Any
+from typing import Any, ClassVar
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
@@ -127,7 +127,7 @@ class SupCom(ProtocolBase):
             sock.bind(("0.0.0.0", self.RESPONSE_PORT))
             sock.setblocking(False)
 
-            transport, protocol = await loop.create_datagram_endpoint(
+            transport, __protocol = await loop.create_datagram_endpoint(
                 ResponseCollector, sock=sock
             )
 
@@ -183,7 +183,7 @@ class SupCom(ProtocolBase):
         is_broadcast = self._host in ("255.255.255.255", "<broadcast>")
         local_port = self.RESPONSE_PORT if is_broadcast else 0
 
-        transport, protocol = await loop.create_datagram_endpoint(
+        transport, __protocol = await loop.create_datagram_endpoint(
             QueryProtocol, local_addr=("0.0.0.0", local_port), allow_broadcast=True
         )
 
@@ -366,7 +366,7 @@ class SupCom(ProtocolBase):
     # Auto-generated from scenario files in /maps folder
     # Format: 'map_id': {'name': 'Map Name', 'players': max_players, 'size': (width, height)}
     # Size units: 256=5km, 512=10km, 1024=20km, 2048=40km, 4096=80km
-    SCMP_MAP_DATA = {
+    SCMP_MAP_DATA: ClassVar[dict[str, dict[str, int | tuple[int, int]]]] = {
         # 2 Player Maps
         "scmp_012": {"name": "Theta Passage", "players": 2, "size": (256, 256)},
         "scmp_013": {"name": "Winter Duel", "players": 2, "size": (256, 256)},

@@ -24,9 +24,10 @@ class FiveM(ProtocolBase):
         """
         url = f"http://{self._host}:{self._port}/{filename}.json?v={int(time.time())}"
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
-                return await response.json(content_type=None)
+        async with aiohttp.ClientSession() as session, session.get(
+            url
+        ) as response:
+            return await response.json(content_type=None)
 
     async def get_info(self) -> dict[str, Any]:
         """

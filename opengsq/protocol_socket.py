@@ -103,7 +103,7 @@ class Socket:
         else:
             self.__transport.sendto(data)
 
-    async def recv(self, size: int = None) -> bytes:
+    async def recv(self, size: int | None = None) -> bytes:
         if size:
             data = b""
             while len(data) < size:
@@ -151,7 +151,7 @@ class Socket:
 
 class UdpClient(Socket):
     @staticmethod
-    async def communicate(protocol: ProtocolBase, data: bytes, source_port: int = None):
+    async def communicate(protocol: ProtocolBase, data: bytes, source_port: int | None = None):
         with UdpClient() as udpClient:
             if source_port:
                 udpClient.bind_port(source_port)

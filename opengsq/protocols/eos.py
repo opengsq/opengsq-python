@@ -85,10 +85,9 @@ class EOS(ProtocolBase):
             "Content-Type": "application/x-www-form-urlencoded",
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, data=data, headers=headers) as response:
-                response.raise_for_status()
-                data = await response.json()
+        async with aiohttp.ClientSession() as session, session.post(url, data=data, headers=headers) as response:
+            response.raise_for_status()
+            data = await response.json()
 
         return data["access_token"]
 
@@ -117,10 +116,9 @@ class EOS(ProtocolBase):
                 "Content-Type": "application/x-www-form-urlencoded",
             }
 
-            async with aiohttp.ClientSession() as session:
-                async with session.post(url, data=data, headers=headers) as response:
-                    response.raise_for_status()
-                    data = await response.json()
+            async with aiohttp.ClientSession() as session, session.post(url, data=data, headers=headers) as response:
+                response.raise_for_status()
+                data = await response.json()
 
             return data["access_token"]
 
@@ -130,7 +128,7 @@ class EOS(ProtocolBase):
 
     @staticmethod
     async def get_matchmaking(
-        deployment_id: str, access_token: str, filter: dict = {}
+        deployment_id: str, access_token: str, filter: dict | None = None
     ) -> Matchmaking:
         """
         Retrieves the matchmaking data from the EOS service.
@@ -140,6 +138,9 @@ class EOS(ProtocolBase):
         :param filter: The filter for the matchmaking data.
         :return: The matchmaking data.
         """
+        if filter is None:
+            filter = {}
+
         url = f"{EOS._api_url}/matchmaking/v1/{deployment_id}/filter"
         headers = {
             "Content-Type": "application/json",

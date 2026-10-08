@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import ClassVar
+
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
@@ -14,13 +16,13 @@ class Scum(ProtocolBase):
 
     full_name = "Scum Protocol"
 
-    _master_servers = [
+    _master_servers: ClassVar[list[tuple[str, int]]] = [
         ("176.57.138.2", 1040),
         ("172.107.16.215", 1040),
         ("206.189.248.133", 1040),
     ]
 
-    async def get_status(self, master_servers: list[Status] = None) -> Status:
+    async def get_status(self, master_servers: list[Status] | None = None) -> Status:
         """
         Asynchronously retrieves the status of the game server. If the master_servers parameter is not passed, this method calls the Scum.query_master_servers() function every time it is invoked. You may need to cache the master servers if you have a lot of servers to query.
 

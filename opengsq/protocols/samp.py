@@ -64,9 +64,9 @@ class Samp(ProtocolBase):
         br = await self.__send_and_receive(b"r")
         numrules = br.read_short()
 
-        return dict(
+        return {
             (self.__read_string(br), self.__read_string(br)) for _ in range(numrules)
-        )
+        }
 
     async def __send_and_receive(self, data: bytes):
         """

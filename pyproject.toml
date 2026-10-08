@@ -1,2 +1,10 @@
 [build-system]
 requires = ["setuptools", "wheel"]
+
+[tool.ruff.lint]
+ignore = [
+    "TRY002",   # Create your own exception
+    "BLE001",   # Do not catch blind exception: `Exception`
+    "S110",     # `try`-`except`-`pass` detected, consider logging the exception
+    "S112",     # `try`-`except`-`continue` detected, consider logging the exception
+]

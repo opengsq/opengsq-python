@@ -1,3 +1,5 @@
+from typing import ClassVar
+
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocols.directplay import DirectPlay
 
@@ -26,7 +28,7 @@ class AoE2(DirectPlay):
     AOE2_GAME_GUID = "60a269fb-3150-d311-a2d4-006097ba6550"
 
     # AoE2 Civilizations
-    CIVILIZATIONS = {
+    CIVILIZATIONS: ClassVar[dict[int, str]] = {
         0: "Unknown",
         1: "Britons",
         2: "Franks",
@@ -49,7 +51,7 @@ class AoE2(DirectPlay):
     }
 
     # AoE2 Game Modes
-    GAME_MODES = {
+    GAME_MODES: ClassVar[dict[int, str]] = {
         0: "Random Map",
         1: "Regicide",
         2: "Death Match",
@@ -396,7 +398,7 @@ class AoE2(DirectPlay):
         try:
             data_str = data.decode("ascii", errors="ignore").lower()
 
-            for mode_id, mode_name in self.GAME_MODES.items():
+            for mode_name in self.GAME_MODES.values():
                 if mode_name.lower() in data_str:
                     return mode_name
 

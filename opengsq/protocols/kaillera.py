@@ -34,9 +34,10 @@ class Kaillera(ProtocolBase):
         """
         url = "http://www.kaillera.com/raw_server_list2.php"
 
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url) as response:
-                data = await response.text()
+        async with aiohttp.ClientSession() as session, session.get(
+            url
+        ) as response:
+            data = await response.text()
 
         # Format: serverName[LF]ipAddress:port;users/maxusers;gameCount;version;location[LF]
         servers = data.strip().split("\n")

@@ -163,7 +163,7 @@ class DirectPlay(ProtocolBase):
         loop = asyncio.get_running_loop()
 
         # UDP Socket erstellen
-        transport, protocol = await loop.create_datagram_endpoint(
+        transport, __protocol = await loop.create_datagram_endpoint(
             lambda: asyncio.DatagramProtocol(), local_addr=("0.0.0.0", 0)
         )
 

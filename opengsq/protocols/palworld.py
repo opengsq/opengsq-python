@@ -45,9 +45,10 @@ class Palworld(ProtocolBase):
         Asynchronously retrieves data from the game server through the REST API.
         """
         auth = aiohttp.BasicAuth(self.api_username, self.api_password)
-        async with aiohttp.ClientSession(auth=auth) as session:
-            async with session.get(url) as response:
-                data = await response.json()
+        async with aiohttp.ClientSession(auth=auth) as session, session.get(
+            url
+        ) as response:
+            data = await response.json()
         return data
 
     async def get_status(self) -> Status:
