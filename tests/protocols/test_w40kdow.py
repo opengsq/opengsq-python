@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.w40kdow import W40kDow
 
 from ..result_handler import ResultHandler

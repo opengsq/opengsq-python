@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import re
 
-from opengsq.responses.quake2 import Status
 from opengsq.binary_reader import BinaryReader
-from opengsq.protocols.quake2 import Quake2
 from opengsq.exceptions import InvalidPacketException
+from opengsq.protocols.quake2 import Quake2
+from opengsq.responses.quake2 import Status
 
 
 class Quake3(Quake2):

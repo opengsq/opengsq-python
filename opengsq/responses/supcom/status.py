@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -54,8 +54,8 @@ class Status:
     prebuilt_units: str = "Off"
     civilian_alliance: str = "enemy"
     timeouts: str = "3"
-    options: Dict[str, Any] = field(default_factory=dict)
-    raw: Dict[str, Any] = field(default_factory=dict)
+    options: dict[str, Any] = field(default_factory=dict)
+    raw: dict[str, Any] = field(default_factory=dict)
 
     @property
     def map_name(self) -> str:
@@ -104,7 +104,7 @@ class Status:
         return self.max_players > 0
 
     @property
-    def map_size(self) -> Optional[tuple]:
+    def map_size(self) -> tuple | None:
         """
         Get the map size as (width, height) tuple in game units.
 
@@ -116,7 +116,7 @@ class Status:
         return None
 
     @property
-    def map_size_km(self) -> Optional[tuple]:
+    def map_size_km(self) -> tuple | None:
         """
         Get the map size in kilometers as (width_km, height_km) tuple.
 

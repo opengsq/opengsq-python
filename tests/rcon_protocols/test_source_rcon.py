@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.rcon_protocols.source_rcon import SourceRcon
 
 from ..result_handler import ResultHandler

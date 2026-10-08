@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Union, List
 from enum import IntEnum
 
 
@@ -30,5 +29,5 @@ class Status:
     password_protected: bool
     stats_enabled: bool
     lan_mode: bool
-    players: List[Player]
-    raw: dict[str, Union[str, int, bool, list]]
+    players: list[Player]
+    raw: dict[str, str | int | bool | list]

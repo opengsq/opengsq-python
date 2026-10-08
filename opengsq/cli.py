@@ -7,9 +7,9 @@ import json
 import os
 import re
 import sys
+from collections.abc import Mapping, Sequence
 from functools import partial
 from pydoc import locate
-from typing import Mapping, Sequence
 
 from opengsq.protocol_base import ProtocolBase
 from opengsq.version import __version__
@@ -101,7 +101,7 @@ class CLI:
     # Extract name, fullpath, parameters from path, classname
     def __extract(self, path: str, classname: str):
         name = path.split(".")[-1]
-        fullpath = "{}.{}".format(path, classname.strip())
+        fullpath = f"{path}.{classname.strip()}"
         parameters = inspect.signature(locate(fullpath).__init__).parameters
 
         return name, fullpath, parameters
@@ -113,7 +113,7 @@ class CLI:
             if parameters[key].name == "self":
                 continue
 
-            name_or_flags = "--{}".format(parameters[key].name)
+            name_or_flags = f"--{parameters[key].name}"
             required = parameters[key].default == inspect._empty
             default = None if required else parameters[key].default
 

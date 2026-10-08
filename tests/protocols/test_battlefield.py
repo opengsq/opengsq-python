@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.battlefield import Battlefield
 
 from ..result_handler import ResultHandler

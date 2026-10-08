@@ -1,5 +1,7 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
+
 from opengsq.responses.directplay.status import Status as DirectPlayStatus
 
 
@@ -9,4 +11,3 @@ class Status(DirectPlayStatus):
 
     # Stronghold Crusader Extreme spezifische Felder können hier hinzugefügt werden
     # wenn weitere Informationen aus dem Spiel extrahiert werden können
-    pass

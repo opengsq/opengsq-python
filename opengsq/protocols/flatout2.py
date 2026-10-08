@@ -593,8 +593,7 @@ class Flatout2(ProtocolBase):
                 )
 
                 # Sanity check: current players shouldn't exceed max players
-                if current_players > max_players:
-                    current_players = max_players
+                current_players = min(current_players, max_players)
 
             info["current_players"] = current_players
             info["max_players"] = max_players

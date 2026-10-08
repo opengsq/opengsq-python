@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.fivem import FiveM
 
 from ..result_handler import ResultHandler

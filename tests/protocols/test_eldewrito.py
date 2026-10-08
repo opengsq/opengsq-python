@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.eldewrito import ElDewrito
 
 from ..result_handler import ResultHandler

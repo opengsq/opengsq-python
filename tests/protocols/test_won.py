@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.won import WON
 
 from ..result_handler import ResultHandler

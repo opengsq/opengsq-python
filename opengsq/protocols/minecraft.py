@@ -5,11 +5,11 @@ import re
 import struct
 from typing import Any
 
-from opengsq.responses.minecraft import StatusPre17
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import TcpClient
+from opengsq.responses.minecraft import StatusPre17
 
 
 class Minecraft(ProtocolBase):
@@ -108,9 +108,7 @@ class Minecraft(ProtocolBase):
 
         if header != 0xFF:
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    chr(header), chr(0xFF)
-                )
+                f"Packet header mismatch. Received: {chr(header)}. Expected: {chr(0xFF)}."
             )
 
         br.read_bytes(2)  # length of the following string

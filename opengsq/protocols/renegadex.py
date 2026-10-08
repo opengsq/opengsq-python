@@ -1,5 +1,6 @@
-import json
 import asyncio
+import json
+
 from opengsq.protocol_base import ProtocolBase
 from opengsq.responses.renegadex import Status
 

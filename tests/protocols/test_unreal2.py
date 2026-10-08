@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.unreal2 import Unreal2
 
 from ..result_handler import ResultHandler

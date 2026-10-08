@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.scum import Scum
 
 from ..result_handler import ResultHandler

@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.satisfactory import Satisfactory
 
 from ..result_handler import ResultHandler

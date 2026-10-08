@@ -1,7 +1,7 @@
 import aiohttp
 
-from opengsq.responses.palworld import Player, Status
 from opengsq.protocol_base import ProtocolBase
+from opengsq.responses.palworld import Player, Status
 
 
 class Palworld(ProtocolBase):

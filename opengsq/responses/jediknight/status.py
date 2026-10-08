@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import List
 
 
 def translate_gametype(gametype_code: str) -> str:
@@ -172,10 +171,10 @@ class Status:
     g_showDuelHealths: str = ""
     """Show duel healths."""
 
-    players: List[Player] = field(default_factory=list)
+    players: list[Player] = field(default_factory=list)
     """List of players on the server."""
 
-    def __init__(self, data: dict[str, str], players: List[Player] = None):
+    def __init__(self, data: dict[str, str], players: list[Player] = None):
         """
         Initialize Status object from parsed data dictionary.
 
@@ -185,9 +184,9 @@ class Status:
         for key, value in data.items():
             # Handle potential typos in server response
             if key == "g_saberWeallDamageScale":
-                setattr(self, "g_saberWallDamageScale", value)
+                self.g_saberWallDamageScale = value
             elif key == "g_debugeMelee":
-                setattr(self, "g_debugMelee", value)
+                self.g_debugMelee = value
             elif hasattr(self, key):
                 setattr(self, key, value)
 

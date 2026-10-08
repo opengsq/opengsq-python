@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.doom3 import Doom3
 
 from ..result_handler import ResultHandler

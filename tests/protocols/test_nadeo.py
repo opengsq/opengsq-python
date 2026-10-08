@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.nadeo import Nadeo
 
 from ..result_handler import ResultHandler

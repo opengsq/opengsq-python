@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.ase import ASE
 
 from ..result_handler import ResultHandler

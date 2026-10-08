@@ -9,6 +9,7 @@ from .vac import VAC
 from .visibility import Visibility
 
 __all__ = [
+    "VAC",
     "Environment",
     "ExtraDataFlag",
     "GoldSourceInfo",
@@ -16,6 +17,5 @@ __all__ = [
     "Player",
     "ServerType",
     "SourceInfo",
-    "VAC",
     "Visibility",
 ]

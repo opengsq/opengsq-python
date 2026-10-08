@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass
@@ -47,7 +46,7 @@ class Status:
     mod_package_version: str
     xnkid: str
     xnaddr: str
-    players: List[Player]
+    players: list[Player]
     is_dedicated: bool
     game_version: str
     eldewrito_version: str

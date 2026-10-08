@@ -1,5 +1,5 @@
+from .cod5_status import Cod5Status
 from .info import Info
 from .status import Status
-from .cod5_status import Cod5Status
 
-__all__ = ["Info", "Status", "Cod5Status"]
+__all__ = ["Cod5Status", "Info", "Status"]

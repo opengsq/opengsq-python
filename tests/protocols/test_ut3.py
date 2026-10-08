@@ -1,5 +1,7 @@
 import pytest
+
 from opengsq.protocols.ut3 import UT3
+
 from ..result_handler import ResultHandler
 
 handler = ResultHandler(__file__)

@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.stronghold_ce import StrongholdCE
 
 from ..result_handler import ResultHandler

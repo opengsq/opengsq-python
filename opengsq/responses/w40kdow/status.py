@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import List
 
 
 @dataclass
@@ -44,10 +43,10 @@ class Status:
     map_scenario: str = ""
     """Map/scenario name."""
 
-    faction_codes: List[str] = None
+    faction_codes: list[str] = None
     """List of faction codes (8 factions)."""
 
-    map_features: List[str] = None
+    map_features: list[str] = None
     """List of map features."""
 
     def __post_init__(self):

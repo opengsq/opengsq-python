@@ -1,6 +1,7 @@
 from __future__ import annotations
+
 from dataclasses import dataclass
-from typing import List
+
 from opengsq.responses.directplay.status import Status as DirectPlayStatus
 
 
@@ -15,7 +16,7 @@ class Status(DirectPlayStatus):
     resources_setting: str = "Standard"  # Low, Standard, High
     reveal_map: bool = False
     map_size: str = "Normal"  # Tiny, Small, Normal, Large, Giant
-    victory_conditions: List[str] = None  # Standard, Conquest, Relics, Wonder, Time
+    victory_conditions: list[str] = None  # Standard, Conquest, Relics, Wonder, Time
     teams_locked: bool = False
     all_techs: bool = False
 

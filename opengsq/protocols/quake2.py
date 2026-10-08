@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import re
 
-from opengsq.responses.quake2 import Player, Status
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocols.quake1 import Quake1
+from opengsq.responses.quake2 import Player, Status
 
 
 class Quake2(Quake1):

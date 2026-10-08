@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.eos import EOS
 
 from ..result_handler import ResultHandler

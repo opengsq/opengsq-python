@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-from typing import List, Optional
 
 from opengsq.responses.trackmania_nations import strip_formatting
 
@@ -128,13 +127,13 @@ class ServerInfo:
     nb_challenges: int = 0
     """Number of challenges in the playlist (capped at 255 by the server)."""
 
-    challenges: List[Challenge] = field(default_factory=list)
+    challenges: list[Challenge] = field(default_factory=list)
     """Current challenge followed by the next ones (at most 20)."""
 
-    player_list: List[Player] = field(default_factory=list)
+    player_list: list[Player] = field(default_factory=list)
     """Players connected to the server."""
 
-    raw_data: Optional[str] = field(default=None, repr=False)
+    raw_data: str | None = field(default=None, repr=False)
     """Decompressed server info payload as hex string."""
 
     @property

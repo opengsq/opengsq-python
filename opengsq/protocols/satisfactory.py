@@ -1,10 +1,11 @@
 import struct
 import time
+
 import aiohttp
 
-from opengsq.responses.satisfactory import Status
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
+from opengsq.responses.satisfactory import Status
 
 
 class Satisfactory(ProtocolBase):
@@ -89,15 +90,14 @@ class Satisfactory(ProtocolBase):
 
             data = {"function": "QueryServerState", "data": {"ServerGameState": {}}}
 
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    self.api_url,
-                    json=data,
-                    headers=headers,
-                    ssl=False,
-                ) as response:
-                    response.raise_for_status()
-                    data = await response.json()
+            async with aiohttp.ClientSession() as session, session.post(
+                self.api_url,
+                json=data,
+                headers=headers,
+                ssl=False,
+            ) as response:
+                response.raise_for_status()
+                data = await response.json()
 
             server_max_nb_players, server_cur_nb_players = (
                 data.get("data", {})

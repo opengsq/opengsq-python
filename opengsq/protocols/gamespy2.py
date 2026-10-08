@@ -1,9 +1,9 @@
 from enum import Flag, auto
 
-from opengsq.responses.gamespy2 import Status
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
+from opengsq.responses.gamespy2 import Status
 
 
 class GameSpy2(ProtocolBase):

@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.minecraft import Minecraft
 
 from ..result_handler import ResultHandler

@@ -1,8 +1,10 @@
+import logging
+
 import aiohttp
+
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
-from opengsq.responses.eldewrito.status import Status, Player
-import logging
+from opengsq.responses.eldewrito.status import Player, Status
 
 
 class ElDewrito(ProtocolBase):
@@ -93,14 +95,13 @@ class ElDewrito(ProtocolBase):
         try:
             async with aiohttp.ClientSession(
                 timeout=aiohttp.ClientTimeout(total=self._timeout)
-            ) as session:
-                async with session.get(url) as response:
-                    if response.status == 200:
-                        return await response.json()
-                    else:
-                        raise Exception(
-                            f"HTTP request failed with status {response.status}"
-                        )
+            ) as session, session.get(url) as response:
+                if response.status == 200:
+                    return await response.json()
+                else:
+                    raise Exception(
+                        f"HTTP request failed with status {response.status}"
+                    )
 
         except Exception as e:
             self.logger.error(f"Error querying HTTP endpoint: {e}")

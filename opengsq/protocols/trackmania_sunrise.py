@@ -47,7 +47,6 @@ import hashlib
 import hmac
 import secrets
 import struct
-from typing import Optional, Tuple
 
 from opengsq.exceptions import InvalidPacketException, ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
@@ -147,7 +146,7 @@ class TrackmaniaSunrise(ProtocolBase):
     def __init__(self, host: str, port: int = DEFAULT_PORT, timeout: float = 5.0):
         super().__init__(host, port, timeout)
 
-    async def get_info(self, game_id: Optional[str] = None) -> ServerInfo:
+    async def get_info(self, game_id: str | None = None) -> ServerInfo:
         """
         Retrieves the server information via TCP.
 
@@ -180,7 +179,7 @@ class TrackmaniaSunrise(ProtocolBase):
 
         return info
 
-    async def get_session(self, game_id: Optional[str] = None) -> SessionInfo:
+    async def get_session(self, game_id: str | None = None) -> SessionInfo:
         """
         Retrieves the LAN session announcement of the server via UDP.
 
@@ -276,7 +275,7 @@ class TrackmaniaSunrise(ProtocolBase):
             if data is not None:
                 return data
 
-    def _read_info_reply(self, payload: bytes, request_id: int) -> Optional[bytes]:
+    def _read_info_reply(self, payload: bytes, request_id: int) -> bytes | None:
         reader = _Reader(payload)
         version = reader.u32()
         subtype = reader.u32()
@@ -304,7 +303,7 @@ class TrackmaniaSunrise(ProtocolBase):
     def build_connection_admin(
         cls,
         subtype: int,
-        request_id: Optional[int] = None,
+        request_id: int | None = None,
         version: int = _VERSION_SUNRISE,
     ) -> bytes:
         """Builds a framed CNetFormConnectionAdmin message."""
@@ -341,7 +340,7 @@ class TrackmaniaSunrise(ProtocolBase):
         return bytes(message)
 
     @classmethod
-    def decode_message(cls, message: bytes) -> Tuple[int, bytes]:
+    def decode_message(cls, message: bytes) -> tuple[int, bytes]:
         """
         Decodes a message without its length prefix.
 
@@ -396,7 +395,7 @@ class TrackmaniaSunrise(ProtocolBase):
 
     @classmethod
     def parse_session_reply(
-        cls, datagram: bytes, nonce: Optional[int] = None
+        cls, datagram: bytes, nonce: int | None = None
     ) -> SessionInfo:
         """
         Parses a CNetFormEnumSessions datagram sent in reply to a session query.
@@ -437,7 +436,7 @@ class TrackmaniaSunrise(ProtocolBase):
     @classmethod
     def decoration(
         cls, game_id: str, decoration_index: int
-    ) -> Optional[Tuple[str, str]]:
+    ) -> tuple[str, str] | None:
         """
         Resolves the decoration index of a challenge.
 
@@ -467,7 +466,7 @@ class TrackmaniaSunrise(ProtocolBase):
 
     @classmethod
     def parse_server_info(
-        cls, data: bytes, game_id: Optional[str] = None
+        cls, data: bytes, game_id: str | None = None
     ) -> ServerInfo:
         """
         Parses the server info sent in reply to an info request.
@@ -605,7 +604,7 @@ def _pack_string(text: str) -> bytes:
     return struct.pack("<I", len(data)) + data
 
 
-def _read_address(reader: _Reader) -> Tuple[str, int]:
+def _read_address(reader: _Reader) -> tuple[str, int]:
     address = ".".join(str(octet) for octet in reversed(reader.take(4)))
     return address, reader.u16()
 

@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.killingfloor import KillingFloor
 
 from ..result_handler import ResultHandler

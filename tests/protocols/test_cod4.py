@@ -1,6 +1,6 @@
 import pytest
-from opengsq.protocols.cod4 import CoD4
 
+from opengsq.protocols.cod4 import CoD4
 
 from ..result_handler import ResultHandler
 

@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.teamspeak3 import TeamSpeak3
 
 from ..result_handler import ResultHandler

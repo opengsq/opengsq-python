@@ -3,11 +3,11 @@ from __future__ import annotations
 import re
 from typing import Any
 
-from opengsq.responses.unreal2 import Player, Status
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
+from opengsq.responses.unreal2 import Player, Status
 
 
 class Unreal2(ProtocolBase):
@@ -42,9 +42,7 @@ class Unreal2(ProtocolBase):
 
         if header != self._DETAILS:
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    chr(header), chr(self._DETAILS)
-                )
+                f"Packet header mismatch. Received: {chr(header)}. Expected: {chr(self._DETAILS)}."
             )
 
         return Status(
@@ -82,9 +80,7 @@ class Unreal2(ProtocolBase):
 
         if header != self._RULES:
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    chr(header), chr(self._RULES)
-                )
+                f"Packet header mismatch. Received: {chr(header)}. Expected: {chr(self._RULES)}."
             )
 
         rules = {}
@@ -121,9 +117,7 @@ class Unreal2(ProtocolBase):
 
         if header != self._PLAYERS:
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    chr(header), chr(self._PLAYERS)
-                )
+                f"Packet header mismatch. Received: {chr(header)}. Expected: {chr(self._PLAYERS)}."
             )
 
         players = []

@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from typing import Any
-import aiohttp
 import time
+from typing import Any
+
+import aiohttp
 
 from opengsq.protocol_base import ProtocolBase
 

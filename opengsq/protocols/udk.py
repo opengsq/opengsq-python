@@ -1,9 +1,10 @@
+import os
+import struct
+
+from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
-from opengsq.responses.udk.status import Status, PlatformType
-from opengsq.binary_reader import BinaryReader
-import struct
-import os
+from opengsq.responses.udk.status import PlatformType, Status
 
 
 class UDK(ProtocolBase):

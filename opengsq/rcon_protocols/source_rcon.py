@@ -1,5 +1,4 @@
 import random
-
 from enum import Enum
 
 from opengsq.binary_reader import BinaryReader
@@ -81,10 +80,7 @@ class SourceRcon(ProtocolBase):
         if packet.type != self.__PacketType.SERVERDATA_AUTH_RESPONSE.value:
             self._tcpClient.close()
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    chr(packet.type),
-                    chr(self.__PacketType.SERVERDATA_AUTH_RESPONSE.value),
-                )
+                f"Packet header mismatch. Received: {chr(packet.type)}. Expected: {chr(self.__PacketType.SERVERDATA_AUTH_RESPONSE.value)}."
             )
 
         # Throw exception if authentication failed

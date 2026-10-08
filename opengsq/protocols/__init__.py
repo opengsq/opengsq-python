@@ -34,13 +34,13 @@ from opengsq.protocols.satisfactory import Satisfactory
 from opengsq.protocols.scum import Scum
 from opengsq.protocols.source import Source
 from opengsq.protocols.ssc import SSC
-from opengsq.protocols.supcom import SupCom
 from opengsq.protocols.stronghold_ce import StrongholdCE
 from opengsq.protocols.stronghold_crusader import StrongholdCrusader
+from opengsq.protocols.supcom import SupCom
 from opengsq.protocols.teamspeak3 import TeamSpeak3
+from opengsq.protocols.toxikk import Toxikk
 from opengsq.protocols.trackmania_nations import TrackmaniaNations
 from opengsq.protocols.trackmania_sunrise import TrackmaniaSunrise
-from opengsq.protocols.toxikk import Toxikk
 from opengsq.protocols.udk import UDK
 from opengsq.protocols.unreal2 import Unreal2
 from opengsq.protocols.ut3 import UT3
@@ -50,10 +50,15 @@ from opengsq.protocols.warcraft3 import Warcraft3
 from opengsq.protocols.won import WON
 
 __all__ = [
-    "AoE1",
-    "AoE2",
     "ASE",
     "AVP2",
+    "EOS",
+    "SSC",
+    "UDK",
+    "UT3",
+    "WON",
+    "AoE1",
+    "AoE2",
     "Battlefield",
     "Battlefield2",
     "CoD1",
@@ -62,7 +67,6 @@ __all__ = [
     "DirectPlay",
     "Doom3",
     "ElDewrito",
-    "EOS",
     "FiveM",
     "Flatout2",
     "GameSpy1",
@@ -85,19 +89,15 @@ __all__ = [
     "Satisfactory",
     "Scum",
     "Source",
-    "SSC",
-    "SupCom",
     "StrongholdCE",
     "StrongholdCrusader",
+    "SupCom",
     "TeamSpeak3",
+    "Toxikk",
     "TrackmaniaNations",
     "TrackmaniaSunrise",
-    "Toxikk",
-    "UDK",
     "Unreal2",
-    "UT3",
     "Vcmp",
     "W40kDow",
     "Warcraft3",
-    "WON",
 ]

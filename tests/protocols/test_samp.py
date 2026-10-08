@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.samp import Samp
 
 from ..result_handler import ResultHandler

@@ -1,12 +1,12 @@
 from __future__ import annotations
 
 import struct
-from opengsq.responses.vcmp import Player, Status
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import Socket, UdpClient
+from opengsq.responses.vcmp import Player, Status
 
 
 class Vcmp(ProtocolBase):

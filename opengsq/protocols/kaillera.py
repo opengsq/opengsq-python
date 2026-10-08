@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import aiohttp
 
-from opengsq.responses.kaillera import Status
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
+from opengsq.responses.kaillera import Status
 
 
 class Kaillera(ProtocolBase):

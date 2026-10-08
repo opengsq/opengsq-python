@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.stronghold_crusader import StrongholdCrusader
 
 from ..result_handler import ResultHandler

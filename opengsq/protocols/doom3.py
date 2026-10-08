@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import re
-from typing import Union
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
@@ -90,7 +89,7 @@ class Doom3(ProtocolBase):
 
     def __parse_player(
         self, br: BinaryReader, fields: list, strip_color: bool
-    ) -> list[dict[str, Union[int, str]]]:
+    ) -> list[dict[str, int | str]]:
         """
         Parses the player information from the BinaryReader object.
 

@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.halo1 import Halo1
 
 from ..result_handler import ResultHandler

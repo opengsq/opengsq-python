@@ -1,8 +1,8 @@
-from opengsq.responses.killingfloor import Status
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_socket import UdpClient
 from opengsq.protocols.unreal2 import Unreal2
+from opengsq.responses.killingfloor import Status
 
 
 class KillingFloor(Unreal2):
@@ -31,9 +31,7 @@ class KillingFloor(Unreal2):
 
         if header != self._DETAILS:
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    chr(header), chr(self._DETAILS)
-                )
+                f"Packet header mismatch. Received: {chr(header)}. Expected: {chr(self._DETAILS)}."
             )
 
         return Status(

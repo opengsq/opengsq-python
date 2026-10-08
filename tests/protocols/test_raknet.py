@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.raknet import RakNet
 
 from ..result_handler import ResultHandler

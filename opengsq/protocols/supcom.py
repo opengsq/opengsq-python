@@ -17,10 +17,10 @@ Supported Games:
 
 from __future__ import annotations
 
-import struct
 import asyncio
 import socket
-from typing import Dict, Any, List, Tuple
+import struct
+from typing import Any
 
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
@@ -85,7 +85,7 @@ class SupCom(ProtocolBase):
 
     async def discover_servers(
         self, broadcast_addr: str = "255.255.255.255"
-    ) -> List[Tuple[str, Status]]:
+    ) -> list[tuple[str, Status]]:
         """
         Discover Supreme Commander servers on the local network.
 
@@ -111,7 +111,7 @@ class SupCom(ProtocolBase):
                 def connection_made(self, transport):
                     self.transport = transport
 
-                def datagram_received(self, data: bytes, addr: Tuple[str, int]):
+                def datagram_received(self, data: bytes, addr: tuple[str, int]):
                     responses.append((data, addr))
 
                 def error_received(self, exc):
@@ -171,7 +171,7 @@ class SupCom(ProtocolBase):
             def connection_made(self, transport):
                 self.transport = transport
 
-            def datagram_received(self, data: bytes, addr: Tuple[str, int]):
+            def datagram_received(self, data: bytes, addr: tuple[str, int]):
                 if not response_future.done():
                     response_future.set_result(data)
 
@@ -234,8 +234,8 @@ class SupCom(ProtocolBase):
         # Start parsing key-value pairs after header (offset 10)
         br = BinaryReader(data[10:])
 
-        parsed_data: Dict[str, Any] = {}
-        options: Dict[str, Any] = {}
+        parsed_data: dict[str, Any] = {}
+        options: dict[str, Any] = {}
         in_options_block = False
 
         while br.remaining_bytes() > 0:

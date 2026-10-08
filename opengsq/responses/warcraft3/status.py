@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict, Any
+from typing import Any
 
 
 @dataclass
@@ -14,4 +14,4 @@ class Status:
     game_type: str
     num_players: int
     max_players: int
-    raw: Dict[str, Any]
+    raw: dict[str, Any]

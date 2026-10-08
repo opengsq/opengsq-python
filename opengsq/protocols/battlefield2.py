@@ -41,9 +41,7 @@ class Battlefield2(ProtocolBase):
 
                 if response[0] != 9:
                     raise InvalidPacketException(
-                        "Packet header mismatch. Received: {}. Expected: {}.".format(
-                            chr(response[0]), chr(9)
-                        )
+                        f"Packet header mismatch. Received: {chr(response[0])}. Expected: {chr(9)}."
                     )
 
                 # Packet 3: Second request - (http://wiki.unrealadmin.org/UT3_query_protocol#Packet_3:_Second_request)
@@ -91,9 +89,7 @@ class Battlefield2(ProtocolBase):
 
             if header != 0:
                 raise InvalidPacketException(
-                    "Packet header mismatch. Received: {}. Expected: {}.".format(
-                        chr(header), chr(0)
-                    )
+                    f"Packet header mismatch. Received: {chr(header)}. Expected: {chr(0)}."
                 )
 
             # Skip the timestamp and splitnum

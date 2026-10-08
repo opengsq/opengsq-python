@@ -1,5 +1,7 @@
 import pytest
+
 from opengsq.protocols.renegadex import RenegadeX
+
 from ..result_handler import ResultHandler
 
 handler = ResultHandler(__file__)

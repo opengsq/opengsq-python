@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from typing import Any
-import aiohttp
 import base64
 import json
+from typing import Any
+
+import aiohttp
 
 from opengsq.exceptions import ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
@@ -80,7 +81,7 @@ class EOS(ProtocolBase):
         )
 
         headers = {
-            "Authorization": f"Basic {base64.b64encode(f'{client_id}:{client_secret}'.encode('utf-8')).decode('utf-8')}",
+            "Authorization": f"Basic {base64.b64encode(f'{client_id}:{client_secret}'.encode()).decode('utf-8')}",
             "Content-Type": "application/x-www-form-urlencoded",
         }
 
@@ -112,7 +113,7 @@ class EOS(ProtocolBase):
             data = "deviceModel=PC"
 
             headers = {
-                "Authorization": f"Basic {base64.b64encode(f'{client_id}:{client_secret}'.encode('utf-8')).decode('utf-8')}",
+                "Authorization": f"Basic {base64.b64encode(f'{client_id}:{client_secret}'.encode()).decode('utf-8')}",
                 "Content-Type": "application/x-www-form-urlencoded",
             }
 
@@ -146,12 +147,11 @@ class EOS(ProtocolBase):
             "Authorization": f"Bearer {access_token}",
         }
 
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                url, data=json.dumps(filter), headers=headers
-            ) as response:
-                response.raise_for_status()
-                data = await response.json()
+        async with aiohttp.ClientSession() as session, session.post(
+            url, data=json.dumps(filter), headers=headers
+        ) as response:
+            response.raise_for_status()
+            data = await response.json()
 
         return Matchmaking(sessions=data["sessions"], count=data["count"])
 

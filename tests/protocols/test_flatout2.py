@@ -1,8 +1,10 @@
-import pytest
 from unittest.mock import AsyncMock, patch
 
-from opengsq.protocols.flatout2 import Flatout2
+import pytest
+
 from opengsq.exceptions import InvalidPacketException
+from opengsq.protocols.flatout2 import Flatout2
+
 from ..result_handler import ResultHandler
 
 handler = ResultHandler(__file__)

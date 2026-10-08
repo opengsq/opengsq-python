@@ -1,10 +1,11 @@
 from __future__ import annotations
 
+from enum import IntEnum, IntFlag
+
+from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
-from opengsq.binary_reader import BinaryReader
 from opengsq.responses.warcraft3 import Status
-from enum import IntFlag, IntEnum
 
 
 class GameFlags(IntFlag):

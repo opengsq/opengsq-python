@@ -2,12 +2,12 @@ import asyncio
 import struct
 
 import pytest
+
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocols.trackmania_nations import TrackmaniaNations
 from opengsq.responses.trackmania_nations import strip_formatting
 
 from ..result_handler import ResultHandler
-
 
 handler = ResultHandler(__file__)
 handler.enable_save = True

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Optional
+
 from .partial_info import PartialInfo
 
 
@@ -21,26 +21,26 @@ class GoldSourceInfo(PartialInfo):
     1 for Half-Life mod
     """
 
-    link: Optional[str] = None
+    link: str | None = None
     """URL to mod website."""
 
-    download_link: Optional[str] = None
+    download_link: str | None = None
     """URL to download the mod."""
 
-    version: Optional[int] = None
+    version: int | None = None
     """Version of mod installed on server."""
 
-    size: Optional[int] = None
+    size: int | None = None
     """Space (in bytes) the mod takes up."""
 
-    type: Optional[int] = None
+    type: int | None = None
     """
     Indicates the type of mod:
     0 for single and multiplayer mod
     1 for multiplayer only mod
     """
 
-    dll: Optional[int] = None
+    dll: int | None = None
     """
     Indicates whether mod uses its own DLL:
     0 if it uses the Half-Life DLL

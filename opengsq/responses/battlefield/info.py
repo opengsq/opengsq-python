@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import Optional
+
 from dataclasses import dataclass
 
 
@@ -54,32 +54,32 @@ class Info:
     round_time: int
     """The round time."""
 
-    mod: Optional[str] = None
+    mod: str | None = None
     """The game mod. This property is optional."""
 
-    ip_port: Optional[str] = None
+    ip_port: str | None = None
     """The IP port of the game server. This property is optional."""
 
-    punk_buster_version: Optional[str] = None
+    punk_buster_version: str | None = None
     """The version of PunkBuster. This property is optional."""
 
-    join_queue: Optional[bool] = None
+    join_queue: bool | None = None
     """Whether the join queue is enabled. This property is optional."""
 
-    region: Optional[str] = None
+    region: str | None = None
     """The region of the game server. This property is optional."""
 
-    ping_site: Optional[str] = None
+    ping_site: str | None = None
     """The ping site of the game server. This property is optional."""
 
-    country: Optional[str] = None
+    country: str | None = None
     """The country of the game server. This property is optional."""
 
-    blaze_player_count: Optional[int] = None
+    blaze_player_count: int | None = None
     """The number of players in the Blaze game state. This property is optional."""
 
-    blaze_game_state: Optional[str] = None
+    blaze_game_state: str | None = None
     """The Blaze game state. This property is optional."""
 
-    quick_match: Optional[bool] = None
+    quick_match: bool | None = None
     """Whether quick match is enabled. This property is optional."""

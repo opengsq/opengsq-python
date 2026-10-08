@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Union
 
 
 @dataclass
@@ -13,5 +12,5 @@ class Status:
     info: dict[str, str]
     """Server's info."""
 
-    players: list[dict[str, Union[int, str]]]
+    players: list[dict[str, int | str]]
     """Server's players."""

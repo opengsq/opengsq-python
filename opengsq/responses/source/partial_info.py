@@ -1,8 +1,9 @@
 from dataclasses import dataclass
-from .server_type import ServerType
+
 from .environment import Environment
-from .visibility import Visibility
+from .server_type import ServerType
 from .vac import VAC
+from .visibility import Visibility
 
 
 @dataclass

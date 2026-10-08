@@ -39,7 +39,6 @@ import hashlib
 import hmac
 import secrets
 import struct
-from typing import List, Optional, Tuple
 
 from opengsq.exceptions import InvalidPacketException, ServerNotFoundException
 from opengsq.protocol_base import ProtocolBase
@@ -154,7 +153,7 @@ class TrackmaniaNations(ProtocolBase):
             if data is not None:
                 return data
 
-    def _read_info_reply(self, payload: bytes, request_id: int) -> Optional[bytes]:
+    def _read_info_reply(self, payload: bytes, request_id: int) -> bytes | None:
         reader = _Reader(payload)
         version = reader.u32()
         subtype = reader.u32()
@@ -180,7 +179,7 @@ class TrackmaniaNations(ProtocolBase):
 
     @classmethod
     def build_connection_admin(
-        cls, subtype: int, request_id: Optional[int] = None
+        cls, subtype: int, request_id: int | None = None
     ) -> bytes:
         """Builds a framed CNetFormConnectionAdmin message."""
         payload = struct.pack("<II", cls._CONNECTION_ADMIN_VERSION, subtype)
@@ -200,7 +199,7 @@ class TrackmaniaNations(ProtocolBase):
         return struct.pack("<I", len(message)) + bytes(message)
 
     @classmethod
-    def decode_message(cls, message: bytes) -> Tuple[int, bytes]:
+    def decode_message(cls, message: bytes) -> tuple[int, bytes]:
         """
         Decodes a message without its length prefix.
 
@@ -421,8 +420,8 @@ class _IdReader:
 
     def __init__(self, reader: _Reader):
         self._reader = reader
-        self._version: Optional[int] = None
-        self._strings: List[str] = []
+        self._version: int | None = None
+        self._strings: list[str] = []
 
     def read(self) -> str:
         if self._version is None:
@@ -496,7 +495,7 @@ def _lzo1x_decompress(source: bytes, size: int) -> bytes:
             position = 1
             count = source[0] - 17
             copy_literals(count)
-            state = count if count < 4 else 4
+            state = min(4, count)
 
         while True:
             code = source[position]

@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.ssc import SSC
 
 from ..result_handler import ResultHandler

@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Union, List
 from enum import IntEnum
 
 
@@ -36,5 +35,5 @@ class Status:
     game_mode: str
     difficulty: str
     speed: str
-    players: List[Player]
-    raw: dict[str, Union[str, int, bool, list]]
+    players: list[Player]
+    raw: dict[str, str | int | bool | list]

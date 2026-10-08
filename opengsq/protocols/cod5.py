@@ -4,7 +4,7 @@ from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
-from opengsq.responses.cod5 import Info, Status, Cod5Status
+from opengsq.responses.cod5 import Cod5Status, Info, Status
 
 
 class CoD5(ProtocolBase):

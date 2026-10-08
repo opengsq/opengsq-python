@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import re
 
-from opengsq.responses.warfork import Player
-from opengsq.responses.quake2 import Status
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocols.quake3 import Quake3
+from opengsq.responses.quake2 import Status
+from opengsq.responses.warfork import Player
 
 
 class Warfork(Quake3):

@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.quake1 import Quake1
 
 from ..result_handler import ResultHandler

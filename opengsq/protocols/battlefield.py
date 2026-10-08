@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from opengsq.responses.battlefield import Info, VersionInfo
 from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import TcpClient
+from opengsq.responses.battlefield import Info, VersionInfo
 
 
 class Battlefield(ProtocolBase):

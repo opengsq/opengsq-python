@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Dict
 
 
 @dataclass
@@ -10,7 +9,7 @@ class Status:
     Represents the status of a Flatout 2 server.
     """
 
-    info: Dict[str, str]
+    info: dict[str, str]
     """
     Server information dictionary containing:
     - hostname: Server name (UTF-16 encoded)

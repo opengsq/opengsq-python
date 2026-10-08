@@ -2,11 +2,11 @@ import asyncio
 import struct
 
 import pytest
+
 from opengsq.exceptions import InvalidPacketException, ServerNotFoundException
 from opengsq.protocols.trackmania_sunrise import TrackmaniaSunrise
 
 from ..result_handler import ResultHandler
-
 
 handler = ResultHandler(__file__)
 handler.enable_save = True

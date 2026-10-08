@@ -55,8 +55,7 @@ class ResultHandler:
                 f.write("\nHere are the results for the test method.\n")
                 f.write(f"\n.. code-block:: {(is_json and 'json' or 'text')}\n\n")
 
-                for line in result.splitlines():
-                    f.write("\t" + line + "\n")
+                f.writelines("\t" + line + "\n" for line in result.splitlines())
 
             self.create_tests_protocols_index_rst()
 
@@ -76,8 +75,7 @@ class ResultHandler:
             f.write(f"{'=' * len(title)}\n")
             f.write("\n.. toctree::\n")
 
-            for file in test_files:
-                f.write(f"\t{file.name[:-3]}/index\n")
+            f.writelines(f"\t{file.name[:-3]}/index\n" for file in test_files)
 
     def create_tests_protocols_index_rst(self):
         test_results_files = Path(self.__protocol_path).glob("test_*.rst")
@@ -90,5 +88,4 @@ class ResultHandler:
             f.write(f"{'=' * len(self.file_name)}\n")
             f.write("\n.. toctree::\n")
 
-            for file in test_results_files:
-                f.write(f"\t{file.name[:-4]}\n")
+            f.writelines(f"\t{file.name[:-4]}\n" for file in test_results_files)

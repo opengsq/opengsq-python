@@ -3,7 +3,12 @@ from __future__ import annotations
 import bz2
 import zlib
 
+from opengsq.binary_reader import BinaryReader
+from opengsq.exceptions import InvalidPacketException
+from opengsq.protocol_base import ProtocolBase
+from opengsq.protocol_socket import UdpClient
 from opengsq.responses.source import (
+    VAC,
     Environment,
     ExtraDataFlag,
     GoldSourceInfo,
@@ -11,13 +16,8 @@ from opengsq.responses.source import (
     Player,
     ServerType,
     SourceInfo,
-    VAC,
     Visibility,
 )
-from opengsq.binary_reader import BinaryReader
-from opengsq.exceptions import InvalidPacketException
-from opengsq.protocol_base import ProtocolBase
-from opengsq.protocol_socket import UdpClient
 
 
 class Source(ProtocolBase):
@@ -59,11 +59,7 @@ class Source(ProtocolBase):
             and header != self.__ResponseHeader.S2A_INFO_DETAILED
         ):
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {} or {}.".format(
-                    chr(header),
-                    chr(self.__ResponseHeader.S2A_INFO_SRC),
-                    chr(self.__ResponseHeader.S2A_INFO_DETAILED),
-                )
+                f"Packet header mismatch. Received: {chr(header)}. Expected: {chr(self.__ResponseHeader.S2A_INFO_SRC)} or {chr(self.__ResponseHeader.S2A_INFO_DETAILED)}."
             )
 
         if header == self.__ResponseHeader.S2A_INFO_SRC:
@@ -174,9 +170,7 @@ class Source(ProtocolBase):
 
         if header != self.__ResponseHeader.S2A_PLAYER:
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    chr(header), chr(self.__ResponseHeader.S2A_PLAYER)
-                )
+                f"Packet header mismatch. Received: {chr(header)}. Expected: {chr(self.__ResponseHeader.S2A_PLAYER)}."
             )
 
         player_count = br.read_byte()
@@ -211,9 +205,7 @@ class Source(ProtocolBase):
 
         if header != self.__ResponseHeader.S2A_RULES:
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    chr(header), chr(self.__ResponseHeader.S2A_RULES)
-                )
+                f"Packet header mismatch. Received: {chr(header)}. Expected: {chr(self.__ResponseHeader.S2A_RULES)}."
             )
 
         rule_count = br.read_short()

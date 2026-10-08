@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.avp2 import AVP2
 
 from ..result_handler import ResultHandler

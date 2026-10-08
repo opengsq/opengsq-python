@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.palworld import Palworld
 
 from ..result_handler import ResultHandler

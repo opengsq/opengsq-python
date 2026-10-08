@@ -1,8 +1,8 @@
-from opengsq.responses.raknet import Status
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
+from opengsq.responses.raknet import Status
 
 
 class RakNet(ProtocolBase):
@@ -40,9 +40,7 @@ class RakNet(ProtocolBase):
 
         if header != self.__ID_UNCONNECTED_PONG:
             raise InvalidPacketException(
-                "Packet header mismatch. Received: {}. Expected: {}.".format(
-                    header, self.__ID_UNCONNECTED_PONG
-                )
+                f"Packet header mismatch. Received: {header}. Expected: {self.__ID_UNCONNECTED_PONG}."
             )
 
         br.read_bytes(
@@ -52,9 +50,7 @@ class RakNet(ProtocolBase):
 
         if magic != self.__OFFLINE_MESSAGE_DATA_ID:
             raise InvalidPacketException(
-                "Magic value mismatch. Received: {}. Expected: {}.".format(
-                    magic, self.__OFFLINE_MESSAGE_DATA_ID
-                )
+                f"Magic value mismatch. Received: {magic}. Expected: {self.__OFFLINE_MESSAGE_DATA_ID}."
             )
 
         br.read_short()  # skip remaining packet length

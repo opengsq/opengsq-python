@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import re
+
 from opengsq.binary_reader import BinaryReader
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
 from opengsq.protocol_socket import UdpClient
-from opengsq.responses.jediknight import Info, Status, JediKnightStatus
+from opengsq.responses.jediknight import Info, JediKnightStatus, Status
 from opengsq.responses.jediknight.status import Player
 
 

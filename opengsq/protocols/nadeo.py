@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import struct
 import xmlrpc.client as xmlrpclib
-from typing import Any, Optional
+from typing import Any
 
 from opengsq.exceptions import InvalidPacketException
 from opengsq.protocol_base import ProtocolBase
@@ -18,8 +18,8 @@ class Nadeo(ProtocolBase):
     def __init__(self, host: str, port: int = 5000, timeout: float = 5.0):
         super().__init__(host, port, timeout)
         self.handler = self.MAXIMUM_HANDLER
-        self._reader: Optional[asyncio.StreamReader] = None
-        self._writer: Optional[asyncio.StreamWriter] = None
+        self._reader: asyncio.StreamReader | None = None
+        self._writer: asyncio.StreamWriter | None = None
 
     async def connect(self) -> None:
         self._reader, self._writer = await asyncio.open_connection(

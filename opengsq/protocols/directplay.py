@@ -1,7 +1,8 @@
 import asyncio
+
+from opengsq.binary_reader import BinaryReader
 from opengsq.protocol_base import ProtocolBase
 from opengsq.responses.directplay.status import Status
-from opengsq.binary_reader import BinaryReader
 
 
 class DirectPlay(ProtocolBase):
@@ -266,7 +267,7 @@ class DirectPlay(ProtocolBase):
                     result.update(self._parse_player_data(br))
 
         except Exception as e:
-            result["parse_warning"] = f"Partial parsing error: {str(e)}"
+            result["parse_warning"] = f"Partial parsing error: {e!s}"
 
         return result
 

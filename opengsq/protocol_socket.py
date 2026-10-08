@@ -138,7 +138,6 @@ class Socket:
             Called when the other end signals it won't send any more data
             (for example by calling transport.write_eof(), if the other end also uses asyncio).
             """
-            pass
 
         # Datagram Protocols
         def datagram_received(self, data, addr):
@@ -148,7 +147,6 @@ class Socket:
         # Datagram Protocols
         def error_received(self, exc):
             """Called when a previous send or receive operation raises an OSError. exc is the OSError instance."""
-            pass
 
 
 class UdpClient(Socket):

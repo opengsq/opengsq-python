@@ -1,6 +1,6 @@
 import pytest
-from opengsq.protocols.jediknight import JediKnight
 
+from opengsq.protocols.jediknight import JediKnight
 
 from ..result_handler import ResultHandler
 

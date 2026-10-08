@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.kaillera import Kaillera
 
 from ..result_handler import ResultHandler

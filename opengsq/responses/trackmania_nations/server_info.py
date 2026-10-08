@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import re
 from dataclasses import asdict, dataclass, field
-from typing import List, Optional
 
 # TrackMania text formatting: "$$" is a literal dollar sign, "$" + up to three hex
 # digits is a colour, "$l[...]"/"$h[...]" carry a link target and every other
@@ -71,7 +70,7 @@ class ServerInfo:
     password_protected: bool = False
     """Whether joining as player requires a password."""
 
-    version: Optional[str] = None
+    version: str | None = None
     """Not part of the query response, always None."""
 
     environment: str = "Unknown"
@@ -140,10 +139,10 @@ class ServerInfo:
     nb_challenges: int = 0
     """Number of challenges in the playlist (capped at 255 by the server)."""
 
-    challenges: List[Challenge] = field(default_factory=list)
+    challenges: list[Challenge] = field(default_factory=list)
     """Current challenge followed by the next ones (at most 20)."""
 
-    player_list: List[Player] = field(default_factory=list)
+    player_list: list[Player] = field(default_factory=list)
     """Players connected to the server."""
 
     server_address: str = ""
@@ -152,7 +151,7 @@ class ServerInfo:
     server_port: int = 0
     """Port the server announces for itself."""
 
-    raw_data: Optional[str] = field(default=None, repr=False)
+    raw_data: str | None = field(default=None, repr=False)
     """Decompressed server info payload as hex string."""
 
     @property

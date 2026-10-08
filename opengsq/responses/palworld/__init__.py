@@ -1,4 +1,4 @@
-from .status import Status
 from .player import Player
+from .status import Status
 
-__all__ = ["Status", "Player"]
+__all__ = ["Player", "Status"]

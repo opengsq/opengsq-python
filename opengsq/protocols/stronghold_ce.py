@@ -1,5 +1,5 @@
-from opengsq.protocols.directplay import DirectPlay
 from opengsq.binary_reader import BinaryReader
+from opengsq.protocols.directplay import DirectPlay
 
 
 class StrongholdCE(DirectPlay):

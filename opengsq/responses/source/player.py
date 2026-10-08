@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass
@@ -17,8 +16,8 @@ class Player:
     duration: float
     """Player Duration"""
 
-    deaths: Optional[int] = None
+    deaths: int | None = None
     """Player Deaths"""
 
-    money: Optional[int] = None
+    money: int | None = None
     """Player Money"""

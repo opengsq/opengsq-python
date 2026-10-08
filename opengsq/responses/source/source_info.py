@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from typing import Optional
-from .partial_info import PartialInfo
+
 from .extra_data_flag import ExtraDataFlag
+from .partial_info import PartialInfo
 
 
 @dataclass
@@ -16,32 +16,32 @@ class SourceInfo(PartialInfo):
     version: str
     """Version of the game installed on the server."""
 
-    edf: Optional[ExtraDataFlag] = None
+    edf: ExtraDataFlag | None = None
     """If present, this specifies which additional data fields will be included."""
 
-    port: Optional[int] = None
+    port: int | None = None
     """The server's game port number."""
 
-    steam_id: Optional[int] = None
+    steam_id: int | None = None
     """Server's SteamID."""
 
-    spectator_port: Optional[int] = None
+    spectator_port: int | None = None
     """Spectator port number for SourceTV."""
 
-    spectator_name: Optional[str] = None
+    spectator_name: str | None = None
     """Name of the spectator server for SourceTV."""
 
-    keywords: Optional[str] = None
+    keywords: str | None = None
     """Tags that describe the game according to the server (for future use.)"""
 
-    game_id: Optional[int] = None
+    game_id: int | None = None
     """The server's 64-bit GameID. If this is present, a more accurate AppID is present in the low 24 bits. The earlier AppID could have been truncated as it was forced into 16-bit storage."""
 
-    mode: Optional[int] = None
+    mode: int | None = None
     """Indicates the game mode."""
 
-    witnesses: Optional[int] = None
+    witnesses: int | None = None
     """The number of witnesses necessary to have a player arrested."""
 
-    duration: Optional[int] = None
+    duration: int | None = None
     """Time (in seconds) before a player is arrested while being witnessed."""

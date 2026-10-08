@@ -1,4 +1,5 @@
 import pytest
+
 from opengsq.protocols.gamespy3 import GameSpy3
 
 from ..result_handler import ResultHandler

@@ -1,5 +1,7 @@
 import pytest
+
 from opengsq.protocols.warcraft3 import Warcraft3
+
 from ..result_handler import ResultHandler
 
 handler = ResultHandler(__file__)
